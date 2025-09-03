@@ -460,7 +460,7 @@ class LK_Device(ABC):
 		# On MacOS it’s possible not all bytes are transmitted successfully,
 		# even though we’re using flush() which is the tcdrain function.
 		# Still looking for a better solution than delaying here.
-		if self.WRITE_DELAY is True or (platform.system() == "Darwin" and ("pcb_name" not in self.FW or self.FW["pcb_name"] == "GBxCart RW")):
+		if self.WRITE_DELAY is True or (platform.system() == "Darwin" and (self.FW is None or "pcb_name" not in self.FW or self.FW["pcb_name"] == "GBxCart RW")):
 			time.sleep(0.0014)
 		
 		if wait: return self.wait_for_ack()

@@ -14,8 +14,8 @@ from .PocketCameraWindow import PocketCameraWindow
 from .UserInputDialog import UserInputDialog
 from .Util import APPNAME, VERSION, VERSION_PEP440
 from . import Util
-from . import hw_GBxCartRW, hw_GBFlash, hw_JoeyJr
-hw_devices = [hw_GBxCartRW, hw_GBFlash, hw_JoeyJr]
+from . import hw_Bacon, hw_GBxCartRW, hw_GBFlash, hw_JoeyJr
+hw_devices = [hw_Bacon, hw_GBxCartRW, hw_GBFlash, hw_JoeyJr]
 
 class FlashGBX_GUI(QtWidgets.QWidget):
 	CONN = None

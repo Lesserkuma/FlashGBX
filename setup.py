@@ -13,7 +13,7 @@ setuptools.setup(
 	description="Reads and writes Game Boy and Game Boy Advance cartridge data",
 	url="https://github.com/Lesserkuma/FlashGBX",
 	packages=setuptools.find_packages(),
-	install_requires=['pyserial>=3.5', 'Pillow', 'setuptools', 'requests', 'python-dateutil'],
+	install_requires=['pyserial>=3.5', 'Pillow', 'setuptools', 'requests', 'python-dateutil', 'bitarray', 'ch347api'],
 	extras_require={
 		"qt5":["PySide2>=5.14"],
 		"qt6":["PySide6"]

@@ -16,8 +16,8 @@ from .RomFileAGB import RomFileAGB
 from .PocketCamera import PocketCamera
 from .Util import APPNAME, ANSI
 from . import Util
-from . import hw_GBxCartRW, hw_GBFlash, hw_JoeyJr
-hw_devices = [hw_GBxCartRW, hw_GBFlash, hw_JoeyJr]
+from . import hw_Bacon, hw_GBxCartRW, hw_GBFlash, hw_JoeyJr
+hw_devices = [hw_Bacon, hw_GBxCartRW, hw_GBFlash, hw_JoeyJr]
 
 class FlashGBX_CLI():
 	ARGS = {}

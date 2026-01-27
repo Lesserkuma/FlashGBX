@@ -10152,7 +10152,7 @@
   "rg": "Japan"
  },
  "935b5cefb158e2f283e435d02fae993d672a9456": {
-  "gn": "Ninja Five-0",
+  "gn": "Ninja Five-O",
   "ne": "(USA)",
   "gc": "ANXE",
   "rc": 3946403014,
@@ -25452,13 +25452,13 @@
  },
  "d081ad5f91422ae9ac82031bc1a0dd7b80b2391d": {
   "gn": "SpongeBob SquarePants and Friends Unite!",
-  "ne": "(Europe) (En,Fr,De,Es,It)",
+  "ne": "(Europe) (En,Fr,De,Es,Nl)",
   "gc": "BNUP",
   "rc": 1629275680,
   "rs": 4194304,
   "st": 0,
   "ss": 0,
-  "lg": "En,Fr,De,Es,It",
+  "lg": "En,Fr,De,Es,Nl",
   "rg": "Europe"
  },
  "0de0357f0a020bbdce5bb16049b2c81256417c0e": {
@@ -32085,7 +32085,7 @@
  },
  "c5b4c4295034d9696498391839e339c9b4fbdd21": {
   "gn": "AGB Aging Cartridge",
-  "ne": "(World) (v1.0) (Test Program)",
+  "ne": "(World) (Test Program)",
   "gc": "TCHK",
   "rc": 3538423347,
   "rs": 4194304,

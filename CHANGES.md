@@ -1,4 +1,9 @@
 # Release notes
+### v4.6 (released 2026-01-27)
+- Added support for a new Game Boy Advance bootleg flash save chip (SST39VF6401B) used on “Quetzal” bootlegs *(thanks Grender, marv17, Pese)*
+- Added support for Gamebank-web DMG-29W-04 with M29W320DB
+- Updated the Game Boy and Game Boy Advance lookup databases for save types, ROM sizes and checksums
+
 ### v4.5 (released 2025-12-06)
 - Added support for SD007_T40_6401B\*CD_71_TS28 with 39VF6401B
 - Added support for ModRetro Chromatic Cartridge with IS29GL032 *(thanks Jayro)*

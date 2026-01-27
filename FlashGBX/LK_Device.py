@@ -1264,21 +1264,25 @@ class LK_Device(ABC):
 					if ret is not False:
 						(flash_save_id, _) = ret
 						try:
-							if flash_save_id != 0 and flash_save_id in Util.AGB_Flash_Save_Chips:
-								save_size = Util.AGB_Flash_Save_Chips_Sizes[list(Util.AGB_Flash_Save_Chips).index(flash_save_id)]
-								save_chip = Util.AGB_Flash_Save_Chips[flash_save_id]
-								
-								if flash_save_id in (0xBF4B, 0xBF5B, 0xFFFF): # Bootlegs
-									if self.INFO["data"][0:0x20000] == bytearray([0xFF] * 0x20000):
+							if flash_save_id != 0:
+								if flash_save_id in Util.AGB_Flash_Save_Chips:
+									save_size = Util.AGB_Flash_Save_Chips_Sizes[list(Util.AGB_Flash_Save_Chips).index(flash_save_id)]
+									save_chip = Util.AGB_Flash_Save_Chips[flash_save_id]
+									if flash_save_id in (0xBF4B, 0xBF5B, 0xFFFF, 0xBF6D): # Bootlegs
+										if self.INFO["data"][0:0x20000] == bytearray([0xFF] * 0x20000):
+											save_type = 5
+										elif self.INFO["data"][0:0x10000] == self.INFO["data"][0x10000:0x20000]:
+											save_type = 4
+										else:
+											save_type = 5
+									elif save_size == 131072:
 										save_type = 5
-									elif self.INFO["data"][0:0x10000] == self.INFO["data"][0x10000:0x20000]:
+									elif save_size == 65536:
 										save_type = 4
-									else:
-										save_type = 5
-								elif save_size == 131072:
-									save_type = 5
-								elif save_size == 65536:
-									save_type = 4
+								else: # Other bootleg chips
+									save_type = 0
+									save_size = 0
+									save_chip = f"Unknown FLASH save chip (0x{flash_save_id:04X})"
 						except:
 							pass
 
@@ -3123,6 +3127,8 @@ class LK_Device(ABC):
 				(agb_flash_chip, _) = ret
 				if agb_flash_chip in (0xBF4B, 0xBF5B, 0xFFFF): # Bootlegs
 					buffer_len = 0x800
+				elif agb_flash_chip == 0xBF6D:
+					buffer_len = 0x8000
 			elif args["save_type"] == 6: # DACS
 				# self._write(self.DEVICE_CMD["AGB_BOOTUP_SEQUENCE"], wait=self.FW["fw_ver"] >= 12)
 				empty_data_byte = 0xFF
@@ -3258,7 +3264,7 @@ class LK_Device(ABC):
 				end_address = min(save_size, bank_size)
 				
 				if save_size > bank_size:
-					if args["save_type"] == 8 or agb_flash_chip in (0xBF4B, 0xBF5B, 0xFFFF): # Bootleg 1M
+					if args["save_type"] == 8 or agb_flash_chip in (0xBF4B, 0xBF5B, 0xFFFF, 0xBF6D): # Bootleg 1M
 						dprint("Switching to bootleg save bank {:d}".format(bank))
 						self._cart_write(0x1000000, bank)
 					elif args["save_type"] == 5: # FLASH 1M

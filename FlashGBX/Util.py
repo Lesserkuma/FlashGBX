@@ -8,9 +8,9 @@ from enum import Enum
 
 # Common constants
 APPNAME = "FlashGBX"
-VERSION_PEP440 = "4.5"
+VERSION_PEP440 = "4.6"
 VERSION = "v{:s}".format(VERSION_PEP440)
-VERSION_TIMESTAMP = 1765034084
+VERSION_TIMESTAMP = 1769513530
 DEBUG = False
 DEBUG_LOG = []
 APP_PATH = ""
@@ -20,8 +20,8 @@ AGB_Header_ROM_Sizes = [ "32 KiB", "64 KiB", "128 KiB", "256 KiB", "512 KiB", "1
 AGB_Header_ROM_Sizes_Map = [ 0x8000, 0x10000, 0x20000, 0x40000, 0x80000, 0x100000, 0x200000, 0x400000, 0x800000, 0x1000000, 0x2000000, 0x4000000, 0x8000000, 0x10000000, 0x20000000 ]
 AGB_Header_Save_Types = [ "None", "4K EEPROM (512 Bytes)", "64K EEPROM (8 KiB)", "256K SRAM/FRAM (32 KiB)", "512K FLASH (64 KiB)", "1M FLASH (128 KiB)", "8M DACS (1 MiB)", "Unlicensed 512K SRAM (64 KiB)", "Unlicensed 1M SRAM (128 KiB)", "Unlicensed Batteryless SRAM" ]
 AGB_Header_Save_Sizes = [ 0, 512, 8192, 32768, 65536, 131072, 1048576, 65536, 131072, 0 ]
-AGB_Flash_Save_Chips = { 0xBFD4:"SST 39VF512", 0x1F3D:"Atmel AT29LV512", 0xC21C:"Macronix MX29L512", 0x321B:"Panasonic MN63F805MNP", 0xC209:"Macronix MX29L010", 0x6213:"SANYO LE26FV10N1TS", 0xBF4B:"Unlicensed SST25VF064C", 0xBF5B:"Unlicensed SST49LF080A", 0xFFFF:"Unlicensed 0xFFFF" }
-AGB_Flash_Save_Chips_Sizes = [ 0x10000, 0x10000, 0x10000, 0x10000, 0x20000, 0x20000, 0x20000, 0x20000, 0x20000 ]
+AGB_Flash_Save_Chips = { 0xBFD4:"SST 39VF512", 0x1F3D:"Atmel AT29LV512", 0xC21C:"Macronix MX29L512", 0x321B:"Panasonic MN63F805MNP", 0xC209:"Macronix MX29L010", 0x6213:"SANYO LE26FV10N1TS", 0xBF4B:"Unlicensed SST25VF064C", 0xBF5B:"Unlicensed SST49LF080A", 0xBF6D:"Unlicensed SST39VF6401B", 0xFFFF:"Unlicensed 0xFFFF" }
+AGB_Flash_Save_Chips_Sizes = [ 0x10000, 0x10000, 0x10000, 0x10000, 0x20000, 0x20000, 0x20000, 0x20000, 0x20000, 0x20000 ]
 
 DMG_Header_Mapper = { 0x00:'None', 0x01:'MBC1', 0x02:'MBC1+SRAM', 0x03:'MBC1+SRAM+BATTERY', 0x06:'MBC2+SRAM+BATTERY', 0x0F:'MBC3+RTC+BATTERY', 0x10:'MBC3+RTC+SRAM+BATTERY', 0x110:'MBC30+RTC+SRAM+BATTERY', 0x12:'MBC3+SRAM', 0x13:'MBC3+SRAM+BATTERY', 0x19:'MBC5', 0x1A:'MBC5+SRAM', 0x1B:'MBC5+SRAM+BATTERY', 0x1C:'MBC5+RUMBLE', 0x1E:'MBC5+RUMBLE+SRAM+BATTERY', 0x20:'MBC6+SRAM+FLASH+BATTERY', 0x22:'MBC7+ACCELEROMETER+EEPROM', 0x101:'MBC1M', 0x103:'MBC1M+SRAM+BATTERY', 0x0B:'MMM01',  0x0D:'MMM01+SRAM+BATTERY', 0xFC:'MAC-GBD+SRAM+BATTERY', 0x105:'G-MMC1+SRAM+BATTERY', 0x104:'M161', 0xFF:'HuC-1+IR+SRAM+BATTERY', 0xFE:'HuC-3+RTC+SRAM+BATTERY', 0xFD:'TAMA5+RTC+EEPROM', 0x201:'Unlicensed 256M Mapper', 0x202:'Unlicensed Wisdom Tree Mapper', 0x203:'Unlicensed Xploder GB Mapper', 0x204:'Unlicensed Sachen Mapper', 0x205:'Unlicensed Datel Orbit V2 Mapper', 0x206:'Unlicensed MBCX Mapper' }
 DMG_Mapper_Types = { "None":[ 0x00, 0x08, 0x09 ], "MBC1":[ 0x01, 0x02, 0x03 ], "MBC2":[ 0x05, 0x06 ], "MBC3":[ 0x0F, 0x10, 0x11, 0x12, 0x13 ], "MBC30":[ 0x110 ], "MBC5":[ 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E ], "MBC6":[ 0x20 ], "MBC7":[ 0x22 ], "MBC1M":[ 0x101, 0x103 ], "MMM01":[ 0x0B, 0x0D ], "MAC-GBD":[ 0xFC ], "G-MMC1":[ 0x105 ], "M161":[ 0x104 ], "HuC-1":[ 0xFF ], "HuC-3":[ 0xFE ], "TAMA5":[ 0xFD ], "Unlicensed 256M Multi Cart Mapper":[ 0x201 ], "Unlicensed Wisdom Tree Mapper":[ 0x202 ], "Unlicensed Xploder GB Mapper":[ 0x203 ], "Unlicensed Sachen Mapper":[ 0x204 ], "Unlicensed Datel Orbit V2 Mapper":[ 0x205 ], "Unlicensed MBCX Mapper":[ 0x206 ] }

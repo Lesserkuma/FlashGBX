@@ -36,7 +36,11 @@ class FirmwareUpdater():
 		values = struct.unpack(">IBHHH", self.DEVICE.read(11))
 		data = dict(zip(keys, values))
 		data["payload"] = self.DEVICE.read(data["payload_len"])
-		data["outro"] = struct.unpack(">I", self.DEVICE.read(4))[0]
+		try:
+			data["outro"] = self.DEVICE.read(4)
+			data["outro"] = struct.unpack(">I", data["outro"])[0]
+		except struct.error:
+			return {"clone":True, "error": "Erroneous outro response: " + ''.join(format(x, '02X') for x in data["outro"])}
 		return data
 
 	def CRC16(self, data):
@@ -87,6 +91,9 @@ class FirmwareUpdater():
 		if data is None:
 			self.DEVICE = None
 			return False
+		if "error" in data:
+			self.DEVICE = None
+			return data
 		if data["seq_no"] != seq_no:
 			self.DEVICE = None
 			return False
@@ -120,6 +127,9 @@ class FirmwareUpdater():
 		else:
 			data = self.TryConnect(self.PORT)
 
+		if "error" in data:
+			fncSetStatus(text=data["error"], cloneError="clone" in data and data["clone"] is True)
+			return 2
 		if self.DEVICE is None:
 			fncSetStatus("No device found.")
 			return 2
@@ -409,8 +419,15 @@ try:
 					answer = msgbox.exec()
 					return False
 		
-		def SetStatus(self, text, enableUI=False, setProgress=None):
+		def SetStatus(self, text, enableUI=False, setProgress=None, cloneError=False):
 			self.lblStatus.setText("Status: {:s}".format(text))
+
+			if cloneError:
+				text = "Your GBFlash device reported a registration error, which means it may be an illegitimate clone. If the error persists, try to get a refund from the seller.\r\n\r\n" + text
+				msgbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Critical, windowTitle="FlashGBX", text=text, standardButtons=QtWidgets.QMessageBox.Ok)
+				answer = msgbox.exec()
+				return False
+
 			if setProgress is not None:
 				self.prgStatus.setValue(setProgress * 10)
 			if enableUI:

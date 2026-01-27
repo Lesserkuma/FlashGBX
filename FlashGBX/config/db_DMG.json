@@ -270,6 +270,15 @@
   "lg": "En",
   "rg": "World"
  },
+ "8a0468beca02701de5633c220205943be8a610c8": {
+  "gn": "Sabrina - The Animated Series - Zapped!",
+  "ne": "(World) (ModRetro Chromatic)",
+  "gc": "",
+  "rc": 2951280199,
+  "rs": 2097152,
+  "lg": "En",
+  "rg": "World"
+ },
  "81fc6bc03e7e094ba544d8d9c1f684271939865b": {
   "gn": "Shantae",
   "ne": "(World) (GBA Enhanced) (Switch)",
@@ -395,6 +404,15 @@
   "rs": 131072,
   "lg": "En",
   "rg": "Europe"
+ },
+ "f99a921e426a86f480e490e70c6d32ee6e5fc8cb": {
+  "gn": "Tyrannosaurus Tex",
+  "ne": "(World) (Piko Interactive)",
+  "gc": "",
+  "rc": 2008998087,
+  "rs": 2097152,
+  "lg": "En",
+  "rg": "World"
  },
  "81fee8f52638e66f87c94cf53a50af0e7fed1396": {
   "gn": "Worms Armageddon",
@@ -816,11 +834,11 @@
  },
  "9995c5ab23e9bf6ef067fdfe62c323037f7dee1b": {
   "gn": "Batman Forever",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-A3BJ",
   "rc": 3271385668,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "6d4e0e588181704930a46b61556cd12924645d99": {
@@ -1647,11 +1665,11 @@
  },
  "bb0fdf5e9ffc7cbfce5baa693ef72854022755a0": {
   "gn": "Golf Daisuki!",
-  "ne": "(Japan) (SGB Enhanced) (GB Compatible)",
+  "ne": "(Japan) (En) (SGB Enhanced) (GB Compatible)",
   "gc": "DMG-AAGJ",
   "rc": 2151959174,
   "rs": 2097152,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "797d6d8158ef22c1fad03ec7e621e85eb89e6db4": {
@@ -2036,11 +2054,11 @@
  },
  "af12acfe7a3bc03fb1ed374d32c30a53a6ba7013": {
   "gn": "After Burst",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-ABA",
   "rc": 3221527927,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "21e056e982958a3c1f152fdb1ca8c357e0fb50ca": {
@@ -2353,11 +2371,11 @@
  },
  "2b78e9f70eb88f616eb5e710f0dc0f3c62250675": {
   "gn": "Pocket Color Block",
-  "ne": "(Japan) (SGB Enhanced) (GB Compatible)",
+  "ne": "(Japan) (En) (SGB Enhanced) (GB Compatible)",
   "gc": "DMG-AC6J",
   "rc": 949810543,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "5c1eee613486fb6f174a0883d86a374fb1a21514": {
@@ -2732,11 +2750,11 @@
  },
  "07f4bd664b37b716281e93250630313da0d79ff6": {
   "gn": "Druaga no Tou",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-ADA",
   "rc": 4179934641,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "eda26b2c57661d6a5b65486f7925e12683aa33cd": {
@@ -3138,11 +3156,11 @@
  },
  "2b23c69d7a7760a5cec58881e987dc5df6fc7b18": {
   "gn": "Aerostar",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AEA",
   "rc": 3752047242,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "3078da312eecb6ff32b5880b436a85a7fb0e0fcb": {
@@ -3499,11 +3517,11 @@
  },
  "678b1455c10aceec5d3a7c5029da385eb6057e8c": {
   "gn": "Foreman for Real",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AFEJ",
   "rc": 2249107478,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "095aa1bbbfd8fab381429732978f1f4fee6283bf": {
@@ -3891,11 +3909,11 @@
  },
  "1d1cf6a6680737d7b8e5109235b6f56b70acd015": {
   "gn": "Galaga & Galaxian",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-AGCJ",
   "rc": 1394620117,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "e7e5a2ba6a79cb518a1302b150e4ee1b088d6398": {
@@ -4778,11 +4796,11 @@
  },
  "48c80678f33660a5fa6b0c8cea8ee77d79e8c91e": {
   "gn": "Judge Dredd",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AJDJ",
   "rc": 2501613831,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d46b06cf50b4e1f19a26b9cc1b3811d92da189c3": {
@@ -4949,11 +4967,11 @@
  },
  "e97a4a5295d70118a364bcc77735b648fff5856b": {
   "gn": "NBA Jam - Tournament Edition",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AJTJ",
   "rc": 848338786,
   "rs": 524288,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d7491bf6c0a5c701237a155bb2eb2432cd88b7d7": {
@@ -5012,11 +5030,11 @@
  },
  "adf7b2f17cc39fe1c3ce26d3037c4c57076fef2a": {
   "gn": "Mortal Kombat & Mortal Kombat II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AK2J",
   "rc": 2980634576,
   "rs": 1048576,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "00297dfa9a12f4bac601d70debc4bb8e9500ea1c": {
@@ -5347,7 +5365,7 @@
  },
  "64d644880b78329151093f640d7e570b9a584931": {
   "gn": "Pokemon Picross",
-  "ne": "(Japan) (Proto)",
+  "ne": "(Japan) (Proto) (SGB Enhanced) (GB Compatible)",
   "gc": "DMG-AKVJ",
   "rc": 3479469899,
   "rs": 2097152,
@@ -5437,11 +5455,11 @@
  },
  "9c76fd0cbcb65f9c6bd473ede71bac08765e71f3": {
   "gn": "Altered Space - A 3-D Alien Adventure",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-ALA",
   "rc": 3459703662,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "4a966c494e12256215ac6c99d6bd5b82ae74bc07": {
@@ -5827,11 +5845,11 @@
  },
  "f19422ccb7e621de7e67eed63acd130a2f233a04": {
   "gn": "Amida",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AMA",
   "rc": 1611827880,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "60b7186ddd4ff9404e5f22f54576ff410b2ce6f8": {
@@ -5935,11 +5953,11 @@
  },
  "24e01313e990da45aadfd9667e3957afbc2de0ab": {
   "gn": "Mortal Kombat II - Kyuukyoku Shinken",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AMKJ",
   "rc": 1471831382,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "18573facf23834aa9218a20300adaa11ac23d80d": {
@@ -7250,11 +7268,11 @@
  },
  "64ca9a117aa533195b6494d88f4d9a05260e7c52": {
   "gn": "Pac-In-Time",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-APTJ",
   "rc": 442120410,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a17d6c41e3aae676391eb16853db7b0f6d0abc07": {
@@ -7397,11 +7415,11 @@
  },
  "0a558513393fb01c4c2980a51aaa1f8832c1a8fb": {
   "gn": "NFL Quarterback Club '95",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AQ9J",
   "rc": 4006309948,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "be053b7b20a06099d703f6d3ba0ec8e16b79298b": {
@@ -7695,11 +7713,11 @@
  },
  "b1a9c7617a333aa65e5018a1350e175b28077463": {
   "gn": "Astro Rabby",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-ARA",
   "rc": 1642368751,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "cac084d5dd33e85e880bc94087a3e202a57328cb": {
@@ -8264,11 +8282,11 @@
  },
  "307428b09feb781e9c4660cfad46c4562945028b": {
   "gn": "Street Racer",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-ASRJ",
   "rc": 1538968232,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c61671515877bea07ea0dd4048794216cab0f3ed": {
@@ -8963,11 +8981,11 @@
  },
  "35c85235a545e99eb5f921a44868e3088838ad28": {
   "gn": "T2 - The Arcade Game",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-AVA",
   "rc": 2127009274,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d7af52e20cc78c04edcd78ddb9dc8917ad488fbe": {
@@ -8999,11 +9017,11 @@
  },
  "4a791cb908dcd761a23f20e6dfbaa2246de4ab80": {
   "gn": "Pocket Bowling",
-  "ne": "(Japan) (GB Compatible)",
+  "ne": "(Japan) (En) (GB Compatible)",
   "gc": "DMG-AVBJ",
   "rc": 643341177,
   "rs": 524288,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "24b2e4da7b3f4a1ccefbfaea4e8879689e40b0e6": {
@@ -10746,11 +10764,11 @@
  },
  "941228aaf5da5c95b118f31923748657213ae445": {
   "gn": "Bubble Bobble",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-B2A",
   "rc": 2912628748,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "977f4728f18be627a8503e763215a3cd6d7bf1ca": {
@@ -10826,7 +10844,7 @@
   "rg": "USA, Europe"
  },
  "98f7d6ec5287d9c4816feb70264366053c51591b": {
-  "gn": "Survival Kids 2 - Dasshutsu!! Futago-Jima!",
+  "gn": "Survival Kids 2 - Dasshutsu!! Futago-jima!",
   "ne": "(Japan) (SGB Enhanced) (GB Compatible)",
   "gc": "DMG-B2VJ",
   "rc": 2878023128,
@@ -11154,11 +11172,11 @@
  },
  "703541b9992cdd0243675db0ae02f4ae339df345": {
   "gn": "Batman - Return of the Joker",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-B5A",
   "rc": 3729103431,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "043cee8108ae4830f5771059fa45549dcd1901b2": {
@@ -12248,11 +12266,11 @@
  },
  "7355143516c3c54eb7e5de754acde12f3922783b": {
   "gn": "BattleCity",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BCA",
   "rc": 2742714698,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "f870d052f0878212c03f13706931840994066e3f": {
@@ -12536,11 +12554,11 @@
  },
  "171763a40d24c0a390ff63d8d0da07fe70a5db90": {
   "gn": "Boulder Dash",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BDA",
   "rc": 3048470619,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "939985a709f4e6c04d54d6cc48bb45653f60d2e5": {
@@ -13446,11 +13464,11 @@
  },
  "5708b4d50e6bb7f52ca781f6a727345219434828": {
   "gn": "Bubble Ghost",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BGJ",
   "rc": 2269973871,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9fed9513ffc0e0c5827e667f24d8d03d37ecf6fa": {
@@ -13903,11 +13921,11 @@
  },
  "9df0cf7becbf9ed17e229f8b587133cffa41f27f": {
   "gn": "Bomber King - Scenario 2",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BIA",
   "rc": 3103690871,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "ef1d9cc0f79accc39d23f12f74ecd0657eee8b14": {
@@ -14538,11 +14556,11 @@
  },
  "396abf27d2e5dd022c1193821e428e7da0e3b334": {
   "gn": "Blodia",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BLA",
   "rc": 1375694419,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "713f6a421ffdfdbfc06e702155cce09ae3874cbd": {
@@ -15252,11 +15270,11 @@
  },
  "28a613fdbf21bab0e42e0de46a7eb68da93b95ae": {
   "gn": "Wizardry III - Diamond no Kishi",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En,Ja)",
   "gc": "CGB-BNDJ",
   "rc": 3561829782,
   "rs": 1048576,
-  "lg": "Ja",
+  "lg": "En,Ja",
   "rg": "Japan"
  },
  "74e33dd8f983e8dc3fcd3b9f7262441405e24daf": {
@@ -15621,11 +15639,11 @@
  },
  "dd13f27b77abb8f15ac2144e172616e0f3cd8676": {
   "gn": "Battle Pingpong",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BPA",
   "rc": 2088270788,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "1c167e36792a679a9fb45fc05c0f6235d8092e62": {
@@ -16151,11 +16169,11 @@
  },
  "169d9f6a6cc986067ed53ecc829031811e906dc9": {
   "gn": "Battle Bull",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BRA",
   "rc": 1550443593,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "937a5cd9aecab26a5f624c0f0af680614dd11f49": {
@@ -16258,7 +16276,7 @@
   "rg": "Europe"
  },
  "e7914ccfb87cd5377d37d3f1c38d267956271042": {
-  "gn": "Sakura Taisen GB - Geki Hana Gumi Nyuutai!",
+  "gn": "Sakura Taisen GB - Geki Hanagumi Nyuutai!",
   "ne": "(Japan)",
   "gc": "CGB-BRJJ",
   "rc": 4015013200,
@@ -17215,11 +17233,11 @@
  },
  "0b6093b66710a568219b72cd67d02a87b2580f53": {
   "gn": "Burai Senshi Deluxe",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BUA",
   "rc": 1511661811,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "0682f8d9d87e86f10a175f0fe27a7367bf67e49e": {
@@ -17494,20 +17512,20 @@
  },
  "5b4d0e0a2e5053a9290dd2f303f72f073ab38002": {
   "gn": "Wizardry II - Llylgamyn no Isan",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En,Ja)",
   "gc": "CGB-BW2J",
   "rc": 3715268378,
   "rs": 1048576,
-  "lg": "Ja",
+  "lg": "En,Ja",
   "rg": "Japan"
  },
  "378cbe705b2d547b26492600459b47c8b77b9898": {
   "gn": "Migrain",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BWA",
   "rc": 3470341880,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "e2522184b2c1158abf00cf2d2b3eafcec3893e6f": {
@@ -17603,11 +17621,11 @@
  },
  "7483d5cf07da16adc7863de7d96a8b4dccef9292": {
   "gn": "Wizardry I - Proving Grounds of the Mad Overlord",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En,Ja)",
   "gc": "CGB-BWIJ",
   "rc": 2845455324,
   "rs": 1048576,
-  "lg": "Ja",
+  "lg": "En,Ja",
   "rg": "Japan"
  },
  "c10db94c5a50e20b1040f8544891256f79fab340": {
@@ -17765,11 +17783,11 @@
  },
  "a2d2d2a2cfac152a4813a51b0dcda25ce4d62191": {
   "gn": "Boxing",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-BXA",
   "rc": 4018053024,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "207008e903676272a3c0b76885d1128ce1a268ec": {
@@ -18253,11 +18271,11 @@
  },
  "2b78db1d0628ce91ad365006fa726ced3b1c5226": {
   "gn": "Alfred Chicken",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-C3J",
   "rc": 277416335,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "4c60b3333424d5c95ca8e4c10c4470e6e40ca0a8": {
@@ -18316,11 +18334,11 @@
  },
  "6355acbf9cb9697af3f50a80b32428d5d6acfc02": {
   "gn": "Mortal Kombat - Shinken Kourin Densetsu",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-C9A",
   "rc": 370125295,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d85ad8e59721217df13773f0cc113ff8839237e2": {
@@ -18425,11 +18443,11 @@
  },
  "06ba1095764f60dade955ef9a2903b3d98800ebe": {
   "gn": "Card Game",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-CGA",
   "rc": 3495906448,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "e97a7013589d2802e73c23e4eeb051fa253e832b": {
@@ -18569,11 +18587,11 @@
  },
  "c56fc5aec3f80e8f370962e30cc061f381f5021e": {
   "gn": "RoboCop",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-CPA",
   "rc": 114726923,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "1ed8a529ccaa75b0c4f44d8fe961953fe82ec60e": {
@@ -18633,11 +18651,11 @@
  },
  "2618cb91dae5a1731ebbdffb59029ddc0f417b2a": {
   "gn": "Spot - Cool Adventure",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-CUA",
   "rc": 1428837305,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9ed34aa71b62a581df9484c23ce9bb66cfc18add": {
@@ -18858,11 +18876,11 @@
  },
  "7c69944401e43a345057f42a3231431d105c6acf": {
   "gn": "Double Dragon",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-DDA",
   "rc": 2690932362,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a895a045d756896edfa3993072f3d2622bdf2aa0": {
@@ -18912,11 +18930,11 @@
  },
  "d2ad7a25252044ef4cdda6a11160e5522aa6ba61": {
   "gn": "Dead Heat Scramble",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-DHA",
   "rc": 2821725149,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "af489fb6ea6bc7e9ddab7a0a0553ccc0f53fee50": {
@@ -18966,11 +18984,11 @@
  },
  "86d9f0920217e837d2c5256daef36f3be5e5e2d8": {
   "gn": "Dragon's Lair",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-DLA",
   "rc": 1942590624,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "4fc2c64aa7fb10fdf962a7f277cd8f999baac2f6": {
@@ -19038,11 +19056,11 @@
  },
  "109265bf0f97de5e0c523a887886d0a39fe69422": {
   "gn": "Dragon Tail",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-DRA",
   "rc": 487675311,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a649029dec9d4a854374c6694a9277f7cd369b9e": {
@@ -19056,11 +19074,11 @@
  },
  "fbc83b37a450035f48175728f7a30fedc77137d6": {
   "gn": "Dragon Slayer I",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-DSA",
   "rc": 814359653,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "b1b85da65f4186d2b861dc3123d671944833c3c1": {
@@ -19210,11 +19228,11 @@
  },
  "f9cecf31f50fc6f829d4b2dd4f855ba441205227": {
   "gn": "Elevator Action",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-EAA",
   "rc": 3199044324,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c2eb6383ae6544815003c62e95788eeb0cac8e72": {
@@ -19364,11 +19382,11 @@
  },
  "ac9c964229ad5943d9b174fcce8031f2ae121de9": {
   "gn": "Simpsons, The - Bart no Jack to Mame no Ki",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-EKA",
   "rc": 2057625787,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "f83b9fa74ab71928baca6e0c01a3f0792472ed4a": {
@@ -19391,11 +19409,11 @@
  },
  "e91c54f694cd133225b96daf9a4232c96f74246f": {
   "gn": "Chessmaster, The",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-EMA",
   "rc": 2182417994,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c816c203e6eb0ddb1e0c2f9688aa27a5b8581898": {
@@ -19555,11 +19573,11 @@
  },
  "74796eb9ab88456c0a2f0e61e2c44d76d16c0f84": {
   "gn": "Fidgetts, The",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-F6A",
   "rc": 4292127203,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "618d850a659e076a3f5e23616c303f90a2dc206e": {
@@ -19573,11 +19591,11 @@
  },
  "f9ea8c72b5d80d9300ac46c042d3791a591488bf": {
   "gn": "Super Street Basketball",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-F7A",
   "rc": 2724812191,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "f0431836c64760896484e918acb2109ce4319522": {
@@ -19708,11 +19726,11 @@
  },
  "66858ebb01a4c966fc112a0fb5ab2383ababf60d": {
   "gn": "Final Reverse",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-FIJ",
   "rc": 3913967938,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "8b786a73cee87fd6b518f9c5d010dd56c02836f4": {
@@ -19726,11 +19744,11 @@
  },
  "3e365d85173867ecaa811b7fe32adf7d2b06c4b1": {
   "gn": "Krusty World",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-FKA",
   "rc": 33278454,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "2954f3676050e8e247db4c6a8cae4a93ed90baa3": {
@@ -19762,11 +19780,11 @@
  },
  "b05d7c06c5939adb2a213c29ab41bb06704e7cf8": {
   "gn": "Dr. Franken",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-FNA",
   "rc": 1023719655,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c73afe4ccee9c8f3bb4a17334b485c2e529133a7": {
@@ -19798,11 +19816,11 @@
  },
  "bd6a0192d9897d6ddc198635d326abee5af70517": {
   "gn": "Flipull - An Exciting Cube Game",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-FPA",
   "rc": 428807293,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9293d553669c8ff693bdba9187d806f0a3cb88a9": {
@@ -20023,11 +20041,11 @@
  },
  "7f0f34384bdf98b4822ae5a17a3c3746915072e4": {
   "gn": "Ghostbusters II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-GBA",
   "rc": 1773232572,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a4f58eb6d395b77941553bd89a23fc66100278d0": {
@@ -20203,11 +20221,11 @@
  },
  "c1833482c7e2eb9a957765230ab780d73b858861": {
   "gn": "Soccer",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-GSA",
   "rc": 3193022582,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "b9fd64c43aabb54edca0b4fb19985737e7783268": {
@@ -20221,11 +20239,11 @@
  },
  "1ed4e078e2a30376fb13aab6864d78d67a595dcf": {
   "gn": "Go! Go! Tank",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-GTA",
   "rc": 816724406,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "245d9a28aca441c866995d1f7bff2cdd9cb3184b": {
@@ -20248,11 +20266,11 @@
  },
  "2f00c48331810e9b29cf7a9439f007aac19fe810": {
   "gn": "Burning Paper",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-GVA",
   "rc": 2298005905,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "2cc788b5e0b8995f7da02a6057ab0ce8f833c7df": {
@@ -20302,11 +20320,11 @@
  },
  "b7e6b124cbeebb7ee35ba2fd4c57fbc1a39b1519": {
   "gn": "NBA All-Star Challenge 2",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-H2A",
   "rc": 3751653395,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "78df73566f8b522507e899aeddf2dfc71794587e": {
@@ -20383,11 +20401,11 @@
  },
  "c7ff0760b3cf71c8bda4be70160a88ae13bce702": {
   "gn": "Heiankyou Alien",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-HAA",
   "rc": 146745801,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "cb662ef35eef6351f2d12dde132b07efe66ef8c7": {
@@ -20401,11 +20419,11 @@
  },
  "e0f480feb32d2c2bf1bc9e7fee70cf2667b004bc": {
   "gn": "Bomber Boy",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-HBA",
   "rc": 4019557804,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "7e29f9de5d8cf98551e1f2b3db0b0aa8b17050cd": {
@@ -20464,11 +20482,11 @@
  },
  "a24990232fa6e57b45aac51933a513624a60fbf9": {
   "gn": "Red October o Oe!",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-HFA",
   "rc": 3269967413,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9937c59a2c991cac2e1520f5da314fab8cdb3ebc": {
@@ -20979,11 +20997,11 @@
  },
  "105976f757bf29d5dc25101554b840b0bab8d815": {
   "gn": "Tom to Jerry Part 2",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-J8A",
   "rc": 3709446636,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c7807361bc1ca31fcb7bbfed6b37a787d67be91a": {
@@ -21006,11 +21024,11 @@
  },
  "1269f87beb46ab6ac6006937eec4032d656befce": {
   "gn": "Jordan vs Bird - One on One",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-JBA",
   "rc": 1070274381,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "eaa9a7639086b1b7d77ae8a4c3865ba4e9eaca63": {
@@ -21024,11 +21042,11 @@
  },
  "093f5049958a3c24b019299858a6871657edc7b0": {
   "gn": "Jimmy Connors no Pro Tennis Tour",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-JCA",
   "rc": 409409026,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "816a98f33de163bb72b9f0b3575f6f35d22285da": {
@@ -21250,11 +21268,11 @@
  },
  "f84b4dee36c7f3ac677721bc93f87ee7796c9f0d": {
   "gn": "Tom to Jerry",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-JYA",
   "rc": 3397611117,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "4905169617c01d26a4611f85699800aaba542164": {
@@ -21458,11 +21476,11 @@
  },
  "abfd29389296c16a9e12e9b2ab5d51730edda937": {
   "gn": "Konamic Golf",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-KGA",
   "rc": 3245166002,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c052364c8ec6a1a11e4c87b2e3219601844557d5": {
@@ -21521,11 +21539,11 @@
  },
  "7fa385ac2702da4cc7258027f35131f3e454d2f1": {
   "gn": "Koro Dice",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-KKA",
   "rc": 962628657,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "e739fa4bf5da40ff88f3d2ca33576476b75d8064": {
@@ -21539,11 +21557,11 @@
  },
  "41042111bb29ed4f10eabe387e7cfb3a86cb6081": {
   "gn": "Klax",
-  "ne": "(Japan) (Hudson Soft)",
+  "ne": "(Japan) (En) (Hudson Soft)",
   "gc": "DMG-KLA",
   "rc": 3029686409,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "33114785d4490aa4de99b2c5c998e8ef085f794c": {
@@ -21602,20 +21620,20 @@
  },
  "8b6657dc9bcbbbdd77bde1d04f123e28d9330f90": {
   "gn": "Master Karateka",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-KRA",
   "rc": 1276097342,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "6fe4351ce16dd39742f68b9dc089d08f2b95590f": {
   "gn": "Rubble Saver",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-KSA",
   "rc": 3903759442,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9025a6107eb2a41e352faa96ad3d4f557ded28aa": {
@@ -21656,11 +21674,11 @@
  },
  "6e9ed1aded7e0019eb8b739dbdd2681fca890028": {
   "gn": "Rubble Saver II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-KVA",
   "rc": 2462670637,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "5254307de9044a07ffb5a966bb824e91fb9ec5da": {
@@ -21729,11 +21747,11 @@
  },
  "0d4ffd081c80a549336295d77e02074a3b12d0eb": {
   "gn": "Alien 3",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-L3A",
   "rc": 3851438514,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "0a3fc6fb5f5dd7789872554b9cb74a0b8ed3b20b": {
@@ -21747,11 +21765,11 @@
  },
  "7fea218b75a9d7b80c1b96fe824f39db9366ccff": {
   "gn": "Mickey Mouse IV - Mahou no Labyrinth",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-L4A",
   "rc": 221295521,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "fe46751b649e4713775673747e60c8083020366e": {
@@ -21830,11 +21848,11 @@
  },
  "ecaa87d8713e6f0028aac94830552cc758dc2776": {
   "gn": "Lemmings",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-L8A",
   "rc": 2103230522,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "ed0369b2286e4fbcfe9debda7ddeec2674837028": {
@@ -21903,11 +21921,11 @@
  },
  "1c5cff0bece7163c6fcc8d13484b6c11fc2b2174": {
   "gn": "Kick Boxing, The",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-LEA",
   "rc": 2153133132,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "8c354812a717a85f5113110d18ce6197808ee735": {
@@ -21948,11 +21966,11 @@
  },
  "4ffdb5eee2bbe767739e93374f1b4fb04296a4a1": {
   "gn": "Lunar Lander",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-LLA",
   "rc": 51191892,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "b0c1a643336a8f8925984dfaeaeb5cd247a71281": {
@@ -22101,11 +22119,11 @@
  },
  "7ef465a7e68893b7a88fd74cbee57cbd34b73674": {
   "gn": "Bubble Bobble Junior",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-LXA",
   "rc": 971137465,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "7fcd952eec0c0f7fa69331be535323448182cfbb": {
@@ -22146,11 +22164,11 @@
  },
  "b00feda6b9857ebf8a0ffc7f68105f5e81e5020a": {
   "gn": "Mickey Mouse II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-M2A",
   "rc": 3756952524,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "3f835ef2c824ac7eae5253952d5680814c51c9c5": {
@@ -22245,11 +22263,11 @@
  },
  "025ed7c18b546208d995dc802e2f42a7d10d784d": {
   "gn": "Shisenshou - Match-Mania",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-MAA",
   "rc": 215845636,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "3954be1645b0cd3e1394b0f20c86a22067505aef": {
@@ -22391,11 +22409,11 @@
  },
  "479badc771da24e821e276f8137793f8825d63ca": {
   "gn": "Mickey Mouse",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-MMA",
   "rc": 1286036813,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "555002099f43e6d4772011f4e5f6376ff9296966": {
@@ -22474,11 +22492,11 @@
  },
  "dcce7ec5c8f1e0ba0ad04e442cf1fbbfb968c4d6": {
   "gn": "Monster Truck",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-MTE",
   "rc": 2885268759,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "5aded45734540e651d5f38c0328dd6bcd49fc57b": {
@@ -22510,11 +22528,11 @@
  },
  "f0ac85b6f5e59bd1bd48cba8e53ac223830700fe": {
   "gn": "Motocross Maniacs",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-MXA",
   "rc": 3663745987,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c7212f52d2dd65c86730ae347aa869a9bea0cdc6": {
@@ -22664,11 +22682,11 @@
  },
  "751388df810f15364c914a18366a6170a0ffc60c": {
   "gn": "Kaisen Game - Navyblue",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-NBA",
   "rc": 2950218876,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "aaaccaf45f979ee7b2e7b76e7de1fa478430ba78": {
@@ -22709,11 +22727,11 @@
  },
  "16ad2bf211a966823431c885566465adc5dbdd20": {
   "gn": "Nemesis II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-NEA",
   "rc": 2891646509,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "188eb2048a0757e7a9f4b2edbbc335600341c1e1": {
@@ -22817,11 +22835,11 @@
  },
  "79074f3dd25a6f87b25d3d473e8292c6191432ed": {
   "gn": "Nemesis",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-NMA",
   "rc": 3006847719,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d09dd4eb8e8237b0c76797ccc5a466e9c22aa9f5": {
@@ -22844,11 +22862,11 @@
  },
  "31bc889508555ce0061b30a4a31825e5fd1fe24d": {
   "gn": "Pac-Panic",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-NOA",
   "rc": 2867582217,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a9ac4cb5ec942a53197c2ee2adbefd107eb4c3ad": {
@@ -23078,11 +23096,11 @@
  },
  "59147afd6ffc1aa1c1a7c9dd9b2f991ace26695d": {
   "gn": "GB Basketball",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-OFJ",
   "rc": 3652341025,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "3e701b20f7f44242fb6769d8ed0dc953e0f82457": {
@@ -23223,11 +23241,11 @@
  },
  "6c4469f37cc28f4139bde137abaf29305711c955": {
   "gn": "Othello",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-OTJ",
   "rc": 3245998126,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "104159076a3e3fbddbce923c6b06be918eefa0b1": {
@@ -23241,11 +23259,11 @@
  },
  "b63995888f0c806f3b15c7889b14634abfb0a43d": {
   "gn": "Pri Pri - Primitive Princess!",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-P2A",
   "rc": 1440363797,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "7fa332b0497fcc31dfc9456ecd7757b24f17d0aa": {
@@ -23322,11 +23340,11 @@
  },
  "30b17c37cccca5e9f15883e7ce9c084a2057bfbf": {
   "gn": "Populous Gaiden",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-P9A",
   "rc": 4079425150,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "17c94cf14e98611924eb22c2cf460d46573c64e7": {
@@ -23358,11 +23376,11 @@
  },
  "07566a5b8b1d6f78bbc4962933f850ce5d4ffab6": {
   "gn": "Pac-Man",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PCA",
   "rc": 1704562504,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "1a2c61185cfe2261f4c3a22a7bb3d0a42b8c3ce9": {
@@ -23413,11 +23431,11 @@
  },
  "dd8500cb12db0a11c4f1e31936651e7e48abce41": {
   "gn": "Pipe Dream",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PDA",
   "rc": 3635719844,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "6272896c0792190ae10f6b1b5ad6942301a7149b": {
@@ -23531,11 +23549,11 @@
  },
  "5c6614c0f1a6ac2c41b1c8496300a967e9eb0dba": {
   "gn": "Pitman",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PMA",
   "rc": 2696315190,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "86c7775d10899ddb7901c9544377f2e36b03bbfa": {
@@ -23567,11 +23585,11 @@
  },
  "3aac5fd20321443706d6edfdbb20badf6e325b1b": {
   "gn": "Head On",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PQA",
   "rc": 2021854639,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "91dc577d138c6b2364adabcad4f43d934696ce36": {
@@ -23693,11 +23711,11 @@
  },
  "cec05979da11d8e424ee3013df6b7b28623aee81": {
   "gn": "Palamedes",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PXA",
   "rc": 1268333837,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "22ec761a7870a51dc1f4b3a5cdd43d31074f96d6": {
@@ -23711,20 +23729,20 @@
  },
  "ab11335cff2ca53d27a01fd15a294ebc8df3f00c": {
   "gn": "Popeye",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PYA",
   "rc": 800381473,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "36b02dc8855b41ec54ad91e691e751a3d4321d6b": {
   "gn": "Puzznic",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-PZA",
   "rc": 2439930765,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "98ef857b52c6de9ef8e98bfd87ee814640c5109d": {
@@ -23765,11 +23783,11 @@
  },
  "7c362dfa8ea329138f542ff65d58f1296c413614": {
   "gn": "Q Billion",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-QBA",
   "rc": 2543767892,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "e023326db66b16a22365bbec0f2e41cb118274c0": {
@@ -24019,11 +24037,11 @@
  },
  "5951cb14953694a005e40137a80ecfe8a8c31639": {
   "gn": "Splitz - Nigaoe 15 Game",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-R5A",
   "rc": 2960795461,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "47c33531240acc6110bf2403ac4adb8c17e54b91": {
@@ -24137,11 +24155,11 @@
  },
  "5225420d1749c607e36475199908c590f4ded930": {
   "gn": "R-Type",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-REA",
   "rc": 3835201808,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "f3d6985935508672149aac78b547a04fab83e40f": {
@@ -24281,11 +24299,11 @@
  },
  "6b060f5caed156b547eaa6770a719d2a71afb7c5": {
   "gn": "Kaisen Game - Radarmission",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-RMA",
   "rc": 2301608111,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9d5eb0ecf06e029796f571f4364660de69b7fd83": {
@@ -24353,11 +24371,11 @@
  },
  "122969d99b654541cc8d60f9b06860bfe49f8caf": {
   "gn": "Roadster",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-RSA",
   "rc": 71646840,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d6635df1b31572bac0a8eb10856fc61113326fcc": {
@@ -24371,11 +24389,11 @@
  },
  "3e61996de6e9076f38c0389ceb7f31f9a220f925": {
   "gn": "Ring Rage",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-RUA",
   "rc": 4248656807,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "eaf64e320e502630253cc9a7b1bd2dbe9737e1c5": {
@@ -24398,11 +24416,11 @@
  },
  "de285127fb657521c5928292357eec819f7e53b7": {
   "gn": "Rockman World",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-RWA",
   "rc": 1004973060,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "f0e031d20c26e0a01e757f12a878903b3ac849fb": {
@@ -24443,11 +24461,11 @@
  },
  "8e4ee5f30b9298ef2257b14788d70125ccbced0f": {
   "gn": "R-Type II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-RZA",
   "rc": 1610801809,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "1180d7ac99a6d6a5c2af4ebb476338167472160c": {
@@ -24525,11 +24543,11 @@
  },
  "1aa663434ffc3134093c69c435b1dca8850ed570": {
   "gn": "Solitaire",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-S5A",
   "rc": 286869578,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "3c282db4ecaa8d8f3a05ba8e56d415cf59127112": {
@@ -24551,7 +24569,7 @@
   "rg": "Japan"
  },
  "69af22f0c3c54e644276aa524641ace298611255": {
-  "gn": "Saint Paradise - Saikyou no Senshi-tachi",
+  "gn": "Seisenshi - Saint Paradise - Saikyou no Senshitachi",
   "ne": "(Japan)",
   "gc": "DMG-S7J",
   "rc": 3606985814,
@@ -24561,11 +24579,11 @@
  },
  "8d64eb101fb6d0064525e482e3e1efa407f0d0f8": {
   "gn": "Sagaia",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-S8A",
   "rc": 3829244048,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a192ba6931406b93150ddbfd4ebc7de914b53262": {
@@ -24832,11 +24850,11 @@
  },
  "7910362d88a48ddd319649af854f8bf177e55861": {
   "gn": "Snoopy - Magic Show",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-SNA",
   "rc": 1217566797,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "ae4df7b01e70afc2646fb6a7f3e5408c63a4dce8": {
@@ -24878,11 +24896,11 @@
  },
  "eba45a1a51a3abacaf42fa1413f5646bfe822b5b": {
   "gn": "Space Invaders",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-SPA",
   "rc": 2257278898,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "c908e69b38b32af64ded2bafa9ebbc7d1a9b79be": {
@@ -25058,11 +25076,11 @@
  },
  "bbe12b1ccb2b44036d8a9d1fb0fcc94e84589210": {
   "gn": "Trip World",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-T4A",
   "rc": 290885220,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "18346faa2cbf69be9ffbbbfa6455dbfcb37db65d": {
@@ -25076,11 +25094,11 @@
  },
  "9ef3a06a8f289ff53474b6ec64f0c1aaa63747c4": {
   "gn": "Tumble Pop",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-T6A",
   "rc": 2283470178,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "1dcf2de52b30a372d35e7bb08d3b7c2e705c444b": {
@@ -25184,11 +25202,11 @@
  },
  "d36228352e333bba13afda30da36fa681ca4437d": {
   "gn": "Torpedo Range",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-TEA",
   "rc": 531847301,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "45e1d083e456f250b0efe277f0d071965f8f7e68": {
@@ -25265,11 +25283,11 @@
  },
  "8b885452a4ea84c6f18e74e86342c904edb3686e": {
   "gn": "Tecmo Bowl GB",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-TLA",
   "rc": 3486993972,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "10cda771e42304083ce567d33b4622e190ff2173": {
@@ -25283,11 +25301,11 @@
  },
  "c860b8cc3cf9b85b698dbe5fd905e1d7ee2a418f": {
   "gn": "Track Meet - Mezase! Barcelona",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-TMA",
   "rc": 1221819602,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "ad96da86f0267fe52eb113bf1d461dd6b1badb67": {
@@ -25392,11 +25410,11 @@
  },
  "4f2d4dafeaac513e8d979c2c020b291f81b89502": {
   "gn": "Bart no Survival Camp",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-TSA",
   "rc": 265710362,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "bf4495f7540bea9d194a28cecd66737e2a126b09": {
@@ -25410,11 +25428,11 @@
  },
  "4ad99a2107ddf758bf02f5e6791ebbcbe6f4b649": {
   "gn": "Teenage Mutant Ninja Turtles 2",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-TTA",
   "rc": 2229730085,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a6706c5335cbbd6a067d566c1cc82456f929ddf3": {
@@ -25654,11 +25672,11 @@
  },
  "1bf1bc4206c80623ca3fdba77ed43cf6232c8120": {
   "gn": "Saigo no Nindou",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-UJA",
   "rc": 3093603254,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "5719fff28260ec6868c813b6d8a6bbabd58afaca": {
@@ -25681,11 +25699,11 @@
  },
  "528f2c6c18d0c45a264203da038f22163d325a24": {
   "gn": "Minesweeper - Soukaitei",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-UMA",
   "rc": 1429386193,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "79877af1002e97a53b79dd49377fc6f5db03bf53": {
@@ -25834,11 +25852,11 @@
  },
  "4959bbc7022492481ab10b24d4a7a7ef68ce8970": {
   "gn": "Flappy Special",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-V2A",
   "rc": 996990372,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "2f1a336b01983acae04b879f316c4b97ccbcc080": {
@@ -25852,20 +25870,20 @@
  },
  "256e993a9cf931b045b32ffcf7596f0a8de90741": {
   "gn": "Mini-Putt",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-V3A",
   "rc": 869102928,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "62295f6fa651e1d0b91e522b9d79bf5f39e4843a": {
   "gn": "Choplifter II",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-V4A",
   "rc": 1359606916,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "1fb52a3373cf6051abc76049518beb06702a5a13": {
@@ -25897,11 +25915,11 @@
  },
  "b5272d442552ca1cf397b57d37aded31aa05add6": {
   "gn": "Super Street Basketball 2",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-VBA",
   "rc": 2156972492,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "2952f3ed3146b5881122e9bf1f9db6c38d6c575d": {
@@ -25969,11 +25987,11 @@
  },
  "4aa354120bcac6fec35496816318108e101db649": {
   "gn": "Vattle Giuce",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-VGA",
   "rc": 2506842172,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9325a4e58aedb0a69e6326afeb28b284157eb819": {
@@ -26059,11 +26077,11 @@
  },
  "e5d2e5bcfa3f1f9b448082ff5d736b02ee751eac": {
   "gn": "MVP Baseball",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-VMA",
   "rc": 952182442,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "7e6d1979888cd6f750c09c03c390dc263f1376fd": {
@@ -26240,11 +26258,11 @@
  },
  "d885ffa933b89b69b1fda9e21ebb527ce529115f": {
   "gn": "VS Battler",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-VSA",
   "rc": 548288666,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "8a4409b3c7b3ceca6452527c6930dbca3a84604a": {
@@ -26502,11 +26520,11 @@
  },
  "48db2cabd93ccb1712d966b21d17d78a7e7ba529": {
   "gn": "World Bowling",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-WBA",
   "rc": 1207873010,
   "rs": 32768,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "36d1b64565215c9f421d90bdc8fff58ba5abf044": {
@@ -26583,11 +26601,11 @@
  },
  "836ed2ac4069065939ae33d72edecd7ac44faec6": {
   "gn": "World Ice Hockey",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-WHA",
   "rc": 1312051235,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "483a58ecc72660a017cff3cee61c3f284c74980b": {
@@ -26673,11 +26691,11 @@
  },
  "6af3ae662c598f946e02ed796bdd643c8717c000": {
   "gn": "WWF King of the Ring",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-WPA",
   "rc": 984962579,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "7a0481a3dcd0a426f0903bf7c1418d8d9fbf8460": {
@@ -26700,11 +26718,11 @@
  },
  "3e11b19414d08ef0370de3b56cd121711aabe5d3": {
   "gn": "Bakuretsu Senshi Warrior",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-WRA",
   "rc": 3975264257,
   "rs": 65536,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "ecff5c822b89285a04307207681c57f3a6b7bc7c": {
@@ -26755,11 +26773,11 @@
  },
  "e09001ead7d882a64f9254d91150fb43e432b785": {
   "gn": "World Beach Volley - 1991 GB Cup",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-WVA",
   "rc": 2726905217,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "176966281aa2f04f928c40f639f779620970e77a": {
@@ -26782,11 +26800,11 @@
  },
  "4a58ff926d9b18c1bcf3f09c7c8bcc94ceaed29d": {
   "gn": "WWF Superstars 2",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-WXA",
   "rc": 3390232402,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a233b6e89a91124ca54f9abf3092e4a34eb6a147": {
@@ -26809,11 +26827,11 @@
  },
  "19cdd237624c4e8b7f680ab817524cae7ab2d2e4": {
   "gn": "Xenon 2 - Megablast",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-X2A",
   "rc": 803958994,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "9c24e8798895eb7671df7bb635289a36af8978c9": {
@@ -26891,21 +26909,21 @@
  },
  "39b144321648f807812fd4e065dc04d655c4722b": {
   "gn": "Power Mission",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-XCA",
   "rc": 237638676,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "ef76439bfa42ee9ed77a710d64d7451e23b83177": {
   "gn": "Power Mission",
-  "ne": "(Japan) (Rev 1)",
+  "ne": "(Japan) (En) (Rev 1)",
   "gc": "DMG-XCA",
   "rc": 3809409195,
   "rs": 131072,
   "rv": "Rev 1",
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "331748458d13071ac648cc31c9c15bda3a2840e2": {
@@ -26955,11 +26973,11 @@
  },
  "83946e77896b1b54db5e9109f1ddebf6e4b8967d": {
   "gn": "Ferrari",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-XPA",
   "rc": 2814246600,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "d1dc8f6de250a6a453118665fba60db6ada8aa59": {
@@ -27135,11 +27153,11 @@
  },
  "43a8273505e7e4298bdc4068e4b207b5a067bb7d": {
   "gn": "World Cup Striker",
-  "ne": "(Japan)",
+  "ne": "(Japan) (En)",
   "gc": "DMG-YKA",
   "rc": 4260341901,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "cc11003a61d8bf3a6199f55dded248dfd1c343f0": {
@@ -27216,11 +27234,11 @@
  },
  "3af4e9bba7e3706b83fb5daccec251cb06244992": {
   "gn": "Looney Tunes Series - Daffy Duck",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-YSA",
   "rc": 2039321737,
   "rs": 262144,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "a273474ccc65a026682f4dcacddf0a55417aafda": {

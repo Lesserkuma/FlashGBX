@@ -727,13 +727,13 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 		msg = "This software is being developed by Lesserkuma as a hobby project. There is no affiliation with Nintendo or any other company. This software is provided as-is and the developer is not responsible for any damage that is caused by the use of it. Use at your own risk!<br><br>"
 		msg += f"© 2020–{datetime.datetime.now().year} Lesserkuma<br>"
 		msg += "• Website: <a href=\"https://github.com/Lesserkuma/FlashGBX\">https://github.com/Lesserkuma/FlashGBX</a><br><br>"
-		msg += "Acknowledgments and Contributors:<br>2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, KOOORAY, kscheel, kyokohunter, Leif, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, olDirdey, orangeglo, paarongiroux, Paradoxical, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr"
+		msg += "Acknowledgments and Contributors:<br>2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, olDirdey, orangeglo, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr"
 		QtWidgets.QMessageBox.information(self, "{:s} {:s}".format(APPNAME, VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def AboutGameDB(self):
 		msg = f"{APPNAME} uses a game database that is based on the ongoing efforts of the No-Intro project. Visit <a href=\"https://no-intro.org/\">https://no-intro.org/</a> for more information.<br><br>"
 		msg += f"No-Intro databases referenced for this version of {APPNAME}:<br>"
-		msg += "• Nintendo - Game Boy (20251203-165423)<br>• Nintendo - Game Boy Advance (20251202-225320)<br>• Nintendo - Game Boy Advance (Video) (20251114-101831)<br>• Nintendo - Game Boy Color (20251127-150925)" # No-Intro DBs
+		msg += "• Nintendo - Game Boy (20260113-102506)<br>• Nintendo - Game Boy Advance (20260124-113814)<br>• Nintendo - Game Boy Advance (Video) (20251114-101831)<br>• Nintendo - Game Boy Color (20260110-131928)" # No-Intro DBs
 		QtWidgets.QMessageBox.information(self, "{:s} {:s}".format(APPNAME, VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def OpenPath(self, path=None):
@@ -3048,7 +3048,10 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 							pass
 
 				if save_type == 0:
-					msg_save_type_s = "<b>Save Type:</b> None or unknown (no save data detected)<br>"
+					if "Unknown" in save_chip:
+						msg_save_type_s = "<b>Save Type:</b> {:s}<br>".format(save_chip)
+					else:
+						msg_save_type_s = "<b>Save Type:</b> None or unknown (no save data detected)<br>"
 				else:
 					if sram_unstable and "SRAM" in temp:
 						msg_save_type_s = "<b>Save Type:</b> {:s} <span style=\"color: red;\">(not stable or not battery-backed)</span><br>".format(temp)

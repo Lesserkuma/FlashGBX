@@ -87,6 +87,7 @@ for Windows, Linux, macOS (→ [Download](https://github.com/Lesserkuma/FlashGBX
   - Ferrante Crafts cart 64 KB
   - Ferrante Crafts cart 512 KB
   - FunnyPlaying MidnightTrace 4 MiB Flash Cart
+  - Gamebank-web DMG-29W-04 with M29W320DB
   - Gamebank-web DMG-29W-04 with M29W320EB
   - Gamebank-web DMG-29W-04 with M29W320ET
   - GameShark Pro
@@ -301,7 +302,7 @@ Available in the GitHub [Releases](https://github.com/Lesserkuma/FlashGBX/releas
   * Ubuntu (.deb file): Install using `dpkg -i /path/to/FlashGBX_x.x_Ubuntu-all.deb`.
   * Other distributions: Pre-made Linux packages are available at [JJ-Fox’s repository](https://github.com/JJ-Fox/FlashGBX-Linux-builds/releases/latest).
 
-* **macOS** *(Monterey 12 or newer)*
+* **macOS** *(Sequoia 15 or newer)*
   * x86-64/arm64 (.dmg file): Install by opening the .dmg file and copying over the “FlashGBX” application to the desktop.<br>If it doesn’t run, it probably got quarantined due to the lack of a Apple Developer Program certificate. Right-click the extracted FlashGBX icon, choose “Open Terminal at Folder” and enter this command to unquarantine it: `xattr -d com.apple.quarantine ../FlashGBX.app`.
 
   *(If you have a Joey Jr and use macOS, please run the [Joey Jr Firmware Updater](https://github.com/Lesserkuma/JoeyJr_FWUpdater) before using FlashGBX.)*
@@ -384,7 +385,7 @@ Use this command in a Terminal or Command Prompt window to launch the installed 
 
 The author would like to thank the following very kind people for their help, contributions or documentation (in alphabetical order):
 
-2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, olDirdey, orangeglo, paarongiroux, Paradoxical, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr
+2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, olDirdey, orangeglo, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr
 
 Thanks to the No-Intro project for their game databases which FlashGBX’s databases are partly based on.
 

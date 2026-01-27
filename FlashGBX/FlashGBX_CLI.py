@@ -676,7 +676,10 @@ class FlashGBX_CLI():
 			elif self.CONN.GetMode() == "AGB":
 				temp = "{:s}".format(Util.AGB_Header_Save_Types[save_type])
 		if save_type == 0:
-			msg_save_type_s = "Save Type: None or unknown (no save data detected)\n"
+			if "Unknown" in save_chip:
+				msg_save_type_s = "Save Type: {:s}\n".format(save_chip)
+			else:
+				msg_save_type_s = "Save Type: None or unknown (no save data detected)\n"
 		else:
 			if sram_unstable and "SRAM" in temp:
 				msg_save_type_s = "Save Type: {:s} {:s}(not battery-backed){:s}\n".format(temp, ANSI.RED, ANSI.RESET)

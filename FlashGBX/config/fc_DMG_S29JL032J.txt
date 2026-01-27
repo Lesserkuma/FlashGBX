@@ -1,0 +1,78 @@
+{
+	"type":"DMG",
+	"names":[
+		"ModRetro Chromatic Cartridge with S29JL032J"
+	],
+	"flash_ids":[
+		[ 0x01, 0x01, 0x53, 0x56 ],
+		[ 0x01, 0x01, 0x53, 0x55 ],
+		[ 0x01, 0x01, 0x53, 0x53 ],
+		[ 0x01, 0x01, 0x50, 0x50 ],
+		[ 0x01, 0x01, 0x5F, 0x5F ],
+		[ 0x01, 0x01, 0x5C, 0x5C ]
+	],
+	"flash_size":0x400000,
+	"voltage":3.3,
+	"start_addr":0,
+	"first_bank":1,
+	"write_pin":"WR",
+	"chip_erase_timeout":40,
+	"command_set":"AMD",
+	"commands":{
+		"reset":[
+			[ 0x000, 0xF0 ]
+		],
+		"read_identifier":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x90 ]
+		],
+		"read_cfi":[
+			[ 0x40AA, 0x98 ]
+		],
+		"chip_erase":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x80 ],
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x10 ]
+		],
+		"chip_erase_wait_for":[
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ 0, 0xFF, 0xFF ]
+		],
+		"sector_erase":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x80 ],
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ "SA", 0x30 ]
+		],
+		"sector_erase_wait_for":[
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ "SA", 0xFF, 0xFF ]
+		],
+		"single_write":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0xA0 ],
+			[ "PA", "PD" ]
+		],
+		"single_write_wait_for":[
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ]
+		]
+	}
+}

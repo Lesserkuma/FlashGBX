@@ -10,7 +10,7 @@ from enum import Enum
 APPNAME = "FlashGBX"
 VERSION_PEP440 = "4.6"
 VERSION = "v{:s}".format(VERSION_PEP440)
-VERSION_TIMESTAMP = 1770316218
+VERSION_TIMESTAMP = 1770388062
 DEBUG = False
 DEBUG_LOG = []
 APP_PATH = ""
@@ -586,7 +586,7 @@ def GetDumpReport(di, device):
 		"* Time Elapsed:    %TIME_ELAPSED% (%TRANSFER_RATE%)\n" \
 		"* Transfer Buffer: {buffer_size:d} bytes\n" \
 		"* Retries:         {retries:d}\n" \
-	.format(hardware=device.GetFullName(), firmware=device.GetFirmwareVersion(), software="{:s} {:s}".format(APPNAME, VERSION), platform=platform.platform(), buffer_size=di["transfer_size"], timestamp=di["timestamp"], baud_rate=device.GetBaudRate(), retries=device.GetReadErrors())
+	.format(hardware=device.GetFullName(), firmware=device.GetFirmwareVersion(), software="{:s} {:s}".format(APPNAME, VERSION), platform=platform.platform() + " (" + platform.machine() + ")", buffer_size=di["transfer_size"], timestamp=di["timestamp"], baud_rate=device.GetBaudRate(), retries=device.GetReadErrors())
 	
 	if mode == "DMG":
 		s += "" \

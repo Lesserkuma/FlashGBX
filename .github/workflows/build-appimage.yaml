@@ -1,4 +1,4 @@
-name: AppImage
+name: Linux AppImage
 
 on:
   release:
@@ -69,17 +69,16 @@ jobs:
           source ${{ github.workspace }}/venv/bin/activate
           pyinstaller --clean --noconfirm --onedir --name FlashGBX \
             --collect-all FlashGBX --collect-all PIL --collect-all PySide6 \
-            --exclude-module PySide6.QtQml \
-            --exclude-module PySide6.QmlModels \
-            --exclude-module PySide6.QtWebEngineWidgets \
-            --exclude-module PySide6.QtTest \
-            --exclude-module PySide6.QtPdf \
-            --exclude-module PySide6.QtSvg \
-            --exclude-module PySide6.QtVirtualKeyboard \
-            --exclude-module PySide6.QtNetwork \
             run_AppImage.py
           mkdir dist/FlashGBX/res
           cp -a FlashGBX/res/. dist/FlashGBX/res/
+          
+          # Remove unnecessary files
+          rm -f dist/FlashGBX/_internal/PySide6/Qt{*WebEngine*,*Multimedia*,*SpatialAudio*,*Bluetooth*,*RemoteObjects*,*Pdf*,*Charts*,*Graphs*,*DataVisualization*,*Location*,*3D*,*Quick*,*Qml*,*Network*,*Designer*,*Shader*,*HttpServer*,*Qt6Labs*,*Nfc*,*OpenGL*,*Print*,*Sensors*,*avutil*,*avcodec*,*avformat*,*assimp*}.so*
+          rm -f dist/FlashGBX/_internal/PySide6/Qt/lib/lib{*WebEngine*,*Multimedia*,*SpatialAudio*,*Bluetooth*,*RemoteObjects*,*Pdf*,*Charts*,*Graphs*,*DataVisualization*,*Location*,*3D*,*Quick*,*Qml*,*Network*,*Designer*,*Shader*,*HttpServer*,*Qt6Labs*,*Nfc*,*OpenGL*,*Print*,*Sensors*,*avutil*,*avcodec*,*avformat*,*assimp*}.so*
+          rm -r dist/FlashGBX/_internal/PySide6/Qt/translations
+          rm -r dist/FlashGBX/_internal/PySide6/Qt/resources
+          rm -r dist/FlashGBX/_internal/PySide6/Qt/qml
 
       - name: Prepare AppDir
         run: |

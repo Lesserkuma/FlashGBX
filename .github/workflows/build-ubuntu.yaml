@@ -49,21 +49,21 @@ jobs:
           mkdir -p ./usr/share/pixmaps
           mv flashgbx.png ./usr/share/pixmaps
           sudo chown -R root:root *
-          dpkg-deb --build . "../FlashGBX_${{ env.VERSION }}_Ubuntu-all.deb"
+          dpkg-deb --build . "../FlashGBX-${{ env.VERSION }}_Ubuntu-all.deb"
 
       - name: Create artifact
         if: env.VERSION == '0.0'
         uses: actions/upload-artifact@v4
         with:
           name: FlashGBX_Ubuntu-all
-          path: ${{ github.workspace }}/dist/FlashGBX_${{ env.VERSION }}_Ubuntu-all.deb
+          path: ${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_Ubuntu-all.deb
 
       - name: Upload release asset
         if: env.VERSION != '0.0'
         uses: softprops/action-gh-release@v2.0.8
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          files: ${{ github.workspace }}/dist/FlashGBX_${{ env.VERSION }}_Ubuntu-all.deb
+          files: ${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_Ubuntu-all.deb
           draft: false
           prerelease: false
         env:

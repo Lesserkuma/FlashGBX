@@ -1,0 +1,168 @@
+name: Windows
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      VERSION: ${{ github.event.release.tag_name || '0.0' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare directories
+        run: |
+          New-Item -ItemType Directory -Force -Path output | Out-Null
+          New-Item -ItemType Directory -Force -Path embedded-python | Out-Null
+
+      - name: Cache Python packages
+        id: cache-pip
+        uses: actions/cache@v4
+        with:
+          path: |
+            embedded-python
+          key: flashgbx-windows-x64-python-dependencies-20260207
+          restore-keys: |
+            flashgbx-windows-x64-python-dependencies-
+
+      - name: Set up embedded Python
+        if: steps.cache-pip.outputs.cache-hit != 'true'
+        run: |
+          $url = "https://www.python.org/ftp/python/3.12.10/python-3.12.10-embed-amd64.zip"
+          Invoke-WebRequest $url -OutFile python.zip
+          Expand-Archive python.zip -DestinationPath embedded-python
+          $py = Get-ChildItem embedded-python -Filter python.exe -Recurse | Select-Object -First 1
+
+          Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py
+          & $py.FullName get-pip.py
+
+          $pth = Get-ChildItem embedded-python -Filter "*._pth" | Select-Object -First 1
+          $newContent = @"
+          python312.zip
+          .
+          ..
+          import site
+          "@
+          Set-Content -Path $pth.FullName -Value $newContent -Encoding ASCII
+
+          & $py.FullName -m pip install `
+            Pillow==12.1.0 `
+            PySide6==6.10.2 `
+            pyserial==3.5 `
+            python-dateutil==2.9.0.post0 `
+            requests==2.32.5 `
+            packaging==26.0 `
+            --no-cache-dir
+
+          # Remove unnecessary files
+          Get-ChildItem embedded-python -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+          Get-ChildItem embedded-python -Recurse -Filter "*.pyc" | Remove-Item -Force
+          $folders = @(
+              "embedded-python\Lib\site-packages\PySide6\examples",
+              "embedded-python\Lib\site-packages\PySide6\include",
+              "embedded-python\Lib\site-packages\PySide6\typesystems",
+              "embedded-python\Lib\site-packages\PySide6\support",
+              "embedded-python\Lib\site-packages\PySide6\translations",
+              "embedded-python\Lib\site-packages\PySide6\resources",
+              "embedded-python\Lib\site-packages\PySide6\qml",
+              "embedded-python\Lib\site-packages\PySide6\lib",
+              "embedded-python\Scripts"
+          )
+          foreach ($folder in $folders) {
+              if (Test-Path $folder) {
+                  Remove-Item $folder -Recurse -Force
+              }
+          }
+          Get-ChildItem "embedded-python\Lib\site-packages\PySide6" -Recurse -Include *.exe |
+            Remove-Item -Force
+          $dllPatterns = @( "*WebEngine*", "*Multimedia*", "*SpatialAudio*", "*Bluetooth*", "*RemoteObjects*", "*Pdf*", "*Charts*", "*Graphs*", "*DataVisualization*", "*Location*", "*3D*", "*Quick*", "*Qml*", "*Network*", "*Designer*", "*Shader*", "*HttpServer*", "*Qt6Labs*", "*Nfc*", "*OpenGL*", "*Print*", "*Sensors*", "*avutil*", "*avcodec*", "*avformat*", "*opengl32sw*", "*assimp*" )
+          foreach ($pattern in $dllPatterns) {
+            Get-ChildItem "embedded-python\Lib\site-packages\PySide6" -Recurse -Filter $pattern | Remove-Item -Recurse -Force
+          }
+
+      - name: Prepare Output
+        run: |
+          Move-Item ".github/build/Windows/launcher.exe" "output/FlashGBX.exe"
+          Move-Item LICENSE output/
+          Move-Item CHANGES.md output/
+          Move-Item README.md output/
+          Move-Item "Third Party Notices.md" output/
+          Copy-Item embedded-python output/Python -Recurse
+          Copy-Item FlashGBX "output/FlashGBX" -Recurse
+          Remove-Item "output/FlashGBX/config" -Recurse -Force -ErrorAction SilentlyContinue
+
+      - name: Create ZIP archive
+        run: |
+          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=9 "FlashGBX-${{ env.VERSION }}_Windows-x64.zip" ".\output\*"
+
+      - name: Configure Setup
+        run: |
+          $myAppVersion = "${{ env.VERSION }}"
+          $myFilesDir = "output"
+          $myCH341Dir = ".github\build\Windows\Drivers\CH341"
+          $myOutputDir = "setup"
+          mkdir $myOutputDir | Out-Null
+
+          Move-Item ".github/build/Windows/setup.iss" "setup.iss"
+          (Get-Content "setup.iss") `
+            -replace "<APP_VERSION>", "$myAppVersion" `
+            -replace "<FILES_DIR>", "$myFilesDir" `
+            -replace "<CH341_DIR>", "$myCH341Dir" `
+            -replace "<OUTPUT_DIR>", "$myOutputDir" | Set-Content "setup.iss"
+          $filesToCopy = @("CHANGES.md", "README.md", "LICENSE", "Third Party Notices.md")
+          foreach ($file in $filesToCopy) {
+              Copy-Item "output/$file" "$myOutputDir" -Force
+          }
+          Rename-Item -Path "$myFilesDir\FlashGBX.exe" -NewName "FlashGBX-app.exe" -Force
+
+      - name: Install Inno Setup
+        run: |
+          $innoSetupUrl = "https://www.jrsoftware.org/download.php/is.exe"
+          $installerPath = "InnoSetupInstaller.exe"
+          Invoke-WebRequest -Uri $innoSetupUrl -OutFile $installerPath
+          Start-Process -FilePath $installerPath -ArgumentList "/SILENT" -Wait
+
+      - name: Create Setup archive
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "setup.iss"
+          Move-Item "setup\Setup_FlashGBX.exe" "setup\FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.exe"
+          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=3 "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip" ".\setup\*"
+
+      - name: Create artifact
+        if: env.VERSION == '0.0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: FlashGBX_Windows-x64
+          path: "FlashGBX-${{ env.VERSION }}_Windows-x64.zip"
+      - name: Create artifact (Setup)
+        if: env.VERSION == '0.0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: FlashGBX_Windows-x64_Setup
+          path: "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip"
+
+      - name: Upload release asset
+        if: env.VERSION != '0.0'
+        uses: softprops/action-gh-release@v2.0.8
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: "FlashGBX-${{ env.VERSION }}_Windows-x64.zip"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload release asset (Setup)
+        if: env.VERSION != '0.0'
+        uses: softprops/action-gh-release@v2.0.8
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

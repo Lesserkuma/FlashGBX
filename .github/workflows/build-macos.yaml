@@ -35,7 +35,7 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/venv
-          key: flashgbx-macos-${{ matrix.arch }}-python-dependencies-2024110401
+          key: flashgbx-macos-${{ matrix.arch }}-python-dependencies-20260207
           restore-keys: |
             flashgbx-macos-${{ matrix.arch }}-python-dependencies-
 
@@ -47,6 +47,7 @@ jobs:
       - name: Install Python packages
         if: steps.cache-pip.outputs.cache-hit != 'true'
         run: |
+          python -m pip install --upgrade pip
           python -m venv ${{ github.workspace }}/venv
           source ${{ github.workspace }}/venv/bin/activate
           python -m pip install pyinstaller==6.11.0 Pillow==10.3.0 PySide6==6.7.2 pyserial==3.5 python-dateutil==2.9.0.post0 requests==2.32.3 packaging==25.0
@@ -62,6 +63,14 @@ jobs:
           mkdir dist/FlashGBX.app/Contents/MacOS/config
           mkdir dist/FlashGBX.app/Contents/MacOS/res
           cp -r FlashGBX/res/* dist/FlashGBX.app/Contents/MacOS/res
+          
+          # Remove unnecessary files
+          rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}.framework*
+          rm -rf dist/FlashGBX.app/Contents/Resources/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}
+          rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/translations
+          rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}.framework*
+          rm -rf dist/FlashGBX.app/Contents/Frameworks/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}
+          rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/translations
 
       - name: Create DMG
         run: |
@@ -69,7 +78,7 @@ jobs:
           mkdir -p "${{ github.workspace }}/dist/dmg"
           cp -r "${{ github.workspace }}/dist/FlashGBX.app" "${{ github.workspace }}/dist/dmg"
 
-          dmg_path="${{ github.workspace }}/dist/FlashGBX_${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg"
+          dmg_path="${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg"
 
           max_retries=5
           retry_delay=10
@@ -104,14 +113,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: FlashGBX_macOS-${{ matrix.arch }}
-          path: ${{ github.workspace }}/dist/FlashGBX_${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg
+          path: ${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg
 
       - name: Upload release asset
         if: env.VERSION != '0.0'
         uses: softprops/action-gh-release@v2.0.8
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          files: ${{ github.workspace }}/dist/FlashGBX_${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg
+          files: ${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg
           draft: false
           prerelease: false
         env:

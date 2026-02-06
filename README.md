@@ -1,6 +1,6 @@
 # FlashGBX (by Lesserkuma)
 
-for Windows, Linux, macOS (→ [Download](https://github.com/Lesserkuma/FlashGBX/releases))
+for Windows, Linux, macOS (→ [Download](https://github.com/Lesserkuma/FlashGBX/#Downloads))
 
 <img src="https://raw.githubusercontent.com/Lesserkuma/FlashGBX/master/.github/01.png" alt="FlashGBX on Windows 11" width="500"><br><img src="https://raw.githubusercontent.com/Lesserkuma/FlashGBX/master/.github/02.png" alt="GB Camera Album Viewer" width="500">
 
@@ -55,7 +55,11 @@ for Windows, Linux, macOS (→ [Download](https://github.com/Lesserkuma/FlashGBX
   - Unlicensed 2G Mapper
   - Unlicensed GBA Movie Player v2
 
-### Currently supported flash cartridges
+### Supported cartridges
+
+<details>
+
+<summary>Flash cartridges</summary>
 
 - Game Boy
 
@@ -143,7 +147,9 @@ for Windows, Linux, macOS (→ [Download](https://github.com/Lesserkuma/FlashGBX
 
 *¹ = Cannot always be auto-detected, select cartridge type manually*
 
-### Currently supported and tested reproduction cartridges
+</details>
+<details>
+<summary>Reproduction/bootleg cartridges</summary>
 
 - Game Boy
 
@@ -288,96 +294,99 @@ Many different reproduction cartridges share their flash chip command set, so ev
 
 *¹ = Cannot always be auto-detected, select cartridge type manually*
 
-## Installing and running
+</details>
 
-### Pre-compiled binaries and packages
+## Downloads
 
-Available in the GitHub [Releases](https://github.com/Lesserkuma/FlashGBX/releases) section are pre-compiled downloads available for:
+In the GitHub [Releases](https://github.com/Lesserkuma/FlashGBX/releases) section, downloadable packages are available for Windows, Linux and macOS.
 
-* **Windows (64-bit)** *(Windows 8 or newer)*
-  * Setup: An installer that will add the application to the start menu and optionally create a desktop icon
-  * Portable: Have everything in one place including the config files
+### **Windows**
+- x64 (.zip file): Extract to a folder of your choice and run FlashGBX without having to install anything.
+- x64 Setup package: Adds the application to the start menu and optionally creates a desktop icon, also includes device drivers.
 
-* **Linux**
-  * Ubuntu (.deb file): Install using `dpkg -i /path/to/FlashGBX_x.x_Ubuntu-all.deb`.
-  * Other distributions: Pre-made Linux packages are available at [JJ-Fox’s repository](https://github.com/JJ-Fox/FlashGBX-Linux-builds/releases/latest).
+> [!NOTE]
+> The provided packages will also run on the ARM version of Windows 11. Users of Windows 7, please refer to “Run via Python” instructions below. Older versions of Windows and 32-bit versions are not supported.
 
-* **macOS** *(Sequoia 15 or newer)*
-  * x86-64/arm64 (.dmg file): Install by opening the .dmg file and copying over the “FlashGBX” application to the desktop.<br>If it doesn’t run, it probably got quarantined due to the lack of a Apple Developer Program certificate. Right-click the extracted FlashGBX icon, choose “Open Terminal at Folder” and enter this command to unquarantine it: `xattr -d com.apple.quarantine ../FlashGBX.app`.
+### **Linux**
+- x86-64/arm64 (.AppImage file): A portable standalone package. Just add execute permissions via `chmod +x /path/to/FlashGBX-*_Linux-*.AppImage`.
+- Installable Ubuntu package (.deb file): Installable via `dpkg -i /path/to/FlashGBX-*_Ubuntu-all.deb`.
+- Installable packages for other distributions: Available inofficially at [JJ-Fox’s repository](https://github.com/JJ-Fox/FlashGBX-Linux-builds/releases/latest).
 
-  *(If you have a Joey Jr and use macOS, please run the [Joey Jr Firmware Updater](https://github.com/Lesserkuma/JoeyJr_FWUpdater) before using FlashGBX.)*
+> [!NOTE]
+> You may need to give yourself permissions to access the cartridge reader/writer hardware using one of the following methods.
+> * Permanent system-wide permissions via udev rules (e.g. /etc/udev/rules.d/50-flashgbx.rules):<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0666"`<br>Then run `sudo udevadm control --reload-rules && sudo udevadm trigger`.
+> * Permanent user account permissions via user group:<br>`sudo usermod -a -G dialout $USER` or `sudo usermod -a -G uucp $USER` (then reboot)
+> * Temporary permissions:<br>`sudo chmod 0666 /dev/ttyUSB0` (replace with actual device path)
 
-### Run via Python
+> [!NOTE]
+> If you use a GBxCart RW or GBFlash, you may need to uninstall the `brltty` package to resolve CH340/341 driver conflicts.
 
-FlashGBX can also be run in a Python environment like so:
+### **macOS** *(Sequoia 15 or newer)*
+- x86-64/arm64 (.dmg file): Install by opening the .dmg file and copying over “FlashGBX” to the desktop or applications folder.
 
-1. Download and install [Python](https://www.python.org/downloads/) (version 3.10.11 is recommended)
+> [!NOTE]
+> If the application doesn’t run, it probably got quarantined due to the lack of a Apple Developer Program certificate. Right-click the extracted FlashGBX icon, choose “Open Terminal at Folder” and enter this command to unquarantine it: `xattr -d com.apple.quarantine ../FlashGBX.app`.
+
+> [!NOTE]
+> If you use a Joey Jr, you will have run the separate [Joey Jr Firmware Updater](https://github.com/Lesserkuma/JoeyJr_FWUpdater) before using FlashGBX on macOS. Otherwise, FlashGBX will not be able to find your Joey Jr.
+
+## Run via Python
+
+FlashGBX can also be run in a local Python environment like so:
+
+1. Download and install [Python](https://www.python.org/downloads/)
 2. Open a Terminal or Command Prompt window
-3. Install FlashGBX with this command:<br>`pip3 install "FlashGBX[qt6]"`
-* If installation fails, try this command instead:<br>`pip3 install "FlashGBX[qt5]"`
-* If installation still fails, you can install the minimal version (command line interface) with this command:<br>`pip3 install FlashGBX`
-* Update to the latest version by replacing `install` with `install -U`.
+3. FlashGBX install commands:<br>
+`python3 -m venv FlashGBX_venv`<br>
+`source FlashGBX_venv/bin/activate`<br>
+`wget https://bootstrap.pypa.io/get-pip.py`<br>
+`python3 get-pip.py`<br>
+`python3 -m pip install "FlashGBX[qt6]"` (or `[qt5]` if it fails)<br>
+`deactivate`<br>
+4. FlashGBX launch commands:<br>
+`source FlashGBX_venv/bin/activate`<br>
+`python3 -m FlashGBX`<br>
 
-#### Running
-Use this command in a Terminal or Command Prompt window to launch the installed FlashGBX application:
-
-`python3 -m FlashGBX`
-
-*FlashGBX should work on pretty much any operating system that supports Qt-GUI applications built using [Python](https://www.python.org/downloads/) with [PySide2](https://pypi.org/project/PySide2/) or [PySide6](https://pypi.org/project/PySide6/), [pyserial](https://pypi.org/project/pyserial/), [Pillow](https://pypi.org/project/Pillow/), [setuptools](https://pypi.org/project/setuptools/), [requests](https://pypi.org/project/requests/), [python-dateutil](https://pypi.org/project/python-dateutil/) and [packaging](https://pypi.org/project/packaging/) packages. To run FlashGBX in portable mode without installing, you can also download the source code archive and call `python3 run.py` after installing the prerequisites yourself.*
-
-*Note: When using GBxCart RW or GBFlash on some Linux systems, the `brltty` module may render serial communication devices non-accessible. See the troubleshooting section for details.*
+* To upgrade to the latest version, use the following commands:<br>`source FlashGBX_venv/bin/activate`<br>`python3 -m pip install -U FlashGBX`
 
 ### Steam Deck
-#### Installation
+
 1. Boot your Steam Deck in Desktop Mode.
 2. Open System Settings → Users.
 3. Set a password for your user account (“deck”), if you do not have one set yet. (Make sure you do not forget this password in the future.)
 4. Create a new folder where you want to install FlashGBX.
 5. Right click the folder and select “Open Terminal Here”.
-6. Enter the following commands in order:<br>
-`python3 -m venv FlashGBX_venv`<br>
-`source FlashGBX_venv/bin/activate`<br>
-`wget https://bootstrap.pypa.io/get-pip.py`<br>
-`python3 get-pip.py`<br>
-`python3 -m pip install "FlashGBX[qt6]"`<br>
-`deactivate`<br>
-`sudo usermod -a -G uucp $USER`<br>
+6. Enter the **install commands** from the “Run via Python” section.
+7. Run `sudo usermod -a -G uucp $USER` to give yourself the necessary hardware access permissions.<br>
 (You may need to enter the password you set earlier.)
-7. Restart your Steam Deck.
+8. Restart your Steam Deck.
+9. Enter the **launch commands** from the “Run via Python” section to run FlashGBX.
 
-#### Running
-1. In Desktop Mode, right click your FlashGBX folder and select “Open Terminal Here”.
-2. Use these commands to launch the installed FlashGBX application:<br>
-`source FlashGBX_venv/bin/activate`<br>
-`python3 -m FlashGBX`<br>
+## Troubleshooting
 
-### Troubleshooting
+* If some features don’t work as expected, first try to clean the game cartridge contacts (best with IPA 99.9%+ on a cotton swab) and reconnect the device. An unstable cartridge connection is the most common reason for read or write errors. Also try different USB ports and cables.
 
-* If something doesn’t work as expected, first try to clean the game cartridge contacts (best with IPA 99.9%+ on a cotton swab) and reconnect the device. An unstable cartridge connection is the most common reason for read or write errors.
+* If your *Game Boy Camera* cartridge is not reading, make sure it’s connected the correct way around; screws go up.
 
-* If your Game Boy Camera cartridge is not reading, make sure it’s connected the correct way around; screws go up.
+* Database checks will only work for genuine, unmodified game cartridges.
 
-* For save data backup/restore on Game Boy Advance reproduction cartridges, depending on how it was built, you may have to manually select the save type for it to work properly. However, the save data backup/restore feature may not work on certain reproduction cartridges with batteryless-patched ROMs. As those cartridges use the same flash chip for both ROM and save data storage, a full ROM backup will usually include the save data. Also, when flashing a new unpatched ROM to a cartridge like this, the game may not be able to save progress without soldering in a battery. See the [Flash Cart DB website](https://flashcartdb.com/index.php/Clone_and_Repo_Cart_Problems) for more information.
+* When using reproduction/bootleg cartridges, hit “Analyze Flash Cart” before performing Backup ROM or Save Data functions.
 
-* Depending on your system configuration, you may have to use `pip` and `python` commands instead of `pip3` and `python3`.
+* When you see the message “The ROM was written and verified successfully!”, that means FlashGBX’s job was successful. Any problems that occur when using the cartridge afterwards are linked to incompatibilities between cartridge hardware and ROM file.
 
-* On some Linux systems, you may run into a *Permission Error* problem when trying to connect to USB devices without *sudo* privileges. To grant yourself the necessary permissions temporarily, you can run `sudo chmod 0666 /dev/ttyUSB0` (replace with actual device path) before running the app. For a permanent solution, add yourself to the usergroup that has access to serial devices by default (e.g. *dialout* on Debian-based distros; `sudo adduser $USER dialout`) and then reboot the system.
+  * In case of save type mismatch, use the “Analyze Flash Cart” feature or open up the cartridge and check for save memory chips to determine your cartridge save type, and compare with these spradsheets: [Game Boy Advance](https://docs.google.com/spreadsheets/d/16-a3qDDkJJNpaYOEXi-xgTv-j1QznXHt9rTUJNFshjo), [Game Boy and Game Boy Color](https://docs.google.com/spreadsheets/d/19ZnwTW_Y6anh1wLD6EkB5gZT6WHKckGOgPxO6x0fCDo).
 
-* On some Linux systems, you may need the *XCB Xinerama package* if you see an error regarding failed Qt platform plugin initialization. You can install it with `sudo apt install libxcb-xinerama0` etc. It was reported that this additional command is required on MX Linux: `sudo ln -s /usr/lib/x86_64-linux-gnu/libxcb-util.so.0.0.0 /usr/lib/x86_64-linux-gnu/libxcb-util.so.1`
+  * If the save data detection says “512K FLASH (64 KiB) or 1M FLASH (128 KiB)”, that means the size can not be determined until actual save data is written to the cartridge.
 
-* On some Linux systems like Fedora, you may need to install the `python3-pillow-qt` package manually in order for the GUI mode to work.
+  * If the save data detection says something like “1M FLASH (128 KiB) (Unlicensed ···)”, try the [Custom 1M FLASH Patcher](https://github.com/Lesserkuma/Custom_1M_FLASH_Patcher).
 
-* On some Linux systems you may see the message “No devices found.” with the GBxCart RW or GBFlash hardware device, even though you’re using a USB cable capable of data transfers. This may be caused by a module called `brltty` (a driver for refreshable braille displays) that is erroneously interfering and taking over control of any connected USB device that uses the CH340/341 chipset. The solution would be to uninstall or blacklist the `brltty` driver and then reboot the system. This is not an issue with Joey Jr devices.
+  * If your reproduction/bootleg cartridge has an SRAM memory chip but no battery, it was not designed for unmodified ROM files and you will need a “Batteryless SRAM” patch. It’s often a lost cause, but you can try the [GBA ROM Patcher website](https://www.gbarompatcher.com/).
 
-* If you’re using macOS version 10.13 or older, there may be no driver for serial communication devices installed on your system. You can either upgrade your macOS version to 10.14+ or manually install a driver which is available [here](https://github.com/adrianmihalko/ch340g-ch34g-ch34x-mac-os-x-driver).
-
-* If you’re using macOS and get a “Segmentation Fault: 11.” error, try the “Run via Python” method with Python version 3.10.11 and install FlashGBX with `pip3 install "FlashGBX[qt5]"`.
-
-* If the save data detection says “512K FLASH (64 KiB) or 1M FLASH (128 KiB)”, that means the size can not be determined until actual save data is written to the cartridge.
+* If you use a GBxCart RW and it resets itself while connecting to some Game Boy cartridges, this can be caused by a GBxCart RW hardware issue. As a workaround, try hotplugging the cartridge: Disable the “Automatic cartridge power off” setting, then Connect → Game Boy → *Insert Cartridge* → Refresh.
 
 ## Miscellaneous
 
-* To use your own frame around extracted Game Boy Camera pictures, place a file called `pc_frame.png` (must be at least 160×144 pixels) into the configuration directory. (GUI mode only)
+* To use your own frame around extracted Game Boy Camera pictures, place a file called `pc_frame.png` (must be at least 160×144 pixels) into the `config` directory. (GUI mode only)
 
 * To write only the differences between two ROMs, name the original one `<name>.gba` and the edited one `<name>.delta.gba`.
 

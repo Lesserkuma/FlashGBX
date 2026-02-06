@@ -991,7 +991,7 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 				if platform.system() == "Darwin":
 					msg += "\n   - <b>For Joey Jr on macOS:</b> Use the dedicated <a href=\"https://github.com/Lesserkuma/JoeyJr_FWUpdater\">Firmware Updater for Joey Jr</a>"
 				elif platform.system() == "Linux":
-					msg += "\n- <b>For Linux users:</b> Ensure your user account has permissions to use the device (try adding yourself to user groups “dialout” or “uucp”)"
+					msg += "\n- <b>For Linux users:</b> Ensure your user account has permissions to use the device. Try adding yourself to user groups “dialout” or “uucp”, or change permissions to 0666 for USB VID/PID 1a86:7523 and 0483:5740."
 
 				QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Warning, windowTitle="{:s} {:s}".format(APPNAME, VERSION), text=msg.replace("\n", "<br>"), standardButtons=QtWidgets.QMessageBox.Ok).exec()
 			

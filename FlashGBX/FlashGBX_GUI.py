@@ -3229,9 +3229,11 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 				if not is_generic:
 					msg_fw = "<br><span style=\"font-size: 8pt;\"><i>{:s} {:s} | {:s}</i></span><br>".format(APPNAME, VERSION, self.CONN.GetFullNameExtended())
 					button_clipboard = msgbox.addButton("  &Copy to Clipboard  ", QtWidgets.QMessageBox.ActionRole)
+					button_save      = msgbox.addButton("  &Save to File  ", QtWidgets.QMessageBox.ActionRole)
 				else:
 					msg_fw = ""
 					button_clipboard = None
+					button_save = None
 				
 				if self.CONN.GetMode() == "DMG" and limitVoltage and (is_generic or not found_supported):
 					text = "No known flash cartridge type could be detected. The option “Limit voltage to 3.3V when detecting Game Boy flash cartridges” has been enabled which can cause auto-detection to fail. As it is usually not recommended to enable this option, do you now want to disable it and try again?"
@@ -3254,6 +3256,20 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 					doc.setHtml(temp)
 					temp = doc.toPlainText()
 					clipboard.setText(temp)
+				elif msgbox.clickedButton() == button_save:
+					doc = QtGui.QTextDocument()
+					doc.setHtml(temp)
+					temp = doc.toPlainText()
+
+					suggested_path = Util.GenerateFileName(mode=self.CONN.GetMode(), header=self.CONN.INFO, settings=self.SETTINGS)
+					suggested_path = os.path.splitext(suggested_path)[0] + " cart info.txt"
+					path = QtWidgets.QFileDialog.getSaveFileName(self, "Cart Info", suggested_path, "Plain text file (*.txt);;All Files (*.*)")[0]
+					try:
+						with open(path, "w") as out_file:
+							out_file.write(temp)
+					except Exception as e:
+						errbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Critical, windowTitle="{:s} {:s}".format(APPNAME, VERSION), text="Error writing cart info file: {}".format(e), standardButtons=QtWidgets.QMessageBox.Ok)
+						errbox.exec()
 				elif msgbox.clickedButton() == button_try:
 					if try_this in supp_cart_types[0]:
 						cart_type = supp_cart_types[0].index(try_this)

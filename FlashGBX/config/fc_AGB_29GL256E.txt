@@ -1,0 +1,71 @@
+{
+	"type": "AGB",
+	"names": [
+		"AGB-E05-01 with MX29GL256EHT2I-90Q"
+	],
+	"flash_ids": [
+		[ 0xC1, 0x00, 0x7D, 0x22 ]
+	],
+	"voltage": 3.3,
+	"flash_size": 0x2000000,
+	"sector_size_from_cfi": true,
+	"chip_erase_timeout": 300,
+	"command_set": "AMD",
+	"commands": {
+		"reset": [
+			[ 0, 0xF0 ]
+		],
+		"read_identifier": [
+			[ 0xAAA, 0xA9 ],
+			[ 0x555, 0x56 ],
+			[ 0xAAA, 0x90 ]
+		],
+		"read_cfi": [
+			[ 0xAA, 0x98 ]
+		],
+		"sector_erase": [
+			[ 0xAAA, 0xA9 ],
+			[ 0x555, 0x56 ],
+			[ 0xAAA, 0x80 ],
+			[ 0xAAA, 0xA9 ],
+			[ 0x555, 0x56 ],
+			[ "SA", 0x30 ]
+		],
+		"sector_erase_wait_for": [
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ "SA", 0xFFFF, 0xFFFF ]
+		],
+		"chip_erase": [
+			[ 0xAAA, 0xA9 ],
+			[ 0x555, 0x56 ],
+			[ 0xAAA, 0x80 ],
+			[ 0xAAA, 0xA9 ],
+			[ 0x555, 0x56 ],
+			[ 0xAAA, 0x10 ]
+		],
+		"chip_erase_wait_for": [
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ 0, 0xFFFF, 0xFFFF ]
+		],
+		"single_write": [
+			[ 0xAAA, 0xA9 ],
+			[ 0x555, 0x56 ],
+			[ 0xAAA, 0xA0 ],
+			[ "PA", "PD" ]
+		],
+		"single_write_wait_for": [
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ]
+		]
+	}
+}

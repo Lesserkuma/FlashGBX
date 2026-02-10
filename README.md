@@ -249,6 +249,7 @@ for Windows, Linux, macOS (→ [Download](https://github.com/Lesserkuma/FlashGBX
   - AGB-E05-01 with MSP55LV100G
   - AGB-E05-01 with MSP55LV128M
   - AGB-E05-01 with MX29GL128FHT2I-90G
+  - AGB-E05-01 with MX29GL256EHT2I-90Q
   - AGB-E05-01 with S29GL064
   - AGB-E05-02 with JS28F128
   - AGB-E05-02 with M29W128FH

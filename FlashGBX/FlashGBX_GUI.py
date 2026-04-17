@@ -14,8 +14,8 @@ from .PocketCameraWindow import PocketCameraWindow
 from .UserInputDialog import UserInputDialog
 from .Util import APPNAME, VERSION, VERSION_PEP440
 from . import Util
-from . import hw_GBxCartRW, hw_GBFlash, hw_JoeyJr
-hw_devices = [hw_GBxCartRW, hw_GBFlash, hw_JoeyJr]
+from . import hw_GBxCartRW, hw_GBFlash, hw_JoeyJr, hw_GameBub
+hw_devices = [hw_GBxCartRW, hw_GBFlash, hw_JoeyJr, hw_GameBub]
 
 class FlashGBX_GUI(QtWidgets.QWidget):
 	CONN = None
@@ -982,7 +982,8 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 					"Compatible devices:\n" \
 					"- insideGadgets GBxCart RW\n" \
 					"- Geeksimon GBFlash\n" \
-					"- BennVenn Joey Jr (requires firmware update)\n\n" \
+					"- BennVenn Joey Jr (requires firmware update)\n" \
+					"- Second Bedroom Game Bub\n\n" \
 					"Troubleshooting advice:\n" \
 					"- Reconnect the device, try different USB ports/cables, avoid passive USB hubs\n" \
 					"- Use a USB data cable (battery charging cables may not work)\n" \

@@ -3048,7 +3048,7 @@ class FlashGBX_GUI(QtWidgets.QWidget):
 							pass
 
 				if save_type == 0:
-					if "Unknown" in save_chip:
+					if save_chip is not None and "Unknown" in save_chip:
 						msg_save_type_s = "<b>Save Type:</b> {:s}<br>".format(save_chip)
 					else:
 						msg_save_type_s = "<b>Save Type:</b> None or unknown (no save data detected)<br>"

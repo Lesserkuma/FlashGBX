@@ -1,0 +1,59 @@
+{
+	"type":"DMG",
+	"names":[
+		"ModRetro Chromatic Cartridge with 39VF1682"
+	],
+	"flash_ids":[
+		[ 0xBF, 0xC9 ]
+	],
+	"flash_size":0x200000,
+	"voltage":3.3,
+	"start_addr":0,
+	"first_bank":1,
+	"write_pin":"WR",
+	"chip_erase_timeout":30,
+	"command_set":"AMD",
+	"commands":{
+		"reset":[
+			[ 0, 0xF0 ]
+		],
+		"read_identifier":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x90 ]
+		],
+		"read_cfi":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x98 ]
+		],
+		"chip_erase":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x80 ],
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0x10 ]
+		],
+		"chip_erase_wait_for":[
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ 0, 0xFFFF, 0xFFFF ]
+		],
+		"single_write":[
+			[ 0xAAA, 0xAA ],
+			[ 0x555, 0x55 ],
+			[ 0xAAA, 0xA0 ],
+			[ "PA", "PD" ]
+		],
+		"single_write_wait_for":[
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ]
+		]
+	}
+}

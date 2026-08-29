@@ -17,7 +17,6 @@
 	"first_bank":1,
 	"write_pin":"WR",
 	"sector_size_from_cfi":true,
-	"_chip_erase_timeout":70,
 	"m29w640":true,
 	"command_set":"AMD",
 	"commands":{
@@ -41,14 +40,6 @@
 			[ 0xAAA, 0xA9 ],
 			[ 0x555, 0x56 ],
 			[ 0xAAA, 0x10 ]
-		],
-		"_chip_erase_wait_for":[
-			[ null, null, null ],
-			[ null, null, null ],
-			[ null, null, null ],
-			[ null, null, null ],
-			[ null, null, null ],
-			[ 0, 0xFF, 0xFF ]
 		],
 		"sector_erase":[
 			[ 0xAAA, 0xA9 ],

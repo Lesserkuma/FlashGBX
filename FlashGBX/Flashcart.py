@@ -72,8 +72,30 @@ class Flashcart:
 	def GetName(self, index=0):
 		return self.CONFIG["names"][index]
 
+	@staticmethod
+	def GetFlashIDSets(config):
+		flash_ids = []
+		for flash_id_set in config.get("flash_ids", []):
+			if len(flash_id_set) > 1 and isinstance(flash_id_set[1], list):
+				flash_ids.append([(flash_id_set[i], flash_id_set[i + 1]) for i in range(0, len(flash_id_set), 2)])
+			else:
+				flash_ids.append([(None, flash_id_set)])
+		return flash_ids
+
+	@staticmethod
+	def GetROMAccessParameters(config, offset):
+		if config["type"].upper() != "DMG": return ([], offset)
+		bank, address = divmod(offset, 0x4000)
+		return ([[0x2000, bank & 0xFF], [0x3000, bank >> 8]], 0x4000 + address)
+
+	@staticmethod
+	def RelocateFlashCommands(commands, address):
+		if len(commands) == 0: return []
+		old_address = commands[0][0]
+		return [[address if command[0] == old_address else command[0]] + command[1:] for command in commands]
+
 	def GetFlashID(self, index=0):
-		return self.CONFIG["flash_ids"][index]
+		return self.GetFlashIDSets(self.CONFIG)[index][0][1]
 
 	def GetVoltage(self):
 		return self.CONFIG["voltage"]
@@ -85,6 +107,9 @@ class Flashcart:
 
 	def FlashCommandsOnBank1(self):
 		return ("flash_commands_on_bank_1" in self.CONFIG and self.CONFIG["flash_commands_on_bank_1"] is True)
+
+	def AudioGatesFlashWrite(self):
+		return (self.CONFIG.get("set_audio_high") is True and self.CONFIG.get("audio_gates_flash_write") is True)
 
 	def PulseResetAfterWrite(self):
 		return ("pulse_reset_after_write" in self.CONFIG and self.CONFIG["pulse_reset_after_write"] is True)
@@ -170,6 +195,24 @@ class Flashcart:
 		if key not in self.CONFIG["commands"]: return []
 		return self.CONFIG["commands"][key]
 
+	def GetROMWriteBankSwitchConflictValues(self):
+		values = set()
+		if "commands" not in self.CONFIG:
+			return values
+		for key in ("single_write", "buffer_write", "page_write", "sector_erase", "chip_erase"):
+			if key not in self.CONFIG["commands"]:
+				continue
+			for command in self.CONFIG["commands"][key]:
+				if not isinstance(command, (list, tuple)):
+					continue
+				if len(command) < 2:
+					continue
+				value = command[1]
+				if isinstance(value, int):
+					values.add(value & 0xFF)
+					break
+		return values
+
 	def Unlock(self):
 		self.CartRead(0) # dummy read
 		if "unlock_read" in self.CONFIG["commands"]:
@@ -199,27 +242,63 @@ class Flashcart:
 
 	def _VerifyFlashID(self, config):
 		if "read_identifier" not in config["commands"]: return (False, [])
-		if len(config["flash_ids"]) == 0: return (False, [])
+		flash_id_sets = self.GetFlashIDSets(config)
+		if len(flash_id_sets) == 0: return (False, [])
 		if "power_cycle" in config and config["power_cycle"] is True:
 			self.CART_POWERCYCLE_FNCPTR()
-		self.Reset()
-		rom = list(self.CartRead(0, len(config["flash_ids"][0])))
-		self.Unlock()
-		self.CartWrite(config["commands"]["read_identifier"])
-		time.sleep(0.001)
-		read_identifier_at = 0
-		if "read_identifier_at" in config: read_identifier_at = config["read_identifier_at"]
-		cart_flash_id = list(self.CartRead(read_identifier_at, len(config["flash_ids"][0])))
-		self.Reset()
+
+		lengths = {}
+		for flash_id_set in flash_id_sets:
+			for offset, flash_id in flash_id_set:
+				lengths[offset] = max(lengths.get(offset, 0), len(flash_id))
+
+		observations = {}
+		try:
+			for offset, length in lengths.items():
+				if offset is None:
+					self.Reset()
+					rom = list(self.CartRead(0, length))
+					self.Unlock()
+					address = config.get("read_identifier_at", 0)
+					read_identifier = config["commands"]["read_identifier"]
+					reset = config["commands"].get("reset", [])
+				else:
+					bank_commands, address = self.GetROMAccessParameters(config, offset)
+					if bank_commands:
+						self.CartWrite(bank_commands, fast_write=False)
+					read_identifier = self.RelocateFlashCommands(config["commands"]["read_identifier"], address)
+					reset = self.RelocateFlashCommands(config["commands"].get("reset", []), address)
+					if reset:
+						self.CartWrite(reset)
+					rom = list(self.CartRead(address, length))
+
+				self.CartWrite(read_identifier)
+				time.sleep(0.001)
+				cart_flash_id = list(self.CartRead(address, length))
+				observations[offset] = (rom, cart_flash_id)
+				if reset:
+					self.CartWrite(reset)
+		finally:
+			if any(offset is not None for offset in lengths):
+				bank_commands, address = self.GetROMAccessParameters(config, 0)
+				self.CartWrite(bank_commands, fast_write=False)
+				reset = self.RelocateFlashCommands(config["commands"].get("reset", []), address)
+				if reset: self.CartWrite(reset)
+
+		verified = False
+		for flash_id_set in flash_id_sets:
+			verified = True
+			for offset, expected in flash_id_set:
+				rom, flash_id = observations[offset]
+				flash_id = list(flash_id[:len(expected)])
+				if flash_id != expected or flash_id == list(rom[:len(expected)]):
+					verified = False
+					break
+			if verified: break
+		cart_flash_id = list(next(iter(observations.values()))[1])
 		dprint(config["names"], config["commands"]["read_identifier"])
-		dprint("Flash ID: {:s}".format(' '.join(format(x, '02X') for x in cart_flash_id)))
-		verified = True
-		if (rom == cart_flash_id):
-			dprint("ROM data matched Flash ID response.")
-			verified = False
-		elif cart_flash_id not in config["flash_ids"]:
-			dprint("This Flash ID does not exist in flashcart handler file.")
-			verified = False
+		for offset, (_rom, observed) in observations.items():
+			dprint("Flash ID at {:s}: {:s}".format("default" if offset is None else "0x{:X}".format(offset), ' '.join(format(x, '02X') for x in observed)))
 		return (verified, cart_flash_id)
 
 	def VerifyFlashID(self):
@@ -248,10 +327,29 @@ class Flashcart:
 				self.CONFIG["commands"]["read_cfi"] = [ [ 0xAA, 0x98 ] ]
 
 		if "read_cfi" in self.CONFIG["commands"]:
-			self.CartWrite(self.CONFIG["commands"]["read_cfi"])
-			time.sleep(0.1)
-			buffer = self.CartRead(0, 0x400)
-			self.Reset()
+			flash_id_sets = self.GetFlashIDSets(self.CONFIG)
+			offset = flash_id_sets[0][0][0] if len(flash_id_sets) > 0 else None
+			read_address = 0
+			bank_commands = []
+			read_cfi = self.CONFIG["commands"]["read_cfi"]
+			if offset is not None:
+				bank_commands, read_address = self.GetROMAccessParameters(self.CONFIG, offset)
+				read_cfi = self.RelocateFlashCommands(read_cfi, read_address)
+			try:
+				if bank_commands: self.CartWrite(bank_commands, fast_write=False)
+				self.CartWrite(read_cfi)
+				time.sleep(0.1)
+				buffer = self.CartRead(read_address, 0x400)
+			finally:
+				if offset is None:
+					self.Reset()
+				else:
+					reset = self.RelocateFlashCommands(self.CONFIG["commands"].get("reset", []), read_address)
+					if reset: self.CartWrite(reset)
+					bank_commands, read_address = self.GetROMAccessParameters(self.CONFIG, 0)
+					self.CartWrite(bank_commands, fast_write=False)
+					reset = self.RelocateFlashCommands(self.CONFIG["commands"].get("reset", []), read_address)
+					if reset: self.CartWrite(reset)
 			cfi = CFI().Parse(buffer)
 			if cfi is not False:
 				cfi["raw"] = buffer
@@ -1122,14 +1220,13 @@ def has_3v_compatible_profile(carts, cart_type_index):
 	selected_ids = selected.get("flash_ids")
 	if not selected_ids:
 		return False
-	selected_id_set = {tuple(fid) for fid in selected_ids}
 	selected_type = selected.get("type")
 	for i, profile in enumerate(carts):
 		if i == cart_type_index: continue
 		if not isinstance(profile, dict): continue
 		if profile.get("type") != selected_type: continue
 		if profile.get("voltage", 5) != 3.3 and not profile.get("voltage_variants", False): continue
-		for fid in profile.get("flash_ids", []):
-			if tuple(fid) in selected_id_set:
+		for flash_id in profile.get("flash_ids", []):
+			if flash_id in selected_ids:
 				return True
 	return False

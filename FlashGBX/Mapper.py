@@ -313,6 +313,9 @@ class DMG_Mapper:
 		self.CartWrite(commands)
 		return (start_address, self.ROM_BANK_SIZE)
 
+	def ApplyROMWriteBankSwitchSeparator(self, index):
+		return False
+
 	def SelectBankRAM(self, index):
 		dprint(self.GetName(), "|", index)
 		commands = [
@@ -638,6 +641,11 @@ class DMG_MBC5(DMG_Mapper):
 
 		self.CartWrite(commands)
 		return (start_address, self.ROM_BANK_SIZE)
+
+	def ApplyROMWriteBankSwitchSeparator(self, index):
+		dprint(self.GetName(), "| ROM write bank switch separator |", index)
+		self.CartWrite([[ 0x4000, 0x00 ]])
+		return True
 
 	def GetMaxROMSize(self):
 		return 8*1024*1024
@@ -1732,6 +1740,11 @@ class DMG_Unlicensed_MBCX(DMG_MBC3):
 		self.CartWrite(commands)
 		return (0x4000, self.ROM_BANK_SIZE)
 
+	def ApplyROMWriteBankSwitchSeparator(self, index):
+		dprint(self.GetName(), "| ROM write bank switch separator |", index)
+		self.CartWrite([[ 0x4000, 0x00 ]])
+		return True
+
 	def GetMaxROMSize(self):
 		return 32*1024*1024
 
@@ -1940,7 +1953,7 @@ class AGB_GPIO:
 			buffer[0] = BCD.encode(rtc_dict["rtc_y"])
 			buffer[1] = BCD.encode(rtc_dict["rtc_m"])
 			buffer[2] = BCD.encode(rtc_dict["rtc_d"])
-			buffer[3] = BCD.encode(rtc_dict["rtc_w"])
+			buffer[3] = BCD.encode(rtc_dict["rtc_w"] % 7)
 			buffer[4] = BCD.encode(rtc_dict["rtc_h"])
 			if buffer[4] >= 12: buffer[4] |= 0x80
 			buffer[5] = BCD.encode(rtc_dict["rtc_i"])
@@ -1972,16 +1985,17 @@ class AGB_GPIO:
 			years = 0
 			months = 1
 			days = 1
-			weekday = 0
+			weekday = 6 # 2000-01-01 was Saturday; GBA RTC uses Sunday=0
 			hours = 0
 			minutes = 0
 			seconds = 0
-			rtc_status = 0x40 | 0x80
+			# rtc_status = 0x40 | 0x80 # 24h mode + reset flag
+			rtc_status = 0x40 # 24h mode (reset flag causes issues on some flash cartridges)
 		else:
 			years = BCD.decode(buffer[0x00])
 			months = BCD.decode(buffer[0x01])
 			days = BCD.decode(buffer[0x02])
-			weekday = BCD.decode(buffer[0x03])
+			weekday = BCD.decode(buffer[0x03]) % 7
 			hours = BCD.decode(buffer[0x04] & 0x7F)
 			minutes = BCD.decode(buffer[0x05])
 			seconds = BCD.decode(buffer[0x06])
@@ -2004,7 +2018,7 @@ class AGB_GPIO:
 					dt_buffer_notime = dt_buffer.replace(hour=0, minute=0, second=0)
 					dt_new_notime = dt_new.replace(hour=0, minute=0, second=0)
 					days_passed = int((dt_new_notime.timestamp() - dt_buffer_notime.timestamp()) / 60 / 60 / 24)
-					weekday += days_passed % 7
+					weekday = (weekday + days_passed) % 7
 					hours = dt_new.hour
 					minutes = dt_new.minute
 					seconds = dt_new.second
@@ -2013,7 +2027,7 @@ class AGB_GPIO:
 				buffer[0x00] = BCD.encode(years)
 				buffer[0x01] = BCD.encode(months)
 				buffer[0x02] = BCD.encode(days)
-				buffer[0x03] = BCD.encode(weekday)
+				buffer[0x03] = BCD.encode(weekday % 7)
 				buffer[0x04] = BCD.encode(hours)
 				if hours >= 12: buffer[0x04] |= 0x80
 				buffer[0x05] = BCD.encode(minutes)
@@ -2029,7 +2043,7 @@ class AGB_GPIO:
 			"rtc_y":years,
 			"rtc_m":months,
 			"rtc_d":days,
-			"rtc_w":weekday,
+			"rtc_w":weekday % 7,
 			"rtc_h":hours,
 			"rtc_i":minutes,
 			"rtc_s":seconds,
@@ -2057,7 +2071,7 @@ class AGB_GPIO:
 		rtc_y = (rtc_buffer[0] & 0x0F) + ((rtc_buffer[0] >> 4) * 10)
 		rtc_m = (rtc_buffer[1] & 0x0F) + ((rtc_buffer[1] >> 4) * 10)
 		rtc_d = (rtc_buffer[2] & 0x0F) + ((rtc_buffer[2] >> 4) * 10)
-		rtc_w = (rtc_buffer[3] & 0x0F) + ((rtc_buffer[3] >> 4) * 10)
+		rtc_w = ((rtc_buffer[3] & 0x0F) + ((rtc_buffer[3] >> 4) * 10)) % 7
 		rtc_h = ((rtc_buffer[4] & 0x0F) + (((rtc_buffer[4] >> 4) & 0x7) * 10))
 		rtc_i = (rtc_buffer[5] & 0x0F) + ((rtc_buffer[5] >> 4) * 10)
 		rtc_s = (rtc_buffer[6] & 0x0F) + ((rtc_buffer[6] >> 4) * 10)

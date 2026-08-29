@@ -984,8 +984,8 @@ class LK_Device(ABC):
 		if not self.CanPowerCycleCart(): return
 		value &= 0xFFFFFFFF
 		# dprint(f"Setting automatic power off time value to {value}")
-		self._set_fw_variable("AUTO_POWEROFF_TIME", value)
 		self._set_fw_variable("AUTO_POWEROFF_ENABLED", 1 if value != 0 else 0)
+		self._set_fw_variable("AUTO_POWEROFF_TIME", value)
 		self.SKIP_POWERCYCLE = False if value != 0 else True
 
 	def _thread_worker_auto_poweroff_enter(self):
@@ -1392,17 +1392,27 @@ class LK_Device(ABC):
 				args = { 'mode':2, 'path':None, 'mbc':mbc, 'save_type':save_type, 'rtc':False, 'detect':True }
 			elif self.MODE == "AGB":
 				args = { 'mode':2, 'path':None, 'mbc':mbc, 'save_type':8, 'rtc':False, 'detect':True }
+				if info["save_type"] is not None:
+					save_type = info["save_type"]
+					save_size = info["save_size"]
+					if save_type == 9:
+						batteryless = self.CheckBatterylessSRAM()
+						if batteryless is not False:
+							info["batteryless_sram"] = batteryless
+							self.INFO["dump_info"]["batteryless_sram"] = batteryless
+					checkSaveType = False
 			else:
 				return
 
-			ret = self._BackupRestoreRAM(args=args)
+			if checkSaveType:
+				ret = self._BackupRestoreRAM(args=args)
 
-			if ret is not False and "data" in self.INFO:
-				save_size = self._find_repeating_size(self.INFO["data"], len(self.INFO["data"]))
-			else:
-				save_size = 0
+				if ret is not False and "data" in self.INFO:
+					save_size = self._find_repeating_size(self.INFO["data"], len(self.INFO["data"]))
+				else:
+					save_size = 0
 
-			if self.MODE == "DMG":
+			if checkSaveType and self.MODE == "DMG":
 				try:
 					save_type = DmgSaveTypes(size=save_size).GetMbc()
 				except:
@@ -1438,7 +1448,7 @@ class LK_Device(ABC):
 								save_size = 65536
 								save_type = 0x05
 
-			elif self.MODE == "AGB":
+			elif checkSaveType and self.MODE == "AGB":
 				if info["3d_memory"] is True:
 					save_type = None
 					save_size = 0
@@ -1562,8 +1572,16 @@ class LK_Device(ABC):
 						payload = self.ReadROM(bl_offset - payload_size, payload_size)
 						bl_size = struct.unpack("<I", payload[0x8:0xC])[0]
 						dprint("Detected Batteryless SRAM ROM made with the Automatic batteryless saving patcher for GBA by metroid-maniac")
-						if bl_size not in (0x2000, 0x8000, 0x10000, 0x20000):
-							dprint("{:s}Warning: Unsupported Batteryless SRAM size value detected: 0x{:X}{:s}".format(ANSI.YELLOW, bl_size, ANSI.RESET))
+						if bl_size not in (0x200, 0x2000, 0x8000, 0x10000, 0x20000):
+							dprint("Warning: Unsupported Batteryless SRAM size value detected: 0x{:X}".format(bl_size))
+					elif bytearray(b'lk_batteryless') in batteryless_loader:
+						payload_size = struct.unpack("<H", batteryless_loader[batteryless_loader.index(bytearray(b'lk_batteryless')):][0x0E:0x10])[0]
+						bl_offset = batteryless_loader.index(bytearray(b'lk_batteryless')) + boot_vector + 0x10
+						payload = self.ReadROM(bl_offset - payload_size, payload_size)
+						bl_size = struct.unpack("<I", payload[0x8:0xC])[0]
+						dprint("Detected Batteryless SRAM ROM made with the GBA Save Patcher by LK")
+						if bl_size not in (0x200, 0x2000, 0x8000, 0x10000, 0x20000):
+							dprint("Warning: Unsupported Batteryless SRAM size value detected: 0x{:X}".format(bl_size))
 					elif (bytearray([0x02, 0x13, 0xA0, 0xE3]) in batteryless_loader):
 						if (
 								bytearray([0x09, 0x04, 0xA0, 0xE3]) in batteryless_loader or
@@ -2012,6 +2030,50 @@ class LK_Device(ABC):
 
 		self.SKIPPING = skip_write
 
+	def _get_flash_write_params(self, data_length, buffer_pos, buffer_len, flash_buffer_size):
+		write_len = min(buffer_len, max(0, data_length - buffer_pos))
+		max_buffer_write = self.MAX_BUFFER_WRITE
+		write_flash_buffer_size = flash_buffer_size
+		if data_length == 0x1FFFF00 and buffer_pos < data_length and buffer_pos + buffer_len > data_length:
+			max_buffer_write = 0x100
+			if flash_buffer_size and flash_buffer_size > max_buffer_write:
+				write_flash_buffer_size = max_buffer_write
+		return (write_len, max_buffer_write, write_flash_buffer_size)
+
+	def _ShouldApplyROMWriteBankSwitchSeparator(self, flashcart, command_set_type, bank, conflict_values):
+		if self.MODE != "DMG":
+			return False
+		if flashcart is None or not flashcart.WEisWR():
+			return False
+		if command_set_type != "AMD":
+			return False
+		if not conflict_values:
+			return False
+		return (bank & 0xFF) in conflict_values
+
+	def _SelectROMBankForFlash(self, mbc, bank, flashcart):
+		audio_enabled = self.FW_VAR.get("DMG_AUDIO_ENABLED", 0)
+		# On gated development carts, an MBC bank value can otherwise be
+		# interpreted as a flash command while AUDIO/VIN is high.
+		gate_audio = (
+			self.MODE == "DMG"
+			and self.FW.get("fw_ver", 0) >= 14
+			and flashcart is not None
+			and flashcart.AudioGatesFlashWrite()
+			and audio_enabled == 1
+		)
+		if not gate_audio:
+			return mbc.SelectBankROM(bank)
+
+		try:
+			self._set_fw_variable("DMG_AUDIO_ENABLED", 0)
+			return mbc.SelectBankROM(bank)
+		finally:
+			self._set_fw_variable("DMG_AUDIO_ENABLED", audio_enabled)
+
+	def _get_backup_read_length(self, pos, end_address, buffer_len):
+		return min(buffer_len, max(0, end_address - pos))
+
 	def WriteROM_GBMEMORY(self, address, buffer, bank):
 		length = len(buffer)
 		max_length = 128
@@ -2278,7 +2340,7 @@ class LK_Device(ABC):
 					if i == 0 and flashcart is not None:
 						flashcart.Reset(full_reset=True)
 						if mbc is not None:
-							mbc.SelectBankROM(bank)
+							self._SelectROMBankForFlash(mbc, bank, flashcart)
 						verified = (crc32_expected, crc32_calculated)
 						continue
 					else:
@@ -2393,16 +2455,19 @@ class LK_Device(ABC):
 					break
 				continue
 			elif self.MODE == "DMG" and "dmg-mbc5-32m-flash" in cart_type and self.SupportsAudioAsWe():
-				self._set_we_pin_audio()
-				self._cart_write_flash(cart_type["commands"]["unlock"], flashcart=False)
-				self._cart_write_flash(cart_type["commands"]["reset"])
-				rom1 = self._cart_read(0, 8)
-				self._cart_write_flash(cart_type["commands"]["read_identifier"])
-				rom2 = self._cart_read(0, 8)
-				if rom1 != rom2 and list(rom2[:len(cart_type["flash_ids"][0])]) == cart_type["flash_ids"][0]:
-					found = True
+				uses_audio_high = isinstance(cart_type["flash_ids"][0][1], list) and cart_type.get("set_audio_high") is True and self.FW.get("fw_ver", 0) >= 14
+				fncptr = copy.copy(fc_fncptr)
+				fncptr["cart_write_fast_fncptr"] = lambda commands, **kwargs: self._cart_write_flash(commands)
+				if uses_audio_high:
+					self._set_we_pin_wr()
+					self._set_fw_variable("DMG_AUDIO_ENABLED", 1)
+				else:
+					self._set_we_pin_audio()
+				found = Flashcart(config=cart_type, fncptr=fncptr).VerifyFlashID()[0]
+				if uses_audio_high: self._set_fw_variable("DMG_AUDIO_ENABLED", 0)
+				if found:
 					flash_types.append(f)
-					dprint("Found a DMG-MBC5-32M-FLASH Development Cartridge")
+					dprint("Found a DMG development cartridge:", cart_type["names"][0])
 					self._cart_write_flash(cart_type["commands"]["reset"])
 					break
 				# Reset commands if not found
@@ -2530,6 +2595,7 @@ class LK_Device(ABC):
 			cart_type = supported_carts[f]
 			flashcart = Flashcart(config=cart_type, fncptr=fc_fncptr)
 			if "flash_ids" not in cart_type or len(cart_type["flash_ids"]) == 0: continue
+			if isinstance(cart_type["flash_ids"][0][1], list): continue
 			if "commands" not in cart_type or len(cart_type["commands"]) == 0: continue
 			found = False
 			if flash_id_methods not in (None, []) and len(flash_id_methods) > 0:
@@ -3002,6 +3068,7 @@ class LK_Device(ABC):
 
 			while pos < end_address:
 				temp = bytearray()
+				read_len = self._get_backup_read_length(pos, end_address, buffer_len)
 				if self.CANCEL:
 					cancel_args = {"action":"ABORT", "abortable":False}
 					cancel_args.update(self.CANCEL_ARGS)
@@ -3016,22 +3083,22 @@ class LK_Device(ABC):
 					return
 
 				if is_3dmemory:
-					temp = self.ReadROM_3DMemory(address=pos, length=buffer_len, max_length=max_length)
+					temp = self.ReadROM_3DMemory(address=pos, length=read_len, max_length=max_length)
 				elif flashcart and cart_type["command_set"] == "GBAMP":
-					temp = self.ReadROM_GBAMP(address=pos, length=buffer_len, max_length=max_length)
+					temp = self.ReadROM_GBAMP(address=pos, length=read_len, max_length=max_length)
 				else:
 					if self.FW["fw_ver"] >= 10 and "verify_write" in args:
 						if self.MODE == "AGB": self.SetAGBReadMethod(0)
 						if self.MODE == "DMG": self.SetDMGReadMethod(2)
-						temp = self.ReadROM(address=pos, length=buffer_len, skip_init=skip_init, max_length=max_length)
+						temp = self.ReadROM(address=pos, length=read_len, skip_init=skip_init, max_length=max_length)
 						if self.MODE == "AGB": self.SetAGBReadMethod(agb_read_method)
 						if self.MODE == "DMG": self.SetDMGReadMethod(dmg_read_method)
 					else:
 						# Normal read
-						temp = self.ReadROM(address=pos, length=buffer_len, skip_init=skip_init, max_length=max_length)
+						temp = self.ReadROM(address=pos, length=read_len, skip_init=skip_init, max_length=max_length)
 					skip_init = True
 
-				if len(temp) != buffer_len:
+				if len(temp) != read_len:
 					pos_temp = pos_total
 					if "verify_write" in args:
 						pos_temp += args["verify_base_pos"]
@@ -3041,12 +3108,12 @@ class LK_Device(ABC):
 
 					err_text = ANSI.YELLOW + __("Note: Incomplete transfer detected. Resuming from {address}...", address="0x{:X}".format(pos_temp)) + ANSI.RESET
 					if (max_length >> 1) < 64:
-						dprint("Failed to receive 0x{:X} bytes from the device at position 0x{:X}.".format(buffer_len, pos_temp))
+						dprint("Failed to receive 0x{:X} bytes from the device at position 0x{:X}.".format(read_len, pos_temp))
 						max_length = 64
 					elif lives >= 20 and pos_temp != 0:
-						dprint("Failed to receive 0x{:X} bytes from the device at position 0x{:X}.".format(buffer_len, pos_temp))
+						dprint("Failed to receive 0x{:X} bytes from the device at position 0x{:X}.".format(read_len, pos_temp))
 					else:
-						dprint("Failed to receive 0x{:X} bytes from the device at position 0x{:X}. Decreasing maximum transfer buffer size to 0x{:X}.".format(buffer_len, pos_temp, max_length >> 1))
+						dprint("Failed to receive 0x{:X} bytes from the device at position 0x{:X}. Decreasing maximum transfer buffer size to 0x{:X}.".format(read_len, pos_temp, max_length >> 1))
 						max_length >>= 1
 						self.MAX_BUFFER_READ = max_length
 						err_text += "\n" + __("Buffer size adjusted to {size} bytes.", size=max_length)
@@ -3101,7 +3168,7 @@ class LK_Device(ABC):
 				else:
 					self.SetProgress({"action":"UPDATE_POS", "pos":pos_total})
 
-				pos += buffer_len
+				pos += read_len
 
 			bank += 1
 
@@ -3364,7 +3431,7 @@ class LK_Device(ABC):
 			self._cart_write(0x2000, 0x00)
 			self._cart_write(0x4000, 0x90)
 			flash_id = self._cart_read(0x4000, 2)
-			if flash_id == bytearray([0xB0, 0x88]): audio_low = True
+			if flash_id in (bytearray([0xB0, 0x88]), bytearray([0xB0, 0xB0])): audio_low = True
 			self._cart_write(0x4000, 0xF0)
 			self._cart_write(0x4000, 0xFF)
 			self._cart_write(0x2000, 0x01)
@@ -3930,7 +3997,11 @@ class LK_Device(ABC):
 		try:
 			return self._FlashROM_Worker(args)
 		finally:
-			self._thread_worker_auto_poweroff_finish()
+			try:
+				if self.MODE == "DMG" and self.FW.get("fw_ver", 0) >= 14 and self.FW_VAR.get("DMG_AUDIO_ENABLED", 0) == 1:
+					self._set_fw_variable("DMG_AUDIO_ENABLED", 0)
+			finally:
+				self._thread_worker_auto_poweroff_finish()
 
 	def _FlashROM_Worker(self, args):
 		# Initialization
@@ -4364,6 +4435,12 @@ class LK_Device(ABC):
 					self._set_fw_variable("STATUS_REGISTER_MASK", 0x80)
 					self._set_fw_variable("STATUS_REGISTER_VALUE", 0x80)
 
+		rom_write_bank_switch_conflict_values = set()
+		if self.MODE == "DMG" and flashcart.WEisWR() and command_set_type == "AMD":
+			rom_write_bank_switch_conflict_values = flashcart.GetROMWriteBankSwitchConflictValues()
+			if len(rom_write_bank_switch_conflict_values) > 0:
+				dprint("ROM write bank switch separator values:", sorted(rom_write_bank_switch_conflict_values))
+
 		if self.FW["fw_ver"] >= 12: self._set_fw_variable("AGB_IRQ_ENABLED", 1 if "set_irq_high" in cart_type else 0)
 		# ↑↑↑ Load commands into firmware
 
@@ -4374,7 +4451,7 @@ class LK_Device(ABC):
 		if we != 0x00:
 			self._set_fw_variable("FLASH_WE_PIN", we)
 		if self.FW["fw_ver"] >= 14 and "set_audio_high" in cart_type:
-			self._set_fw_variable("DMG_AUDIO_ENABLED", 1 if "set_audio_high" in cart_type else 0)
+			self._set_fw_variable("DMG_AUDIO_ENABLED", 1 if cart_type.get("set_audio_high") is True else 0)
 		# ↑↑↑ Preparations
 
 		# ↓↓↓ Read Flash ID
@@ -4576,7 +4653,7 @@ class LK_Device(ABC):
 						if _mbc.ResetBeforeBankChange(bank) is True:
 							dprint("Resetting the MBC")
 							self._write(self.DEVICE_CMD["DMG_MBC_RESET"], wait=True)
-						(start_address, bank_size) = _mbc.SelectBankROM(bank)
+						(start_address, bank_size) = self._SelectROMBankForFlash(_mbc, bank, flashcart)
 						if flashcart.PulseResetAfterWrite():
 							if bank == 0:
 								if self.FW["fw_ver"] < 2 and "OFW_GB_CART_MODE" in self.DEVICE_CMD:
@@ -4606,16 +4683,18 @@ class LK_Device(ABC):
 
 					pos = start_address
 					#dprint("pos=0x{:X}, buffer_pos=0x{:X}, start_address=0x{:X}, end_address=0x{:X}".format(pos, buffer_pos_matchcheck, start_address, end_address))
-					verified = self.CompareCRC32(buffer=data_import, offset=buffer_pos_matchcheck, length=end_address - pos, address=pos, flashcart=flashcart, reset=True, mbc=_mbc, bank=bank)
+					compare_len = min(end_address - pos, len(data_import) - buffer_pos_matchcheck)
+					if compare_len <= 0: break
+					verified = self.CompareCRC32(buffer=data_import, offset=buffer_pos_matchcheck, length=compare_len, address=pos, flashcart=flashcart, reset=True, mbc=_mbc, bank=bank)
 					self.SetProgress({"action":"UPDATE_POS", "pos":buffer_pos_matchcheck})
 					if verified is not True:
 						break
-					buffer_pos_matchcheck += (end_address - pos)
+					buffer_pos_matchcheck += compare_len
 					bank += 1
 
 				if verified is True:
 					dprint("Skipping sector #{:d}, because the CRC32 matched".format(sector_pos))
-					if self.MODE == "DMG" and flashcart.FlashCommandsOnBank1(): _mbc.SelectBankROM(bank)
+					if self.MODE == "DMG" and flashcart.FlashCommandsOnBank1(): self._SelectROMBankForFlash(_mbc, bank, flashcart)
 					self.NO_PROG_UPDATE = True
 					se_ret = flashcart.SectorErase(pos=pos, buffer_pos=buffer_pos, skip=verified)
 					self.NO_PROG_UPDATE = False
@@ -4658,7 +4737,7 @@ class LK_Device(ABC):
 					if _mbc.ResetBeforeBankChange(bank) is True:
 						dprint("Resetting the MBC")
 						self._write(self.DEVICE_CMD["DMG_MBC_RESET"], wait=True)
-					(start_address, bank_size) = _mbc.SelectBankROM(bank)
+					(start_address, bank_size) = self._SelectROMBankForFlash(_mbc, bank, flashcart)
 					if flashcart.PulseResetAfterWrite():
 						if bank == 0:
 							if self.FW["fw_ver"] < 2 and "OFW_GB_CART_MODE" in self.DEVICE_CMD:
@@ -4674,6 +4753,8 @@ class LK_Device(ABC):
 					start_address += (buffer_pos % rom_bank_size)
 					if end_address > start_address + sector[1]:
 						end_address = start_address + sector[1]
+					if self._ShouldApplyROMWriteBankSwitchSeparator(flashcart, command_set_type, bank, rom_write_bank_switch_conflict_values):
+						_mbc.ApplyROMWriteBankSwitchSeparator(bank)
 
 				elif self.MODE == "AGB":
 					if "flash_bank_select_type" in cart_type and cart_type["flash_bank_select_type"] > 0:
@@ -4702,6 +4783,7 @@ class LK_Device(ABC):
 						return
 
 					if buffer_pos >= len(data_import): break
+					write_len = buffer_len
 
 					# ↓↓↓ Sector erase
 					se_ret = None
@@ -4713,7 +4795,10 @@ class LK_Device(ABC):
 							if self.CanPowerCycleCart(): self.CartPowerOn()
 
 							sector_pos += 1
-							if self.MODE == "DMG" and flashcart.FlashCommandsOnBank1(): _mbc.SelectBankROM(bank)
+							if self.MODE == "DMG" and flashcart.FlashCommandsOnBank1():
+								self._SelectROMBankForFlash(_mbc, bank, flashcart)
+								if self._ShouldApplyROMWriteBankSwitchSeparator(flashcart, command_set_type, bank, rom_write_bank_switch_conflict_values):
+									_mbc.ApplyROMWriteBankSwitchSeparator(bank)
 							self.NO_PROG_UPDATE = True
 							se_ret = flashcart.SectorErase(pos=pos, buffer_pos=buffer_pos, skip=False)
 							self.NO_PROG_UPDATE = False
@@ -4746,12 +4831,8 @@ class LK_Device(ABC):
 						elif command_set_type == "DATEL_ORBITV2" and self.FW["fw_ver"] < 12:
 							status = self.WriteROM_DMG_DatelOrbitV2(address=pos, buffer=data_import[buffer_pos:buffer_pos+buffer_len], bank=bank)
 						else:
-							max_buffer_write = self.MAX_BUFFER_WRITE
-							if (len(data_import) == 0x1FFFF00) and (buffer_pos+buffer_len > len(data_import)):
-								# 32 MiB ROM + EEPROM cart
-								max_buffer_write = 256
-								buffer_len = (buffer_pos+buffer_len - len(data_import))
-							status = self.WriteROM(address=pos, buffer=data_import[buffer_pos:buffer_pos+buffer_len], flash_buffer_size=flash_buffer_size, skip_init=(skip_init and not self.SKIPPING), rumble_stop=rumble, max_length=max_buffer_write)
+							(write_len, max_buffer_write, write_flash_buffer_size) = self._get_flash_write_params(len(data_import), buffer_pos, buffer_len, flash_buffer_size)
+							status = self.WriteROM(address=pos, buffer=data_import[buffer_pos:buffer_pos+write_len], flash_buffer_size=write_flash_buffer_size, skip_init=(skip_init and not self.SKIPPING), rumble_stop=rumble, max_length=max_buffer_write)
 
 					if status is False or se_ret is False:
 						self.CANCEL = True
@@ -4904,8 +4985,8 @@ class LK_Device(ABC):
 
 					skip_init = True
 
-					buffer_pos += buffer_len
-					pos += buffer_len
+					buffer_pos += write_len
+					pos += write_len
 					self.SetProgress({"action":"UPDATE_POS", "pos":buffer_pos})
 
 				if status is not False:
@@ -5014,8 +5095,8 @@ class LK_Device(ABC):
 									start_address %= cart_type["flash_bank_size"]
 									end_address = min(cart_type["flash_bank_size"], start_address + temp)
 									current_bank = bank
-							verify_len = sector[1]
 							pos_from = sector[0]
+							verify_len = min(sector[1], max(0, len(data_import) - pos_from))
 						# ↑↑↑ Switch ROM bank
 
 						dprint(f"Verifying ROM bank #{bank} at 0x{pos_from:x} (physical 0x{start_address:X}, 0x{verify_len:X} bytes)")

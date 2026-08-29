@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: FlashGBX v5.0.1\n"
+"Project-Id-Version: FlashGBX v5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/Lesserkuma/FlashGBX/issues\n"
-"POT-Creation-Date: 2026-06-05 19:05+0200\n"
+"POT-Creation-Date: 2026-08-28 19:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,25 +21,25 @@ msgstr ""
 #: ../package/FlashGBX/CartridgeTypes.py:32
 #: ../package/FlashGBX/CartridgeTypes.py:172
 #: ../package/FlashGBX/CartridgeTypes.py:323
-#: ../package/FlashGBX/Flashcart.py:628 ../package/FlashGBX/Flashcart.py:640
-#: ../package/FlashGBX/Flashcart.py:642
+#: ../package/FlashGBX/Flashcart.py:726 ../package/FlashGBX/Flashcart.py:738
+#: ../package/FlashGBX/Flashcart.py:740
 msgid " Bytes"
 msgstr ""
 
 #: ../package/FlashGBX/CartridgeTypes.py:33
 #: ../package/FlashGBX/CartridgeTypes.py:173
 #: ../package/FlashGBX/CartridgeTypes.py:324
-#: ../package/FlashGBX/FlashGBX_CLI.py:1081
+#: ../package/FlashGBX/FlashGBX_CLI.py:1084
 msgid " KiB"
 msgstr ""
 
 #: ../package/FlashGBX/CartridgeTypes.py:34
 #: ../package/FlashGBX/CartridgeTypes.py:174
 #: ../package/FlashGBX/CartridgeTypes.py:325
-#: ../package/FlashGBX/FlashGBX_CLI.py:955
-#: ../package/FlashGBX/FlashGBX_CLI.py:1078
-#: ../package/FlashGBX/FlashGBX_GUI.py:2090
-#: ../package/FlashGBX/Flashcart.py:624
+#: ../package/FlashGBX/FlashGBX_CLI.py:958
+#: ../package/FlashGBX/FlashGBX_CLI.py:1081
+#: ../package/FlashGBX/FlashGBX_GUI.py:2093
+#: ../package/FlashGBX/Flashcart.py:722
 msgid " MiB"
 msgstr ""
 
@@ -100,10 +100,6 @@ msgid ""
 "The application was recently updated and some flashcart profile files have "
 "been updated as well. You will find backup copies of them in your "
 "configuration directory."
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX.py:81
-msgid "Updated files:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX.py:84
@@ -386,7 +382,7 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_CLI.py:58
 #: ../package/FlashGBX/FlashGBX_CLI.py:228
 #: ../package/FlashGBX/FlashGBX_CLI.py:246
-#: ../package/FlashGBX/FlashGBX_GUI.py:3230
+#: ../package/FlashGBX/FlashGBX_GUI.py:3236
 msgid "Game Boy Advance"
 msgstr ""
 
@@ -399,26 +395,26 @@ msgid "Read Cartridge Information"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:94
-#: ../package/FlashGBX/FlashGBX_GUI.py:1974
-#: ../package/FlashGBX/FlashGBX_GUI.py:1984
-#: ../package/FlashGBX/FlashGBX_GUI.py:3977
+#: ../package/FlashGBX/FlashGBX_GUI.py:1977
+#: ../package/FlashGBX/FlashGBX_GUI.py:1987
+#: ../package/FlashGBX/FlashGBX_GUI.py:3985
 msgid "Backup ROM"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:95
-#: ../package/FlashGBX/FlashGBX_GUI.py:2072
-#: ../package/FlashGBX/FlashGBX_GUI.py:2074
-#: ../package/FlashGBX/FlashGBX_GUI.py:3979
+#: ../package/FlashGBX/FlashGBX_GUI.py:2075
+#: ../package/FlashGBX/FlashGBX_GUI.py:2077
+#: ../package/FlashGBX/FlashGBX_GUI.py:3987
 msgid "Write ROM"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:96
-#: ../package/FlashGBX/FlashGBX_GUI.py:3983
+#: ../package/FlashGBX/FlashGBX_GUI.py:3991
 msgid "Backup Save Data"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:97
-#: ../package/FlashGBX/FlashGBX_GUI.py:2507
+#: ../package/FlashGBX/FlashGBX_GUI.py:2510
 msgid "Restore Save Data"
 msgstr ""
 
@@ -457,29 +453,29 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_CLI.py:237
 #: ../package/FlashGBX/FlashGBX_CLI.py:286
 #: ../package/FlashGBX/FlashGBX_CLI.py:302
-#: ../package/FlashGBX/FlashGBX_CLI.py:977
-#: ../package/FlashGBX/FlashGBX_CLI.py:1098
-#: ../package/FlashGBX/FlashGBX_CLI.py:1212
-#: ../package/FlashGBX/FlashGBX_CLI.py:1326
-#: ../package/FlashGBX/FlashGBX_CLI.py:1333
-#: ../package/FlashGBX/FlashGBX_CLI.py:1340
-#: ../package/FlashGBX/FlashGBX_CLI.py:1545
-#: ../package/FlashGBX/FlashGBX_CLI.py:1569
-#: ../package/FlashGBX/FlashGBX_CLI.py:1581
-#: ../package/FlashGBX/FlashGBX_CLI.py:1591
-#: ../package/FlashGBX/FlashGBX_CLI.py:1668
-#: ../package/FlashGBX/FlashGBX_CLI.py:1690
-#: ../package/FlashGBX/FlashGBX_CLI.py:1716
-#: ../package/FlashGBX/FlashGBX_CLI.py:1763
-#: ../package/FlashGBX/FlashGBX_CLI.py:1789
-#: ../package/FlashGBX/FlashGBX_CLI.py:1841
-#: ../package/FlashGBX/FlashGBX_CLI.py:1877
+#: ../package/FlashGBX/FlashGBX_CLI.py:980
+#: ../package/FlashGBX/FlashGBX_CLI.py:1101
+#: ../package/FlashGBX/FlashGBX_CLI.py:1215
+#: ../package/FlashGBX/FlashGBX_CLI.py:1329
+#: ../package/FlashGBX/FlashGBX_CLI.py:1336
+#: ../package/FlashGBX/FlashGBX_CLI.py:1343
+#: ../package/FlashGBX/FlashGBX_CLI.py:1548
+#: ../package/FlashGBX/FlashGBX_CLI.py:1572
+#: ../package/FlashGBX/FlashGBX_CLI.py:1584
+#: ../package/FlashGBX/FlashGBX_CLI.py:1594
+#: ../package/FlashGBX/FlashGBX_CLI.py:1671
+#: ../package/FlashGBX/FlashGBX_CLI.py:1693
+#: ../package/FlashGBX/FlashGBX_CLI.py:1719
+#: ../package/FlashGBX/FlashGBX_CLI.py:1766
+#: ../package/FlashGBX/FlashGBX_CLI.py:1792
+#: ../package/FlashGBX/FlashGBX_CLI.py:1844
+#: ../package/FlashGBX/FlashGBX_CLI.py:1880
 msgid "Canceled."
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:148
-#: ../package/FlashGBX/FlashGBX_CLI.py:1701
-#: ../package/FlashGBX/FlashGBX_GUI.py:1608
+#: ../package/FlashGBX/FlashGBX_CLI.py:1704
+#: ../package/FlashGBX/FlashGBX_GUI.py:1611
 msgid "No devices found."
 msgstr ""
 
@@ -495,8 +491,8 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:162
 #: ../package/FlashGBX/FlashGBX_CLI.py:164
-#: ../package/FlashGBX/FlashGBX_GUI.py:1263
-#: ../package/FlashGBX/FlashGBX_GUI.py:1430
+#: ../package/FlashGBX/FlashGBX_GUI.py:1266
+#: ../package/FlashGBX/FlashGBX_GUI.py:1433
 #, python-brace-format
 msgid "Connected to {device_name}"
 msgstr ""
@@ -614,7 +610,7 @@ msgid "Erasing flash sector at address {address}..."
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:364
-#: ../package/FlashGBX/FlashGBX_GUI.py:4050
+#: ../package/FlashGBX/FlashGBX_GUI.py:4058
 msgid "Updating Real Time Clock..."
 msgstr ""
 
@@ -624,8 +620,8 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:389
 #: ../package/FlashGBX/FlashGBX_CLI.py:411
-#: ../package/FlashGBX/FlashGBX_GUI.py:1668
-#: ../package/FlashGBX/FlashGBX_GUI.py:4153
+#: ../package/FlashGBX/FlashGBX_GUI.py:1671
+#: ../package/FlashGBX/FlashGBX_GUI.py:4161
 msgid " KiB/s"
 msgstr ""
 
@@ -635,18 +631,18 @@ msgid "ETA"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:417
-#: ../package/FlashGBX/FlashGBX_GUI.py:1881
+#: ../package/FlashGBX/FlashGBX_GUI.py:1884
 msgid "The ROM was written and verified successfully!"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:425
-#: ../package/FlashGBX/FlashGBX_GUI.py:1845
+#: ../package/FlashGBX/FlashGBX_GUI.py:1848
 msgctxt "Shortened list of Broken Sectors (e.g. 0x0000~0x07FF and others)"
 msgid "and others"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:428
-#: ../package/FlashGBX/FlashGBX_GUI.py:1848
+#: ../package/FlashGBX/FlashGBX_GUI.py:1851
 #, python-brace-format
 msgid ""
 "The ROM was written completely, but verification of written data failed in "
@@ -658,19 +654,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:431
-#: ../package/FlashGBX/FlashGBX_GUI.py:1883
+#: ../package/FlashGBX/FlashGBX_GUI.py:1886
 msgid "ROM writing complete!"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:452
-#: ../package/FlashGBX/FlashGBX_GUI.py:1698
+#: ../package/FlashGBX/FlashGBX_GUI.py:1701
 msgid "Error:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:458
 #: ../package/FlashGBX/FlashGBX_CLI.py:473
-#: ../package/FlashGBX/FlashGBX_GUI.py:1709
-#: ../package/FlashGBX/FlashGBX_GUI.py:1755
+#: ../package/FlashGBX/FlashGBX_GUI.py:1712
+#: ../package/FlashGBX/FlashGBX_GUI.py:1758
 msgid "The ROM backup is complete and the checksum was verified successfully!"
 msgstr ""
 
@@ -679,16 +675,16 @@ msgid "The ROM backup is complete!"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:462
-#: ../package/FlashGBX/FlashGBX_GUI.py:1721
+#: ../package/FlashGBX/FlashGBX_GUI.py:1724
 msgid "The ROM was dumped, but the checksum is not correct."
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:464
 #: ../package/FlashGBX/FlashGBX_CLI.py:477
 #: ../package/FlashGBX/FlashGBX_CLI.py:484
-#: ../package/FlashGBX/FlashGBX_GUI.py:1724
-#: ../package/FlashGBX/FlashGBX_GUI.py:1764
-#: ../package/FlashGBX/FlashGBX_GUI.py:1776
+#: ../package/FlashGBX/FlashGBX_GUI.py:1727
+#: ../package/FlashGBX/FlashGBX_GUI.py:1767
+#: ../package/FlashGBX/FlashGBX_GUI.py:1779
 #, python-brace-format
 msgid ""
 "A data loop was detected in the ROM backup at position {pos} ({size}). This "
@@ -697,8 +693,8 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:466
 #: ../package/FlashGBX/FlashGBX_CLI.py:479
-#: ../package/FlashGBX/FlashGBX_GUI.py:1726
-#: ../package/FlashGBX/FlashGBX_GUI.py:1766
+#: ../package/FlashGBX/FlashGBX_GUI.py:1729
+#: ../package/FlashGBX/FlashGBX_GUI.py:1769
 msgid ""
 "This may indicate a bad dump, however this can be normal for some "
 "reproduction cartridges, unlicensed games, prototypes, patched games and "
@@ -706,14 +702,14 @@ msgid ""
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:475
-#: ../package/FlashGBX/FlashGBX_GUI.py:1762
+#: ../package/FlashGBX/FlashGBX_GUI.py:1765
 msgid ""
 "The ROM backup is complete, but the checksum doesn’t match the known "
 "database entry."
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:482
-#: ../package/FlashGBX/FlashGBX_GUI.py:1774
+#: ../package/FlashGBX/FlashGBX_GUI.py:1777
 msgid ""
 "The ROM backup is complete! As there is no known checksum for this ROM in "
 "the database, verification was skipped."
@@ -724,12 +720,12 @@ msgid "The pictures were extracted."
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:527
-#: ../package/FlashGBX/FlashGBX_GUI.py:1820
+#: ../package/FlashGBX/FlashGBX_GUI.py:1823
 msgid "The save data backup is complete!"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:532
-#: ../package/FlashGBX/FlashGBX_GUI.py:1829
+#: ../package/FlashGBX/FlashGBX_GUI.py:1832
 msgid "The save data was erased."
 msgstr ""
 
@@ -749,29 +745,29 @@ msgid ""
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:591
-#: ../package/FlashGBX/FlashGBX_GUI.py:1490
+#: ../package/FlashGBX/FlashGBX_GUI.py:1493
 #, python-brace-format
 msgid "Current firmware version: {fw_version}"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:627
-#: ../package/FlashGBX/FlashGBX_GUI.py:1167
+#: ../package/FlashGBX/FlashGBX_GUI.py:1170
 #, python-brace-format
 msgid "Disconnected from {device_name}"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:643
 #: ../package/FlashGBX/FlashGBX_CLI.py:719
-#: ../package/FlashGBX/FlashGBX_GUI.py:602
-#: ../package/FlashGBX/FlashGBX_GUI.py:615
+#: ../package/FlashGBX/FlashGBX_GUI.py:605
+#: ../package/FlashGBX/FlashGBX_GUI.py:618
 msgid "Game Name:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:645
 #: ../package/FlashGBX/FlashGBX_CLI.py:721
-#: ../package/FlashGBX/FlashGBX_GUI.py:603
-#: ../package/FlashGBX/FlashGBX_GUI.py:616
-#: ../package/FlashGBX/FlashGBX_GUI.py:3680
+#: ../package/FlashGBX/FlashGBX_GUI.py:606
+#: ../package/FlashGBX/FlashGBX_GUI.py:619
+#: ../package/FlashGBX/FlashGBX_GUI.py:3688
 msgid "ROM Title:"
 msgstr ""
 
@@ -779,9 +775,9 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_CLI.py:650
 #: ../package/FlashGBX/FlashGBX_CLI.py:724
 #: ../package/FlashGBX/FlashGBX_CLI.py:726
-#: ../package/FlashGBX/FlashGBX_GUI.py:604
-#: ../package/FlashGBX/FlashGBX_GUI.py:617
-#: ../package/FlashGBX/FlashGBX_GUI.py:3325
+#: ../package/FlashGBX/FlashGBX_GUI.py:607
+#: ../package/FlashGBX/FlashGBX_GUI.py:620
+#: ../package/FlashGBX/FlashGBX_GUI.py:3331
 msgid "Game Code and Revision:"
 msgstr ""
 
@@ -790,23 +786,23 @@ msgid "Revision:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:658
-#: ../package/FlashGBX/FlashGBX_GUI.py:448
+#: ../package/FlashGBX/FlashGBX_GUI.py:451
 msgid "Game Boy Color exclusive"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:660
-#: ../package/FlashGBX/FlashGBX_GUI.py:463
+#: ../package/FlashGBX/FlashGBX_GUI.py:466
 msgid "Game Boy Color"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:662
-#: ../package/FlashGBX/FlashGBX_GUI.py:473
+#: ../package/FlashGBX/FlashGBX_GUI.py:476
 #: ../package/FlashGBX/PocketCameraWindow.py:68
 msgid "Super Game Boy"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:664
-#: ../package/FlashGBX/FlashGBX_GUI.py:483
+#: ../package/FlashGBX/FlashGBX_GUI.py:486
 #: ../package/FlashGBX/PocketCameraWindow.py:67
 msgid "Original Game Boy"
 msgstr ""
@@ -817,8 +813,8 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:667
 #: ../package/FlashGBX/FlashGBX_CLI.py:728
-#: ../package/FlashGBX/FlashGBX_GUI.py:605
-#: ../package/FlashGBX/FlashGBX_GUI.py:618
+#: ../package/FlashGBX/FlashGBX_GUI.py:608
+#: ../package/FlashGBX/FlashGBX_GUI.py:621
 msgid "Real Time Clock:"
 msgstr ""
 
@@ -826,14 +822,14 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_CLI.py:675
 #: ../package/FlashGBX/FlashGBX_CLI.py:731
 #: ../package/FlashGBX/FlashGBX_CLI.py:736
-#: ../package/FlashGBX/FlashGBX_GUI.py:606
-#: ../package/FlashGBX/FlashGBX_GUI.py:619
+#: ../package/FlashGBX/FlashGBX_GUI.py:609
+#: ../package/FlashGBX/FlashGBX_GUI.py:622
 msgid "Boot Logo:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:670
 #: ../package/FlashGBX/FlashGBX_CLI.py:731
-#: ../package/FlashGBX/FlashGBX_GUI.py:3352
+#: ../package/FlashGBX/FlashGBX_GUI.py:3358
 msgctxt "Game Data"
 msgid "OK"
 msgstr ""
@@ -841,31 +837,31 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_CLI.py:675
 #: ../package/FlashGBX/FlashGBX_CLI.py:736
 #: ../package/FlashGBX/FlashGBX_CLI.py:742
-#: ../package/FlashGBX/FlashGBX_GUI.py:1719
-#: ../package/FlashGBX/FlashGBX_GUI.py:1759
-#: ../package/FlashGBX/FlashGBX_GUI.py:3358
-#: ../package/FlashGBX/FlashGBX_GUI.py:3477
-#: ../package/FlashGBX/FlashGBX_GUI.py:3493
+#: ../package/FlashGBX/FlashGBX_GUI.py:1722
+#: ../package/FlashGBX/FlashGBX_GUI.py:1762
+#: ../package/FlashGBX/FlashGBX_GUI.py:3364
+#: ../package/FlashGBX/FlashGBX_GUI.py:3483
+#: ../package/FlashGBX/FlashGBX_GUI.py:3499
 msgctxt "Game Data"
 msgid "Invalid"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:678
 #: ../package/FlashGBX/FlashGBX_CLI.py:763
-#: ../package/FlashGBX/FlashGBX_GUI.py:607
-#: ../package/FlashGBX/FlashGBX_GUI.py:621
+#: ../package/FlashGBX/FlashGBX_GUI.py:610
+#: ../package/FlashGBX/FlashGBX_GUI.py:624
 msgid "ROM Checksum:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:681
 #: ../package/FlashGBX/FlashGBX_CLI.py:683
 #: ../package/FlashGBX/FlashGBX_CLI.py:764
-#: ../package/FlashGBX/FlashGBX_CLI.py:868
 #: ../package/FlashGBX/FlashGBX_CLI.py:871
-#: ../package/FlashGBX/FlashGBX_GUI.py:608
-#: ../package/FlashGBX/FlashGBX_GUI.py:622
-#: ../package/FlashGBX/FlashGBX_GUI.py:3741
-#: ../package/FlashGBX/FlashGBX_GUI.py:3744
+#: ../package/FlashGBX/FlashGBX_CLI.py:874
+#: ../package/FlashGBX/FlashGBX_GUI.py:611
+#: ../package/FlashGBX/FlashGBX_GUI.py:625
+#: ../package/FlashGBX/FlashGBX_GUI.py:3749
+#: ../package/FlashGBX/FlashGBX_GUI.py:3752
 msgid "ROM Size:"
 msgstr ""
 
@@ -878,29 +874,29 @@ msgid "Not detected"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:701
-#: ../package/FlashGBX/FlashGBX_CLI.py:780
-#: ../package/FlashGBX/FlashGBX_CLI.py:849
-#: ../package/FlashGBX/FlashGBX_CLI.py:851
+#: ../package/FlashGBX/FlashGBX_CLI.py:783
+#: ../package/FlashGBX/FlashGBX_CLI.py:852
 #: ../package/FlashGBX/FlashGBX_CLI.py:854
-#: ../package/FlashGBX/FlashGBX_CLI.py:856
-#: ../package/FlashGBX/FlashGBX_GUI.py:609
-#: ../package/FlashGBX/FlashGBX_GUI.py:623
-#: ../package/FlashGBX/FlashGBX_GUI.py:3712
-#: ../package/FlashGBX/FlashGBX_GUI.py:3714
-#: ../package/FlashGBX/FlashGBX_GUI.py:3717
-#: ../package/FlashGBX/FlashGBX_GUI.py:3719
+#: ../package/FlashGBX/FlashGBX_CLI.py:857
+#: ../package/FlashGBX/FlashGBX_CLI.py:859
+#: ../package/FlashGBX/FlashGBX_GUI.py:612
+#: ../package/FlashGBX/FlashGBX_GUI.py:626
+#: ../package/FlashGBX/FlashGBX_GUI.py:3720
+#: ../package/FlashGBX/FlashGBX_GUI.py:3722
+#: ../package/FlashGBX/FlashGBX_GUI.py:3725
+#: ../package/FlashGBX/FlashGBX_GUI.py:3727
 msgid "Save Type:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:704
 #: ../package/FlashGBX/FlashGBX_CLI.py:706
-#: ../package/FlashGBX/FlashGBX_CLI.py:876
-#: ../package/FlashGBX/FlashGBX_CLI.py:878
-#: ../package/FlashGBX/FlashGBX_CLI.py:880
-#: ../package/FlashGBX/FlashGBX_GUI.py:610
-#: ../package/FlashGBX/FlashGBX_GUI.py:3749
-#: ../package/FlashGBX/FlashGBX_GUI.py:3751
-#: ../package/FlashGBX/FlashGBX_GUI.py:3753
+#: ../package/FlashGBX/FlashGBX_CLI.py:879
+#: ../package/FlashGBX/FlashGBX_CLI.py:881
+#: ../package/FlashGBX/FlashGBX_CLI.py:883
+#: ../package/FlashGBX/FlashGBX_GUI.py:613
+#: ../package/FlashGBX/FlashGBX_GUI.py:3757
+#: ../package/FlashGBX/FlashGBX_GUI.py:3759
+#: ../package/FlashGBX/FlashGBX_GUI.py:3761
 msgid "Mapper Type:"
 msgstr ""
 
@@ -914,50 +910,50 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:740
 #: ../package/FlashGBX/FlashGBX_CLI.py:742
-#: ../package/FlashGBX/FlashGBX_GUI.py:620
+#: ../package/FlashGBX/FlashGBX_GUI.py:623
 msgid "Header Checksum:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:740
-#: ../package/FlashGBX/FlashGBX_GUI.py:1706
-#: ../package/FlashGBX/FlashGBX_GUI.py:1752
-#: ../package/FlashGBX/FlashGBX_GUI.py:3490
+#: ../package/FlashGBX/FlashGBX_GUI.py:1709
+#: ../package/FlashGBX/FlashGBX_GUI.py:1755
+#: ../package/FlashGBX/FlashGBX_GUI.py:3496
 msgctxt "Game Data"
 msgid "Valid"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:750
-#: ../package/FlashGBX/FlashGBX_GUI.py:3504
+#: ../package/FlashGBX/FlashGBX_GUI.py:3510
 msgctxt "Game Data"
 msgid "In database"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:754
 #: ../package/FlashGBX/FlashGBX_CLI.py:759
-#: ../package/FlashGBX/FlashGBX_CLI.py:779
+#: ../package/FlashGBX/FlashGBX_CLI.py:782
 msgctxt "Game Data"
 msgid "No database entry"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:783
+#: ../package/FlashGBX/FlashGBX_CLI.py:786
 #, python-brace-format
 msgid ""
 "Warning: This cartridge uses a mapper that may not be completely supported "
 "yet. A future version of the {device_name} firmware may add support for it."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:793
+#: ../package/FlashGBX/FlashGBX_CLI.py:796
 msgid "Now attempting to auto-detect the flashcart profile..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:795
+#: ../package/FlashGBX/FlashGBX_CLI.py:798
 msgid ""
 "The cartridge connection is unstable!\n"
 "Please clean the cartridge pins, carefully re-align the cartridge and then "
 "try again."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:798
+#: ../package/FlashGBX/FlashGBX_CLI.py:801
 #, python-brace-format
 msgid ""
 "No flashcart profile configuration files found. Try to restart the "
@@ -965,171 +961,171 @@ msgid ""
 "configuration."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:806
+#: ../package/FlashGBX/FlashGBX_CLI.py:809
 msgid "Cartridge detection failed."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:828
-#: ../package/FlashGBX/FlashGBX_GUI.py:3669
+#: ../package/FlashGBX/FlashGBX_CLI.py:831
+#: ../package/FlashGBX/FlashGBX_GUI.py:3677
 msgctxt "Flashcart Profile List “- PROFILE NAME ← selected”"
 msgid "selected"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:835
-#: ../package/FlashGBX/FlashGBX_GUI.py:3821
+#: ../package/FlashGBX/FlashGBX_CLI.py:838
+#: ../package/FlashGBX/FlashGBX_GUI.py:3829
 msgid "Game Title:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:851
-#: ../package/FlashGBX/FlashGBX_GUI.py:3714
+#: ../package/FlashGBX/FlashGBX_CLI.py:854
+#: ../package/FlashGBX/FlashGBX_GUI.py:3722
 msgctxt "Save Type"
 msgid "None or unknown (no save data detected)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:854
-#: ../package/FlashGBX/FlashGBX_GUI.py:3717
+#: ../package/FlashGBX/FlashGBX_CLI.py:857
+#: ../package/FlashGBX/FlashGBX_GUI.py:3725
 msgctxt "Save Data Access"
 msgid "not stable or not battery-backed"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:864
-#: ../package/FlashGBX/FlashGBX_CLI.py:884
-#: ../package/FlashGBX/FlashGBX_CLI.py:908
-#: ../package/FlashGBX/FlashGBX_GUI.py:3733
-#: ../package/FlashGBX/FlashGBX_GUI.py:3735
-#: ../package/FlashGBX/FlashGBX_GUI.py:3757
-#: ../package/FlashGBX/FlashGBX_GUI.py:3780
+#: ../package/FlashGBX/FlashGBX_CLI.py:867
+#: ../package/FlashGBX/FlashGBX_CLI.py:887
+#: ../package/FlashGBX/FlashGBX_CLI.py:911
+#: ../package/FlashGBX/FlashGBX_GUI.py:3741
+#: ../package/FlashGBX/FlashGBX_GUI.py:3743
+#: ../package/FlashGBX/FlashGBX_GUI.py:3765
+#: ../package/FlashGBX/FlashGBX_GUI.py:3788
 msgid "Flashcart Profile:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:864
+#: ../package/FlashGBX/FlashGBX_CLI.py:867
 msgid "Supported flash cartridge – compatible with:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:876
-#: ../package/FlashGBX/FlashGBX_GUI.py:3749
+#: ../package/FlashGBX/FlashGBX_CLI.py:879
+#: ../package/FlashGBX/FlashGBX_GUI.py:3757
 msgid "Manual selection"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:880
-#: ../package/FlashGBX/FlashGBX_GUI.py:3753
+#: ../package/FlashGBX/FlashGBX_CLI.py:883
+#: ../package/FlashGBX/FlashGBX_GUI.py:3761
 msgctxt "Mapper Type"
 msgid "Default"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:884
-#: ../package/FlashGBX/FlashGBX_GUI.py:3757
+#: ../package/FlashGBX/FlashGBX_CLI.py:887
+#: ../package/FlashGBX/FlashGBX_GUI.py:3765
 msgid "Unknown flash cartridge"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:905
+#: ../package/FlashGBX/FlashGBX_CLI.py:908
 #, python-brace-format
 msgid ""
 "For ROM writing, you can give the option called “{try_this}” a try at your "
 "own risk."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:908
+#: ../package/FlashGBX/FlashGBX_CLI.py:911
 msgctxt "Flashcart Profile"
 msgid "not rewritable or not auto-detectable"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:910
-#: ../package/FlashGBX/FlashGBX_GUI.py:3787
+#: ../package/FlashGBX/FlashGBX_CLI.py:913
+#: ../package/FlashGBX/FlashGBX_GUI.py:3795
 msgid "Flash ID Check:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:913
-#: ../package/FlashGBX/FlashGBX_CLI.py:915
-#: ../package/FlashGBX/FlashGBX_GUI.py:3791
-#: ../package/FlashGBX/FlashGBX_GUI.py:3793
+#: ../package/FlashGBX/FlashGBX_CLI.py:916
+#: ../package/FlashGBX/FlashGBX_CLI.py:918
+#: ../package/FlashGBX/FlashGBX_GUI.py:3799
+#: ../package/FlashGBX/FlashGBX_GUI.py:3801
 #, python-brace-format
 msgid "{common_flash_interface} Data:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:915
+#: ../package/FlashGBX/FlashGBX_CLI.py:918
 msgctxt "Common Flash Interface Data"
 msgid "No data provided"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:917
-#: ../package/FlashGBX/FlashGBX_GUI.py:3823
+#: ../package/FlashGBX/FlashGBX_CLI.py:920
+#: ../package/FlashGBX/FlashGBX_GUI.py:3831
 msgid "The following cartridge configuration was detected:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:934
-#: ../package/FlashGBX/FlashGBX_CLI.py:1243
+#: ../package/FlashGBX/FlashGBX_CLI.py:937
+#: ../package/FlashGBX/FlashGBX_CLI.py:1246
 #, python-brace-format
 msgid ""
 "Couldn’t determine mapper type, will try to use MBC5. It can also be "
 "manually set with the “{switch}” command line switch."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:955
+#: ../package/FlashGBX/FlashGBX_CLI.py:958
 #, python-brace-format
 msgid ""
 "Couldn’t determine ROM size, will use 8{mib}. It can also be manually set "
 "with the “{switch}” command line switch."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:974
-#: ../package/FlashGBX/FlashGBX_CLI.py:1323
-#: ../package/FlashGBX/FlashGBX_CLI.py:1542
+#: ../package/FlashGBX/FlashGBX_CLI.py:977
+#: ../package/FlashGBX/FlashGBX_CLI.py:1326
+#: ../package/FlashGBX/FlashGBX_CLI.py:1545
 #, python-brace-format
 msgid ""
 "The target file “{file_path}” already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:984
-#: ../package/FlashGBX/FlashGBX_CLI.py:1102
-#: ../package/FlashGBX/FlashGBX_CLI.py:1383
-#: ../package/FlashGBX/FlashGBX_CLI.py:1551
-#: ../package/FlashGBX/FlashGBX_CLI.py:1574
+#: ../package/FlashGBX/FlashGBX_CLI.py:987
+#: ../package/FlashGBX/FlashGBX_CLI.py:1105
+#: ../package/FlashGBX/FlashGBX_CLI.py:1386
+#: ../package/FlashGBX/FlashGBX_CLI.py:1554
+#: ../package/FlashGBX/FlashGBX_CLI.py:1577
 #, python-brace-format
 msgid "Couldn’t access file “{path}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:987
-#: ../package/FlashGBX/FlashGBX_CLI.py:1105
-#: ../package/FlashGBX/FlashGBX_CLI.py:1386
+#: ../package/FlashGBX/FlashGBX_CLI.py:990
+#: ../package/FlashGBX/FlashGBX_CLI.py:1108
+#: ../package/FlashGBX/FlashGBX_CLI.py:1389
 #, python-brace-format
 msgid "Couldn’t find file “{path}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:990
+#: ../package/FlashGBX/FlashGBX_CLI.py:993
 #, python-brace-format
 msgid "The ROM will now be read and saved to “{path}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:993
-#: ../package/FlashGBX/FlashGBX_CLI.py:1203
-#: ../package/FlashGBX/FlashGBX_CLI.py:1348
+#: ../package/FlashGBX/FlashGBX_CLI.py:996
+#: ../package/FlashGBX/FlashGBX_CLI.py:1206
+#: ../package/FlashGBX/FlashGBX_CLI.py:1351
 #, python-brace-format
 msgid "Mapper Type “{mapper_type}” is used."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:995
-#: ../package/FlashGBX/FlashGBX_CLI.py:1205
-#: ../package/FlashGBX/FlashGBX_CLI.py:1350
+#: ../package/FlashGBX/FlashGBX_CLI.py:998
+#: ../package/FlashGBX/FlashGBX_CLI.py:1208
+#: ../package/FlashGBX/FlashGBX_CLI.py:1353
 #, python-brace-format
 msgid "Mapper Type {mapper_type_value} is used."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1013
-#: ../package/FlashGBX/FlashGBX_CLI.py:1023
-#: ../package/FlashGBX/FlashGBX_CLI.py:1029
-#: ../package/FlashGBX/FlashGBX_CLI.py:1052
-#: ../package/FlashGBX/FlashGBX_CLI.py:1633
+#: ../package/FlashGBX/FlashGBX_CLI.py:1016
+#: ../package/FlashGBX/FlashGBX_CLI.py:1026
+#: ../package/FlashGBX/FlashGBX_CLI.py:1032
+#: ../package/FlashGBX/FlashGBX_CLI.py:1055
+#: ../package/FlashGBX/FlashGBX_CLI.py:1636
 #, python-brace-format
 msgid "Selected flashcart profile: {profile}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1018
+#: ../package/FlashGBX/FlashGBX_CLI.py:1021
 msgid "Error: Couldn’t select the flashcart profile."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1062
+#: ../package/FlashGBX/FlashGBX_CLI.py:1065
 #, python-brace-format
 msgid ""
 "If your flash cartridge requires 5V to work, you can use the “{switch}” "
@@ -1137,16 +1133,16 @@ msgid ""
 "flash chips."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1063
-#: ../package/FlashGBX/FlashGBX_CLI.py:1640
+#: ../package/FlashGBX/FlashGBX_CLI.py:1066
+#: ../package/FlashGBX/FlashGBX_CLI.py:1643
 #, python-brace-format
 msgid ""
 "Auto-detection failed. Please use the “{switch}” command line switch to "
 "select the flashcart profile manually."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1067
-#: ../package/FlashGBX/FlashGBX_CLI.py:1635
+#: ../package/FlashGBX/FlashGBX_CLI.py:1070
+#: ../package/FlashGBX/FlashGBX_CLI.py:1638
 #, python-brace-format
 msgid ""
 "Couldn’t find the selected flashcart profile “{profile}”. Please make sure "
@@ -1154,22 +1150,22 @@ msgid ""
 "configuration files located in {config_path}."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1071
+#: ../package/FlashGBX/FlashGBX_CLI.py:1074
 msgid "No ROM file for writing was selected."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1078
-#: ../package/FlashGBX/FlashGBX_GUI.py:2090
+#: ../package/FlashGBX/FlashGBX_CLI.py:1081
+#: ../package/FlashGBX/FlashGBX_GUI.py:2093
 #, python-brace-format
 msgid "ROM files bigger than 512{mib} are not supported."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1081
+#: ../package/FlashGBX/FlashGBX_CLI.py:1084
 #, python-brace-format
 msgid "ROM files smaller than 1{kib} are not supported."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1094
+#: ../package/FlashGBX/FlashGBX_CLI.py:1097
 #, python-brace-format
 msgid ""
 "The selected flashcart profile seems to support ROMs that are up to "
@@ -1178,16 +1174,16 @@ msgid ""
 "writing to fail."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1095
-#: ../package/FlashGBX/FlashGBX_CLI.py:1210
-#: ../package/FlashGBX/FlashGBX_CLI.py:1589
-#: ../package/FlashGBX/FlashGBX_GUI.py:2230
-#: ../package/FlashGBX/FlashGBX_GUI.py:2844
+#: ../package/FlashGBX/FlashGBX_CLI.py:1098
+#: ../package/FlashGBX/FlashGBX_CLI.py:1213
+#: ../package/FlashGBX/FlashGBX_CLI.py:1592
+#: ../package/FlashGBX/FlashGBX_GUI.py:2233
+#: ../package/FlashGBX/FlashGBX_GUI.py:2847
 #: ../package/FlashGBX/hw_GBxCartRW.py:928 ../package/FlashGBX/hw_JoeyJr.py:725
 msgid "Do you want to continue?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1115
+#: ../package/FlashGBX/FlashGBX_CLI.py:1118
 #, python-brace-format
 msgid ""
 "The selected flashcart profile usually flashes fine with 3.3V, however "
@@ -1195,194 +1191,194 @@ msgid ""
 "if necessary. Please note that 5V can be unsafe for some flash chips."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1124
+#: ../package/FlashGBX/FlashGBX_CLI.py:1127
 #, python-brace-format
 msgid ""
 "This flash cartridge supports both Sector Erase and Full Chip Erase methods. "
 "You can use the “{switch}” command line switch if necessary."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1172
-#: ../package/FlashGBX/FlashGBX_GUI.py:2172
+#: ../package/FlashGBX/FlashGBX_CLI.py:1175
+#: ../package/FlashGBX/FlashGBX_GUI.py:2175
 msgid ""
 "Warning: The ROM file you selected will not boot on actual hardware due to "
 "invalid boot logo data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1183
+#: ../package/FlashGBX/FlashGBX_CLI.py:1186
 msgid "Fix the boot logo before continuing?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1188
+#: ../package/FlashGBX/FlashGBX_CLI.py:1191
 msgid "Couldn’t find boot logo file in configuration folder."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1191
+#: ../package/FlashGBX/FlashGBX_CLI.py:1194
 #, python-brace-format
 msgid ""
 "Warning: The ROM file you selected will not boot on actual hardware due to "
 "an invalid header checksum (expected {expected} instead of {actual})."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1192
+#: ../package/FlashGBX/FlashGBX_CLI.py:1195
 msgid "Fix the header checksum before continuing?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1200
+#: ../package/FlashGBX/FlashGBX_CLI.py:1203
 #, python-brace-format
 msgid ""
 "The following ROM file will now be written to the flash cartridge at "
 "{voltage}V:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1209
-#: ../package/FlashGBX/FlashGBX_CLI.py:1588
-#: ../package/FlashGBX/FlashGBX_GUI.py:2230
-#: ../package/FlashGBX/FlashGBX_GUI.py:2844
+#: ../package/FlashGBX/FlashGBX_CLI.py:1212
+#: ../package/FlashGBX/FlashGBX_CLI.py:1591
+#: ../package/FlashGBX/FlashGBX_GUI.py:2233
+#: ../package/FlashGBX/FlashGBX_GUI.py:2847
 msgid ""
 "Warning: A 3.3V flashcart profile is selected, but your device is fixed to a "
 "5V supply in Game Boy mode. Writing to a 3.3V flash chip at 5V may cause "
 "overvoltage issues."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1282
+#: ../package/FlashGBX/FlashGBX_CLI.py:1285
 #, python-brace-format
 msgid ""
 "Unable to auto-detect the save size. Please use the “{switch}” command line "
 "switch to manually select it."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1298
+#: ../package/FlashGBX/FlashGBX_CLI.py:1301
 #, python-brace-format
 msgid ""
 "Unable to auto-detect the save type. Please use the “{switch}” command line "
 "switch to manually select it."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1328
+#: ../package/FlashGBX/FlashGBX_CLI.py:1331
 msgid ""
 "The cartridge save data will now be read and saved to the following file:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1331
+#: ../package/FlashGBX/FlashGBX_CLI.py:1334
 msgid ""
 "Do you want to overwrite the existing save data that’s currently on the "
 "cartridge?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1335
-#: ../package/FlashGBX/FlashGBX_GUI.py:2473
+#: ../package/FlashGBX/FlashGBX_CLI.py:1338
+#: ../package/FlashGBX/FlashGBX_GUI.py:2476
 msgid "The following save data file will now be written to the cartridge:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1338
+#: ../package/FlashGBX/FlashGBX_CLI.py:1341
 msgid "Do you really want to erase the save data from the cartridge?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1342
+#: ../package/FlashGBX/FlashGBX_CLI.py:1345
 msgid "The cartridge save data will now be erased from the cartridge."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1344
+#: ../package/FlashGBX/FlashGBX_CLI.py:1347
 msgid "The cartridge save data size will now be examined."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1344
+#: ../package/FlashGBX/FlashGBX_CLI.py:1347
 msgid "Note: This is for debug use only."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1356
-#: ../package/FlashGBX/FlashGBX_GUI.py:2520
-#: ../package/FlashGBX/FlashGBX_GUI.py:2558
+#: ../package/FlashGBX/FlashGBX_CLI.py:1359
+#: ../package/FlashGBX/FlashGBX_GUI.py:2523
+#: ../package/FlashGBX/FlashGBX_GUI.py:2561
 msgid "This cartridge is not supported in Legacy Mode."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1364
+#: ../package/FlashGBX/FlashGBX_CLI.py:1367
 msgid "Note: Keeping existing e-Reader calibration data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1367
+#: ../package/FlashGBX/FlashGBX_CLI.py:1370
 msgid "Note: Overwriting existing e-Reader calibration data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1369
+#: ../package/FlashGBX/FlashGBX_CLI.py:1372
 msgid "Note: No existing e-Reader calibration data found."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1370
+#: ../package/FlashGBX/FlashGBX_CLI.py:1373
 #, python-brace-format
 msgid "Using Save Type “{save_type}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1373
+#: ../package/FlashGBX/FlashGBX_CLI.py:1376
 msgid ""
 "Real Time Clock register values will also be written if applicable/possible."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1404
+#: ../package/FlashGBX/FlashGBX_CLI.py:1407
 msgid "Making a backup of the original save data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1408
+#: ../package/FlashGBX/FlashGBX_CLI.py:1411
 msgid "Writing random data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1413
+#: ../package/FlashGBX/FlashGBX_CLI.py:1416
 msgid "Reading back and comparing data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1418
+#: ../package/FlashGBX/FlashGBX_CLI.py:1421
 msgid "Power cycling."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1424
+#: ../package/FlashGBX/FlashGBX_CLI.py:1427
 msgid "Reading back and comparing data again."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1428
+#: ../package/FlashGBX/FlashGBX_CLI.py:1431
 msgid "Restoring original save data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1442
+#: ../package/FlashGBX/FlashGBX_CLI.py:1445
 msgid "Differences found:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1447
+#: ../package/FlashGBX/FlashGBX_CLI.py:1450
 msgid "Differences found between two consecutive readbacks:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1453
+#: ../package/FlashGBX/FlashGBX_CLI.py:1456
 #, python-brace-format
 msgid ""
 "It was not possible to save any data to the cartridge using save type "
 "“{save_type}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1455
+#: ../package/FlashGBX/FlashGBX_CLI.py:1458
 msgid "It was not possible to save any data to the cartridge."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1466
+#: ../package/FlashGBX/FlashGBX_CLI.py:1469
 #, python-brace-format
 msgid ""
 "Done! The writable save data size is {data_writable} out of {data_checked} "
 "checked."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1468
+#: ../package/FlashGBX/FlashGBX_CLI.py:1471
 #, python-brace-format
 msgid ""
 "Done! The writable save data size using save type “{save_type}” is "
 "{data_writable}."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1482
-#: ../package/FlashGBX/FlashGBX_CLI.py:1489
+#: ../package/FlashGBX/FlashGBX_CLI.py:1485
+#: ../package/FlashGBX/FlashGBX_CLI.py:1492
 #, python-brace-format
 msgid "Invalid value for {switch}: {value}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1510
+#: ../package/FlashGBX/FlashGBX_CLI.py:1513
 #, python-brace-format
 msgid ""
 "Batteryless SRAM offset and size could not be auto-detected. Use the "
@@ -1390,71 +1386,71 @@ msgid ""
 "manually."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1524
-#: ../package/FlashGBX/FlashGBX_GUI.py:2495
+#: ../package/FlashGBX/FlashGBX_CLI.py:1527
+#: ../package/FlashGBX/FlashGBX_GUI.py:2498
 msgid "Stress test is not supported for this save type."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1533
+#: ../package/FlashGBX/FlashGBX_CLI.py:1536
 msgid "Batteryless SRAM Mode"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1534
-#: ../package/FlashGBX/FlashGBX_GUI.py:2963
+#: ../package/FlashGBX/FlashGBX_CLI.py:1537
+#: ../package/FlashGBX/FlashGBX_GUI.py:2966
 msgid "Location:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1536
-#: ../package/FlashGBX/FlashGBX_GUI.py:2969
+#: ../package/FlashGBX/FlashGBX_CLI.py:1539
+#: ../package/FlashGBX/FlashGBX_GUI.py:2972
 msgid "Continuous"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1536
-#: ../package/FlashGBX/FlashGBX_GUI.py:2969
+#: ../package/FlashGBX/FlashGBX_CLI.py:1539
+#: ../package/FlashGBX/FlashGBX_GUI.py:2972
 msgid "First half of ROM bank"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1536
-#: ../package/FlashGBX/FlashGBX_GUI.py:2969
+#: ../package/FlashGBX/FlashGBX_CLI.py:1539
+#: ../package/FlashGBX/FlashGBX_GUI.py:2972
 msgid "Second half of ROM bank"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1537
-#: ../package/FlashGBX/FlashGBX_GUI.py:2969
+#: ../package/FlashGBX/FlashGBX_CLI.py:1540
+#: ../package/FlashGBX/FlashGBX_GUI.py:2972
 msgid "Layout:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1547
+#: ../package/FlashGBX/FlashGBX_CLI.py:1550
 msgid ""
 "The Batteryless SRAM save data will now be read and saved to the following "
 "file:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1566
+#: ../package/FlashGBX/FlashGBX_CLI.py:1569
 msgid ""
 "Do you want to overwrite the existing Batteryless SRAM save data on the "
 "cartridge?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1570
+#: ../package/FlashGBX/FlashGBX_CLI.py:1573
 msgid ""
 "The following save data file will now be written to the cartridge’s "
 "Batteryless SRAM region:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1578
+#: ../package/FlashGBX/FlashGBX_CLI.py:1581
 msgid ""
 "Do you really want to erase the Batteryless SRAM save data from the "
 "cartridge?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1582
+#: ../package/FlashGBX/FlashGBX_CLI.py:1585
 msgid "The Batteryless SRAM save data will now be erased from the cartridge."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1655
-#: ../package/FlashGBX/FlashGBX_CLI.py:1739
-#: ../package/FlashGBX/FlashGBX_CLI.py:1812
+#: ../package/FlashGBX/FlashGBX_CLI.py:1658
+#: ../package/FlashGBX/FlashGBX_CLI.py:1742
+#: ../package/FlashGBX/FlashGBX_CLI.py:1815
 #: ../package/FlashGBX/hw_GBFlash.py:479
 #: ../package/FlashGBX/hw_GBxCartRW.py:468
 #: ../package/FlashGBX/hw_GBxCartRW.py:737
@@ -1466,29 +1462,29 @@ msgstr ""
 msgid "Firmware Updater for {device_name}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1658
+#: ../package/FlashGBX/FlashGBX_CLI.py:1661
 msgid "Select your PCB version:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1659
-#: ../package/FlashGBX/FlashGBX_CLI.py:1829
+#: ../package/FlashGBX/FlashGBX_CLI.py:1662
+#: ../package/FlashGBX/FlashGBX_CLI.py:1832
 #, python-brace-format
 msgid "Enter number ({range}):"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1678
-#: ../package/FlashGBX/FlashGBX_CLI.py:1752
+#: ../package/FlashGBX/FlashGBX_CLI.py:1681
+#: ../package/FlashGBX/FlashGBX_CLI.py:1755
 msgid "Available firmware version:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1679
-#: ../package/FlashGBX/FlashGBX_CLI.py:1754
+#: ../package/FlashGBX/FlashGBX_CLI.py:1682
+#: ../package/FlashGBX/FlashGBX_CLI.py:1757
 #: ../package/FlashGBX/hw_GBFlash.py:629
 #: ../package/FlashGBX/hw_GBxCartRW.py:652
 msgid "Please follow these steps to proceed with the firmware update:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1681
+#: ../package/FlashGBX/FlashGBX_CLI.py:1684
 #, python-brace-format
 msgid ""
 "- Disconnect the USB cable of your GBxCart RW.\n"
@@ -1498,30 +1494,30 @@ msgid ""
 "- If done right, the green LED labeled “{led}” should remain lit."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1687
-#: ../package/FlashGBX/FlashGBX_CLI.py:1759
+#: ../package/FlashGBX/FlashGBX_CLI.py:1690
+#: ../package/FlashGBX/FlashGBX_CLI.py:1762
 msgid "- Press ENTER to continue."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1708
-#: ../package/FlashGBX/FlashGBX_CLI.py:1781
-#: ../package/FlashGBX/FlashGBX_CLI.py:1859
+#: ../package/FlashGBX/FlashGBX_CLI.py:1711
+#: ../package/FlashGBX/FlashGBX_CLI.py:1784
+#: ../package/FlashGBX/FlashGBX_CLI.py:1862
 #, python-brace-format
 msgid "Using port {port}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1714
-#: ../package/FlashGBX/FlashGBX_CLI.py:1787
-#: ../package/FlashGBX/FlashGBX_CLI.py:1875
+#: ../package/FlashGBX/FlashGBX_CLI.py:1717
+#: ../package/FlashGBX/FlashGBX_CLI.py:1790
+#: ../package/FlashGBX/FlashGBX_CLI.py:1878
 #, python-brace-format
 msgid ""
 "Couldn’t access port {port}.\n"
 "Enter new port:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1725
-#: ../package/FlashGBX/FlashGBX_CLI.py:1798
-#: ../package/FlashGBX/FlashGBX_CLI.py:1887
+#: ../package/FlashGBX/FlashGBX_CLI.py:1728
+#: ../package/FlashGBX/FlashGBX_CLI.py:1801
+#: ../package/FlashGBX/FlashGBX_CLI.py:1890
 #: ../package/FlashGBX/hw_GBFlash.py:651
 #: ../package/FlashGBX/hw_GBxCartRW.py:674
 #: ../package/FlashGBX/hw_GBxCartRW.py:1241
@@ -1529,23 +1525,23 @@ msgstr ""
 msgid "The firmware update is complete!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1728
-#: ../package/FlashGBX/FlashGBX_CLI.py:1801
-#: ../package/FlashGBX/FlashGBX_CLI.py:1890
+#: ../package/FlashGBX/FlashGBX_CLI.py:1731
+#: ../package/FlashGBX/FlashGBX_CLI.py:1804
+#: ../package/FlashGBX/FlashGBX_CLI.py:1893
 msgid "Please re-install the application."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1742
+#: ../package/FlashGBX/FlashGBX_CLI.py:1745
 msgid "Supported revisions:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1753
+#: ../package/FlashGBX/FlashGBX_CLI.py:1756
 msgid ""
 "Note: Cloned GBFlash hardware often don’t come with a firmware update "
 "feature."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1755
+#: ../package/FlashGBX/FlashGBX_CLI.py:1758
 msgid ""
 "- Unplug your GBFlash device.\n"
 "- On your GBFlash circuit board, push and hold the small button (U22) while "
@@ -1553,345 +1549,345 @@ msgid ""
 "- If done right, the blue LED labeled “ACT” should now keep blinking twice."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1774
+#: ../package/FlashGBX/FlashGBX_CLI.py:1777
 #: ../package/FlashGBX/hw_GBFlash.py:361 ../package/FlashGBX/hw_GBFlash.py:375
 #: ../package/FlashGBX/hw_GBxCartRW.py:405 ../package/FlashGBX/hw_JoeyJr.py:773
 #: ../package/FlashGBX/hw_JoeyJr.py:780 ../package/FlashGBX/hw_JoeyJr.py:786
 msgid "No device found."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1824
+#: ../package/FlashGBX/FlashGBX_CLI.py:1827
 msgid "Select the firmware to install:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1825
+#: ../package/FlashGBX/FlashGBX_CLI.py:1828
 msgid "Lesserkuma’s FlashGBX firmware"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1826
+#: ../package/FlashGBX/FlashGBX_CLI.py:1829
 msgid "BennVenn’s Drag’n’Drop firmware"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1827
+#: ../package/FlashGBX/FlashGBX_CLI.py:1830
 msgid "BennVenn’s JoeyGUI firmware"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_CLI.py:1852
+#: ../package/FlashGBX/FlashGBX_CLI.py:1855
 msgid ""
 "No devices found. If your Joey Jr is running the Drag’n’Drop firmware, you "
 "will have to use the JoeyGUI software to update the firmware."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:601
+#: ../package/FlashGBX/FlashGBX_GUI.py:604
 msgid "Game Boy Cartridge Information"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:611
-#: ../package/FlashGBX/FlashGBX_GUI.py:624
+#: ../package/FlashGBX/FlashGBX_GUI.py:614
+#: ../package/FlashGBX/FlashGBX_GUI.py:627
 msgid "Profile:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:614
+#: ../package/FlashGBX/FlashGBX_GUI.py:617
 msgid "Game Boy Advance Cartridge Information"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:627
+#: ../package/FlashGBX/FlashGBX_GUI.py:630
 msgid "Functions"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:628
+#: ../package/FlashGBX/FlashGBX_GUI.py:631
 msgid "Plattform:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:629
+#: ../package/FlashGBX/FlashGBX_GUI.py:632
 msgctxt "Radio Button (& = Keyboard Shortcut)"
 msgid "&Game Boy"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:630
+#: ../package/FlashGBX/FlashGBX_GUI.py:633
 msgctxt "Radio Button (& = Keyboard Shortcut)"
 msgid "Game Boy &Advance"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:631
+#: ../package/FlashGBX/FlashGBX_GUI.py:634
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Refresh"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:632
+#: ../package/FlashGBX/FlashGBX_GUI.py:635
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Analyze &Flash Cart"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:633
+#: ../package/FlashGBX/FlashGBX_GUI.py:636
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Backup ROM"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:634
+#: ../package/FlashGBX/FlashGBX_GUI.py:637
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Backup &Save Data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:635
+#: ../package/FlashGBX/FlashGBX_GUI.py:638
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Write ROM"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:636
+#: ../package/FlashGBX/FlashGBX_GUI.py:639
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Writ&e Save Data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:637
+#: ../package/FlashGBX/FlashGBX_GUI.py:640
 msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "&Restore from save data file"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:638
+#: ../package/FlashGBX/FlashGBX_GUI.py:641
 msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "&Erase cartridge save data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:639
+#: ../package/FlashGBX/FlashGBX_GUI.py:642
 msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "Run stress &test"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:642
-#: ../package/FlashGBX/FlashGBX_GUI.py:1195
-#: ../package/FlashGBX/FlashGBX_GUI.py:2003
-#: ../package/FlashGBX/FlashGBX_GUI.py:2252
-#: ../package/FlashGBX/FlashGBX_GUI.py:2396
-#: ../package/FlashGBX/FlashGBX_GUI.py:2640
-#: ../package/FlashGBX/FlashGBX_GUI.py:2879
-#: ../package/FlashGBX/FlashGBX_GUI.py:3560
-#: ../package/FlashGBX/FlashGBX_GUI.py:3602
-#: ../package/FlashGBX/FlashGBX_GUI.py:3977
-#: ../package/FlashGBX/FlashGBX_GUI.py:3979
-#: ../package/FlashGBX/FlashGBX_GUI.py:3981
-#: ../package/FlashGBX/FlashGBX_GUI.py:3983
+#: ../package/FlashGBX/FlashGBX_GUI.py:645
+#: ../package/FlashGBX/FlashGBX_GUI.py:1198
+#: ../package/FlashGBX/FlashGBX_GUI.py:2006
+#: ../package/FlashGBX/FlashGBX_GUI.py:2255
+#: ../package/FlashGBX/FlashGBX_GUI.py:2399
+#: ../package/FlashGBX/FlashGBX_GUI.py:2643
+#: ../package/FlashGBX/FlashGBX_GUI.py:2882
+#: ../package/FlashGBX/FlashGBX_GUI.py:3568
+#: ../package/FlashGBX/FlashGBX_GUI.py:3610
 #: ../package/FlashGBX/FlashGBX_GUI.py:3985
 #: ../package/FlashGBX/FlashGBX_GUI.py:3987
 #: ../package/FlashGBX/FlashGBX_GUI.py:3989
-#: ../package/FlashGBX/FlashGBX_GUI.py:4113
+#: ../package/FlashGBX/FlashGBX_GUI.py:3991
+#: ../package/FlashGBX/FlashGBX_GUI.py:3993
+#: ../package/FlashGBX/FlashGBX_GUI.py:3995
+#: ../package/FlashGBX/FlashGBX_GUI.py:3997
+#: ../package/FlashGBX/FlashGBX_GUI.py:4121
 msgid "Transfer Status"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:643
+#: ../package/FlashGBX/FlashGBX_GUI.py:646
 msgid "Data transferred:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:644
+#: ../package/FlashGBX/FlashGBX_GUI.py:647
 msgid "Transfer rate:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:645
+#: ../package/FlashGBX/FlashGBX_GUI.py:648
 msgid "Time elapsed:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:646
-#: ../package/FlashGBX/FlashGBX_GUI.py:1423
-#: ../package/FlashGBX/FlashGBX_GUI.py:1902
-#: ../package/FlashGBX/FlashGBX_GUI.py:1907
-#: ../package/FlashGBX/FlashGBX_GUI.py:3559
-#: ../package/FlashGBX/FlashGBX_GUI.py:3859
-#: ../package/FlashGBX/FlashGBX_GUI.py:3919
-#: ../package/FlashGBX/FlashGBX_GUI.py:4246
+#: ../package/FlashGBX/FlashGBX_GUI.py:649
+#: ../package/FlashGBX/FlashGBX_GUI.py:1426
+#: ../package/FlashGBX/FlashGBX_GUI.py:1905
+#: ../package/FlashGBX/FlashGBX_GUI.py:1910
+#: ../package/FlashGBX/FlashGBX_GUI.py:3567
+#: ../package/FlashGBX/FlashGBX_GUI.py:3867
+#: ../package/FlashGBX/FlashGBX_GUI.py:3927
+#: ../package/FlashGBX/FlashGBX_GUI.py:4261
 #: ../package/FlashGBX/hw_GBxCartRW.py:833
 msgid "Ready."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:647
+#: ../package/FlashGBX/FlashGBX_GUI.py:650
 msgid "Stop"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:654
-#: ../package/FlashGBX/FlashGBX_GUI.py:655
-msgid "Click here to generate a log file for debugging"
-msgstr ""
-
+#: ../package/FlashGBX/FlashGBX_GUI.py:657
 #: ../package/FlashGBX/FlashGBX_GUI.py:658
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Tools"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:659
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Game Boy &Camera Album Viewer"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:660
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Interactive Console"
+msgid "Click here to generate a log file for debugging"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:661
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Firmware &Updater"
+msgid "&Tools"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:662
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "Game Boy &Camera Album Viewer"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:663
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "&Interactive Console"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:664
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Settings"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:665
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Check for &updates on application startup"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:666
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Append date && time to filename of save data backups"
+msgid "Firmware &Updater"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:667
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Prefer full &chip erase"
+msgid "&Settings"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:668
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Verify transferred data"
+msgid "Check for &updates on application startup"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:669
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Limit voltage when analyzing Game Boy carts"
+msgid "&Append date && time to filename of save data backups"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:670
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Limit &baud rate to 1Mbps"
+msgid "Prefer full &chip erase"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:671
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Always &generate ROM dump reports"
+msgid "&Verify transferred data"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:672
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Use &No-Intro file names"
+msgid "&Limit voltage when analyzing Game Boy carts"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:673
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Automatic cartridge &power off"
+msgid "Limit &baud rate to 1Mbps"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:674
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Skip writing matching ROM chunk&s"
+msgid "Always &generate ROM dump reports"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:675
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Alternative address set mode (can fix or cause write &errors)"
+msgid "Use &No-Intro file names"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:676
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Re-&enable suppressed messages"
+msgid "Automatic cartridge &power off"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:677
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "Skip writing matching ROM chunk&s"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:678
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "Alternative address set mode (can fix or cause write &errors)"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:679
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Read Method (Game Boy Advance)"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:680
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "S&tream"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:681
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Single"
+msgid "Re-&enable suppressed messages"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:682
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Read Method (Game Boy)"
+msgid "&Read Method (Game Boy Advance)"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:683
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Normal"
+msgid "S&tream"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:684
 msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "&Delayed"
+msgid "&Single"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:685
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "&Read Method (Game Boy)"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:686
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "&Normal"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:687
 msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "&Delayed"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:690
+msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "&Language"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:694
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "Third Party &Notices"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:695
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "About &Qt"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:696
-msgctxt "Menu Item (& = Keyboard Shortcut)"
-msgid "About Game &Database"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:697
 msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "Third Party &Notices"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:698
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "About &Qt"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:699
+msgctxt "Menu Item (& = Keyboard Shortcut)"
+msgid "About Game &Database"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:700
+msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "Licenses"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:701
+#: ../package/FlashGBX/FlashGBX_GUI.py:704
 msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "Open &config folder"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:702
+#: ../package/FlashGBX/FlashGBX_GUI.py:705
 msgctxt "Menu Item (& = Keyboard Shortcut)"
 msgid "About &FlashGBX"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:705
+#: ../package/FlashGBX/FlashGBX_GUI.py:708
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Options"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:710
-#: ../package/FlashGBX/FlashGBX_GUI.py:1186
+#: ../package/FlashGBX/FlashGBX_GUI.py:713
+#: ../package/FlashGBX/FlashGBX_GUI.py:1189
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Connect"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1051
-#: ../package/FlashGBX/FlashGBX_GUI.py:1079
+#: ../package/FlashGBX/FlashGBX_GUI.py:1054
+#: ../package/FlashGBX/FlashGBX_GUI.py:1082
 msgctxt "GitHub API Link"
 msgid "privacy policy"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1051
-#: ../package/FlashGBX/FlashGBX_GUI.py:1079
+#: ../package/FlashGBX/FlashGBX_GUI.py:1054
+#: ../package/FlashGBX/FlashGBX_GUI.py:1082
 #, python-brace-format
 msgid ""
 "Would you like to automatically check for new versions at application "
 "startup? This will make use of the GitHub API ({url})."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1079
+#: ../package/FlashGBX/FlashGBX_GUI.py:1082
 #, python-brace-format
 msgid "Welcome to {app} by {author}!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1089
+#: ../package/FlashGBX/FlashGBX_GUI.py:1092
 msgid ""
 "General precautions:\n"
 "- Due to voltage differences, do not insert a Game Boy Advance cartridge "
@@ -1900,46 +1896,46 @@ msgid ""
 "connection."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1098
+#: ../package/FlashGBX/FlashGBX_GUI.py:1101
 msgid ""
 "Error: Update check failed due to a connection timeout. Please check your "
 "internet connection."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1101
+#: ../package/FlashGBX/FlashGBX_GUI.py:1104
 msgid ""
 "Error: Update check failed due to a connection error. Please check your "
 "network connection."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1104
-#: ../package/FlashGBX/FlashGBX_GUI.py:1132
+#: ../package/FlashGBX/FlashGBX_GUI.py:1107
+#: ../package/FlashGBX/FlashGBX_GUI.py:1135
 msgid ""
 "Error: An unexpected error occured while querying the latest version "
 "information from GitHub."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1113
+#: ../package/FlashGBX/FlashGBX_GUI.py:1116
 msgid "You are using the latest version of FlashGBX."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1116
+#: ../package/FlashGBX/FlashGBX_GUI.py:1119
 #, python-brace-format
 msgid ""
 "A new version of FlashGBX has been released!\n"
 "Version {new_version} is now available."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1117
+#: ../package/FlashGBX/FlashGBX_GUI.py:1120
 msgid "Update Check"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1118
+#: ../package/FlashGBX/FlashGBX_GUI.py:1121
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Open release notes"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1119
+#: ../package/FlashGBX/FlashGBX_GUI.py:1122
 #: ../package/FlashGBX/InteractiveConsoleWindow.py:54
 #: ../package/FlashGBX/PocketCameraWindow.py:100
 #: ../package/FlashGBX/hw_GBFlash.py:568
@@ -1949,143 +1945,143 @@ msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Close"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1126
+#: ../package/FlashGBX/FlashGBX_GUI.py:1129
 #, python-brace-format
 msgid ""
 "This version of FlashGBX ({appver}) seems to be newer than the latest public "
 "release ({public_version})."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1128
+#: ../package/FlashGBX/FlashGBX_GUI.py:1131
 msgid ""
 "Error: Update check failed due to missing version information in JSON data "
 "from GitHub."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1130
+#: ../package/FlashGBX/FlashGBX_GUI.py:1133
 msgid "Error: Update check failed due to malformed JSON data from GitHub."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1135
+#: ../package/FlashGBX/FlashGBX_GUI.py:1138
 msgid ""
 "Error: Failed to check for updates (too many API requests). Try again later."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1137
+#: ../package/FlashGBX/FlashGBX_GUI.py:1140
 #, python-brace-format
 msgid "Error: Failed to check for updates (HTTP status {status_code})."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1187
-#: ../package/FlashGBX/FlashGBX_GUI.py:1189
-#: ../package/FlashGBX/FlashGBX_GUI.py:1194
+#: ../package/FlashGBX/FlashGBX_GUI.py:1190
+#: ../package/FlashGBX/FlashGBX_GUI.py:1192
+#: ../package/FlashGBX/FlashGBX_GUI.py:1197
 msgid "Disconnected."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1228
+#: ../package/FlashGBX/FlashGBX_GUI.py:1231
 #, python-brace-format
 msgid ""
 "FlashGBX uses a game database that is based on the ongoing efforts of the No-"
 "Intro project. Visit {url} for more information."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1229
+#: ../package/FlashGBX/FlashGBX_GUI.py:1232
 msgid "No-Intro databases referenced for this version of FlashGBX:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1247
+#: ../package/FlashGBX/FlashGBX_GUI.py:1250
 #, python-brace-format
 msgctxt "Menu Item"
 msgid "About {device_name}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1263
+#: ../package/FlashGBX/FlashGBX_GUI.py:1266
 #, python-brace-format
 msgid "Firmware version: {fw_version}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1321
+#: ../package/FlashGBX/FlashGBX_GUI.py:1324
 msgid "The file was not found."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1370
+#: ../package/FlashGBX/FlashGBX_GUI.py:1373
 msgid "No connection."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1421
+#: ../package/FlashGBX/FlashGBX_GUI.py:1424
 msgid "Ready. Please select Platform Mode."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1424
+#: ../package/FlashGBX/FlashGBX_GUI.py:1427
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Disconnect"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1427
+#: ../package/FlashGBX/FlashGBX_GUI.py:1430
 msgid "Legacy Mode"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1467
+#: ../package/FlashGBX/FlashGBX_GUI.py:1470
 #, python-brace-format
 msgid ""
 "A firmware update for your {device_name} is required to use this software. "
 "Do you want to update now?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1470
+#: ../package/FlashGBX/FlashGBX_GUI.py:1473
 #, python-brace-format
 msgid ""
 "Your {device_name} is no longer supported in this version of FlashGBX due to "
 "technical limitations. The last supported version is {url}."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1470
+#: ../package/FlashGBX/FlashGBX_GUI.py:1473
 msgid ""
 "The Firmware Updater can still be used, however any other functions are no "
 "longer available."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1470
+#: ../package/FlashGBX/FlashGBX_GUI.py:1473
 msgid "Do you want to run the Firmware Updater now?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1473
+#: ../package/FlashGBX/FlashGBX_GUI.py:1476
 #, python-brace-format
 msgid ""
 "A firmware update for your {device_name} is available. Do you want to update "
 "now?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1475
+#: ../package/FlashGBX/FlashGBX_GUI.py:1478
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Ignore firmware updates"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1490
+#: ../package/FlashGBX/FlashGBX_GUI.py:1493
 #, python-brace-format
 msgid ""
 "A firmware update for your {device_name} is required to use this software."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1521
+#: ../package/FlashGBX/FlashGBX_GUI.py:1524
 msgid "Searching..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1575
+#: ../package/FlashGBX/FlashGBX_GUI.py:1578
 msgctxt "Joey Jr is compatible, but requires a firmware update"
 msgid "firmware update required"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1583
+#: ../package/FlashGBX/FlashGBX_GUI.py:1586
 msgid ""
 "No compatible devices found. Please ensure the device is connected properly."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1583
+#: ../package/FlashGBX/FlashGBX_GUI.py:1586
 msgid "Compatible devices:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1588
+#: ../package/FlashGBX/FlashGBX_GUI.py:1591
 msgid ""
 "Troubleshooting advice:\n"
 "- Re-connect the device with different USB cables and ports\n"
@@ -2093,14 +2089,14 @@ msgid ""
 "- Perform a Firmware Update"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1595
+#: ../package/FlashGBX/FlashGBX_GUI.py:1598
 #, python-brace-format
 msgid ""
 "<b>For Joey Jr on macOS:</b>\n"
 "An extra step is necessary to update the firmware: {url}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1597
+#: ../package/FlashGBX/FlashGBX_GUI.py:1600
 #, python-brace-format
 msgid ""
 "<b>For Linux users:</b>\n"
@@ -2108,83 +2104,83 @@ msgid ""
 "file for more information."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1600
-#: ../package/FlashGBX/FlashGBX_GUI.py:2199
-#: ../package/FlashGBX/FlashGBX_GUI.py:3831
-#: ../package/FlashGBX/FlashGBX_GUI.py:3866
+#: ../package/FlashGBX/FlashGBX_GUI.py:1603
+#: ../package/FlashGBX/FlashGBX_GUI.py:2202
+#: ../package/FlashGBX/FlashGBX_GUI.py:3839
+#: ../package/FlashGBX/FlashGBX_GUI.py:3874
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&OK"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1601
+#: ../package/FlashGBX/FlashGBX_GUI.py:1604
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Firmware-Updater"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1620
+#: ../package/FlashGBX/FlashGBX_GUI.py:1623
 msgid "Connect to:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1644
-#: ../package/FlashGBX/FlashGBX_GUI.py:4076
+#: ../package/FlashGBX/FlashGBX_GUI.py:1647
+#: ../package/FlashGBX/FlashGBX_GUI.py:4084
 msgid "Stopping... Please wait."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1648
-#: ../package/FlashGBX/FlashGBX_GUI.py:4028
-#: ../package/FlashGBX/FlashGBX_GUI.py:4029
-#: ../package/FlashGBX/FlashGBX_GUI.py:4039
-#: ../package/FlashGBX/FlashGBX_GUI.py:4040
-#: ../package/FlashGBX/FlashGBX_GUI.py:4041
+#: ../package/FlashGBX/FlashGBX_GUI.py:1651
+#: ../package/FlashGBX/FlashGBX_GUI.py:4036
+#: ../package/FlashGBX/FlashGBX_GUI.py:4037
 #: ../package/FlashGBX/FlashGBX_GUI.py:4047
 #: ../package/FlashGBX/FlashGBX_GUI.py:4048
 #: ../package/FlashGBX/FlashGBX_GUI.py:4049
 #: ../package/FlashGBX/FlashGBX_GUI.py:4055
 #: ../package/FlashGBX/FlashGBX_GUI.py:4056
 #: ../package/FlashGBX/FlashGBX_GUI.py:4057
-#: ../package/FlashGBX/FlashGBX_GUI.py:4081
-#: ../package/FlashGBX/FlashGBX_GUI.py:4082
-#: ../package/FlashGBX/FlashGBX_GUI.py:4155
-#: ../package/FlashGBX/FlashGBX_GUI.py:4159
-#: ../package/FlashGBX/FlashGBX_GUI.py:4164
+#: ../package/FlashGBX/FlashGBX_GUI.py:4063
+#: ../package/FlashGBX/FlashGBX_GUI.py:4064
+#: ../package/FlashGBX/FlashGBX_GUI.py:4065
+#: ../package/FlashGBX/FlashGBX_GUI.py:4089
+#: ../package/FlashGBX/FlashGBX_GUI.py:4090
+#: ../package/FlashGBX/FlashGBX_GUI.py:4163
+#: ../package/FlashGBX/FlashGBX_GUI.py:4168
+#: ../package/FlashGBX/FlashGBX_GUI.py:4173
 msgid "Pending..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1659
+#: ../package/FlashGBX/FlashGBX_GUI.py:1662
 msgid "Operation complete!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1666
-#: ../package/FlashGBX/FlashGBX_GUI.py:2788
+#: ../package/FlashGBX/FlashGBX_GUI.py:1669
+#: ../package/FlashGBX/FlashGBX_GUI.py:2791
 #, python-brace-format
 msgid "Total time elapsed: {elapsed}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1696
+#: ../package/FlashGBX/FlashGBX_GUI.py:1699
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Open Dump &Report"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1700
+#: ../package/FlashGBX/FlashGBX_GUI.py:1703
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Generate Dump &Report"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1702
-#: ../package/FlashGBX/FlashGBX_GUI.py:1819
+#: ../package/FlashGBX/FlashGBX_GUI.py:1705
+#: ../package/FlashGBX/FlashGBX_GUI.py:1822
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Open Fol&der"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1708
-#: ../package/FlashGBX/FlashGBX_GUI.py:1713
-#: ../package/FlashGBX/FlashGBX_GUI.py:1754
-#: ../package/FlashGBX/FlashGBX_GUI.py:1761
-#: ../package/FlashGBX/FlashGBX_GUI.py:1773
-#: ../package/FlashGBX/FlashGBX_GUI.py:1794
-#: ../package/FlashGBX/FlashGBX_GUI.py:1826
-#: ../package/FlashGBX/FlashGBX_GUI.py:1879
-#: ../package/FlashGBX/FlashGBX_GUI.py:2791
+#: ../package/FlashGBX/FlashGBX_GUI.py:1711
+#: ../package/FlashGBX/FlashGBX_GUI.py:1716
+#: ../package/FlashGBX/FlashGBX_GUI.py:1757
+#: ../package/FlashGBX/FlashGBX_GUI.py:1764
+#: ../package/FlashGBX/FlashGBX_GUI.py:1776
+#: ../package/FlashGBX/FlashGBX_GUI.py:1797
+#: ../package/FlashGBX/FlashGBX_GUI.py:1829
+#: ../package/FlashGBX/FlashGBX_GUI.py:1882
+#: ../package/FlashGBX/FlashGBX_GUI.py:2794
 #: ../package/FlashGBX/hw_GBFlash.py:459
 #: ../package/FlashGBX/hw_GBxCartRW.py:448
 #: ../package/FlashGBX/hw_GBxCartRW.py:1234
@@ -2192,46 +2188,46 @@ msgstr ""
 msgid "Done!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1715
+#: ../package/FlashGBX/FlashGBX_GUI.py:1718
 msgid "The ROM backup is complete."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1726
+#: ../package/FlashGBX/FlashGBX_GUI.py:1729
 msgctxt "Advice when ROM backup was bad"
 msgid "You can also try to change the read mode in the options."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1728
-#: ../package/FlashGBX/FlashGBX_GUI.py:1729
+#: ../package/FlashGBX/FlashGBX_GUI.py:1731
+#: ../package/FlashGBX/FlashGBX_GUI.py:1732
 #, python-brace-format
 msgid "Retry with {mapper}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1728
+#: ../package/FlashGBX/FlashGBX_GUI.py:1731
 #, python-brace-format
 msgid "If this is a “{gb_memory_cartridge}”, try the “{label}” option."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1802
-#: ../package/FlashGBX/FlashGBX_GUI.py:3225
+#: ../package/FlashGBX/FlashGBX_GUI.py:1805
+#: ../package/FlashGBX/FlashGBX_GUI.py:3231
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Don’t show this message again"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1803
+#: ../package/FlashGBX/FlashGBX_GUI.py:1806
 msgid "Would you like to load your save data with the GB Camera Viewer now?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1832
+#: ../package/FlashGBX/FlashGBX_GUI.py:1835
 msgid "The save data was written and verified successfully!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1834
+#: ../package/FlashGBX/FlashGBX_GUI.py:1837
 msgid "Save data writing complete!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1856
-#: ../package/FlashGBX/LK_Device.py:4799
+#: ../package/FlashGBX/FlashGBX_GUI.py:1859
+#: ../package/FlashGBX/LK_Device.py:4880
 msgid ""
 "Troubleshooting advice:\n"
 "- Clean cartridge contacts\n"
@@ -2240,199 +2236,199 @@ msgid ""
 "- Check flashcart profile selection"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1861
+#: ../package/FlashGBX/FlashGBX_GUI.py:1864
 #, python-brace-format
 msgid "- Check cartridge ROM storage size (at least {rom_size} is required)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1864
-#: ../package/FlashGBX/FlashGBX_GUI.py:1866
-#: ../package/FlashGBX/LK_Device.py:4173 ../package/FlashGBX/LK_Device.py:4175
+#: ../package/FlashGBX/FlashGBX_GUI.py:1867
+#: ../package/FlashGBX/FlashGBX_GUI.py:1869
+#: ../package/FlashGBX/LK_Device.py:4244 ../package/FlashGBX/LK_Device.py:4246
 msgid "- Check mapper type used:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1864
-#: ../package/FlashGBX/LK_Device.py:4173
+#: ../package/FlashGBX/FlashGBX_GUI.py:1867
+#: ../package/FlashGBX/LK_Device.py:4244
 msgctxt "Mapper Type"
 msgid "manual selection"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1866
-#: ../package/FlashGBX/LK_Device.py:4175
+#: ../package/FlashGBX/FlashGBX_GUI.py:1869
+#: ../package/FlashGBX/LK_Device.py:4246
 msgctxt "Mapper Type"
 msgid "forced by selected flashcart profile"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1868
-#: ../package/FlashGBX/LK_Device.py:4177
+#: ../package/FlashGBX/FlashGBX_GUI.py:1871
+#: ../package/FlashGBX/LK_Device.py:4248
 #, python-brace-format
 msgid "- Check mapper type ROM size limit: likely up to {max_size}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1869
+#: ../package/FlashGBX/FlashGBX_GUI.py:1872
 msgid "Do you want to write the sectors again that failed verification?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1955
+#: ../package/FlashGBX/FlashGBX_GUI.py:1958
 msgid ""
 "ROM header checksum and boot logo checks failed. Please ensure that the "
 "cartridge contacts are clean."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1955
-#: ../package/FlashGBX/FlashGBX_GUI.py:2552
-#: ../package/FlashGBX/FlashGBX_GUI.py:2601
+#: ../package/FlashGBX/FlashGBX_GUI.py:1958
+#: ../package/FlashGBX/FlashGBX_GUI.py:2555
+#: ../package/FlashGBX/FlashGBX_GUI.py:2604
 msgid "Do you still want to continue?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1974
-#: ../package/FlashGBX/FlashGBX_GUI.py:2072
+#: ../package/FlashGBX/FlashGBX_GUI.py:1977
+#: ../package/FlashGBX/FlashGBX_GUI.py:2075
 msgid "Game Boy ROM File"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1974
-#: ../package/FlashGBX/FlashGBX_GUI.py:1984
-#: ../package/FlashGBX/FlashGBX_GUI.py:2072
-#: ../package/FlashGBX/FlashGBX_GUI.py:2074
-#: ../package/FlashGBX/FlashGBX_GUI.py:2507
+#: ../package/FlashGBX/FlashGBX_GUI.py:1977
+#: ../package/FlashGBX/FlashGBX_GUI.py:1987
+#: ../package/FlashGBX/FlashGBX_GUI.py:2075
+#: ../package/FlashGBX/FlashGBX_GUI.py:2077
+#: ../package/FlashGBX/FlashGBX_GUI.py:2510
 #: ../package/FlashGBX/PocketCameraWindow.py:288
 #: ../package/FlashGBX/hw_GBxCartRW.py:915
 msgid "All Files"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1984
-#: ../package/FlashGBX/FlashGBX_GUI.py:2074
+#: ../package/FlashGBX/FlashGBX_GUI.py:1987
+#: ../package/FlashGBX/FlashGBX_GUI.py:2077
 msgid "Game Boy Advance ROM File"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:1999
-#: ../package/FlashGBX/FlashGBX_GUI.py:2240
-#: ../package/FlashGBX/FlashGBX_GUI.py:2385
-#: ../package/FlashGBX/FlashGBX_GUI.py:2639
-#: ../package/FlashGBX/FlashGBX_GUI.py:2878
+#: ../package/FlashGBX/FlashGBX_GUI.py:2002
+#: ../package/FlashGBX/FlashGBX_GUI.py:2243
+#: ../package/FlashGBX/FlashGBX_GUI.py:2388
+#: ../package/FlashGBX/FlashGBX_GUI.py:2642
+#: ../package/FlashGBX/FlashGBX_GUI.py:2881
 msgid "Preparing..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2016
+#: ../package/FlashGBX/FlashGBX_GUI.py:2019
 msgid ""
 "The following ISX file will now be converted to a regular ROM file and then "
 "written to the flash cartridge:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2018
+#: ../package/FlashGBX/FlashGBX_GUI.py:2021
 msgid "The following ROM file will now be written to the flash cartridge:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2054
-#: ../package/FlashGBX/FlashGBX_GUI.py:2293
-#: ../package/FlashGBX/FlashGBX_GUI.py:2438
+#: ../package/FlashGBX/FlashGBX_GUI.py:2057
+#: ../package/FlashGBX/FlashGBX_GUI.py:2296
+#: ../package/FlashGBX/FlashGBX_GUI.py:2441
 msgid "A compatible flashcart profile could not be auto-detected."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2077
+#: ../package/FlashGBX/FlashGBX_GUI.py:2080
 msgid ""
 "No ROM file was selected. Do you want to wipe the ROM contents of the "
 "cartridge instead?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2087
+#: ../package/FlashGBX/FlashGBX_GUI.py:2090
 msgid "The selected ROM file is empty."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2103
+#: ../package/FlashGBX/FlashGBX_GUI.py:2106
 #, python-brace-format
 msgid ""
 "The selected flashcart profile seems to support ROMs that are up to "
 "{max_size} in size, but the file you selected is {file_size}."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2104
+#: ../package/FlashGBX/FlashGBX_GUI.py:2107
 msgid ""
 "You can still give it a try, but it’s possible that it’s too large which may "
 "cause the ROM writing to fail."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2150
+#: ../package/FlashGBX/FlashGBX_GUI.py:2153
 msgid ""
 "The ROM file you selected uses a different mapper type than your current "
 "selection. What mapper should be used when writing the ROM?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2150
-#: ../package/FlashGBX/FlashGBX_GUI.py:2165
+#: ../package/FlashGBX/FlashGBX_GUI.py:2153
+#: ../package/FlashGBX/FlashGBX_GUI.py:2168
 msgid "Selected mapper type:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2150
-#: ../package/FlashGBX/FlashGBX_GUI.py:2165
+#: ../package/FlashGBX/FlashGBX_GUI.py:2153
+#: ../package/FlashGBX/FlashGBX_GUI.py:2168
 msgid "ROM mapper type:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2155
-#: ../package/FlashGBX/FlashGBX_GUI.py:2186
-#: ../package/FlashGBX/FlashGBX_GUI.py:2200
-#: ../package/FlashGBX/FlashGBX_GUI.py:2214
-#: ../package/FlashGBX/FlashGBX_GUI.py:2538
-#: ../package/FlashGBX/FlashGBX_GUI.py:2583
-#: ../package/FlashGBX/FlashGBX_GUI.py:3837
+#: ../package/FlashGBX/FlashGBX_GUI.py:2158
+#: ../package/FlashGBX/FlashGBX_GUI.py:2189
+#: ../package/FlashGBX/FlashGBX_GUI.py:2203
+#: ../package/FlashGBX/FlashGBX_GUI.py:2217
+#: ../package/FlashGBX/FlashGBX_GUI.py:2541
+#: ../package/FlashGBX/FlashGBX_GUI.py:2586
+#: ../package/FlashGBX/FlashGBX_GUI.py:3845
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Cancel"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2164
+#: ../package/FlashGBX/FlashGBX_GUI.py:2167
 msgctxt "Mapper Type"
 msgid "None/Unknown"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2165
+#: ../package/FlashGBX/FlashGBX_GUI.py:2168
 msgid ""
 "Warning: The ROM file you selected uses a different mapper type than your "
 "flashcart profile. The ROM file may be incompatible with your cartridge."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2184
-#: ../package/FlashGBX/FlashGBX_GUI.py:2212
+#: ../package/FlashGBX/FlashGBX_GUI.py:2187
+#: ../package/FlashGBX/FlashGBX_GUI.py:2215
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Fix and Continue"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2185
-#: ../package/FlashGBX/FlashGBX_GUI.py:2213
+#: ../package/FlashGBX/FlashGBX_GUI.py:2188
+#: ../package/FlashGBX/FlashGBX_GUI.py:2216
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Continue &without fixing"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2210
+#: ../package/FlashGBX/FlashGBX_GUI.py:2213
 #, python-brace-format
 msgid ""
 "Warning: The ROM file you selected will not boot on actual hardware due to "
 "an invalid header checksum (expected {calc} instead of {actual})."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2271
-#: ../package/FlashGBX/FlashGBX_GUI.py:2416
-#: ../package/FlashGBX/FlashGBX_GUI.py:2485
+#: ../package/FlashGBX/FlashGBX_GUI.py:2274
+#: ../package/FlashGBX/FlashGBX_GUI.py:2419
+#: ../package/FlashGBX/FlashGBX_GUI.py:2488
 msgid "This feature is not supported in Legacy Mode."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2308
-#: ../package/FlashGBX/FlashGBX_GUI.py:2319
-#: ../package/FlashGBX/FlashGBX_GUI.py:2452
-#: ../package/FlashGBX/FlashGBX_GUI.py:2463
+#: ../package/FlashGBX/FlashGBX_GUI.py:2311
+#: ../package/FlashGBX/FlashGBX_GUI.py:2322
+#: ../package/FlashGBX/FlashGBX_GUI.py:2455
+#: ../package/FlashGBX/FlashGBX_GUI.py:2466
 msgid "No save type was selected."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2351
+#: ../package/FlashGBX/FlashGBX_GUI.py:2354
 msgid ""
 "A Real Time Clock cartridge was detected. Do you want the cartridge’s Real "
 "Time Clock register values also to be saved?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2480
+#: ../package/FlashGBX/FlashGBX_GUI.py:2483
 msgid "The save data on your cartridge will now be erased."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2497
+#: ../package/FlashGBX/FlashGBX_GUI.py:2500
 msgid ""
 "The cartridge’s save chip will be tested for potential problems as follows:\n"
 "- Read the same data multiple times\n"
@@ -2442,46 +2438,46 @@ msgid ""
 "backed up before proceeding."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2499
+#: ../package/FlashGBX/FlashGBX_GUI.py:2502
 #, python-brace-format
 msgid ""
 "Note: Your {device_name} does not support automatic power cycling, so some "
 "tests may be skipped."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2507
+#: ../package/FlashGBX/FlashGBX_GUI.py:2510
 #: ../package/FlashGBX/PocketCameraWindow.py:288
 msgid "Save Data File"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2514
+#: ../package/FlashGBX/FlashGBX_GUI.py:2517
 msgid "The size of this file is not supported."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2524
-#: ../package/FlashGBX/FlashGBX_GUI.py:2562
+#: ../package/FlashGBX/FlashGBX_GUI.py:2527
+#: ../package/FlashGBX/FlashGBX_GUI.py:2565
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Keep existing calibration data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2532
+#: ../package/FlashGBX/FlashGBX_GUI.py:2535
 #, python-brace-format
 msgid ""
 "This {cart_name} cartridge currently has calibration data in place. It is "
 "strongly recommended to keep the existing calibration data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2532
+#: ../package/FlashGBX/FlashGBX_GUI.py:2535
 msgid "How do you want to proceed?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2533
-#: ../package/FlashGBX/FlashGBX_GUI.py:2578
+#: ../package/FlashGBX/FlashGBX_GUI.py:2536
+#: ../package/FlashGBX/FlashGBX_GUI.py:2581
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Erase everything"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2536
+#: ../package/FlashGBX/FlashGBX_GUI.py:2539
 #, python-brace-format
 msgid ""
 "This {cart_name} cartridge currently has calibration data in place that is "
@@ -2490,19 +2486,19 @@ msgid ""
 "previous backup."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2536
+#: ../package/FlashGBX/FlashGBX_GUI.py:2539
 msgid ""
 "Would you like to keep the existing calibration data, or overwrite it with "
 "data from the file you selected?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2537
-#: ../package/FlashGBX/FlashGBX_GUI.py:2582
+#: ../package/FlashGBX/FlashGBX_GUI.py:2540
+#: ../package/FlashGBX/FlashGBX_GUI.py:2585
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Restore from save data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2552
+#: ../package/FlashGBX/FlashGBX_GUI.py:2555
 #, python-brace-format
 msgid ""
 "Warning: This {cart_name} cartridge may currently have calibration data in "
@@ -2512,12 +2508,12 @@ msgid ""
 "calibration data can be restored later."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2564
+#: ../package/FlashGBX/FlashGBX_GUI.py:2567
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Force recalibration"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2577
+#: ../package/FlashGBX/FlashGBX_GUI.py:2580
 #, python-brace-format
 msgid ""
 "This {cart_name} cartridge currently has calibration data in place.\n"
@@ -2525,13 +2521,13 @@ msgid ""
 "How do you want to proceed?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2577
+#: ../package/FlashGBX/FlashGBX_GUI.py:2580
 msgid ""
 "It is recommended to keep the existing calibration data, but you can also "
 "choose to erase it or overwrite it with data from the file you selected."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2581
+#: ../package/FlashGBX/FlashGBX_GUI.py:2584
 #, python-brace-format
 msgid ""
 "This {cart_name} cartridge currently has calibration data in place that is "
@@ -2540,7 +2536,7 @@ msgid ""
 "How do you want to proceed?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2601
+#: ../package/FlashGBX/FlashGBX_GUI.py:2604
 #, python-brace-format
 msgid ""
 "Warning: This {cart_name} cartridge may currently have calibration data in "
@@ -2549,231 +2545,265 @@ msgid ""
 "later."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2619
+#: ../package/FlashGBX/FlashGBX_GUI.py:2622
 msgid ""
 "A Real Time Clock cartridge was detected. Do you want the Real Time Clock "
 "register values to be written as well?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2620
+#: ../package/FlashGBX/FlashGBX_GUI.py:2623
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Adjust RTC"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2670
+#: ../package/FlashGBX/FlashGBX_GUI.py:2673
 msgctxt "Stress Test Pattern"
 msgid "reading twice"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2671
+#: ../package/FlashGBX/FlashGBX_GUI.py:2674
 msgctxt "Stress Test Pattern"
 msgid "writing random values"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2672
-#: ../package/FlashGBX/FlashGBX_GUI.py:2673
-#: ../package/FlashGBX/FlashGBX_GUI.py:2674
 #: ../package/FlashGBX/FlashGBX_GUI.py:2675
+#: ../package/FlashGBX/FlashGBX_GUI.py:2676
+#: ../package/FlashGBX/FlashGBX_GUI.py:2677
+#: ../package/FlashGBX/FlashGBX_GUI.py:2678
 #, python-brace-format
 msgctxt "Stress Test Pattern"
 msgid "writing {pattern}"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2676
+#: ../package/FlashGBX/FlashGBX_GUI.py:2679
 msgctxt "Stress Test Pattern"
 msgid "writing incrementing values"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2677
+#: ../package/FlashGBX/FlashGBX_GUI.py:2680
 msgctxt "Stress Test Pattern"
 msgid "writing decrementing values"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2688
+#: ../package/FlashGBX/FlashGBX_GUI.py:2691
 #, python-brace-format
 msgid "Testing ({pattern} 1/2)..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2703
+#: ../package/FlashGBX/FlashGBX_GUI.py:2706
 #, python-brace-format
 msgid "Waiting for power cycle ({countdown})..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2710
+#: ../package/FlashGBX/FlashGBX_GUI.py:2713
 #, python-brace-format
 msgid "Testing ({pattern} 2/2)..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2720
+#: ../package/FlashGBX/FlashGBX_GUI.py:2723
 msgid "An error occured. Please ensure you selected the correct save type."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2728
-#: ../package/FlashGBX/FlashGBX_GUI.py:2808
+#: ../package/FlashGBX/FlashGBX_GUI.py:2731
+#: ../package/FlashGBX/FlashGBX_GUI.py:2811
 #, python-brace-format
 msgid "Test {num} ({pattern}) failed!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2728
+#: ../package/FlashGBX/FlashGBX_GUI.py:2731
 msgid "Note: SRAM requires a working battery to retain save data."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2728
-#: ../package/FlashGBX/FlashGBX_GUI.py:3594
+#: ../package/FlashGBX/FlashGBX_GUI.py:2731
+#: ../package/FlashGBX/FlashGBX_GUI.py:3602
 msgid "Continue anyway?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2740
+#: ../package/FlashGBX/FlashGBX_GUI.py:2743
 #, python-brace-format
 msgid "Testing ({pattern})..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2769
+#: ../package/FlashGBX/FlashGBX_GUI.py:2772
 msgid "Restoring original save data..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2796
+#: ../package/FlashGBX/FlashGBX_GUI.py:2799
 msgid "All tests completed successfully!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2813
+#: ../package/FlashGBX/FlashGBX_GUI.py:2816
 msgid "The stress test process was cancelled."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2959
+#: ../package/FlashGBX/FlashGBX_GUI.py:2918
+#: ../package/FlashGBX/FlashGBX_GUI.py:2922
+msgid ""
+"In order to access Batteryless SRAM save data, its ROM location and size "
+"must be specified."
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:2918
+msgid ""
+"The previously detected parameters have been pre-selected. Please adjust if "
+"necessary, then click “OK” to continue."
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:2923
+msgid ""
+"⚠️ The required parameters could not be auto-detected. Please enter the ROM "
+"location and size manually below."
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:2923
+#: ../package/FlashGBX/FlashGBX_GUI.py:2934
+msgid ""
+"Note that wrong values can corrupt your game when writing, so having a full "
+"ROM backup is recommended."
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:2934
+#, python-brace-format
+msgid ""
+"The required parameters were pre-selected based on the ROM title "
+"“{game_title}”. These may still be inaccurate, so you can adjust them below "
+"if necessary."
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX_GUI.py:2962
 #, python-brace-format
 msgid "{batteryless_sram} Parameters"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:2964
+#: ../package/FlashGBX/FlashGBX_GUI.py:2967
 msgid "Size:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3012
-#: ../package/FlashGBX/FlashGBX_GUI.py:3046
-#: ../package/FlashGBX/FlashGBX_GUI.py:3078
+#: ../package/FlashGBX/FlashGBX_GUI.py:3015
+#: ../package/FlashGBX/FlashGBX_GUI.py:3049
+#: ../package/FlashGBX/FlashGBX_GUI.py:3081
 #, python-brace-format
 msgid "{mapper} Real Time Clock Editor"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3013
+#: ../package/FlashGBX/FlashGBX_GUI.py:3016
 msgid ""
 "Enter the number of days, hours, minutes and seconds that passed since the "
 "RTC initially started."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3013
-#: ../package/FlashGBX/FlashGBX_GUI.py:3124
+#: ../package/FlashGBX/FlashGBX_GUI.py:3016
+#: ../package/FlashGBX/FlashGBX_GUI.py:3127
 msgid ""
 "Please note that all values are internal values. The game may use these only "
 "as a relative reference."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3016
-#: ../package/FlashGBX/FlashGBX_GUI.py:3050
+#: ../package/FlashGBX/FlashGBX_GUI.py:3019
+#: ../package/FlashGBX/FlashGBX_GUI.py:3053
 msgctxt "Real Time Clock Setting"
 msgid "Days:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3017
-#: ../package/FlashGBX/FlashGBX_GUI.py:3051
-#: ../package/FlashGBX/FlashGBX_GUI.py:3086
-#: ../package/FlashGBX/FlashGBX_GUI.py:3130
+#: ../package/FlashGBX/FlashGBX_GUI.py:3020
+#: ../package/FlashGBX/FlashGBX_GUI.py:3054
+#: ../package/FlashGBX/FlashGBX_GUI.py:3089
+#: ../package/FlashGBX/FlashGBX_GUI.py:3133
 msgctxt "Real Time Clock Setting"
 msgid "Hours:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3018
-#: ../package/FlashGBX/FlashGBX_GUI.py:3052
-#: ../package/FlashGBX/FlashGBX_GUI.py:3087
-#: ../package/FlashGBX/FlashGBX_GUI.py:3131
+#: ../package/FlashGBX/FlashGBX_GUI.py:3021
+#: ../package/FlashGBX/FlashGBX_GUI.py:3055
+#: ../package/FlashGBX/FlashGBX_GUI.py:3090
+#: ../package/FlashGBX/FlashGBX_GUI.py:3134
 msgctxt "Real Time Clock Setting"
 msgid "Minutes:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3019
-#: ../package/FlashGBX/FlashGBX_GUI.py:3088
-#: ../package/FlashGBX/FlashGBX_GUI.py:3132
+#: ../package/FlashGBX/FlashGBX_GUI.py:3022
+#: ../package/FlashGBX/FlashGBX_GUI.py:3091
+#: ../package/FlashGBX/FlashGBX_GUI.py:3135
 msgctxt "Real Time Clock Setting"
 msgid "Seconds:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3020
-#: ../package/FlashGBX/FlashGBX_GUI.py:3053
+#: ../package/FlashGBX/FlashGBX_GUI.py:3023
+#: ../package/FlashGBX/FlashGBX_GUI.py:3056
 msgctxt "Real Time Clock Setting"
 msgid "Ignore above time values and use the system time instead"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3047
+#: ../package/FlashGBX/FlashGBX_GUI.py:3050
 msgid "Enter the number of days since your last play, and the current time."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3047
-#: ../package/FlashGBX/FlashGBX_GUI.py:3079
+#: ../package/FlashGBX/FlashGBX_GUI.py:3050
+#: ../package/FlashGBX/FlashGBX_GUI.py:3082
 msgid ""
 "Please note that the day value is an internal value. The game may use it "
 "only as a relative reference."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3079
+#: ../package/FlashGBX/FlashGBX_GUI.py:3082
 msgid "Enter the date and time used in the game."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3082
+#: ../package/FlashGBX/FlashGBX_GUI.py:3085
 msgctxt "Real Time Clock Setting"
 msgid "Years passed:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3083
+#: ../package/FlashGBX/FlashGBX_GUI.py:3086
 msgctxt "Real Time Clock Setting"
 msgid "Years since last leap year:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3084
-#: ../package/FlashGBX/FlashGBX_GUI.py:3128
+#: ../package/FlashGBX/FlashGBX_GUI.py:3087
+#: ../package/FlashGBX/FlashGBX_GUI.py:3131
 msgctxt "Real Time Clock Setting"
 msgid "Month:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3085
-#: ../package/FlashGBX/FlashGBX_GUI.py:3129
+#: ../package/FlashGBX/FlashGBX_GUI.py:3088
+#: ../package/FlashGBX/FlashGBX_GUI.py:3132
 msgctxt "Real Time Clock Setting"
 msgid "Day:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3089
-#: ../package/FlashGBX/FlashGBX_GUI.py:3134
+#: ../package/FlashGBX/FlashGBX_GUI.py:3092
+#: ../package/FlashGBX/FlashGBX_GUI.py:3137
 msgctxt "Real Time Clock Setting"
 msgid "Ignore above values and use the system time instead"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3123
+#: ../package/FlashGBX/FlashGBX_GUI.py:3126
 msgid "GBA Real Time Clock Editor"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3124
+#: ../package/FlashGBX/FlashGBX_GUI.py:3127
 msgid "Enter the date and time for the Real Time Clock."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3127
+#: ../package/FlashGBX/FlashGBX_GUI.py:3130
 msgctxt "Real Time Clock Setting"
 msgid "Year:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3133
+#: ../package/FlashGBX/FlashGBX_GUI.py:3136
 msgctxt "Real Time Clock Setting"
 msgid "Weekday:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3167
+#: ../package/FlashGBX/FlashGBX_GUI.py:3173
 msgid "The Real Time Clock register values have been updated."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3170
+#: ../package/FlashGBX/FlashGBX_GUI.py:3176
 msgid "An error occured while updating the Real Time Clock register values."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3184
+#: ../package/FlashGBX/FlashGBX_GUI.py:3190
 msgid ""
 "The connection to the device was lost!\n"
 "\n"
@@ -2784,51 +2814,51 @@ msgid ""
 "- The inserted cartrdige may induce a short circuit (check for bad soldering)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3184
+#: ../package/FlashGBX/FlashGBX_GUI.py:3190
 msgid "Do you want to try and reconnect to the device?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3219
+#: ../package/FlashGBX/FlashGBX_GUI.py:3225
 msgid "Important: Also make sure your device is set to the correct voltage!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3227
+#: ../package/FlashGBX/FlashGBX_GUI.py:3233
 msgid ""
 "Caution: Game Boy Advance cartridges must not be inserted in Game Boy mode. "
 "Doing so can break the cartridge, so please be careful."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3230
+#: ../package/FlashGBX/FlashGBX_GUI.py:3236
 msgid "Game Boy"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3230
+#: ../package/FlashGBX/FlashGBX_GUI.py:3236
 #, python-brace-format
 msgid "The platform mode will now be changed to {mode} mode."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3252
+#: ../package/FlashGBX/FlashGBX_GUI.py:3258
 msgid "Failed to turn on the cartridge power."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3252
+#: ../package/FlashGBX/FlashGBX_GUI.py:3258
 msgid "Automatic cartridge &power off"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3252
+#: ../package/FlashGBX/FlashGBX_GUI.py:3258
 #, python-brace-format
 msgid "The “{setting}” setting has therefore been disabled."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3252
+#: ../package/FlashGBX/FlashGBX_GUI.py:3258
 msgid "&Connect"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3252
+#: ../package/FlashGBX/FlashGBX_GUI.py:3258
 msgid "&Refresh"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3252
+#: ../package/FlashGBX/FlashGBX_GUI.py:3258
 #, python-brace-format
 msgid ""
 "Workaround advice:\n"
@@ -2838,11 +2868,11 @@ msgid ""
 "4. Insert the cartridge and click “{button_refresh}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3281
+#: ../package/FlashGBX/FlashGBX_GUI.py:3287
 msgid "Reading cartridge data..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3290
+#: ../package/FlashGBX/FlashGBX_GUI.py:3296
 #, python-brace-format
 msgid ""
 "The connection to the device was lost while trying to read the ROM header. "
@@ -2856,183 +2886,183 @@ msgid ""
 "3. Then insert the cartridge and click “{button}”."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3296
+#: ../package/FlashGBX/FlashGBX_GUI.py:3302
 msgid "Invalid response from the device. Please re-connect the USB cable."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3302
-#: ../package/FlashGBX/FlashGBX_GUI.py:3594
+#: ../package/FlashGBX/FlashGBX_GUI.py:3308
+#: ../package/FlashGBX/FlashGBX_GUI.py:3602
 msgid "The cartridge connection is unstable!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3302
+#: ../package/FlashGBX/FlashGBX_GUI.py:3308
 msgid ""
 "Please clean the cartridge pins, carefully realign the cartridge and then "
 "try again."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3335
-#: ../package/FlashGBX/FlashGBX_GUI.py:3468
-#: ../package/FlashGBX/FlashGBX_GUI.py:3500
+#: ../package/FlashGBX/FlashGBX_GUI.py:3341
+#: ../package/FlashGBX/FlashGBX_GUI.py:3474
+#: ../package/FlashGBX/FlashGBX_GUI.py:3506
 msgctxt "Game Data"
 msgid "(No database entry)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3345
-#: ../package/FlashGBX/FlashGBX_GUI.py:3483
+#: ../package/FlashGBX/FlashGBX_GUI.py:3351
+#: ../package/FlashGBX/FlashGBX_GUI.py:3489
 msgid "Click here to edit the Real Time Clock register values"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3373
-#: ../package/FlashGBX/FlashGBX_GUI.py:3520
+#: ../package/FlashGBX/FlashGBX_GUI.py:3379
+#: ../package/FlashGBX/FlashGBX_GUI.py:3528
 msgid "No cartridge connected"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3375
-#: ../package/FlashGBX/FlashGBX_GUI.py:3522
+#: ../package/FlashGBX/FlashGBX_GUI.py:3381
+#: ../package/FlashGBX/FlashGBX_GUI.py:3530
 msgid "No ROM data detected"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3541
+#: ../package/FlashGBX/FlashGBX_GUI.py:3549
 #, python-brace-format
 msgid ""
 "This cartridge uses a mapper that may not be completely supported by the "
 "firmware of the {device_name}. Check for firmware updates."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3573
+#: ../package/FlashGBX/FlashGBX_GUI.py:3581
 msgid ""
 "This cartridge may be protected against reading or writing a ROM. If you "
 "don’t want to risk this cartridge to render itself unusable, please do not "
 "try to write a new ROM to it."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3594
+#: ../package/FlashGBX/FlashGBX_GUI.py:3602
 msgid ""
 "Please clean the cartridge pins, carefully realign the cartridge for best "
 "results."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3622
+#: ../package/FlashGBX/FlashGBX_GUI.py:3630
 msgid ""
 "An error occured while trying to analyze the cartridge and you may need to "
 "physically reconnect the device."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3622
+#: ../package/FlashGBX/FlashGBX_GUI.py:3630
 msgid ""
 "This cartridge may not be auto-detectable, please select the flashcart "
 "profile manually."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3652
+#: ../package/FlashGBX/FlashGBX_GUI.py:3660
 msgid "An unknown error occured. Please try again."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3702
+#: ../package/FlashGBX/FlashGBX_GUI.py:3710
 msgid "unknown size"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3702
-#: ../package/FlashGBX/FlashGBX_GUI.py:3704
-#: ../package/FlashGBX/FlashGBX_GUI.py:3706
+#: ../package/FlashGBX/FlashGBX_GUI.py:3710
+#: ../package/FlashGBX/FlashGBX_GUI.py:3712
+#: ../package/FlashGBX/FlashGBX_GUI.py:3714
 #, python-brace-format
 msgid "{batteryless_sram} Location:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3733
+#: ../package/FlashGBX/FlashGBX_GUI.py:3741
 msgctxt "Flashcart Profile: PROFILE NAME (or compatble)"
 msgid "or compatible"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3736
+#: ../package/FlashGBX/FlashGBX_GUI.py:3744
 msgid "Compatible Flashcart Profiles:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3777
+#: ../package/FlashGBX/FlashGBX_GUI.py:3785
 #, python-brace-format
 msgid ""
 "For ROM writing, you can give the option called “{option}” a try at your own "
 "risk."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3780
+#: ../package/FlashGBX/FlashGBX_GUI.py:3788
 msgid "not rewritable or not auto-detectable"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3785
+#: ../package/FlashGBX/FlashGBX_GUI.py:3793
 msgid "Flash ID Check (limited voltage):"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3793
+#: ../package/FlashGBX/FlashGBX_GUI.py:3801
 msgctxt "Common Flash Interface Data"
 msgid "Not available"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3801
+#: ../package/FlashGBX/FlashGBX_GUI.py:3809
 #, python-brace-format
 msgid "{gb_memory_cartridge} Data:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3804
-#: ../package/FlashGBX/FlashGBX_GUI.py:3817
+#: ../package/FlashGBX/FlashGBX_GUI.py:3812
+#: ../package/FlashGBX/FlashGBX_GUI.py:3825
 msgid "Write Timestamp:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3805
-#: ../package/FlashGBX/FlashGBX_GUI.py:3818
+#: ../package/FlashGBX/FlashGBX_GUI.py:3813
+#: ../package/FlashGBX/FlashGBX_GUI.py:3826
 msgid "Write Kiosk ID:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3806
+#: ../package/FlashGBX/FlashGBX_GUI.py:3814
 msgid "Number of Games:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3807
-#: ../package/FlashGBX/FlashGBX_GUI.py:3819
+#: ../package/FlashGBX/FlashGBX_GUI.py:3815
+#: ../package/FlashGBX/FlashGBX_GUI.py:3827
 msgid "Write Counter:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3808
-#: ../package/FlashGBX/FlashGBX_GUI.py:3820
+#: ../package/FlashGBX/FlashGBX_GUI.py:3816
+#: ../package/FlashGBX/FlashGBX_GUI.py:3828
 msgid "Cartridge ID:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3812
+#: ../package/FlashGBX/FlashGBX_GUI.py:3820
 msgid "Menu ROM:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3814
+#: ../package/FlashGBX/FlashGBX_GUI.py:3822
 #, python-brace-format
 msgid "Game {number}:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3832
+#: ../package/FlashGBX/FlashGBX_GUI.py:3840
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Details"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3835
+#: ../package/FlashGBX/FlashGBX_GUI.py:3843
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Always skip this message"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3870
+#: ../package/FlashGBX/FlashGBX_GUI.py:3878
 #, python-brace-format
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Try “{generic_type}”"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3877
+#: ../package/FlashGBX/FlashGBX_GUI.py:3885
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Copy to Clipboard"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3883
+#: ../package/FlashGBX/FlashGBX_GUI.py:3891
 msgid "&Limit voltage when analyzing Game Boy carts"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3883
+#: ../package/FlashGBX/FlashGBX_GUI.py:3891
 #, python-brace-format
 msgid ""
 "No known flashcart profile could be detected. The option “{limit_voltage}” "
@@ -3041,208 +3071,208 @@ msgid ""
 "again?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3975
+#: ../package/FlashGBX/FlashGBX_GUI.py:3983
 #, python-brace-format
 msgid "at {voltage}V"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3981
+#: ../package/FlashGBX/FlashGBX_GUI.py:3989
 msgid "Verify Flash"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3985
+#: ../package/FlashGBX/FlashGBX_GUI.py:3993
 msgid "Write Save Data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3987
+#: ../package/FlashGBX/FlashGBX_GUI.py:3995
 msgid "Verify Save Data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3989
+#: ../package/FlashGBX/FlashGBX_GUI.py:3997
 msgid "Analyze Cartridge"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:3992
+#: ../package/FlashGBX/FlashGBX_GUI.py:4000
 msgid "Failed!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4032
+#: ../package/FlashGBX/FlashGBX_GUI.py:4040
 #, python-brace-format
 msgid "Erasing... This may take up to {seconds} seconds."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4034
+#: ../package/FlashGBX/FlashGBX_GUI.py:4042
 msgid "Erasing... This may take some time."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4042
+#: ../package/FlashGBX/FlashGBX_GUI.py:4050
 msgid "Unlocking flash..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4059
+#: ../package/FlashGBX/FlashGBX_GUI.py:4067
 #, python-brace-format
 msgid "Calculating {checksum_type}..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4061
+#: ../package/FlashGBX/FlashGBX_GUI.py:4069
 msgid "Calculating checksums..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4068
+#: ../package/FlashGBX/FlashGBX_GUI.py:4076
 #, python-brace-format
 msgid "Erasing sector at address {address}..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4117
+#: ../package/FlashGBX/FlashGBX_GUI.py:4125
 msgid "Stopped."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4165
+#: ../package/FlashGBX/FlashGBX_GUI.py:4164
 msgid "Time left:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4202
+#: ../package/FlashGBX/FlashGBX_GUI.py:4217
 msgid "Firmware Updater"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4203
+#: ../package/FlashGBX/FlashGBX_GUI.py:4218
 msgid "Please select your device."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4206
+#: ../package/FlashGBX/FlashGBX_GUI.py:4221
 msgid "Device Type:"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4219
+#: ../package/FlashGBX/FlashGBX_GUI.py:4234
 msgid ""
 "FlashGBX currently does not support updating the firmware of your device."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4234
+#: ../package/FlashGBX/FlashGBX_GUI.py:4249
 msgid "Is a Game Boy Camera cartridge currently inserted?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4242
+#: ../package/FlashGBX/FlashGBX_GUI.py:4257
 msgid "Loading data, please wait..."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4256
+#: ../package/FlashGBX/FlashGBX_GUI.py:4271
 msgid "Please connect to a device first."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX_GUI.py:4259
+#: ../package/FlashGBX/FlashGBX_GUI.py:4274
 msgid "Please select a platform mode (Game Boy or Game Boy Advance) first."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:156
+#: ../package/FlashGBX/Flashcart.py:181
 msgid "CFI Error: Couldn’t retrieve buffer size from the cartridge."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:159
+#: ../package/FlashGBX/Flashcart.py:184
 msgid "Buffered write disabled."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:301
+#: ../package/FlashGBX/Flashcart.py:399
 msgid "CFI Error: Couldn’t retrieve sector size map from the cartridge."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:304
+#: ../package/FlashGBX/Flashcart.py:402
 msgid "Sector erase mode disabled."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:377 ../package/FlashGBX/Flashcart.py:710
-#: ../package/FlashGBX/Flashcart.py:967
+#: ../package/FlashGBX/Flashcart.py:475 ../package/FlashGBX/Flashcart.py:808
+#: ../package/FlashGBX/Flashcart.py:1065
 #, python-brace-format
 msgid ""
 "Erasing the flash chip timed out. The last status register value was {value}."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:378 ../package/FlashGBX/Flashcart.py:711
-#: ../package/FlashGBX/Flashcart.py:824 ../package/FlashGBX/Flashcart.py:968
-#: ../package/FlashGBX/Flashcart.py:1100
+#: ../package/FlashGBX/Flashcart.py:476 ../package/FlashGBX/Flashcart.py:809
+#: ../package/FlashGBX/Flashcart.py:922 ../package/FlashGBX/Flashcart.py:1066
+#: ../package/FlashGBX/Flashcart.py:1198
 msgid ""
 "Please make sure that the cartridge contacts are clean, and that the "
 "selected flashcart profile and settings are correct."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:544
+#: ../package/FlashGBX/Flashcart.py:642
 msgid "Warning: No information about the voltage range found in CFI data."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:615
+#: ../package/FlashGBX/Flashcart.py:713
 msgid "Error: Trying to parse CFI data resulted in an error."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:623
+#: ../package/FlashGBX/Flashcart.py:721
 #, python-brace-format
 msgid "Swapped pins: {pins}"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:624
+#: ../package/FlashGBX/Flashcart.py:722
 #, python-brace-format
 msgid "Device size: {size_hex} ({size_mib})"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:625
+#: ../package/FlashGBX/Flashcart.py:723
 #, python-brace-format
 msgid "Voltage: {min_v}–{max_v} V"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:626 ../package/FlashGBX/Flashcart.py:628
-#: ../package/FlashGBX/Flashcart.py:630
+#: ../package/FlashGBX/Flashcart.py:724 ../package/FlashGBX/Flashcart.py:726
+#: ../package/FlashGBX/Flashcart.py:728
 msgctxt "ROM Write Method"
 msgid "Supported"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:626 ../package/FlashGBX/Flashcart.py:628
-#: ../package/FlashGBX/Flashcart.py:630
+#: ../package/FlashGBX/Flashcart.py:724 ../package/FlashGBX/Flashcart.py:726
+#: ../package/FlashGBX/Flashcart.py:728
 msgctxt "ROM Write Method"
 msgid "Not supported"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:626
+#: ../package/FlashGBX/Flashcart.py:724
 #, python-brace-format
 msgid "Single write: {val}"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:628 ../package/FlashGBX/Flashcart.py:630
+#: ../package/FlashGBX/Flashcart.py:726 ../package/FlashGBX/Flashcart.py:728
 #, python-brace-format
 msgid "Buffered write: {val}"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:631
+#: ../package/FlashGBX/Flashcart.py:729
 #, python-brace-format
 msgid "Chip erase: {avg}–{max} ms"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:632
+#: ../package/FlashGBX/Flashcart.py:730
 #, python-brace-format
 msgid "Sector erase: {avg}–{max} ms"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:633
+#: ../package/FlashGBX/Flashcart.py:731
 #, python-brace-format
 msgid "Sector flags: {flags}"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:640
+#: ../package/FlashGBX/Flashcart.py:738
 #, python-brace-format
 msgid "Region {region}: {start}–{end} @ {size} × {count} (alternative)"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:642
+#: ../package/FlashGBX/Flashcart.py:740
 #, python-brace-format
 msgid "Region {region}: {start}–{end} @ {size} × {count}"
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:823
+#: ../package/FlashGBX/Flashcart.py:921
 #, python-brace-format
 msgid ""
 "Erasing the hidden sector timed out. The last status register value was "
 "{value}."
 msgstr ""
 
-#: ../package/FlashGBX/Flashcart.py:1099
+#: ../package/FlashGBX/Flashcart.py:1197
 #, python-brace-format
 msgid ""
 "Unlocking the hidden sector timed out. The last status register value was "
@@ -3502,7 +3532,7 @@ msgid ""
 "Error: Bad response “{response}” while trying to communicate with the device."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:786 ../package/FlashGBX/LK_Device.py:4050
+#: ../package/FlashGBX/LK_Device.py:786 ../package/FlashGBX/LK_Device.py:4121
 msgid "This flashcart profile requires at least firmware version L12."
 msgstr ""
 
@@ -3542,7 +3572,7 @@ msgctxt "Game Data"
 msgid "Invalid RTC data"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1147 ../package/FlashGBX/LK_Device.py:3116
+#: ../package/FlashGBX/LK_Device.py:1147 ../package/FlashGBX/LK_Device.py:3183
 #, python-brace-format
 msgid ""
 "An error occured while trying to read the hidden sector data of the "
@@ -3572,147 +3602,147 @@ msgstr ""
 msgid "Detecting save type..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1469 ../package/FlashGBX/LK_Device.py:1474
+#: ../package/FlashGBX/LK_Device.py:1479 ../package/FlashGBX/LK_Device.py:1484
 msgid "Unknown FLASH save chip"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1471
+#: ../package/FlashGBX/LK_Device.py:1481
 #, python-brace-format
 msgid "Error: Couldn’t check save type with FLASH save ID {flash_save_id}"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1650
+#: ../package/FlashGBX/LK_Device.py:1668
 msgid "Unknown flash chip ID"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1883 ../package/FlashGBX/LK_Device.py:2140
-#: ../package/FlashGBX/LK_Device.py:2170
+#: ../package/FlashGBX/LK_Device.py:1901 ../package/FlashGBX/LK_Device.py:2202
+#: ../package/FlashGBX/LK_Device.py:2232
 #, python-brace-format
 msgid ""
 "Flash write error (response = {response}) in iteration {iteration} while "
 "trying to write {length} bytes"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1904
+#: ../package/FlashGBX/LK_Device.py:1922
 #, python-brace-format
 msgid ""
 "Flash write timeout (response = {response}) in iteration {iteration} while "
 "trying to write {length} bytes"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2222
+#: ../package/FlashGBX/LK_Device.py:2284
 #, python-brace-format
 msgid ""
 "EEPROM write error (response = {response}) in iteration {iteration} while "
 "trying to write {length} bytes"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2775 ../package/FlashGBX/LK_Device.py:4039
+#: ../package/FlashGBX/LK_Device.py:2841 ../package/FlashGBX/LK_Device.py:4110
 #, python-brace-format
 msgid ""
 "Note: This flashcart profile may not be fully compatible with your "
 "{device_name} running an old or legacy firmware version."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2796 ../package/FlashGBX/LK_Device.py:3300
-#: ../package/FlashGBX/LK_Device.py:4159
+#: ../package/FlashGBX/LK_Device.py:2862 ../package/FlashGBX/LK_Device.py:3367
+#: ../package/FlashGBX/LK_Device.py:4230
 #, python-brace-format
 msgid ""
 "This cartridge uses a mapper that is not supported by FlashGBX using your "
 "{device_name}."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2930
+#: ../package/FlashGBX/LK_Device.py:2996
 #, python-brace-format
 msgid ""
 "Note: This cartridge may not be fully compatible with your {device_name}."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3042
+#: ../package/FlashGBX/LK_Device.py:3109
 #, python-brace-format
 msgid "Note: Incomplete transfer detected. Resuming from {address}..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3052
+#: ../package/FlashGBX/LK_Device.py:3119
 #, python-brace-format
 msgid "Buffer size adjusted to {size} bytes."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3064
+#: ../package/FlashGBX/LK_Device.py:3131
 msgid ""
 "An error occured while reading from the cartridge. When connecting the "
 "device, avoid passive USB hubs and try different USB ports/cables."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3170
+#: ../package/FlashGBX/LK_Device.py:3237
 msgid "ROM checksum"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3194
+#: ../package/FlashGBX/LK_Device.py:3261
 msgid "Error querying the flash save chip."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3207
+#: ../package/FlashGBX/LK_Device.py:3274
 msgid "MD5 hash"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3209
+#: ../package/FlashGBX/LK_Device.py:3276
 msgid "SHA-1 hash"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3211
+#: ../package/FlashGBX/LK_Device.py:3278
 msgid "SHA-256 hash"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3213
+#: ../package/FlashGBX/LK_Device.py:3280
 msgid "CRC32 checksum"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3400
+#: ../package/FlashGBX/LK_Device.py:3467
 msgid "Couldn’t detect the save data flash chip type."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3420
+#: ../package/FlashGBX/LK_Device.py:3487
 #, python-brace-format
 msgid ""
 "Couldn’t detect the DACS flash chip.\n"
 "Unknown Flash ID: {flash_id}"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3622
+#: ../package/FlashGBX/LK_Device.py:3689
 msgid "Error: Inconsistent reads detected."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3626
+#: ../package/FlashGBX/LK_Device.py:3693
 msgid ""
 "Failed to read save data consistently. Please ensure that the cartridge "
 "contacts are clean."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3676
+#: ../package/FlashGBX/LK_Device.py:3743
 #, python-brace-format
 msgid ""
 "Error: Save data flash sector at {address} didn’t erase successfully "
 "(SR={status_register})."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3733 ../package/FlashGBX/LK_Device.py:3741
+#: ../package/FlashGBX/LK_Device.py:3800 ../package/FlashGBX/LK_Device.py:3808
 msgid ""
 "An error occured while writing to the DACS cartridge. Please make sure that "
 "the cartridge contacts are clean, re-connect the device and try again from "
 "the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3878
+#: ../package/FlashGBX/LK_Device.py:3945
 msgid ""
 "The save data was written completely, but didn’t pass the verification check."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3887
+#: ../package/FlashGBX/LK_Device.py:3954
 msgid "more than 10 differences found"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3891
+#: ../package/FlashGBX/LK_Device.py:3958
 #, python-brace-format
 msgid ""
 "The save data was written completely, but {count} byte ({percent}%) didn’t "
@@ -3723,125 +3753,125 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../package/FlashGBX/LK_Device.py:3991
+#: ../package/FlashGBX/LK_Device.py:4062
 msgid ""
 "Note: The last 256 bytes of this 32 MiB ROM will not be written as this area "
 "is reserved by the EEPROM save type."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4015
+#: ../package/FlashGBX/LK_Device.py:4086
 msgctxt "Flashcart Profile"
 msgid "Unknown"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4021
+#: ../package/FlashGBX/LK_Device.py:4092
 msgid "This flashcart profile requires at least firmware version L2."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4026
+#: ../package/FlashGBX/LK_Device.py:4097
 #, python-brace-format
 msgid ""
 "Note: Update your {device_name} firmware to version L3 or higher for a "
 "better transfer rate with this flashcart profile."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4031
+#: ../package/FlashGBX/LK_Device.py:4102
 msgid "This flashcart profile requires at least firmware version L5."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4034
+#: ../package/FlashGBX/LK_Device.py:4105
 #, python-brace-format
 msgid ""
 "Note: Update your {device_name} firmware to version L5 or higher for a "
 "better transfer rate with this flashcart profile."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4044
+#: ../package/FlashGBX/LK_Device.py:4115
 #, python-brace-format
 msgid ""
 "Note: This flashcart profile may not be fully compatible with your "
 "{device_name} until updated to a newer firmware version."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4048
+#: ../package/FlashGBX/LK_Device.py:4119
 msgid ""
 "This flashcart profile requires a different firmware version. Please update "
 "your GBxCart RW firmware using the older FlashGBX v4.3 and try again."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4055
+#: ../package/FlashGBX/LK_Device.py:4126
 msgid "This flashcart profile requires at least firmware version L14."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4113
+#: ../package/FlashGBX/LK_Device.py:4184
 msgid ""
 "Note: Chip erase mode is not supported for this flashcart profile. Sector "
 "erase mode will be used."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4206
+#: ../package/FlashGBX/LK_Device.py:4277
 #, python-brace-format
 msgid ""
 "An error occured while trying to generate the hidden sector data for the "
 "{gb_memory_cartridge}."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4210
+#: ../package/FlashGBX/LK_Device.py:4281
 #, python-brace-format
 msgid ""
 "The {gb_memory_cartridge} requires extra hidden sector data. As it couldn’t "
 "be auto-generated, please provide your own at the following path:"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4242 ../package/FlashGBX/LK_Device.py:4297
+#: ../package/FlashGBX/LK_Device.py:4313 ../package/FlashGBX/LK_Device.py:4368
 msgid "This flashcart profile is currently not supported for ROM writing."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4392
+#: ../package/FlashGBX/LK_Device.py:4469
 #, python-brace-format
 msgid ""
 "Note: This cartridge’s Flash ID ({flash_id}) doesn’t match the flashcart "
 "profile selection."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4451
+#: ../package/FlashGBX/LK_Device.py:4528
 msgid ""
 "No flash sectors were found that would need to be updated for delta flashing."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4497
+#: ../package/FlashGBX/LK_Device.py:4574
 msgid "No erase method available."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4533
+#: ../package/FlashGBX/LK_Device.py:4610
 msgid ""
 "Couldn’t start writing ROM because the flash cart couldn’t be detected "
 "properly."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4759
+#: ../package/FlashGBX/LK_Device.py:4840
 msgctxt "Status Register"
 msgid "Unknown"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4784
+#: ../package/FlashGBX/LK_Device.py:4865
 msgctxt "Status Register"
 msgid "Timeout"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4794 ../package/FlashGBX/LK_Device.py:4840
+#: ../package/FlashGBX/LK_Device.py:4875 ../package/FlashGBX/LK_Device.py:4921
 #, python-brace-format
 msgid ""
 "An error occured while writing {buffer_len} bytes at position {buffer_pos} "
 "({file_size}). Please re-connect the device and try again from the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4806 ../package/FlashGBX/LK_Device.py:4829
-#: ../package/FlashGBX/LK_Device.py:4855
+#: ../package/FlashGBX/LK_Device.py:4887 ../package/FlashGBX/LK_Device.py:4910
+#: ../package/FlashGBX/LK_Device.py:4936
 msgid "Status Register:"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4818
+#: ../package/FlashGBX/LK_Device.py:4899
 #, python-brace-format
 msgid ""
 "Unstable connection detected while writing {buffer_len} bytes in iteration "
@@ -3849,7 +3879,7 @@ msgid ""
 "device and try again from the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4823
+#: ../package/FlashGBX/LK_Device.py:4904
 msgid ""
 "Troubleshooting advice:\n"
 "- Clean cartridge contacts\n"
@@ -3857,7 +3887,7 @@ msgid ""
 "- Avoid passive USB hubs and try different USB ports/cables"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4845
+#: ../package/FlashGBX/LK_Device.py:4926
 #, python-brace-format
 msgid ""
 "Troubleshooting advice:\n"
@@ -3870,12 +3900,12 @@ msgid ""
 "- The cartridge may also be incompatible with your {device_name} device"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4864
+#: ../package/FlashGBX/LK_Device.py:4945
 #, python-brace-format
 msgid "Write error! Retrying from {address}..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4880
+#: ../package/FlashGBX/LK_Device.py:4961
 #, python-brace-format
 msgid ""
 "A critical connection error occured while writing {buffer_len} bytes at "
@@ -3883,46 +3913,46 @@ msgid ""
 "again from the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4892
+#: ../package/FlashGBX/LK_Device.py:4973
 msgid "The erroneous process has been stopped."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4924
+#: ../package/FlashGBX/LK_Device.py:5005
 msgid ""
 "An error occured while writing the hidden sector. Please make sure that the "
 "cartridge contacts are clean, re-connect the device and try again from the "
 "beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5099
+#: ../package/FlashGBX/LK_Device.py:5180
 #, python-brace-format
 msgid "Error: Couldn’t update write-protected file “{file}”"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5167
+#: ../package/FlashGBX/LK_Device.py:5248
 msgid "Retry at 5V?"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5168
+#: ../package/FlashGBX/LK_Device.py:5249
 msgid ""
 "Writing at 3.3V failed. Do you want to retry at 5V? Some cartridges of the "
 "same kind require 5V for successful writing, but please note that 5V can be "
 "unsafe for some flash chips."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5181 ../package/FlashGBX/LK_Device.py:5188
+#: ../package/FlashGBX/LK_Device.py:5262 ../package/FlashGBX/LK_Device.py:5269
 msgid "Note: Writing at 3.3V failed. Retrying at 5V..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5182 ../package/FlashGBX/LK_Device.py:5189
+#: ../package/FlashGBX/LK_Device.py:5263 ../package/FlashGBX/LK_Device.py:5270
 msgid "Switching voltage..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5204
+#: ../package/FlashGBX/LK_Device.py:5285
 msgid "Connection timed out. Please reconnect the device."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5208
+#: ../package/FlashGBX/LK_Device.py:5289
 msgid "Connection closed."
 msgstr ""
 
@@ -3936,50 +3966,50 @@ msgstr ""
 msgid "Unknown mapper type {id}"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:359
+#: ../package/FlashGBX/Mapper.py:362
 msgctxt "Real Time Clock Feature"
 msgid "Not available"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:571 ../package/FlashGBX/Mapper.py:1212
-#: ../package/FlashGBX/Mapper.py:1451 ../package/FlashGBX/Mapper.py:1950
-#: ../package/FlashGBX/Mapper.py:2026
+#: ../package/FlashGBX/Mapper.py:574 ../package/FlashGBX/Mapper.py:1220
+#: ../package/FlashGBX/Mapper.py:1459 ../package/FlashGBX/Mapper.py:1963
+#: ../package/FlashGBX/Mapper.py:2040
 msgid "Error: Couldn’t update the RTC register values."
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:606
+#: ../package/FlashGBX/Mapper.py:609
 msgid "Invalid RTC state"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:609 ../package/FlashGBX/Mapper.py:2048
+#: ../package/FlashGBX/Mapper.py:612 ../package/FlashGBX/Mapper.py:2062
 msgid "Not available"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:612
+#: ../package/FlashGBX/Mapper.py:615
 #, python-brace-format
 msgid "{days} day, {hours}:{minutes}:{seconds}"
 msgid_plural "{days} days, {hours}:{minutes}:{seconds}"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../package/FlashGBX/Mapper.py:968
+#: ../package/FlashGBX/Mapper.py:976
 #, python-brace-format
 msgid "Failed to read the hidden sector data of the {gb_memory_cartridge}."
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:1229
+#: ../package/FlashGBX/Mapper.py:1237
 #, python-brace-format
 msgid "{days} day, {hours}:{minutes}"
 msgid_plural "{days} days, {hours}:{minutes}"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../package/FlashGBX/Mapper.py:1252
+#: ../package/FlashGBX/Mapper.py:1260
 #, python-brace-format
 msgid "Error: Couldn’t enable the {mapper_name} mapper."
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:1521
+#: ../package/FlashGBX/Mapper.py:1529
 #, python-brace-format
 msgctxt "ᴸ means leap year"
 msgid "{years} yearᴸ"
@@ -3987,27 +4017,27 @@ msgid_plural "{years} yearsᴸ"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../package/FlashGBX/Mapper.py:1523
+#: ../package/FlashGBX/Mapper.py:1531
 #, python-brace-format
 msgid "{years} year"
 msgid_plural "{years} years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../package/FlashGBX/Mapper.py:1524
+#: ../package/FlashGBX/Mapper.py:1532
 #, python-brace-format
 msgid "{years_label}, {month}-{day}, {hours}:{minutes}:{seconds}"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:2050
+#: ../package/FlashGBX/Mapper.py:2064
 msgid "Not available / Battery dry"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:2077
+#: ../package/FlashGBX/Mapper.py:2091
 msgid "Invalid RTC data"
 msgstr ""
 
-#: ../package/FlashGBX/Mapper.py:2080
+#: ../package/FlashGBX/Mapper.py:2094
 #, python-brace-format
 msgid "20{year}-{month}-{day} {hours}:{minutes}:{seconds}"
 msgstr ""
@@ -4158,16 +4188,16 @@ msgstr ""
 msgid "Save Photo"
 msgstr ""
 
-#: ../package/FlashGBX/RomFileAGB.py:216
+#: ../package/FlashGBX/RomFileAGB.py:281
 msgid "Error: Database for Game Boy Advance titles is corrupted."
 msgstr ""
 
-#: ../package/FlashGBX/RomFileAGB.py:231 ../package/FlashGBX/RomFileDMG.py:470
+#: ../package/FlashGBX/RomFileAGB.py:296 ../package/FlashGBX/RomFileDMG.py:470
 #, python-brace-format
 msgid "No database entry found for this title (Header SHA1: {sha1})"
 msgstr ""
 
-#: ../package/FlashGBX/RomFileAGB.py:233
+#: ../package/FlashGBX/RomFileAGB.py:298
 #, python-brace-format
 msgid "Error: Database for Game Boy Advance titles not found at {path}"
 msgstr ""

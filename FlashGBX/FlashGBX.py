@@ -78,7 +78,7 @@ def LoadConfig(args):
 				print(__("Warning: config.zip is corrupted and could not be read."))
 
 			if rf_list != "":
-				ret.append([1, __("The application was recently updated and some flashcart profile files have been updated as well. You will find backup copies of them in your configuration directory.") + "\n\n" + __("Updated files:") + "\n" + rf_list[:-1]])
+				ret.append([1, __("The application was recently updated and some flashcart profile files have been updated as well. You will find backup copies of them in your configuration directory.")])
 			fc_files = glob.glob("{0:s}{1}fc_*.txt".format(glob.escape(config_path), os.sep))
 		else:
 			print(__("Warning: {config_zip_file} not found. This is required to load new flashcart profile configurations after updating.", config_zip_file=app_path + os.sep + os.path.join("res", "config.zip")))

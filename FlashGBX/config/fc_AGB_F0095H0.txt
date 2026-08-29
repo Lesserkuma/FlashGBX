@@ -13,7 +13,6 @@
 	"sector_size":0x40000,
 	"reset_every":0x400000,
 	"buffer_size":1024,
-	"_enable_pullups":true,
 	"command_set":"INTEL",
 	"commands":{
 		"reset":[

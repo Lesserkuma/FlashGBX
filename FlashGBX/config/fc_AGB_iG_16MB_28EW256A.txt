@@ -10,7 +10,6 @@
 	"flash_size":0x1000000,
 	"sector_size":0x20000,
 	"chip_erase_timeout":300,
-	"single_write_first_256_bytes":true,
 	"command_set":"AMD",
 	"commands":{
 		"reset":[

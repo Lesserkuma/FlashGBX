@@ -8,7 +8,6 @@
 	"flash_size":0x1FFFF00,
 	"sector_size":0x20000,
 	"chip_erase_timeout":300,
-	"single_write_first_256_bytes":true,
 	"rtc":true,
 	"rumble":true,
 	"command_set":"AMD",

@@ -182,6 +182,15 @@
   "lg": "En",
   "rg": "World"
  },
+ "a8f219ac1229d76813050e87a0ecefbcd19e7884": {
+  "gn": "Earthworm Jim",
+  "ne": "(World) (ModRetro Chromatic)",
+  "gc": "",
+  "rc": 2245607781,
+  "rs": 524288,
+  "lg": "En",
+  "rg": "World"
+ },
  "618d850a659e076a3f5e23616c303f90a2dc206e": {
   "gn": "Fidgetts, The",
   "ne": "(USA, Europe) (En,Fr,De,Es,It,Nl,Sv)",
@@ -190,6 +199,15 @@
   "rs": 262144,
   "lg": "En,Fr,De,Es,It,Nl,Sv",
   "rg": "USA, Europe"
+ },
+ "5b307f9713e4f499757b80febb9e95528bb61d42": {
+  "gn": "Fortified Zone 2",
+  "ne": "(World)",
+  "gc": "",
+  "rc": 1120369397,
+  "rs": 131072,
+  "lg": "En",
+  "rg": "World"
  },
  "6a0ab660fd111c6b6ca75171f858d9570bf11e0c": {
   "gn": "Game Boy Aging Cartridge",
@@ -399,15 +417,6 @@
   "lg": "Zh",
   "rg": "Hong Kong"
  },
- "423f3176f930ba2722c5b3834d9c6ca3849f6ed0": {
-  "gn": "Populous",
-  "ne": "(Europe) (Sample)",
-  "gc": "",
-  "rc": 3975339375,
-  "rs": 131072,
-  "lg": "En",
-  "rg": "Europe"
- },
  "b63995888f0c806f3b15c7889b14634abfb0a43d": {
   "gn": "Pri Pri - Primitive Princess!",
   "ne": "(Japan) (En)",
@@ -444,6 +453,15 @@
   "lg": "En,Fr,De,Es,It,Nl",
   "rg": "World"
  },
+ "dca04a9a5bf73d98f81cb5e544f254364e5454d4": {
+  "gn": "Rayman 2 Forever",
+  "ne": "(World) (En,Fr,De,Es,It) (ModRetro Chromatic)",
+  "gc": "",
+  "rc": 2398705523,
+  "rs": 4194304,
+  "lg": "En,Fr,De,Es,It",
+  "rg": "World"
+ },
  "9d7f891afb2ae348529f4316af085b6f672f9c98": {
   "gn": "Resident Evil",
   "ne": "(Unknown) (Demo) (Climax Entertainment)",
@@ -468,6 +486,42 @@
   "gc": "",
   "rc": 2784381432,
   "rs": 65536,
+  "lg": "En",
+  "rg": "World"
+ },
+ "bd3892cb5e459b4a0151a6ee9bd4ffd7a507a897": {
+  "gn": "Rugrats - Time Travelers",
+  "ne": "(World) (Retro Rewind Collection) (GB Compatible)",
+  "gc": "",
+  "rc": 1898006614,
+  "rs": 1048576,
+  "lg": "En",
+  "rg": "World"
+ },
+ "c9c3d57ff27428fb7fbad1ea2eeacd366d5f3f73": {
+  "gn": "Rugrats Movie, The",
+  "ne": "(World) (Retro Rewind Collection) (SGB Enhanced) (GB Compatible)",
+  "gc": "",
+  "rc": 1178628358,
+  "rs": 1048576,
+  "lg": "En",
+  "rg": "World"
+ },
+ "cf9b3c601e467cdac50afcc54e36193d5a0ac24b": {
+  "gn": "Rugrats Movie, The",
+  "ne": "(World) (Retro Rewind Collection) (SGB Enhanced)",
+  "gc": "",
+  "rc": 39784671,
+  "rs": 524288,
+  "lg": "En",
+  "rg": "World"
+ },
+ "b5c1e2d494d9fc999d26650df880ae8ac0eb3c48": {
+  "gn": "Rugrats in Paris - The Movie",
+  "ne": "(World) (Retro Rewind Collection)",
+  "gc": "",
+  "rc": 1073157976,
+  "rs": 1048576,
   "lg": "En",
   "rg": "World"
  },
@@ -4837,12 +4891,12 @@
  },
  "587aefa58812cc10402965721b77446594464411": {
   "gn": "Game Boy Gallery - 5 Games in 1",
-  "ne": "(Europe) (SGB Enhanced)",
+  "ne": "(Europe, Australia) (SGB Enhanced)",
   "gc": "DMG-AGGA",
   "rc": 641716562,
   "rs": 131072,
   "lg": "En",
-  "rg": "Europe"
+  "rg": "Europe, Australia"
  },
  "21e7c1be8f369135ae7794e889eb176557286def": {
   "gn": "God Medicine - Fukkokuban",
@@ -10706,12 +10760,12 @@
  },
  "5752fbc88777540a222654e723e8d6108784ff08": {
   "gn": "Asterix & Obelix",
-  "ne": "(Spain) (En,Es) (SGB Enhanced)",
+  "ne": "(Europe) (En,Es) (SGB Enhanced)",
   "gc": "DMG-AXOS",
   "rc": 2986164688,
   "rs": 262144,
   "lg": "En,Es",
-  "rg": "Spain"
+  "rg": "Europe"
  },
  "57f05ed150227f3c2cd403b2b039257eb3ad6b10": {
   "gn": "10-Pin Bowling",

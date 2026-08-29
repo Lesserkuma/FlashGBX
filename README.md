@@ -15,7 +15,7 @@ for Windows, Linux, macOS (→ [Download](#downloads))
 - A flash chip query (including Common Flash Interface information) can be performed for flash cartridges
 - Decode and extract Game Boy Camera photos from save data
 - Generate ROM dump reports for game preservation purposes
-- Supported interface languages: English, German
+- Supported interface languages: English, German, Simplified Chinese
 
 ### Compatible cartridge reader/writer hardware
 
@@ -87,8 +87,10 @@ for Windows, Linux, macOS (→ [Download](#downloads))
   - DIY cart with MX29F040
   - DIY cart with MX29LV640
   - DIY cart with SST39SF040
+  - DMG-MBC3-16M-FLASH Development Cartridge
   - DMG-MBC5-32M-FLASH (G/A) Development Cartridge, E201264
   - DMG-MBC5-32M-FLASH (G/A-I) Development Cartridge, E201264
+  - DMG-MBC5-32M-R-FLASH Development Cartridge
   - Ferrante Crafts cart 32 KB
   - Ferrante Crafts cart 64 KB
   - Ferrante Crafts cart 512 KB
@@ -312,12 +314,11 @@ In the GitHub [Releases](https://github.com/Lesserkuma/FlashGBX/releases) sectio
 
 ### **Linux**
 - x86-64/arm64 (.AppImage file): A portable standalone package. Just add execute permissions via `chmod +x /path/to/FlashGBX-*_Linux-*.AppImage`.
-- Installable packages for other distributions: Available inofficially at [JJ-Fox’s repository](https://github.com/JJ-Fox/FlashGBX-Linux-builds/releases/latest).
 
 > [!NOTE]
 > You may need to give yourself permissions to access the cartridge reader/writer hardware using one of the following methods.
-> * Permanent system-wide permissions via udev rules (e.g. /etc/udev/rules.d/50-flashgbx.rules):<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0666"`<br>Then run `sudo udevadm control --reload-rules && sudo udevadm trigger`.
-> * Permanent user account permissions via user group:<br>`sudo usermod -a -G dialout $USER` or `sudo usermod -a -G uucp $USER` (then reboot)
+> * Permanent system-wide permissions via udev rules (e.g. /etc/udev/rules.d/50-flashgbx.rules):<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="B010", MODE="0666"`<br>Then run `sudo udevadm control --reload-rules && sudo udevadm trigger`.
+> * Permanent user account permissions via user group:<br>`sudo usermod -a -G dialout $USER` or `sudo usermod -a -G uucp $USER`<br>Then logout or reboot.
 > * Temporary permissions:<br>`sudo chmod 0666 /dev/ttyUSB0` (replace with actual device path)
 
 > [!NOTE]
@@ -398,7 +399,7 @@ FlashGBX can also be run in a local Python environment like so:
 
 The author would like to thank the following very kind people for their help, contributions or documentation (in alphabetical order):
 
-2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr
+2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, Kelly, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, orzgithub, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr
 
 Thanks to the No-Intro project for their game databases which FlashGBX’s databases are partly based on.
 

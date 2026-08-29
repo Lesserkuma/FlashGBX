@@ -14,7 +14,6 @@
 	"chip_erase_timeout":120,
 	"sector_size_from_cfi":true,
 	"reset_every":0x800000,
-	"_power_cycle":true,
 	"mbc":0x201,
 	"write_pin":"WR",
 	"command_set":"AMD",

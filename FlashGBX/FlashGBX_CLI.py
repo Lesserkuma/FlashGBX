@@ -765,7 +765,10 @@ class FlashGBX_CLI():
 
 			stok = False
 			save_type_str = None
-			if data["save_type"] == None:
+			if data["save_type"] != None:
+				stok = True
+				save_type_str = AgbSaveTypes(data["save_type"]).GetString()
+			else:
 				if db_agb_entry != None:
 					if db_agb_entry['st'] < AgbSaveTypes().GetNumberOfTypes():
 						stok = True
@@ -845,7 +848,7 @@ class FlashGBX_CLI():
 			elif self.CONN.GetMode() == "AGB":
 				temp = "{:s}".format(AgbSaveTypes(save_type).GetString())
 		if save_type == 0:
-			if save_chip and "Unknown" in save_chip:
+			if save_chip and "Unknown" not in save_chip:
 				msg_save_type_s = __("Save Type:")  + " " + save_chip + "\n"
 			else:
 				msg_save_type_s = __("Save Type:") + " " + c__("Save Type", "None or unknown (no save data detected)") + "\n"

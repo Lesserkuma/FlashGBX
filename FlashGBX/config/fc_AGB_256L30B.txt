@@ -17,7 +17,6 @@
 		[0x20000, 255]
 	],
 	"reset_every":0x200000,
-	"single_write_7FC0_to_7FFF":true,
 	"command_set":"INTEL",
 	"commands":{
 		"reset":[

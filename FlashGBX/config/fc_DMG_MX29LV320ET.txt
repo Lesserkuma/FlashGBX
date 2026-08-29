@@ -17,7 +17,6 @@
 	"start_addr":0,
 	"first_bank":1,
 	"write_pin":"WR",
-	"_enable_pullup_wr":true,
 	"sector_size":[
 		[0x10000, 63],
 		[0x2000, 8]

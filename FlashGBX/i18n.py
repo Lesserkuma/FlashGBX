@@ -8,8 +8,17 @@ OS_LANGUAGE = "en"
 CONFIGURED_LANGUAGE = None
 TRANSLATION_AUTHOR = None
 
-# ISO 639-1 language codes: code -> (English name, native name)
+# Language codes: code -> (English name, native name)
 LANGUAGES = {"aa": ("Afar", "Qafar af"), "ab": ("Abkhazian", "Аԥсшәа"), "ae": ("Avestan", "Avesta"), "af": ("Afrikaans", "Afrikaans"), "ak": ("Akan", "Akan"), "am": ("Amharic", "አማርኛ"), "an": ("Aragonese", "Aragonés"), "ar": ("Arabic", "العربية"), "as": ("Assamese", "অসমীয়া"), "av": ("Avaric", "авар мацӀ"), "ay": ("Aymara", "Aymar aru"), "az": ("Azerbaijani", "Azərbaycan dili"), "ba": ("Bashkir", "Башҡорт теле"), "be": ("Belarusian", "Беларуская мова"), "bg": ("Bulgarian", "Български"), "bh": ("Bihari languages", "भोजपुरी"), "bi": ("Bislama", "Bislama"), "bm": ("Bambara", "Bamanankan"), "bn": ("Bengali", "বাংলা"), "bo": ("Tibetan", "བོད་སྐད་"), "br": ("Breton", "Brezhoneg"), "bs": ("Bosnian", "Bosanski"), "ca": ("Catalan", "Català"), "ce": ("Chechen", "Нохчийн мотт"), "ch": ("Chamorro", "Chamoru"), "co": ("Corsican", "Corsu"), "cr": ("Cree", "ᓀᐦᐃᔭᐍᐏᐣ"), "cs": ("Czech", "Čeština"), "cu": ("Church Slavonic", "Славе́нскїй ѧ҆зы́къ"), "cv": ("Chuvash", "Чӑваш чӗлхи"), "cy": ("Welsh", "Cymraeg"), "da": ("Danish", "Dansk"), "de": ("German", "Deutsch"), "dv": ("Divehi", "ދިވެހިބަސް"), "dz": ("Dzongkha", "རྫོང་ཁ"), "ee": ("Ewe", "Eʋegbe"), "el": ("Greek", "Ελληνικά"), "en": ("English", "English"), "eo": ("Esperanto", "Esperanto"), "es": ("Spanish", "Español"), "et": ("Estonian", "Eesti"), "eu": ("Basque", "Euskara"), "fa": ("Persian", "فارسی"), "ff": ("Fulah", "Fulfulde"), "fi": ("Finnish", "Suomi"), "fj": ("Fijian", "Na Vosa Vakaviti"), "fo": ("Faroese", "Føroyskt"), "fr": ("French", "Français"), "fy": ("Western Frisian", "Frysk"), "ga": ("Irish", "Gaeilge"), "gd": ("Scottish Gaelic", "Gàidhlig"), "gl": ("Galician", "Galego"), "gn": ("Guaraní", "Avañe'ẽ"), "gu": ("Gujarati", "ગુજરાતી"), "gv": ("Manx", "Gaelg"), "ha": ("Hausa", "Hausa"), "he": ("Hebrew", "עברית"), "hi": ("Hindi", "हिन्दी"), "ho": ("Hiri Motu", "Hiri Motu"), "hr": ("Croatian", "Hrvatski"), "ht": ("Haitian Creole", "Kreyòl Ayisyen"), "hu": ("Hungarian", "Magyar"), "hy": ("Armenian", "Հայերեն"), "hz": ("Herero", "Otjiherero"), "ia": ("Interlingua", "Interlingua"), "id": ("Indonesian", "Bahasa Indonesia"), "ie": ("Interlingue", "Interlingue"), "ig": ("Igbo", "Asụsụ Igbo"), "ii": ("Sichuan Yi", "ꆈꌠ꒿ Nuosuhxop"), "ik": ("Inupiaq", "Iñupiaq"), "io": ("Ido", "Ido"), "is": ("Icelandic", "Íslenska"), "it": ("Italian", "Italiano"), "iu": ("Inuktitut", "ᐃᓄᒃᑎᑐᑦ"), "ja": ("Japanese", "日本語"), "jv": ("Javanese", "Basa Jawa"), "ka": ("Georgian", "ქართული"), "kg": ("Kongo", "Kikongo"), "ki": ("Kikuyu", "Gĩkũyũ"), "kj": ("Kuanyama", "Kuanyama"), "kk": ("Kazakh", "Қазақ тілі"), "kl": ("Kalaallisut", "Kalaallisut"), "km": ("Khmer", "ខ្មែរ"), "kn": ("Kannada", "ಕನ್ನಡ"), "ko": ("Korean", "한국어"), "kr": ("Kanuri", "Kanuri"), "ks": ("Kashmiri", "कश्मीरी"), "ku": ("Kurdish", "Kurdî"), "kv": ("Komi", "Коми кыв"), "kw": ("Cornish", "Kernewek"), "ky": ("Kyrgyz", "Кыргызча"), "la": ("Latin", "Latina"), "lb": ("Luxembourgish", "Lëtzebuergesch"), "lg": ("Ganda", "Luganda"), "li": ("Limburgish", "Limburgs"), "ln": ("Lingala", "Lingála"), "lo": ("Lao", "ລາວ"), "lt": ("Lithuanian", "Lietuvių"), "lu": ("Luba-Katanga", "Tshiluba"), "lv": ("Latvian", "Latviešu"), "mg": ("Malagasy", "Malagasy"), "mh": ("Marshallese", "Kajin M̧ajeļ"), "mi": ("Māori", "Te Reo Māori"), "mk": ("Macedonian", "Македонски"), "ml": ("Malayalam", "മലയാളം"), "mn": ("Mongolian", "Монгол"), "mr": ("Marathi", "मराठी"), "ms": ("Malay", "Bahasa Melayu"), "mt": ("Maltese", "Malti"), "my": ("Burmese", "မြန်မာဘာသာ"), "na": ("Nauru", "Dorerin Naoero"), "nb": ("Norwegian Bokmål", "Norsk Bokmål"), "nd": ("North Ndebele", "isiNdebele"), "ne": ("Nepali", "नेपाली"), "ng": ("Ndonga", "Owambo"), "nl": ("Dutch", "Nederlands"), "nn": ("Norwegian Nynorsk", "Norsk Nynorsk"), "no": ("Norwegian", "Norsk"), "nr": ("South Ndebele", "isiNdebele"), "nv": ("Navajo", "Diné bizaad"), "ny": ("Chichewa", "ChiCheŵa"), "oc": ("Occitan", "Occitan"), "oj": ("Ojibwa", "ᐊᓂᔑᓈᐯᒧᐎᓐ"), "om": ("Oromo", "Afaan Oromoo"), "or": ("Odia", "ଓଡ଼ିଆ"), "os": ("Ossetian", "Ирон ӕвзаг"), "pa": ("Punjabi", "ਪੰਜਾਬੀ"), "pi": ("Pāli", "पाळि"), "pl": ("Polish", "Polski"), "ps": ("Pashto", "پښتو"), "pt": ("Portuguese", "Português"), "qu": ("Quechua", "Runa Simi"), "rm": ("Romansh", "Rumantsch"), "rn": ("Kirundi", "Ikirundi"), "ro": ("Romanian", "Română"), "ru": ("Russian", "Русский"), "rw": ("Kinyarwanda", "Ikinyarwanda"), "sa": ("Sanskrit", "संस्कृतम्"), "sc": ("Sardinian", "Sardu"), "sd": ("Sindhi", "سنڌي"), "se": ("Northern Sami", "Davvisámegiella"), "sg": ("Sango", "Yângâ tî sängö"), "si": ("Sinhala", "සිංහල"), "sk": ("Slovak", "Slovenčina"), "sl": ("Slovenian", "Slovenščina"), "sm": ("Samoan", "Gagana Samoa"), "sn": ("Shona", "ChiShona"), "so": ("Somali", "Soomaali"), "sq": ("Albanian", "Shqip"), "sr": ("Serbian", "Српски"), "ss": ("Swati", "SiSwati"), "st": ("Southern Sotho", "Sesotho"), "su": ("Sundanese", "Basa Sunda"), "sv": ("Swedish", "Svenska"), "sw": ("Swahili", "Kiswahili"), "ta": ("Tamil", "தமிழ்"), "te": ("Telugu", "తెలుగు"), "tg": ("Tajik", "Тоҷикӣ"), "th": ("Thai", "ไทย"), "ti": ("Tigrinya", "ትግርኛ"), "tk": ("Turkmen", "Türkmençe"), "tl": ("Tagalog", "Tagalog"), "tn": ("Tswana", "Setswana"), "to": ("Tonga", "Lea fakatonga"), "tr": ("Turkish", "Türkçe"), "ts": ("Tsonga", "Xitsonga"), "tt": ("Tatar", "Татарча"), "tw": ("Twi", "Twi"), "ty": ("Tahitian", "Reo Tahiti"), "ug": ("Uighur", "ئۇيغۇرچە"), "uk": ("Ukrainian", "Українська"), "ur": ("Urdu", "اردو"), "uz": ("Uzbek", "Oʻzbekcha"), "ve": ("Venda", "Tshivenḓa"), "vi": ("Vietnamese", "Tiếng Việt"), "vo": ("Volapük", "Volapük"), "wa": ("Walloon", "Walon"), "wo": ("Wolof", "Wolof"), "xh": ("Xhosa", "isiXhosa"), "yi": ("Yiddish", "ייִדיש"), "yo": ("Yoruba", "Èdè Yorùbá"), "za": ("Zhuang", "Vahcuengh"), "zh": ("Chinese", "中文"), "zu": ("Zulu", "isiZulu")}
+# Add additional languages as needed (GNU gettext ll_CC format)
+LANGUAGES.update({"zh_CN": ("Simplified Chinese", "简体中文"), "zh_TW": ("Traditional Chinese", "繁體中文")})
+
+def _language_tag(language):
+	language = re.split(r"[.@]", language or "", maxsplit=1)[0].replace("-", "_")
+	parts = language.split("_")
+	if parts[0].upper() == "C":
+		return "C"
+	return "_".join([parts[0].lower()] + [p.upper() if len(p) in (2, 3) else p.title() if len(p) == 4 else p for p in parts[1:]])
 
 def set_locale(language=None):
 	target = language or OS_LANGUAGE or ""
@@ -251,20 +260,21 @@ def init_language(config_path, override=None):
 	else:
 		language_setting = settings.GetValue("Language", default="auto")
 
-	system_language = OS_LANGUAGE.split("_")[0].split("-")[0].lower()
+	system_language = _language_tag(OS_LANGUAGE)
 
 	if language_setting and language_setting.lower() != "auto":
-		CONFIGURED_LANGUAGE = language_setting
-		lang_code = language_setting.split("_")[0].split("-")[0].lower()
+		CONFIGURED_LANGUAGE = lang_code = _language_tag(language_setting)
 	else:
-		CONFIGURED_LANGUAGE = system_language
-		if system_language and system_language != "C":
-			lang_code = system_language
-		else:
-			lang_code = "en"
+		lang_code = system_language if system_language and system_language != "C" else "en"
+		if lang_code not in LANGUAGES.keys():
+			lang_code = lang_code.split("_")[0].lower()
+		CONFIGURED_LANGUAGE = lang_code
 
 	if lang_code not in LANGUAGES.keys():
-		CONFIGURED_LANGUAGE = lang_code = "en"
+		lang_code = lang_code.split("_")[0].lower()
+		if lang_code not in LANGUAGES.keys():
+			lang_code = "en"
+		CONFIGURED_LANGUAGE = lang_code
 
 	if lang_code and lang_code != "en":
 		try:

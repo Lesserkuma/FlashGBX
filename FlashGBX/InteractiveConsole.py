@@ -196,7 +196,7 @@ class InteractiveConsole:
 					self.on_output(__("EEPROM read requires size to be a multiple of 8 bytes."))
 					return True
 				self.CONN._set_fw_variable("TRANSFER_SIZE", size)
-				self.CONN._set_fw_variable("ADDRESS", address)
+				self.CONN._set_fw_variable("ADDRESS", address // 8)  # EEPROM commands use address divided by 8
 				cmd = bytearray([self.CONN.DEVICE_CMD["AGB_CART_READ_EEPROM"], eeprom_type])
 				self.CONN._write(cmd)
 				data = self.CONN._read(size)
@@ -222,7 +222,7 @@ class InteractiveConsole:
 					self.on_output(__("EEPROM write requires data length to be a multiple of 8 bytes."))
 					return True
 				self.CONN._set_fw_variable("TRANSFER_SIZE", len(data))
-				self.CONN._set_fw_variable("ADDRESS", address)
+				self.CONN._set_fw_variable("ADDRESS", address // 8)  # EEPROM commands use address divided by 8
 				cmd = bytearray([self.CONN.DEVICE_CMD["AGB_CART_WRITE_EEPROM"], eeprom_type])
 				self.CONN._write(cmd)
 				ack = self.CONN._write(data, wait=True)

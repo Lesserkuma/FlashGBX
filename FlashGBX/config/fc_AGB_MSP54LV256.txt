@@ -9,7 +9,6 @@
 	"voltage":3.3,
 	"flash_size":0x2000000,
 	"sector_size_from_cfi":true,
-	"_reset_every":0x100000,
 	"status_register_mask":0x40,
 	"status_register_value":0x40,
 	"chip_erase_timeout":300,

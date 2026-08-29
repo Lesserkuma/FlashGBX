@@ -1,4 +1,11 @@
 # Release notes
+### v5.1 (released 2026-08-29)
+- Added support for DMG-MBC3-16M-FLASH Development Cartridge *(thanks Kelly)*
+- Added support for DMG-MBC5-32M-R-FLASH Development Cartridge *(thanks Kelly)*
+- Added a Simplified Chinese language localization *(thanks orzgithub)*
+- Updated the Game Boy and Game Boy Advance lookup databases for save types, ROM sizes and checksums
+- Minor bug fixes and improvements
+
 ### v5.0/v5.0.1 (released 2026-06-06)
 - Added support for the [Game Bub](https://gamebub.net/) hardware device *(thanks Eli)*
 - Added a new launcher for the Windows pre-built package that hides the terminal window

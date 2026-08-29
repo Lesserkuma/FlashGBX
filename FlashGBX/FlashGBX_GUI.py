@@ -180,11 +180,14 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		grpStatusLayout.addLayout(rowStatus3a)
 		rowStatus4a = QtWidgets.QHBoxLayout()
 		self.lblStatus4a = QtWidgets.QLabel()
-		self.lblStatus4a.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+		self.lblStatus4a.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
 		rowStatus4a.addWidget(self.lblStatus4a)
 		self.lblStatus4aResult = QtWidgets.QLabel("")
 		self.lblStatus4aResult.setVisible(False)
 		rowStatus4a.addWidget(self.lblStatus4aResult)
+		self.lblStatus5a = QtWidgets.QLabel("")
+		self.lblStatus5a.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+		rowStatus4a.addWidget(self.lblStatus5a, 1)
 		grpStatusLayout.addLayout(rowStatus4a)
 
 		rowStatus2 = QtWidgets.QHBoxLayout()
@@ -643,7 +646,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.lblStatus1a.setText(__("Data transferred:"))
 		self.lblStatus2a.setText(__("Transfer rate:"))
 		self.lblStatus3a.setText(__("Time elapsed:"))
-		self.lblStatus4a.setText(__("Ready."))
+		self.SetStatus4aText(__("Ready."))
 		btnText = __("Stop")
 		self.btnCancel.setText(btnText)
 		btnWidth = self.btnCancel.fontMetrics().boundingRect(btnText).width() + 15
@@ -1186,12 +1189,12 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.btnConnect.setText(c__("Button (& = Keyboard Shortcut)", "&Connect"))
 		self.lblDevice.setText(__("Disconnected."))
 		self.SetProgressBars(min=0, max=1, value=0)
-		self.lblStatus4a.setText(__("Disconnected."))
+		self.SetStatus4aText(__("Disconnected."))
 		self.lblStatus1aResult.setText("–")
 		self.lblStatus2aResult.setText("–")
 		self.lblStatus3aResult.setText("–")
 		self.SetStatus4aResult("")
-		self.lblStatus4a.setText(__("Disconnected."))
+		self.SetStatus4aText(__("Disconnected."))
 		self.grpStatus.setTitle(__("Transfer Status"))
 		self.mnuConfig.actions()[5].setVisible(True)
 		self.mnuConfig.actions()[8].setVisible(True)
@@ -1221,13 +1224,13 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			if isinstance(lang_name, tuple):
 				lang_name = lang_name[0]
 			msg += f"Translated to {lang_name} by {i18n.TRANSLATION_AUTHOR}<br><br>"
-		msg += "Acknowledgments and Contributors:<br><small>2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr</small>"
+		msg += "Acknowledgments and Contributors:<br><small>2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, Kelly, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, orzgithub, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr</small>"
 		QtWidgets.QMessageBox.information(self, "{:s} {:s}".format(AppInfo.NAME, AppInfo.VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def AboutGameDB(self):
 		msg = __("FlashGBX uses a game database that is based on the ongoing efforts of the No-Intro project. Visit {url} for more information.", url="<a href=\"https://no-intro.org/\">https://no-intro.org/</a>") + "<br><br>"
 		msg += __("No-Intro databases referenced for this version of FlashGBX:") + "<br>"
-		msg += "• Nintendo - Game Boy (20260605-002844)<br>• Nintendo - Game Boy Advance (20260602-094414)<br>• Nintendo - Game Boy Advance (Video) (20260522-144016)<br>• Nintendo - Game Boy Color (20260605-010629)" # No-Intro DBs
+		msg += "• Nintendo - Game Boy (20260828-172824)<br>• Nintendo - Game Boy Advance (20260828-013543)<br>• Nintendo - Game Boy Advance (Video) (20260522-144016)<br>• Nintendo - Game Boy Color (20260828-013644)" # No-Intro DBs
 		QtWidgets.QMessageBox.information(self, "FlashGBX {:s}".format(AppInfo.VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def _GetDeviceSupportData(self):
@@ -1418,9 +1421,9 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.optAGB.setAutoExclusive(True)
 				self.optDMG.setAutoExclusive(True)
 				if len(self.CONN.GetSupprtedModes()) == 2:
-					self.lblStatus4a.setText(__("Ready. Please select Platform Mode."))
+					self.SetStatus4aText(__("Ready. Please select Platform Mode."))
 				else:
-					self.lblStatus4a.setText(__("Ready."))
+					self.SetStatus4aText(__("Ready."))
 				self.btnConnect.setText(c__("Button (& = Keyboard Shortcut)", "&Disconnect"))
 				self.cmbDevice.setStyleSheet("QComboBox { border: 0; margin: 0; padding: 0; max-width: 0px; }")
 				if dev.GetFWBuildDate() == "":
@@ -1641,7 +1644,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		if "stresstest_running" in self.STATUS:
 			del(self.STATUS["stresstest_running"])
 		self.CONN.AbortOperation()
-		self.lblStatus4a.setText(__("Stopping... Please wait."))
+		self.SetStatus4aText(__("Stopping... Please wait."))
 		self.SetStatus4aResult("")
 
 	def FinishOperation(self):
@@ -1705,12 +1708,12 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				if self.CONN.INFO.get("rom_checksum", -1) == self.CONN.INFO.get("rom_checksum_calc", -2):
 					self.lblDMGHeaderROMChecksumResult.setText(c__("Game Data", "Valid") + " (0x{:04X})".format(self.CONN.INFO.get("rom_checksum", 0)))
 					self.lblDMGHeaderROMChecksumResult.setStyleSheet("QLabel { color: green; }")
-					self.lblStatus4a.setText(__("Done!"))
+					self.SetStatus4aText(__("Done!"))
 					msg = __("The ROM backup is complete and the checksum was verified successfully!")
 					msgbox.setText(msg + msg_te)
 					msgbox.exec()
 				else:
-					self.lblStatus4a.setText(__("Done!"))
+					self.SetStatus4aText(__("Done!"))
 					if "mapper_raw" in self.CONN.INFO and self.CONN.INFO["mapper_raw"] in (0x202, 0x203, 0x205):
 						msg = __("The ROM backup is complete.")
 						msgbox.setText(msg + msg_te)
@@ -1751,14 +1754,14 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					if self.CONN.INFO["db"]["rc"] == self.CONN.INFO.get("file_crc32"):
 						self.lblAGBHeaderROMChecksumResult.setText(c__("Game Data", "Valid") + " (0x{:06X})".format(self.CONN.INFO["db"]["rc"]))
 						self.lblAGBHeaderROMChecksumResult.setStyleSheet("QLabel { color: green; }")
-						self.lblStatus4a.setText(__("Done!"))
+						self.SetStatus4aText(__("Done!"))
 						msg = __("The ROM backup is complete and the checksum was verified successfully!")
 						msgbox.setText(msg + msg_te)
 						msgbox.exec()
 					else:
 						self.lblAGBHeaderROMChecksumResult.setText(c__("Game Data", "Invalid") + " (0x{:06X}≠0x{:06X})".format(self.CONN.INFO.get("file_crc32", 0), self.CONN.INFO["db"]["rc"]))
 						self.lblAGBHeaderROMChecksumResult.setStyleSheet("QLabel { color: red; }")
-						self.lblStatus4a.setText(__("Done!"))
+						self.SetStatus4aText(__("Done!"))
 						msg = __("The ROM backup is complete, but the checksum doesn’t match the known database entry.")
 						if self.CONN.INFO["loop_detected"] is not False:
 							msg += "\n\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
@@ -1770,7 +1773,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				else:
 					self.lblAGBHeaderROMChecksumResult.setText("0x{:06X}".format(self.CONN.INFO.get("file_crc32", 0)))
 					self.lblAGBHeaderROMChecksumResult.setStyleSheet(self.DEFAULT_STYLESHEET)
-					self.lblStatus4a.setText(__("Done!"))
+					self.SetStatus4aText(__("Done!"))
 					msg = __("The ROM backup is complete! As there is no known checksum for this ROM in the database, verification was skipped.")
 					if self.CONN.INFO["loop_detected"] is not False:
 						msg += "\n\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
@@ -1791,7 +1794,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.OpenPath(self.STATUS["last_path"], select_file=True)
 
 		elif self.CONN.INFO["last_action"] == 2: # Backup RAM
-			self.lblStatus4a.setText(__("Done!"))
+			self.SetStatus4aText(__("Done!"))
 			self.CONN.INFO["last_action"] = 0
 
 			dontShowAgainCameraSavePopup = str(self.SETTINGS.value("SkipCameraSavePopup", default="disabled")).lower() == "enabled"
@@ -1823,7 +1826,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.OpenPath(self.CONN.INFO["last_path"], select_file=True)
 
 		elif self.CONN.INFO["last_action"] == 3: # Restore RAM
-			self.lblStatus4a.setText(__("Done!"))
+			self.SetStatus4aText(__("Done!"))
 			self.CONN.INFO["last_action"] = 0
 			if "save_erase" in self.CONN.INFO and self.CONN.INFO["save_erase"]:
 				msg_text = __("The save data was erased.")
@@ -1876,7 +1879,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					return
 
 			self.CONN.INFO["last_action"] = 0
-			self.lblStatus4a.setText(__("Done!"))
+			self.SetStatus4aText(__("Done!"))
 			if "verified" in self.PROGRESS.PROGRESS and self.PROGRESS.PROGRESS["verified"] == True:
 				msg = __("The ROM was written and verified successfully!")
 			else:
@@ -1899,12 +1902,12 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.ReadCartridge(resetStatus=False)
 
 		elif self.CONN.INFO["last_action"] == 6: # Detect Cartridge
-			self.lblStatus4a.setText(__("Ready."))
+			self.SetStatus4aText(__("Ready."))
 			self.CONN.INFO["last_action"] = 0
 			self.FinishDetectCartridge(self.CONN.INFO.get("detect_cart", False))
 
 		else:
-			self.lblStatus4a.setText(__("Ready."))
+			self.SetStatus4aText(__("Ready."))
 			self.CONN.INFO["last_action"] = 0
 
 		if dontShowAgain: self.SETTINGS.setValue("SkipFinishMessage", "enabled")
@@ -1996,7 +1999,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.mnuTools.setEnabled(False)
 		self.mnuConfig.setEnabled(False)
 		self.mnuLanguage.setEnabled(False)
-		self.lblStatus4a.setText(__("Preparing..."))
+		self.SetStatus4aText(__("Preparing..."))
 		qt_app.processEvents()
 		args = { "path":path, "mbc":mbc, "rom_size":rom_size, "agb_rom_size":rom_size, "fast_read_mode":True, "cart_type":cart_type, "settings":self.SETTINGS }
 		self.CONN.BackupROM(fncSetProgress=self.PROGRESS.SetProgress, args=args)
@@ -2237,7 +2240,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.mnuTools.setEnabled(False)
 		self.mnuConfig.setEnabled(False)
 		self.mnuLanguage.setEnabled(False)
-		self.lblStatus4a.setText(__("Preparing..."))
+		self.SetStatus4aText(__("Preparing..."))
 		qt_app.processEvents()
 		if len(buffer) > 0x1000 or just_erase:
 			if just_erase:
@@ -2382,7 +2385,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.mnuTools.setEnabled(False)
 		self.mnuConfig.setEnabled(False)
 		self.mnuLanguage.setEnabled(False)
-		self.lblStatus4a.setText(__("Preparing..."))
+		self.SetStatus4aText(__("Preparing..."))
 		qt_app.processEvents()
 
 		if len(bl_args) > 0:
@@ -2636,7 +2639,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			self.mnuTools.setEnabled(False)
 			self.mnuConfig.setEnabled(False)
 			self.mnuLanguage.setEnabled(False)
-			self.lblStatus4a.setText(__("Preparing..."))
+			self.SetStatus4aText(__("Preparing..."))
 			self.grpStatus.setTitle(__("Transfer Status"))
 			self.lblStatus1aResult.setText("–")
 			self.lblStatus2aResult.setText("–")
@@ -2685,7 +2688,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			backup_fn = AppContext.CONFIG_PATH + os.sep + "backup_stress_test.bin"
 
 			try:
-				self.lblStatus4a.setText(__("Testing ({pattern} 1/2)...", pattern=test_patterns_names[0]))
+				self.SetStatus4aText(__("Testing ({pattern} 1/2)...", pattern=test_patterns_names[0]))
 				self.SetProgressBars(min=0, max=len(test_patterns)+3, value=0)
 				qt_app.processEvents()
 				args = { "mode":2, "path":path, "mbc":mbc, "save_type":save_type, "rtc":False, "cart_type":cart_type }
@@ -2700,14 +2703,14 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					self.CONN.CartPowerOff()
 					self.SetProgressBars(min=0, max=len(test_patterns)+3, value=1)
 					for i in range(5, 0, -1):
-						self.lblStatus4a.setText(__("Waiting for power cycle ({countdown})...", countdown=i))
+						self.SetStatus4aText(__("Waiting for power cycle ({countdown})...", countdown=i))
 						qt_app.processEvents()
 						time.sleep(1)
 						if "stresstest_running" not in self.STATUS: break
 					self.CONN.CartPowerOn()
 				else:
 					time.sleep(1)
-				self.lblStatus4a.setText(__("Testing ({pattern} 2/2)...", pattern=test_patterns_names[0]))
+				self.SetStatus4aText(__("Testing ({pattern} 2/2)...", pattern=test_patterns_names[0]))
 				qt_app.processEvents()
 				t = threading.Thread(target=lambda a: self.CONN.TransferData(args=a, signal=None), args=[args])
 				t.start()
@@ -2737,7 +2740,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				test_ok += 1
 				for i in range(0, len(test_patterns)):
 					if "stresstest_running" not in self.STATUS: break
-					self.lblStatus4a.setText(__("Testing ({pattern})...", pattern=test_patterns_names[i+1]))
+					self.SetStatus4aText(__("Testing ({pattern})...", pattern=test_patterns_names[i+1]))
 					self.SetProgressBars(min=0, max=len(test_patterns)+3, value=i+2)
 					qt_app.processEvents()
 					towrite = test_patterns[i]
@@ -2766,7 +2769,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					test_ok += 1
 
 				self.btnCancel.setEnabled(False)
-				self.lblStatus4a.setText(__("Restoring original save data..."))
+				self.SetStatus4aText(__("Restoring original save data..."))
 				self.SetProgressBars(min=0, max=len(test_patterns)+3, value=len(test_patterns)+2)
 				qt_app.processEvents()
 				args = { "mode":3, "path":path, "mbc":mbc, "save_type":save_type, "rtc":False, "rtc_advance":rtc_advance, "erase":erase, "verify_write":False, "buffer":save1, "cart_type":cart_type }
@@ -2788,7 +2791,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			msg_te = "\n\n" + __("Total time elapsed: {elapsed}", elapsed=Formatter.progress_time(time_elapsed, as_float=True))
 
 			self.SetProgressBars(min=0, max=100, value=100)
-			self.lblStatus4a.setText(__("Done!"))
+			self.SetStatus4aText(__("Done!"))
 			qt_app.processEvents()
 
 			if "stresstest_running" in self.STATUS:
@@ -2875,7 +2878,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			self.mnuTools.setEnabled(False)
 			self.mnuConfig.setEnabled(False)
 			self.mnuLanguage.setEnabled(False)
-			self.lblStatus4a.setText(__("Preparing..."))
+			self.SetStatus4aText(__("Preparing..."))
 			self.grpStatus.setTitle(__("Transfer Status"))
 			self.lblStatus1aResult.setText("–")
 			self.lblStatus2aResult.setText("–")
@@ -2887,7 +2890,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		mode = self.CONN.GetMode()
 		if mode == "AGB":
 			locs = [ 0x3C0000, 0x7C0000, 0xFC0000, 0x1FC0000 ]
-			lens = [ 0x2000, 0x8000, 0x10000, 0x20000 ]
+			lens = [ 0x200, 0x2000, 0x8000, 0x10000, 0x20000 ]
 		elif mode == "DMG":
 			locs = [ 0xD0000, 0x100000, 0x110000, 0x1D0000, 0x1E0000, 0x210000, 0x3D0000 ]
 			lens = [ 0x2000, 0x8000, 0x10000, 0x20000 ]
@@ -2912,12 +2915,12 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			try:
 				loc_index = locs.index(detected["bl_offset"])
 				len_index = lens.index(detected["bl_size"])
-				intro_msg = "In order to access Batteryless SRAM save data, its ROM location and size must be specified.\n\nThe previously detected parameters have been pre-selected. Please adjust if necessary, then click “OK” to continue."
+				intro_msg = __("In order to access Batteryless SRAM save data, its ROM location and size must be specified.") + "\n\n" + __("The previously detected parameters have been pre-selected. Please adjust if necessary, then click “OK” to continue.")
 			except:
 				detected = False
 		if detected is False:
-			intro_msg = "In order to access Batteryless SRAM save data, its ROM location and size must be specified.\n\n"
-			intro_msg2 = "⚠️ The required parameters could not be auto-detected. Please enter the ROM location and size manually below. Note that wrong values can corrupt your game upon writing, so having a full ROM backup is recommended."
+			intro_msg = __("In order to access Batteryless SRAM save data, its ROM location and size must be specified.") + "\n\n"
+			intro_msg2 = __("⚠️ The required parameters could not be auto-detected. Please enter the ROM location and size manually below.") + " " + __("Note that wrong values can corrupt your game when writing, so having a full ROM backup is recommended.")
 
 			if mode == "DMG":
 				try:
@@ -2928,7 +2931,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 						loc_index = locs.index(preselect["bl_offset"])
 						len_index = lens.index(preselect["bl_size"])
 						lay_index = preselect.get("bl_layout")
-						intro_msg2 = "The required parameters were pre-selected based on the ROM title “" + game_title_raw + "”. These may still be inaccurate, so you can adjust them below if necessary. Note that wrong values can corrupt your game when writing, so having a full ROM backup is recommended."
+						intro_msg2 = __("The required parameters were pre-selected based on the ROM title “{game_title}”. These may still be inaccurate, so you can adjust them below if necessary.") + " " + __("Note that wrong values can corrupt your game when writing, so having a full ROM backup is recommended.", game_title=game_title_raw)
 				except:
 					pass
 
@@ -3013,10 +3016,10 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					"intro": __("Enter the number of days, hours, minutes and seconds that passed since the RTC initially started.") + "\n\n" + __("Please note that all values are internal values. The game may use these only as a relative reference."),
 					"params": [
 						# ID, Type, Value(s), Default Index
-						[ "rtc_d", "spb", c__("Real Time Clock Setting", "Days:"), (0, 511), rtc_data["rtc_d"] ],
-						[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data["rtc_h"] ],
-						[ "rtc_m", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data["rtc_m"] ],
-						[ "rtc_s", "spb", c__("Real Time Clock Setting", "Seconds:"), (0, 59), rtc_data["rtc_s"] ],
+						[ "rtc_d", "spb", c__("Real Time Clock Setting", "Days:"), (0, 511), rtc_data.get("rtc_d") or 0 ],
+						[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data.get("rtc_h") or 0 ],
+						[ "rtc_m", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data.get("rtc_m") or 0 ],
+						[ "rtc_s", "spb", c__("Real Time Clock Setting", "Seconds:"), (0, 59), rtc_data.get("rtc_s") or 0 ],
 						[ "current", "chk", c__("Real Time Clock Setting", "Ignore above time values and use the system time instead"), None, False ],
 					]
 				}
@@ -3047,9 +3050,9 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					"intro": __("Enter the number of days since your last play, and the current time.") + "\n\n" + __("Please note that the day value is an internal value. The game may use it only as a relative reference."),
 					"params": [
 						# ID, Type, Value(s), Default Index
-						[ "rtc_d", "spb", c__("Real Time Clock Setting", "Days:"), (0, 4095), rtc_data["rtc_d"] ],
-						[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data["rtc_h"] ],
-						[ "rtc_m", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data["rtc_m"] ],
+						[ "rtc_d", "spb", c__("Real Time Clock Setting", "Days:"), (0, 4095), rtc_data.get("rtc_d") or 0 ],
+						[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data.get("rtc_h") or 0 ],
+						[ "rtc_m", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data.get("rtc_m") or 0 ],
 						[ "current", "chk", c__("Real Time Clock Setting", "Ignore above time values and use the system time instead"), None, False ],
 					]
 				}
@@ -3079,13 +3082,13 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					"intro": __("Enter the date and time used in the game.") + "\n\n" + __("Please note that the day value is an internal value. The game may use it only as a relative reference."),
 					"params": [
 						# ID, Type, Value(s), Default Index
-						[ "rtc_y", "spb", c__("Real Time Clock Setting", "Years passed:"), (0, 80), rtc_data["rtc_y"] - 19 ], # 19–99
-						[ "rtc_leap_year_state", "spb", c__("Real Time Clock Setting", "Years since last leap year:"), (0, 3), rtc_data["rtc_leap_year_state"] ],
-						[ "rtc_m", "spb", c__("Real Time Clock Setting", "Month:"), (1, 12), rtc_data["rtc_m"] ],
-						[ "rtc_d", "spb", c__("Real Time Clock Setting", "Day:"), (1, 31), rtc_data["rtc_d"] ],
-						[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data["rtc_h"] ],
-						[ "rtc_i", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data["rtc_i"] ],
-						[ "rtc_s", "spb", c__("Real Time Clock Setting", "Seconds:"), (0, 59), rtc_data["rtc_s"] ],
+						[ "rtc_y", "spb", c__("Real Time Clock Setting", "Years passed:"), (0, 80), (rtc_data.get("rtc_y") or 19) - 19 ], # 19–99
+						[ "rtc_leap_year_state", "spb", c__("Real Time Clock Setting", "Years since last leap year:"), (0, 3), rtc_data.get("rtc_leap_year_state") or 0 ],
+						[ "rtc_m", "spb", c__("Real Time Clock Setting", "Month:"), (1, 12), rtc_data.get("rtc_m") or 1 ],
+						[ "rtc_d", "spb", c__("Real Time Clock Setting", "Day:"), (1, 31), rtc_data.get("rtc_d") or 1 ],
+						[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data.get("rtc_h") or 0 ],
+						[ "rtc_i", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data.get("rtc_i") or 0 ],
+						[ "rtc_s", "spb", c__("Real Time Clock Setting", "Seconds:"), (0, 59), rtc_data.get("rtc_s") or 0 ],
 						[ "current", "chk", c__("Real Time Clock Setting", "Ignore above values and use the system time instead"), None, False ],
 					]
 				}
@@ -3124,13 +3127,13 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				"intro": __("Enter the date and time for the Real Time Clock.") + "\n\n" + __("Please note that all values are internal values. The game may use these only as a relative reference."),
 				"params": [
 					# ID, Type, Value(s), Default Index
-					[ "rtc_y", "spb", c__("Real Time Clock Setting", "Year:"), (2000, 2099), rtc_data["rtc_y"] + 2000 ],
-					[ "rtc_m", "spb", c__("Real Time Clock Setting", "Month:"), (1, 12), rtc_data["rtc_m"] ],
-					[ "rtc_d", "spb", c__("Real Time Clock Setting", "Day:"), (1, 31), rtc_data["rtc_d"] ],
-					[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data["rtc_h"] ],
-					[ "rtc_i", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data["rtc_i"] ],
-					[ "rtc_s", "spb", c__("Real Time Clock Setting", "Seconds:"), (0, 59), rtc_data["rtc_s"] ],
-					[ "rtc_w", "cmb", c__("Real Time Clock Setting", "Weekday:"), [__(d) for d in list(calendar.day_name)], rtc_data["rtc_w"] ],
+					[ "rtc_y", "spb", c__("Real Time Clock Setting", "Year:"), (2000, 2099), (rtc_data.get("rtc_y") or 0) + 2000 ],
+					[ "rtc_m", "spb", c__("Real Time Clock Setting", "Month:"), (1, 12), rtc_data.get("rtc_m") or 1 ],
+					[ "rtc_d", "spb", c__("Real Time Clock Setting", "Day:"), (1, 31), rtc_data.get("rtc_d") or 1 ],
+					[ "rtc_h", "spb", c__("Real Time Clock Setting", "Hours:"), (0, 23), rtc_data.get("rtc_h") or 0 ],
+					[ "rtc_i", "spb", c__("Real Time Clock Setting", "Minutes:"), (0, 59), rtc_data.get("rtc_i") or 0 ],
+					[ "rtc_s", "spb", c__("Real Time Clock Setting", "Seconds:"), (0, 59), rtc_data.get("rtc_s") or 0 ],
+					[ "rtc_w", "cmb", c__("Real Time Clock Setting", "Weekday:"), [__(d) for d in list(calendar.day_name)], ((rtc_data.get("rtc_w") or 1) - 1) % 7 ],
 					[ "current", "chk", c__("Real Time Clock Setting", "Ignore above values and use the system time instead"), None, False ],
 				]
 			}
@@ -3149,11 +3152,14 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 						"rtc_y":dt.year,
 						"rtc_m":dt.month,
 						"rtc_d":dt.day,
-						"rtc_w":dt.weekday(),
+						"rtc_w":dt.isoweekday() % 7,
 						"rtc_h":dt.hour,
 						"rtc_i":dt.minute,
 						"rtc_s":dt.second,
 					})
+				else:
+					# GUI order is Monday=0..Sunday=6; GBA RTC stores Sunday=0..Saturday=6.
+					rtc_dict["rtc_w"] = (rtc_dict["rtc_w"] + 1) % 7
 				rtc_dict["rtc_y"] -= 2000
 				mbc = ConvertMapperTypeToMapper(self.cmbDMGHeaderMapperResult.currentIndex())
 				args = { "rtc_dict":rtc_dict }
@@ -3278,7 +3284,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			self.btnFlashROM.setEnabled(False)
 			self.btnBackupRAM.setEnabled(False)
 			self.btnRestoreRAM.setEnabled(False)
-			self.lblStatus4a.setText(__("Reading cartridge data..."))
+			self.SetStatus4aText(__("Reading cartridge data..."))
 			self.SetProgressBars(min=0, max=0, value=1)
 			qt_app.processEvents()
 
@@ -3503,7 +3509,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				if data["rom_size_calc"] < 0x400000:
 					self.lblAGBHeaderROMChecksumResult.setText(c__("Game Data", "In database") + " (0x{:06X})".format(data["db"]['rc']))
 			elif data["rom_size"] != 0:
-				if not data["rom_size"] in RomSizes().GetStringList():
+				if data["rom_size"] not in RomSizes():
 					data["rom_size"] = 0x2000000
 				self.cmbAGBHeaderROMSizeResult.setCurrentIndex(RomSizes().GetIndex(data["rom_size"]))
 			else:
@@ -3514,6 +3520,8 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				if data["db"] != None:
 					if data["db"]['st'] < AgbSaveTypes().GetNumberOfTypes():
 						self.cmbAGBSaveTypeResult.setCurrentIndex(data["db"]['st'])
+			elif data["save_type"] < AgbSaveTypes().GetNumberOfTypes():
+				self.cmbAGBSaveTypeResult.setCurrentIndex(data["save_type"])
 
 			if data['empty'] == True: # defaults
 				if data['empty_nocart'] == True:
@@ -3556,7 +3564,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			self.lblStatus1aResult.setText("–")
 			self.lblStatus2aResult.setText("–")
 			self.lblStatus3aResult.setText("–")
-			self.lblStatus4a.setText(__("Ready."))
+			self.SetStatus4aText(__("Ready."))
 			self.grpStatus.setTitle(__("Transfer Status"))
 			self.FinishOperation()
 			self.btnHeaderRefresh.setEnabled(True)
@@ -3604,7 +3612,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.lblStatus2aResult.setText("–")
 		self.lblStatus3aResult.setText("–")
 		self.SetStatus4aResult("")
-		# self.lblStatus4a.setText("Analyzing Cartridge...")
+		# self.SetStatus4aText("Analyzing Cartridge...")
 		self.SetProgressBars(min=0, max=0, value=1)
 		qt_app.processEvents()
 
@@ -3856,7 +3864,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 						self.btnRestoreRAM.setEnabled(True)
 						self.btnHeaderRefresh.setFocus()
 						self.SetProgressBars(min=0, max=100, value=0)
-						self.lblStatus4a.setText(__("Ready."))
+						self.SetStatus4aText(__("Ready."))
 						self.STATUS["can_skip_message"] = False
 						if "detected_cart_type" in self.STATUS: del(self.STATUS["detected_cart_type"])
 						return
@@ -3916,7 +3924,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		self.btnRestoreRAM.setEnabled(True)
 		self.btnHeaderRefresh.setFocus()
 		self.SetProgressBars(min=0, max=100, value=0)
-		self.lblStatus4a.setText(__("Ready."))
+		self.SetStatus4aText(__("Ready."))
 
 		waiting = None
 		if "detected_cart_type" in self.STATUS and self.STATUS["detected_cart_type"] in ("WAITING_FLASH", "WAITING_SAVE_READ", "WAITING_SAVE_WRITE"):
@@ -3989,7 +3997,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.grpStatus.setTitle(__("Transfer Status") + " (" + __("Analyze Cartridge") + ")")
 
 		if "error" in args:
-			self.lblStatus4a.setText(__("Failed!"))
+			self.SetStatus4aText(__("Failed!"))
 			self.grpDMGCartridgeInfo.setEnabled(True)
 			self.grpAGBCartridgeInfo.setEnabled(True)
 			self.grpActions.setEnabled(True)
@@ -4029,9 +4037,9 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.lblStatus2aResult.setText(__("Pending..."))
 				self.lblStatus3aResult.setText(Formatter.progress_time(elapsed))
 				if estimated != 0:
-					self.lblStatus4a.setText(__("Erasing... This may take up to {seconds} seconds.", seconds=estimated))
+					self.SetStatus4aText(__("Erasing... This may take up to {seconds} seconds.", seconds=estimated))
 				else:
-					self.lblStatus4a.setText(__("Erasing... This may take some time."))
+					self.SetStatus4aText(__("Erasing... This may take some time."))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(args["abortable"])
 				self.SetProgressBars(min=0, max=size, value=pos)
@@ -4039,7 +4047,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.lblStatus1aResult.setText(__("Pending..."))
 				self.lblStatus2aResult.setText(__("Pending..."))
 				self.lblStatus3aResult.setText(__("Pending..."))
-				self.lblStatus4a.setText(__("Unlocking flash..."))
+				self.SetStatus4aText(__("Unlocking flash..."))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(args["abortable"])
 				self.SetProgressBars(min=0, max=size, value=pos)
@@ -4047,7 +4055,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.lblStatus1aResult.setText(__("Pending..."))
 				self.lblStatus2aResult.setText(__("Pending..."))
 				self.lblStatus3aResult.setText(__("Pending..."))
-				self.lblStatus4a.setText(__("Updating Real Time Clock..."))
+				self.SetStatus4aText(__("Updating Real Time Clock..."))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(False)
 				self.SetProgressBars(min=0, max=size, value=pos)
@@ -4056,16 +4064,16 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.lblStatus2aResult.setText(__("Pending..."))
 				self.lblStatus3aResult.setText(__("Pending..."))
 				if "type" in args and len(str(args["type"])) > 0:
-					self.lblStatus4a.setText(__("Calculating {checksum_type}...", checksum_type=args["type"]))
+					self.SetStatus4aText(__("Calculating {checksum_type}...", checksum_type=args["type"]))
 				else:
-					self.lblStatus4a.setText(__("Calculating checksums..."))
+					self.SetStatus4aText(__("Calculating checksums..."))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(False)
 				self.SetProgressBars(min=0, max=size, value=pos)
 			elif args["action"] == "SECTOR_ERASE":
 				if elapsed >= 1:
 					self.lblStatus3aResult.setText(Formatter.progress_time(elapsed))
-				self.lblStatus4a.setText(__("Erasing sector at address {address}...", address="0x{:X}".format(args["sector_pos"])))
+				self.SetStatus4aText(__("Erasing sector at address {address}...", address="0x{:X}".format(args["sector_pos"])))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(args["abortable"])
 				self.SetProgressBars(min=0, max=size, value=pos)
@@ -4073,19 +4081,19 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.lblStatus1aResult.setText("–")
 				self.lblStatus2aResult.setText("–")
 				self.lblStatus3aResult.setText("–")
-				self.lblStatus4a.setText(__("Stopping... Please wait."))
+				self.SetStatus4aText(__("Stopping... Please wait."))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(args["abortable"])
 				self.SetProgressBars(min=0, max=size, value=pos)
 			elif args["action"] == "ERROR":
 				self.lblStatus2aResult.setText(__("Pending..."))
 				self.lblStatus3aResult.setText(__("Pending..."))
-				self.lblStatus4a.setText("<span style=\"color: red;\">{:s}</span>".format(args["text"]))
+				self.SetStatus4aText("<span style=\"color: red;\">{:s}</span>".format(args["text"]))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(args["abortable"])
 				self.SetProgressBars(min=0, max=size, value=pos)
 			elif args["action"] == "UPDATE_INFO":
-				self.lblStatus4a.setText(args["text"])
+				self.SetStatus4aText(args["text"])
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(args["abortable"])
 				self.SetProgressBars(min=0, max=size, value=pos)
@@ -4114,7 +4122,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.lblStatus1aResult.setText("–")
 				self.lblStatus2aResult.setText("–")
 				self.lblStatus3aResult.setText("–")
-				self.lblStatus4a.setText(__("Stopped."))
+				self.SetStatus4aText(__("Stopped."))
 				self.SetStatus4aResult("")
 				self.btnCancel.setEnabled(False)
 				self.SetProgressBars(min=0, max=1, value=0)
@@ -4137,7 +4145,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 						#msgbox.exec()
 						self.MSGBOX_QUEUE.put(msgbox)
 					elif args["info_type"] == "label":
-						self.lblStatus4a.setText(args["info_msg"])
+						self.SetStatus4aText(args["info_msg"])
 
 				QtCore.QTimer.singleShot(1, lambda: [ self.ReadCartridge(resetStatus=False) ])
 				return
@@ -4153,6 +4161,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 					self.lblStatus2aResult.setText(format_decimal(speed, precision=2) + __(" KiB/s"))
 				else:
 					self.lblStatus2aResult.setText(__("Pending..."))
+				self.SetStatus4aText(__("Time left:"))
 				if left > 0:
 					self.SetStatus4aResult(Formatter.progress_time(left))
 				else:
@@ -4162,16 +4171,22 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 
 				if speed == 0 and "skipping" in args and args["skipping"] is True:
 					self.SetStatus4aResult(__("Pending..."))
-				self.lblStatus4a.setText(__("Time left:"))
+
+	def SetStatus4aText(self, text):
+		self.lblStatus4a.setText(text)
+		self.lblStatus5a.setText(text)
 
 	def SetStatus4aResult(self, text):
 		if text:
 			self.lblStatus4aResult.setText(text)
+			self.lblStatus4a.setVisible(True)
 			self.lblStatus4aResult.setVisible(True)
-			self.lblStatus4a.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+			self.lblStatus5a.setVisible(False)
 		else:
+			self.lblStatus4aResult.clear()
+			self.lblStatus4a.setVisible(False)
 			self.lblStatus4aResult.setVisible(False)
-			self.lblStatus4a.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+			self.lblStatus5a.setVisible(True)
 
 	def SetProgressBars(self, min=0, max=100, value=0, setPause=None):
 		self.prgStatus.setMinimum(min)
@@ -4239,11 +4254,11 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				header = self.CONN.ReadHeader()
 				if header["mapper_raw"] == 252: # GBD
 					args = { "path":None, "mbc":252, "save_type":header["ram_size_raw"], "rtc":False }
-					self.lblStatus4a.setText(__("Loading data, please wait..."))
+					self.SetStatus4aText(__("Loading data, please wait..."))
 					qt_app.processEvents()
 					self.CONN.BackupRAM(fncSetProgress=False, args=args)
 					data = self.CONN.INFO["data"]
-					self.lblStatus4a.setText(__("Ready."))
+					self.SetStatus4aText(__("Ready."))
 
 		self.CAMWIN = None
 		self.CAMWIN = PocketCameraWindow(self, icon=self.windowIcon(), file=data, config_path=AppContext.CONFIG_PATH, app_path=AppContext.APP_PATH)

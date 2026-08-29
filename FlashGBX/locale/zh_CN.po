@@ -9,14 +9,15 @@ msgstr ""
 "Project-Id-Version: FlashGBX v5.0\n"
 "Report-Msgid-Bugs-To: https://github.com/orzgithub/FlashGBX/issues\n"
 "POT-Creation-Date: 2026-06-09 20:05+0800\n"
-"PO-Revision-Date: 2026-06-09 20:05+0800\n"
+"PO-Revision-Date: 2026-06-09 22:16+0200\n"
 "Last-Translator: ZaindORp\n"
 "Language-Team: \n"
-"Language: zh\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../package/FlashGBX/CartridgeTypes.py:32
 #: ../package/FlashGBX/CartridgeTypes.py:172
@@ -74,23 +75,22 @@ msgid ""
 "The USB connection was lost during a transfer. Try different USB cables, "
 "reconnect the device, restart the software and try again."
 msgstr ""
-"传输过程中 USB 连接丢失。请尝试使用不同的 USB 数据线、重新连接设备、"
-"重启软件后再试。"
+"传输过程中 USB 连接丢失。请尝试使用不同的 USB 数据线、重新连接设备、重启软件"
+"后再试。"
 
 #: ../package/FlashGBX/DataTransfer.py:66
 msgid ""
 "An unresolvable error has occured. See the debug log file for more "
 "information. Reconnect the device, restart the software and try again."
 msgstr ""
-"发生了一个无法解决的错误。详情请参阅调试日志文件。请重新连接设备、"
-"重启软件后再试。"
+"发生了一个无法解决的错误。详情请参阅调试日志文件。请重新连接设备、重启软件后"
+"再试。"
 
 #: ../package/FlashGBX/FlashGBX.py:36
 #, python-brace-format
 msgid ""
 "No flashcart profile files found in {config_path}. Resetting configuration..."
-msgstr ""
-"在 {config_path} 中未找到烧录卡配置文件。正在重置配置..."
+msgstr "在 {config_path} 中未找到烧录卡配置文件。正在重置配置..."
 
 #: ../package/FlashGBX/FlashGBX.py:42
 msgid "All configuration has been reset."
@@ -106,8 +106,8 @@ msgid ""
 "been updated as well. You will find backup copies of them in your "
 "configuration directory."
 msgstr ""
-"应用程序最近已更新，部分烧录卡配置文件也已更新。"
-"你可以在配置目录中找到它们的备份副本。"
+"应用程序最近已更新，部分烧录卡配置文件也已更新。你可以在配置目录中找到它们的"
+"备份副本。"
 
 #: ../package/FlashGBX/FlashGBX.py:81
 msgid "Updated files:"
@@ -118,8 +118,7 @@ msgstr "已更新的文件："
 msgid ""
 "Warning: {config_zip_file} not found. This is required to load new flashcart "
 "profile configurations after updating."
-msgstr ""
-"警告：未找到 {config_zip_file}。更新后需要此文件来加载新的烧录卡配置。"
+msgstr "警告：未找到 {config_zip_file}。更新后需要此文件来加载新的烧录卡配置。"
 
 #: ../package/FlashGBX/FlashGBX.py:160
 msgid "Examples"
@@ -185,8 +184,8 @@ msgid ""
 "sets the config directory to either the OS-provided local app config "
 "directory ({appdata}), or a subdirectory of this application ({subdir})"
 msgstr ""
-"将配置目录设置为操作系统提供的本地应用配置目录（{appdata}），"
-"或此应用程序的子目录（{subdir}）"
+"将配置目录设置为操作系统提供的本地应用配置目录（{appdata}），或此应用程序的子"
+"目录（{subdir}）"
 
 #: ../package/FlashGBX/FlashGBX.py:182
 msgctxt "Command Line Arguments Category"
@@ -251,8 +250,8 @@ msgid ""
 "Location of Batteryless SRAM data in ROM (e.g. 0xFC0000); only with "
 "“{dmg_savetype_batteryless}” or “{agb_savetype_batteryless}”)"
 msgstr ""
-"ROM 中无电池 SRAM 数据的位置（例如 0xFC0000）；"
-"仅与“{dmg_savetype_batteryless}”或“{agb_savetype_batteryless}”一起使用"
+"ROM 中无电池 SRAM 数据的位置（例如 0xFC0000）；仅"
+"与“{dmg_savetype_batteryless}”或“{agb_savetype_batteryless}”一起使用"
 
 #: ../package/FlashGBX/FlashGBX.py:195
 msgctxt "Command Line Help"
@@ -265,8 +264,8 @@ msgid ""
 "Bank layout of Batteryless SRAM data for DMG mode: 0=continuous, 1=first "
 "half of ROM bank, 2=second half"
 msgstr ""
-"DMG 模式下无电池 SRAM 数据的 Bank 布局：0=连续，1=ROM Bank 的前半部分，"
-"2=后半部分"
+"DMG 模式下无电池 SRAM 数据的 Bank 布局：0=连续，1=ROM Bank 的前半部分，2=后半"
+"部分"
 
 #: ../package/FlashGBX/FlashGBX.py:197
 msgctxt "Command Line Help"
@@ -345,8 +344,7 @@ msgctxt "Command Line Help"
 msgid ""
 "compare sectors and only write those that differ when writing a ROM (only "
 "for flash carts that support this feature)"
-msgstr ""
-"写入 ROM 时比较扇区，仅写入有差异的部分（仅适用于支持此功能的烧录卡）"
+msgstr "写入 ROM 时比较扇区，仅写入有差异的部分（仅适用于支持此功能的烧录卡）"
 
 #: ../package/FlashGBX/FlashGBX.py:212
 msgctxt "Command Line Help"
@@ -585,8 +583,8 @@ msgid ""
 "the cartridge contacts are clean. This check can be disabled with the "
 "command line switch “{switch}”."
 msgstr ""
-"检测到无效数据，这通常表示无法正确读取卡带。请确保选择了正确的平台，"
-"并且卡带触点干净。可以使用命令行开关“{switch}”禁用此检查。"
+"检测到无效数据，这通常表示无法正确读取卡带。请确保选择了正确的平台，并且卡带"
+"触点干净。可以使用命令行开关“{switch}”禁用此检查。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:266
 #: ../package/FlashGBX/FlashGBX_CLI.py:271
@@ -673,8 +671,7 @@ msgid ""
 msgid_plural ""
 "The ROM was written completely, but verification of written data failed in "
 "the following sectors: {sectors}."
-msgstr[0] ""
-"ROM 已完整写入，但以下扇区中的数据验证失败：{sectors}。"
+msgstr[0] "ROM 已完整写入，但以下扇区中的数据验证失败：{sectors}。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:431
 #: ../package/FlashGBX/FlashGBX_GUI.py:1883
@@ -713,8 +710,8 @@ msgid ""
 "A data loop was detected in the ROM backup at position {pos} ({size}). This "
 "may indicate a bad dump or overdump."
 msgstr ""
-"在 ROM 备份的位置 {pos}（{size}）处检测到数据循环。"
-"这可能表示转储错误或过度转储。"
+"在 ROM 备份的位置 {pos}（{size}）处检测到数据循环。这可能表示转储错误或过度转"
+"储。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:466
 #: ../package/FlashGBX/FlashGBX_CLI.py:479
@@ -725,8 +722,8 @@ msgid ""
 "reproduction cartridges, unlicensed games, prototypes, patched games and "
 "intentional overdumps."
 msgstr ""
-"这可能表示转储错误，但对于某些复刻卡带、未授权游戏、原型、"
-"修改版游戏和有意的过度转储来说，这可能是正常的。"
+"这可能表示转储错误，但对于某些复刻卡带、未授权游戏、原型、修改版游戏和有意的"
+"过度转储来说，这可能是正常的。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:475
 #: ../package/FlashGBX/FlashGBX_GUI.py:1762
@@ -740,8 +737,7 @@ msgstr "ROM 备份已完成，但校验和与已知数据库条目不匹配。"
 msgid ""
 "The ROM backup is complete! As there is no known checksum for this ROM in "
 "the database, verification was skipped."
-msgstr ""
-"ROM 备份已完成！由于数据库中没有此 ROM 的已知校验和，已跳过验证。"
+msgstr "ROM 备份已完成！由于数据库中没有此 ROM 的已知校验和，已跳过验证。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:524
 msgid "The pictures were extracted."
@@ -935,8 +931,8 @@ msgid ""
 "by FlashGBX using the current firmware version of the {device_name}. Please "
 "check for firmware updates."
 msgstr ""
-"警告：此卡带使用的 mapper 在当前 {device_name} 固件版本下可能不被 FlashGBX 完全支持。"
-"请检查固件更新。"
+"警告：此卡带使用的 mapper 在当前 {device_name} 固件版本下可能不被 FlashGBX 完"
+"全支持。请检查固件更新。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:740
 #: ../package/FlashGBX/FlashGBX_CLI.py:742
@@ -971,8 +967,8 @@ msgid ""
 "Warning: This cartridge uses a mapper that may not be completely supported "
 "yet. A future version of the {device_name} firmware may add support for it."
 msgstr ""
-"警告：此卡带使用的 mapper 可能尚未被完全支持。"
-"未来版本的 {device_name} 固件可能会增加对其的支持。"
+"警告：此卡带使用的 mapper 可能尚未被完全支持。未来版本的 {device_name} 固件可"
+"能会增加对其的支持。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:793
 msgid "Now attempting to auto-detect the flashcart profile..."
@@ -1058,8 +1054,7 @@ msgstr "未知烧录卡"
 msgid ""
 "For ROM writing, you can give the option called “{try_this}” a try at your "
 "own risk."
-msgstr ""
-"对于 ROM 写入，您可以自行承担风险尝试使用名为“{try_this}”的选项。"
+msgstr "对于 ROM 写入，您可以自行承担风险尝试使用名为“{try_this}”的选项。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:908
 msgctxt "Flashcart Profile"
@@ -1096,7 +1091,8 @@ msgid ""
 "Couldn’t determine mapper type, will try to use MBC5. It can also be "
 "manually set with the “{switch}” command line switch."
 msgstr ""
-"无法确定 mapper 类型，将尝试使用 MBC5。也可以使用命令行开关“{switch}”手动设置。"
+"无法确定 mapper 类型，将尝试使用 MBC5。也可以使用命令行开关“{switch}”手动设"
+"置。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:955
 #, python-brace-format
@@ -1172,8 +1168,8 @@ msgid ""
 "command line switch, however please note that 5V can be unsafe for some "
 "flash chips."
 msgstr ""
-"如果您的烧录卡需要 5V 才能工作，您可以使用命令行开关“{switch}”，"
-"但请注意 5V 对某些闪存芯片可能不安全。"
+"如果您的烧录卡需要 5V 才能工作，您可以使用命令行开关“{switch}”，但请注意 5V "
+"对某些闪存芯片可能不安全。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1063
 #: ../package/FlashGBX/FlashGBX_CLI.py:1640
@@ -1181,8 +1177,7 @@ msgstr ""
 msgid ""
 "Auto-detection failed. Please use the “{switch}” command line switch to "
 "select the flashcart profile manually."
-msgstr ""
-"自动检测失败。请使用命令行开关“{switch}”手动选择烧录卡配置。"
+msgstr "自动检测失败。请使用命令行开关“{switch}”手动选择烧录卡配置。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1067
 #: ../package/FlashGBX/FlashGBX_CLI.py:1635
@@ -1192,8 +1187,8 @@ msgid ""
 "the correct platform is selected and copy the exact name from the "
 "configuration files located in {config_path}."
 msgstr ""
-"找不到所选的烧录卡配置“{profile}”。请确保选择了正确的平台，"
-"并从位于 {config_path} 的配置文件中复制确切的名称。"
+"找不到所选的烧录卡配置“{profile}”。请确保选择了正确的平台，并从位于 "
+"{config_path} 的配置文件中复制确切的名称。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1071
 msgid "No ROM file for writing was selected."
@@ -1218,8 +1213,8 @@ msgid ""
 "give it a try, but it’s possible that it’s too large which may cause the ROM "
 "writing to fail."
 msgstr ""
-"所选的烧录卡配置似乎支持最大 {max_size} 的 ROM，但您选择的文件大小为 {file_size}。"
-"您可以尝试一下，但可能太大导致 ROM 写入失败。"
+"所选的烧录卡配置似乎支持最大 {max_size} 的 ROM，但您选择的文件大小为 "
+"{file_size}。您可以尝试一下，但可能太大导致 ROM 写入失败。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1095
 #: ../package/FlashGBX/FlashGBX_CLI.py:1210
@@ -1237,8 +1232,8 @@ msgid ""
 "sometimes it may require 5V. You can use the “{switch}” command line switch "
 "if necessary. Please note that 5V can be unsafe for some flash chips."
 msgstr ""
-"所选的烧录卡配置通常在 3.3V 下可以正常烧录，但有时可能需要 5V。"
-"必要时可以使用命令行开关“{switch}”。请注意 5V 对某些闪存芯片可能不安全。"
+"所选的烧录卡配置通常在 3.3V 下可以正常烧录，但有时可能需要 5V。必要时可以使用"
+"命令行开关“{switch}”。请注意 5V 对某些闪存芯片可能不安全。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1124
 #, python-brace-format
@@ -1246,15 +1241,15 @@ msgid ""
 "This flash cartridge supports both Sector Erase and Full Chip Erase methods. "
 "You can use the “{switch}” command line switch if necessary."
 msgstr ""
-"此烧录卡同时支持扇区擦除和全芯片擦除方法。必要时可以使用命令行开关“{switch}”。"
+"此烧录卡同时支持扇区擦除和全芯片擦除方法。必要时可以使用命令行开"
+"关“{switch}”。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1172
 #: ../package/FlashGBX/FlashGBX_GUI.py:2172
 msgid ""
 "Warning: The ROM file you selected will not boot on actual hardware due to "
 "invalid boot logo data."
-msgstr ""
-"警告：您选择的 ROM 文件由于启动标志数据无效，将无法在实际硬件上启动。"
+msgstr "警告：您选择的 ROM 文件由于启动标志数据无效，将无法在实际硬件上启动。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1183
 msgid "Fix the boot logo before continuing?"
@@ -1293,24 +1288,22 @@ msgid ""
 "5V supply in Game Boy mode. Writing to a 3.3V flash chip at 5V may cause "
 "overvoltage issues."
 msgstr ""
-"警告：已选择 3.3V 烧录卡配置，但您的设备在 Game Boy 模式下固定为 5V 供电。"
-"以 5V 写入 3.3V 闪存芯片可能会导致过压问题。"
+"警告：已选择 3.3V 烧录卡配置，但您的设备在 Game Boy 模式下固定为 5V 供电。以 "
+"5V 写入 3.3V 闪存芯片可能会导致过压问题。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1282
 #, python-brace-format
 msgid ""
 "Unable to auto-detect the save size. Please use the “{switch}” command line "
 "switch to manually select it."
-msgstr ""
-"无法自动检测存档大小。请使用命令行开关“{switch}”手动选择。"
+msgstr "无法自动检测存档大小。请使用命令行开关“{switch}”手动选择。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1298
 #, python-brace-format
 msgid ""
 "Unable to auto-detect the save type. Please use the “{switch}” command line "
 "switch to manually select it."
-msgstr ""
-"无法自动检测存档类型。请使用命令行开关“{switch}”手动选择。"
+msgstr "无法自动检测存档类型。请使用命令行开关“{switch}”手动选择。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1328
 msgid ""
@@ -1420,14 +1413,16 @@ msgstr "无法向卡带保存任何数据。"
 msgid ""
 "Done! The writable save data size is {data_writable} out of {data_checked} "
 "checked."
-msgstr "完成！在检查的 {data_checked} 中，可写入的存档数据大小为 {data_writable}。"
+msgstr ""
+"完成！在检查的 {data_checked} 中，可写入的存档数据大小为 {data_writable}。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1468
 #, python-brace-format
 msgid ""
 "Done! The writable save data size using save type “{save_type}” is "
 "{data_writable}."
-msgstr "完成！使用存档类型“{save_type}”的可写入存档数据大小为 {data_writable}。"
+msgstr ""
+"完成！使用存档类型“{save_type}”的可写入存档数据大小为 {data_writable}。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1482
 #: ../package/FlashGBX/FlashGBX_CLI.py:1489
@@ -1442,8 +1437,8 @@ msgid ""
 "“{switch_offset}” and “{switch_size}” command line switches to specify them "
 "manually."
 msgstr ""
-"无法自动检测无电池 SRAM 的偏移量和大小。请使用命令行开关"
-"“{switch_offset}”和“{switch_size}”手动指定。"
+"无法自动检测无电池 SRAM 的偏移量和大小。请使用命令行开"
+"关“{switch_offset}”和“{switch_size}”手动指定。"
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:1524
 #: ../package/FlashGBX/FlashGBX_GUI.py:2495
@@ -1645,8 +1640,8 @@ msgid ""
 "No devices found. If your Joey Jr is running the Drag’n’Drop firmware, you "
 "will have to use the JoeyGUI software to update the firmware."
 msgstr ""
-"未找到设备。如果您的 Joey Jr 正在运行 Drag’n’Drop 固件，"
-"您将需要使用 JoeyGUI 软件来更新固件。"
+"未找到设备。如果您的 Joey Jr 正在运行 Drag’n’Drop 固件，您将需要使用 JoeyGUI "
+"软件来更新固件。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:601
 msgid "Game Boy Cartridge Information"
@@ -1950,8 +1945,7 @@ msgstr "隐私政策"
 msgid ""
 "Would you like to automatically check for new versions at application "
 "startup? This will make use of the GitHub API ({url})."
-msgstr ""
-"是否要在应用程序启动时自动检查新版本？这将使用 GitHub API（{url}）。"
+msgstr "是否要在应用程序启动时自动检查新版本？这将使用 GitHub API（{url}）。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1079
 #, python-brace-format
@@ -1967,7 +1961,8 @@ msgid ""
 "connection."
 msgstr ""
 "一般注意事项：\n"
-"- 由于电压差异，当平台模式设置为“Game Boy”时，请勿插入 Game Boy Advance 卡带。\n"
+"- 由于电压差异，当平台模式设置为“Game Boy”时，请勿插入 Game Boy Advance 卡"
+"带。\n"
 "- 始终保持卡带触点尽可能清洁，以确保连接稳定。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1098
@@ -2061,8 +2056,8 @@ msgid ""
 "FlashGBX uses a game database that is based on the ongoing efforts of the No-"
 "Intro project. Visit {url} for more information."
 msgstr ""
-"FlashGBX 使用的游戏数据库基于 No-Intro 项目的持续努力。"
-"访问 {url} 了解更多信息。"
+"FlashGBX 使用的游戏数据库基于 No-Intro 项目的持续努力。访问 {url} 了解更多信"
+"息。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1229
 msgid "No-Intro databases referenced for this version of FlashGBX:"
@@ -2113,8 +2108,8 @@ msgid ""
 "Your {device_name} is no longer supported in this version of FlashGBX due to "
 "technical limitations. The last supported version is {url}."
 msgstr ""
-"由于技术限制，此版本的 FlashGBX 不再支持您的 {device_name}。"
-"最后支持的版本是 {url}。"
+"由于技术限制，此版本的 FlashGBX 不再支持您的 {device_name}。最后支持的版本是 "
+"{url}。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1470
 msgid ""
@@ -2367,8 +2362,7 @@ msgstr "是否要重新写入验证失败的扇区？"
 msgid ""
 "ROM header checksum and boot logo checks failed. Please ensure that the "
 "cartridge contacts are clean."
-msgstr ""
-"ROM 头部校验和及启动标志检查失败。请确保卡带触点清洁。"
+msgstr "ROM 头部校验和及启动标志检查失败。请确保卡带触点清洁。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1955
 #: ../package/FlashGBX/FlashGBX_GUI.py:2552
@@ -2408,8 +2402,7 @@ msgstr "准备中..."
 msgid ""
 "The following ISX file will now be converted to a regular ROM file and then "
 "written to the flash cartridge:"
-msgstr ""
-"现在将以下 ISX 文件转换为常规 ROM 文件，然后写入烧录卡："
+msgstr "现在将以下 ISX 文件转换为常规 ROM 文件，然后写入烧录卡："
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2018
 msgid "The following ROM file will now be written to the flash cartridge:"
@@ -2437,21 +2430,22 @@ msgid ""
 "The selected flashcart profile seems to support ROMs that are up to "
 "{max_size} in size, but the file you selected is {file_size}."
 msgstr ""
-"所选的烧录卡配置似乎支持最大 {max_size} 的 ROM，但您选择的文件大小为 {file_size}。"
+"所选的烧录卡配置似乎支持最大 {max_size} 的 ROM，但您选择的文件大小为 "
+"{file_size}。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2104
 msgid ""
 "You can still give it a try, but it’s possible that it’s too large which may "
 "cause the ROM writing to fail."
-msgstr ""
-"您可以尝试一下，但可能太大导致 ROM 写入失败。"
+msgstr "您可以尝试一下，但可能太大导致 ROM 写入失败。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2150
 msgid ""
 "The ROM file you selected uses a different mapper type than your current "
 "selection. What mapper should be used when writing the ROM?"
 msgstr ""
-"您选择的 ROM 文件使用的 mapper 类型与您当前选择的不同。写入 ROM 时应使用哪个 mapper？"
+"您选择的 ROM 文件使用的 mapper 类型与您当前选择的不同。写入 ROM 时应使用哪个 "
+"mapper？"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2150
 #: ../package/FlashGBX/FlashGBX_GUI.py:2165
@@ -2484,8 +2478,8 @@ msgid ""
 "Warning: The ROM file you selected uses a different mapper type than your "
 "flashcart profile. The ROM file may be incompatible with your cartridge."
 msgstr ""
-"警告：您选择的 ROM 文件使用的 mapper 类型与您的烧录卡配置不同。"
-"ROM 文件可能与您的卡带不兼容。"
+"警告：您选择的 ROM 文件使用的 mapper 类型与您的烧录卡配置不同。ROM 文件可能与"
+"您的卡带不兼容。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2184
 #: ../package/FlashGBX/FlashGBX_GUI.py:2212
@@ -2505,8 +2499,8 @@ msgid ""
 "Warning: The ROM file you selected will not boot on actual hardware due to "
 "an invalid header checksum (expected {calc} instead of {actual})."
 msgstr ""
-"警告：您选择的 ROM 文件由于头部校验和无效（期望 {calc}，实际 {actual}），"
-"将无法在实际硬件上启动。"
+"警告：您选择的 ROM 文件由于头部校验和无效（期望 {calc}，实际 {actual}），将无"
+"法在实际硬件上启动。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2271
 #: ../package/FlashGBX/FlashGBX_GUI.py:2416
@@ -2593,8 +2587,8 @@ msgid ""
 "existing calibration data unless you actually need to restore it from a "
 "previous backup."
 msgstr ""
-"此 {cart_name} 卡带当前的校准数据与此存档文件中的数据不同。"
-"强烈建议保留现有校准数据，除非您确实需要从之前的备份中恢复它。"
+"此 {cart_name} 卡带当前的校准数据与此存档文件中的数据不同。强烈建议保留现有校"
+"准数据，除非您确实需要从之前的备份中恢复它。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2536
 msgid ""
@@ -2617,9 +2611,9 @@ msgid ""
 "original save data first and store it in a safe place. That way the "
 "calibration data can be restored later."
 msgstr ""
-"警告：此 {cart_name} 卡带当前可能有校准数据。擦除或覆盖这些数据可能会使"
-"“{feature_name}”功能无法使用。强烈建议先备份原始存档数据并保存在安全的地方。"
-"这样以后可以恢复校准数据。"
+"警告：此 {cart_name} 卡带当前可能有校准数据。擦除或覆盖这些数据可能会"
+"使“{feature_name}”功能无法使用。强烈建议先备份原始存档数据并保存在安全的地"
+"方。这样以后可以恢复校准数据。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2564
 msgctxt "Button (& = Keyboard Shortcut)"
@@ -2641,8 +2635,7 @@ msgstr ""
 msgid ""
 "It is recommended to keep the existing calibration data, but you can also "
 "choose to erase it or overwrite it with data from the file you selected."
-msgstr ""
-"建议保留现有校准数据，但您也可以选择擦除它或用所选文件中的数据覆盖它。"
+msgstr "建议保留现有校准数据，但您也可以选择擦除它或用所选文件中的数据覆盖它。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2581
 #, python-brace-format
@@ -2664,8 +2657,8 @@ msgid ""
 "and store it in a safe place. That way the calibration data can be restored "
 "later."
 msgstr ""
-"警告：此 {cart_name} 卡带当前可能有校准数据。建议先备份原始存档数据并保存在安全的地方。"
-"这样以后可以恢复校准数据。"
+"警告：此 {cart_name} 卡带当前可能有校准数据。建议先备份原始存档数据并保存在安"
+"全的地方。这样以后可以恢复校准数据。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2619
 msgid ""
@@ -2778,8 +2771,7 @@ msgstr "{mapper} 实时时钟编辑器"
 msgid ""
 "Enter the number of days, hours, minutes and seconds that passed since the "
 "RTC initially started."
-msgstr ""
-"输入自 RTC 初始启动以来经过的天数、小时数、分钟数和秒数。"
+msgstr "输入自 RTC 初始启动以来经过的天数、小时数、分钟数和秒数。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3013
 #: ../package/FlashGBX/FlashGBX_GUI.py:3124
@@ -2906,7 +2898,8 @@ msgstr ""
 "\n"
 "这可能发生在以下情况之一：\n"
 "- USB 数据线被拔掉或有故障\n"
-"- 插入的卡带可能消耗的峰值功率过高（尝试重新连接几次，或在连接后尝试热插拔卡带）\n"
+"- 插入的卡带可能消耗的峰值功率过高（尝试重新连接几次，或在连接后尝试热插拔卡"
+"带）\n"
 "- 插入的卡带可能引起短路（检查焊接不良）"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3184
@@ -2922,8 +2915,8 @@ msgid ""
 "Caution: Game Boy Advance cartridges must not be inserted in Game Boy mode. "
 "Doing so can break the cartridge, so please be careful."
 msgstr ""
-"注意：Game Boy Advance 卡带不得在 Game Boy 模式下插入。"
-"这样做可能会损坏卡带，请务必小心。"
+"注意：Game Boy Advance 卡带不得在 Game Boy 模式下插入。这样做可能会损坏卡带，"
+"请务必小心。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3230
 msgid "Game Boy"
@@ -2987,8 +2980,8 @@ msgid ""
 "2. Reconnect the device and select platform mode.\n"
 "3. Then insert the cartridge and click “{button}”."
 msgstr ""
-"尝试读取 ROM 头时与设备的连接丢失。"
-"如果插入的卡带发生短路或其峰值功耗过高，可能会发生这种情况。\n"
+"尝试读取 ROM 头时与设备的连接丢失。如果插入的卡带发生短路或其峰值功耗过高，可"
+"能会发生这种情况。\n"
 "\n"
 "对于后一种情况，一种可能的解决方法是尝试热插拔卡带：\n"
 "1. 从设备中取出卡带。\n"
@@ -3038,8 +3031,7 @@ msgid ""
 "This cartridge uses a mapper that may not be completely supported by the "
 "firmware of the {device_name}. Check for firmware updates."
 msgstr ""
-"此卡带使用的 mapper 可能不被 {device_name} 的固件完全支持。"
-"请检查固件更新。"
+"此卡带使用的 mapper 可能不被 {device_name} 的固件完全支持。请检查固件更新。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3573
 msgid ""
@@ -3047,8 +3039,8 @@ msgid ""
 "don’t want to risk this cartridge to render itself unusable, please do not "
 "try to write a new ROM to it."
 msgstr ""
-"此卡带可能受到保护，禁止读取或写入 ROM。如果您不想冒此卡带变得无法使用的风险，"
-"请不要尝试向其写入新的 ROM。"
+"此卡带可能受到保护，禁止读取或写入 ROM。如果您不想冒此卡带变得无法使用的风"
+"险，请不要尝试向其写入新的 ROM。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3594
 msgid ""
@@ -3097,8 +3089,7 @@ msgstr "兼容的烧录卡配置："
 msgid ""
 "For ROM writing, you can give the option called “{option}” a try at your own "
 "risk."
-msgstr ""
-"对于 ROM 写入，您可以自行承担风险尝试使用名为“{option}”的选项。"
+msgstr "对于 ROM 写入，您可以自行承担风险尝试使用名为“{option}”的选项。"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3780
 msgid "not rewritable or not auto-detectable"
@@ -3184,8 +3175,8 @@ msgid ""
 "not recommended to enable this option, do you now want to disable it and try "
 "again?"
 msgstr ""
-"无法检测到已知的烧录卡配置。选项“{limit_voltage}”已启用，这可能导致自动检测失败。"
-"通常不建议启用此选项，您现在是否要禁用它并重试？"
+"无法检测到已知的烧录卡配置。选项“{limit_voltage}”已启用，这可能导致自动检测失"
+"败。通常不建议启用此选项，您现在是否要禁用它并重试？"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3975
 #, python-brace-format
@@ -3309,8 +3300,7 @@ msgstr "擦除闪存芯片超时。最后一个状态寄存器值为 {value}。"
 msgid ""
 "Please make sure that the cartridge contacts are clean, and that the "
 "selected flashcart profile and settings are correct."
-msgstr ""
-"请确保卡带触点清洁，并且所选的烧录卡配置和设置正确。"
+msgstr "请确保卡带触点清洁，并且所选的烧录卡配置和设置正确。"
 
 #: ../package/FlashGBX/Flashcart.py:544
 msgid "Warning: No information about the voltage range found in CFI data."
@@ -3431,8 +3421,7 @@ msgstr[0] "{seconds} 秒"
 msgid ""
 "Note: The ROM is using a mapper type that may be incompatible with the "
 "{gb_memory_cartridge}."
-msgstr ""
-"注意：ROM 使用的 mapper 类型可能与 {gb_memory_cartridge} 不兼容。"
+msgstr "注意：ROM 使用的 mapper 类型可能与 {gb_memory_cartridge} 不兼容。"
 
 #: ../package/FlashGBX/IniSettings.py:26
 msgid "Can’t access the configuration directory or settings file."
@@ -3618,8 +3607,8 @@ msgid ""
 "Please make sure that the cartridge contacts are clean, re-connect the "
 "device and try again from the beginning."
 msgstr ""
-"在 {function_name}() 的第 {line_number} 行发生超时错误。"
-"请确保卡带触点清洁，重新连接设备，然后从头开始重试。"
+"在 {function_name}() 的第 {line_number} 行发生超时错误。请确保卡带触点清洁，"
+"重新连接设备，然后从头开始重试。"
 
 #: ../package/FlashGBX/LK_Device.py:487
 #, python-brace-format
@@ -3628,8 +3617,8 @@ msgid ""
 "{line_number}. Please make sure that the cartridge contacts are clean, re-"
 "connect the device and try again from the beginning."
 msgstr ""
-"设备在运行 {function_name}() 的第 {line_number} 行时报告错误。"
-"请确保卡带触点清洁，重新连接设备，然后从头开始重试。"
+"设备在运行 {function_name}() 的第 {line_number} 行时报告错误。请确保卡带触点"
+"清洁，重新连接设备，然后从头开始重试。"
 
 #: ../package/FlashGBX/LK_Device.py:497
 #, python-brace-format
@@ -3638,8 +3627,8 @@ msgid ""
 "{line_number}. Please make sure that the cartridge contacts are clean, re-"
 "connect the device and try again from the beginning."
 msgstr ""
-"在 {function_name}() 的第 {line_number} 行发生通信错误。"
-"请确保卡带触点清洁，重新连接设备，然后从头开始重试。"
+"在 {function_name}() 的第 {line_number} 行发生通信错误。请确保卡带触点清洁，"
+"重新连接设备，然后从头开始重试。"
 
 #: ../package/FlashGBX/LK_Device.py:725
 msgid "An error has occured while writing to the cartridge."
@@ -3669,7 +3658,8 @@ msgid ""
 "To continue, please re-connect the USB cable of your {device_name} on port "
 "{device_port} now."
 msgstr ""
-"要继续，请立即在端口 {device_port} 上重新连接您的 {device_name} 的 USB 数据线。"
+"要继续，请立即在端口 {device_port} 上重新连接您的 {device_name} 的 USB 数据"
+"线。"
 
 #: ../package/FlashGBX/LK_Device.py:943
 msgid ""
@@ -3708,8 +3698,8 @@ msgid ""
 "Note: This cartridge may not be fully compatible with your GBFlash hardware "
 "revision. Upgrade to v1.3 or newer for better compatibility."
 msgstr ""
-"注意：此卡带可能与您的 GBFlash 硬件修订版不完全兼容。"
-"升级到 v1.3 或更新版本以获得更好的兼容性。"
+"注意：此卡带可能与您的 GBFlash 硬件修订版不完全兼容。升级到 v1.3 或更新版本以"
+"获得更好的兼容性。"
 
 #: ../package/FlashGBX/LK_Device.py:1310
 msgid "Detecting ROM..."
@@ -3748,7 +3738,8 @@ msgid ""
 "Flash write error (response = {response}) in iteration {iteration} while "
 "trying to write {length} bytes"
 msgstr ""
-"尝试写入 {length} 字节时，在第 {iteration} 次迭代中发生闪存写入错误（响应 = {response}）"
+"尝试写入 {length} 字节时，在第 {iteration} 次迭代中发生闪存写入错误（响应 = "
+"{response}）"
 
 #: ../package/FlashGBX/LK_Device.py:1904
 #, python-brace-format
@@ -3756,7 +3747,8 @@ msgid ""
 "Flash write timeout (response = {response}) in iteration {iteration} while "
 "trying to write {length} bytes"
 msgstr ""
-"尝试写入 {length} 字节时，在第 {iteration} 次迭代中发生闪存写入超时（响应 = {response}）"
+"尝试写入 {length} 字节时，在第 {iteration} 次迭代中发生闪存写入超时（响应 = "
+"{response}）"
 
 #: ../package/FlashGBX/LK_Device.py:2222
 #, python-brace-format
@@ -3764,7 +3756,8 @@ msgid ""
 "EEPROM write error (response = {response}) in iteration {iteration} while "
 "trying to write {length} bytes"
 msgstr ""
-"尝试写入 {length} 字节时，在第 {iteration} 次迭代中发生 EEPROM 写入错误（响应 = {response}）"
+"尝试写入 {length} 字节时，在第 {iteration} 次迭代中发生 EEPROM 写入错误（响"
+"应 = {response}）"
 
 #: ../package/FlashGBX/LK_Device.py:2775 ../package/FlashGBX/LK_Device.py:4033
 #, python-brace-format
@@ -3803,8 +3796,8 @@ msgid ""
 "An error occured while reading from the cartridge. When connecting the "
 "device, avoid passive USB hubs and try different USB ports/cables."
 msgstr ""
-"从卡带读取时发生错误。连接设备时，请避免使用无源 USB 集线器，"
-"并尝试不同的 USB 端口/数据线。"
+"从卡带读取时发生错误。连接设备时，请避免使用无源 USB 集线器，并尝试不同的 "
+"USB 端口/数据线。"
 
 #: ../package/FlashGBX/LK_Device.py:3170
 msgid "ROM checksum"
@@ -3858,7 +3851,8 @@ msgstr "无法一致地读取存档数据。请确保卡带触点清洁。"
 msgid ""
 "Error: Save data flash sector at {address} didn’t erase successfully "
 "(SR={status_register})."
-msgstr "错误：地址 {address} 处的存档数据闪存扇区未成功擦除（SR={status_register}）。"
+msgstr ""
+"错误：地址 {address} 处的存档数据闪存扇区未成功擦除（SR={status_register}）。"
 
 #: ../package/FlashGBX/LK_Device.py:3727 ../package/FlashGBX/LK_Device.py:3735
 msgid ""
@@ -3866,8 +3860,8 @@ msgid ""
 "the cartridge contacts are clean, re-connect the device and try again from "
 "the beginning."
 msgstr ""
-"写入 DACS 卡带时发生错误。请确保卡带触点清洁，重新连接设备，"
-"然后从头开始重试。"
+"写入 DACS 卡带时发生错误。请确保卡带触点清洁，重新连接设备，然后从头开始重"
+"试。"
 
 #: ../package/FlashGBX/LK_Device.py:3872
 msgid ""
@@ -3893,7 +3887,8 @@ msgid ""
 "Note: The last 256 bytes of this 32 MiB ROM will not be written as this area "
 "is reserved by the EEPROM save type."
 msgstr ""
-"注意：此 32 MiB ROM 的最后 256 字节将不会被写入，因为此区域被 EEPROM 存档类型保留。"
+"注意：此 32 MiB ROM 的最后 256 字节将不会被写入，因为此区域被 EEPROM 存档类型"
+"保留。"
 
 #: ../package/FlashGBX/LK_Device.py:4009
 msgctxt "Flashcart Profile"
@@ -3910,8 +3905,8 @@ msgid ""
 "Note: Update your {device_name} firmware to version L3 or higher for a "
 "better transfer rate with this flashcart profile."
 msgstr ""
-"注意：将您的 {device_name} 固件更新到 L3 或更高版本，"
-"可在此烧录卡配置下获得更好的传输速率。"
+"注意：将您的 {device_name} 固件更新到 L3 或更高版本，可在此烧录卡配置下获得更"
+"好的传输速率。"
 
 #: ../package/FlashGBX/LK_Device.py:4025
 msgid "This flashcart profile requires at least firmware version L5."
@@ -3923,8 +3918,8 @@ msgid ""
 "Note: Update your {device_name} firmware to version L5 or higher for a "
 "better transfer rate with this flashcart profile."
 msgstr ""
-"注意：将您的 {device_name} 固件更新到 L5 或更高版本，"
-"可在此烧录卡配置下获得更好的传输速率。"
+"注意：将您的 {device_name} 固件更新到 L5 或更高版本，可在此烧录卡配置下获得更"
+"好的传输速率。"
 
 #: ../package/FlashGBX/LK_Device.py:4038
 #, python-brace-format
@@ -3932,15 +3927,16 @@ msgid ""
 "Note: This flashcart profile may not be fully compatible with your "
 "{device_name} until updated to a newer firmware version."
 msgstr ""
-"注意：在更新到更新的固件版本之前，此烧录卡配置可能与您的 {device_name} 不完全兼容。"
+"注意：在更新到更新的固件版本之前，此烧录卡配置可能与您的 {device_name} 不完全"
+"兼容。"
 
 #: ../package/FlashGBX/LK_Device.py:4042
 msgid ""
 "This flashcart profile requires a different firmware version. Please update "
 "your GBxCart RW firmware using the older FlashGBX v4.3 and try again."
 msgstr ""
-"此烧录卡配置需要不同的固件版本。请使用较旧的 FlashGBX v4.3 更新您的 GBxCart RW 固件，"
-"然后重试。"
+"此烧录卡配置需要不同的固件版本。请使用较旧的 FlashGBX v4.3 更新您的 GBxCart "
+"RW 固件，然后重试。"
 
 #: ../package/FlashGBX/LK_Device.py:4049
 msgid "This flashcart profile requires at least firmware version L14."
@@ -3965,8 +3961,8 @@ msgid ""
 "The {gb_memory_cartridge} requires extra hidden sector data. As it couldn’t "
 "be auto-generated, please provide your own at the following path:"
 msgstr ""
-"{gb_memory_cartridge} 需要额外的隐藏扇区数据。由于无法自动生成，"
-"请自行在以下路径提供："
+"{gb_memory_cartridge} 需要额外的隐藏扇区数据。由于无法自动生成，请自行在以下"
+"路径提供："
 
 #: ../package/FlashGBX/LK_Device.py:4236 ../package/FlashGBX/LK_Device.py:4291
 msgid "This flashcart profile is currently not supported for ROM writing."
@@ -4010,8 +4006,8 @@ msgid ""
 "An error occured while writing {buffer_len} bytes at position {buffer_pos} "
 "({file_size}). Please re-connect the device and try again from the beginning."
 msgstr ""
-"在位置 {buffer_pos}（{file_size}）写入 {buffer_len} 字节时发生错误。"
-"请重新连接设备，然后从头开始重试。"
+"在位置 {buffer_pos}（{file_size}）写入 {buffer_len} 字节时发生错误。请重新连"
+"接设备，然后从头开始重试。"
 
 #: ../package/FlashGBX/LK_Device.py:4800 ../package/FlashGBX/LK_Device.py:4823
 #: ../package/FlashGBX/LK_Device.py:4849
@@ -4025,8 +4021,8 @@ msgid ""
 "{iteration} at position {buffer_pos} ({file_size}). Please re-connect the "
 "device and try again from the beginning."
 msgstr ""
-"在位置 {buffer_pos}（{file_size}）的第 {iteration} 次迭代中写入 {buffer_len} 字节时，"
-"检测到连接不稳定。请重新连接设备，然后从头开始重试。"
+"在位置 {buffer_pos}（{file_size}）的第 {iteration} 次迭代中写入 {buffer_len} "
+"字节时，检测到连接不稳定。请重新连接设备，然后从头开始重试。"
 
 #: ../package/FlashGBX/LK_Device.py:4817
 msgid ""
@@ -4085,8 +4081,7 @@ msgid ""
 "cartridge contacts are clean, re-connect the device and try again from the "
 "beginning."
 msgstr ""
-"写入隐藏扇区时发生错误。请确保卡带触点清洁，重新连接设备，"
-"然后从头开始重试。"
+"写入隐藏扇区时发生错误。请确保卡带触点清洁，重新连接设备，然后从头开始重试。"
 
 #: ../package/FlashGBX/LK_Device.py:5093
 #, python-brace-format
@@ -4103,8 +4098,8 @@ msgid ""
 "same kind require 5V for successful writing, but please note that 5V can be "
 "unsafe for some flash chips."
 msgstr ""
-"在 3.3V 下写入失败。是否要在 5V 下重试？某些同类卡带需要 5V 才能成功写入，"
-"但请注意 5V 对某些闪存芯片可能不安全。"
+"在 3.3V 下写入失败。是否要在 5V 下重试？某些同类卡带需要 5V 才能成功写入，但"
+"请注意 5V 对某些闪存芯片可能不安全。"
 
 #: ../package/FlashGBX/LK_Device.py:5175 ../package/FlashGBX/LK_Device.py:5182
 msgid "Note: Writing at 3.3V failed. Retrying at 5V..."
@@ -4338,8 +4333,7 @@ msgstr "所有文件"
 msgid ""
 "There are already pictures that use the same file names. If you continue, "
 "these files will be overwritten."
-msgstr ""
-"已有使用相同文件名的图片。如果您继续，这些文件将被覆盖。"
+msgstr "已有使用相同文件名的图片。如果您继续，这些文件将被覆盖。"
 
 #: ../package/FlashGBX/PocketCameraWindow.py:350
 msgid ""
@@ -4384,7 +4378,8 @@ msgstr "错误：在 {path} 未找到 Game Boy 游戏数据库"
 msgid ""
 "Warning: Unhandled ISX record type {type} found. Converted ROM may not be "
 "working correctly."
-msgstr "警告：发现未处理的 ISX 记录类型 {type}。转换后的 ROM 可能无法正常工作。"
+msgstr ""
+"警告：发现未处理的 ISX 记录类型 {type}。转换后的 ROM 可能无法正常工作。"
 
 #: ../package/FlashGBX/RomFileDMG.py:545
 msgid "Error: Couldn’t convert ISX file correctly."
@@ -4415,8 +4410,8 @@ msgid ""
 "newer than what this version of FlashGBX was developed to work with, so "
 "errors may occur."
 msgstr ""
-"注意：端口 {port} 上的 {device_name} 运行的固件版本比此版本 FlashGBX 开发时所针对的版本更新，"
-"因此可能会发生错误。"
+"注意：端口 {port} 上的 {device_name} 运行的固件版本比此版本 FlashGBX 开发时所"
+"针对的版本更新，因此可能会发生错误。"
 
 #: ../package/FlashGBX/hw_GBFlash.py:148 ../package/FlashGBX/hw_JoeyJr.py:193
 msgid "unverified"
@@ -4456,8 +4451,8 @@ msgid ""
 "and functionality until proper registration. The FlashGBX software has no "
 "control over this."
 msgstr ""
-"设备的集成式盗版检测可能会限制设备的性能和功能，直到正确注册。"
-"FlashGBX 软件对此无法控制。"
+"设备的集成式盗版检测可能会限制设备的性能和功能，直到正确注册。FlashGBX 软件对"
+"此无法控制。"
 
 #: ../package/FlashGBX/hw_GBFlash.py:349
 #: ../package/FlashGBX/hw_GBxCartRW.py:382
@@ -4555,7 +4550,8 @@ msgid ""
 "<b>Warning:</b> If you close this window while a firmware update is still "
 "running, it might leave the device in an unbootable state."
 msgstr ""
-"<b>警告：</b>如果在固件更新仍在运行时关闭此窗口，可能会导致设备处于无法启动的状态。"
+"<b>警告：</b>如果在固件更新仍在运行时关闭此窗口，可能会导致设备处于无法启动的"
+"状态。"
 
 #: ../package/FlashGBX/hw_GBFlash.py:617
 #: ../package/FlashGBX/hw_GBxCartRW.py:629 ../package/FlashGBX/hw_JoeyJr.py:656
@@ -4620,8 +4616,8 @@ msgid ""
 "features intentionally. If this error persists, return the device for a "
 "refund."
 msgstr ""
-"您的 GBFlash 设备未能进入固件更新模式。这意味着您的 GBFlash 可能是一个"
-"<b>非法克隆品</b>，故意阻止了某些功能。如果此错误持续存在，请退回设备以获得退款。"
+"您的 GBFlash 设备未能进入固件更新模式。这意味着您的 GBFlash 可能是一个<b>非法"
+"克隆品</b>，故意阻止了某些功能。如果此错误持续存在，请退回设备以获得退款。"
 
 #: ../package/FlashGBX/hw_GBxCartRW.py:72
 #, python-brace-format
@@ -4629,8 +4625,8 @@ msgid ""
 "The device on port {port} couldn’t be accessed. Make sure your user account "
 "has permission to use it and it’s not already in use by another application."
 msgstr ""
-"无法访问端口 {port} 上的设备。请确保您的用户帐户有权使用它，"
-"并且它未被其他应用程序使用。"
+"无法访问端口 {port} 上的设备。请确保您的用户帐户有权使用它，并且它未被其他应"
+"用程序使用。"
 
 #: ../package/FlashGBX/hw_GBxCartRW.py:76
 #, python-brace-format
@@ -4674,7 +4670,8 @@ msgid ""
 "- If done right, the green LED labeled “{led}” should remain lit."
 msgstr ""
 "- 断开您的 GBxCart RW {device_version} 的 USB 数据线。\n"
-"- 在 GBxCart RW {device_version} 的电路板上，按住小按钮的同时重新连接 USB 数据线。\n"
+"- 在 GBxCart RW {device_version} 的电路板上，按住小按钮的同时重新连接 USB 数"
+"据线。\n"
 "- 按住小按钮至少 2 秒钟，然后松开。\n"
 "- 如果操作正确，标有“{led}”的绿色 LED 灯应保持常亮。"
 
@@ -4708,7 +4705,8 @@ msgid ""
 "The expected filename for a valid firmware file is <b>{filename_pattern}</"
 "b>. Please visit {url} for the latest official firmware updates."
 msgstr ""
-"有效固件文件的预期文件名为 <b>{filename_pattern}</b>。请访问 {url} 获取最新的官方固件更新。"
+"有效固件文件的预期文件名为 <b>{filename_pattern}</b>。请访问 {url} 获取最新的"
+"官方固件更新。"
 
 #: ../package/FlashGBX/hw_GBxCartRW.py:924
 msgid ""
@@ -4716,8 +4714,8 @@ msgid ""
 "If it is invalid or an update for a different device, it may render your "
 "device unusable."
 msgstr ""
-"请仔细检查这是否是您的 GBxCart RW 的有效固件文件。如果它无效或是针对不同设备的更新，"
-"可能会导致您的设备无法使用。"
+"请仔细检查这是否是您的 GBxCart RW 的有效固件文件。如果它无效或是针对不同设备"
+"的更新，可能会导致您的设备无法使用。"
 
 #: ../package/FlashGBX/hw_GBxCartRW.py:927
 msgid "The following firmware will now be written to your GBxCart RW device:"
@@ -4745,8 +4743,8 @@ msgid ""
 msgstr ""
 "无法更新您的 GBxCart RW {pcb_version}（{fw_version}）！\n"
 "\n"
-"固件更新失败，因为设备没有正确响应。请确保您使用的是正品 GBxCart RW，"
-"使用不同的 USB 数据线重新连接，然后重试。\n"
+"固件更新失败，因为设备没有正确响应。请确保您使用的是正品 GBxCart RW，使用不同"
+"的 USB 数据线重新连接，然后重试。\n"
 "\n"
 "⚠️ 请注意，FlashGBX 不适用于“{flashboy}”系列设备。"
 
@@ -4846,8 +4844,8 @@ msgid ""
 "setting feature, so please be extra careful and always set the switch to the "
 "correct voltage before inserting a cartridge."
 msgstr ""
-"警告：您的 {device_name} 不支持软件控制的电压设置功能，因此请格外小心，"
-"并在插入卡带前务必将开关设置到正确的电压。"
+"警告：您的 {device_name} 不支持软件控制的电压设置功能，因此请格外小心，并在插"
+"入卡带前务必将开关设置到正确的电压。"
 
 #: ../package/FlashGBX/hw_JoeyJr.py:316
 msgid "Connecting... This may take a moment."
@@ -4980,8 +4978,9 @@ msgid ""
 "file for your Joey Jr. If it is invalid or an update for a different device, "
 "it may render your device unusable."
 msgstr ""
-"警告：无法自动确认所选固件文件有效（{error}）。请仔细检查这是否是您的 Joey Jr 的有效固件文件。"
-"如果它无效或是针对不同设备的更新，可能会导致您的设备无法使用。"
+"警告：无法自动确认所选固件文件有效（{error}）。请仔细检查这是否是您的 Joey "
+"Jr 的有效固件文件。如果它无效或是针对不同设备的更新，可能会导致您的设备无法使"
+"用。"
 
 #: ../package/FlashGBX/hw_JoeyJr.py:717
 msgid "The firmware update file is corrupted or invalid."
@@ -4997,7 +4996,8 @@ msgid ""
 "Please note that you need to manually copy over the {romlist} file. You can "
 "find the latest version of it on the Joey Jr website."
 msgstr ""
-"请注意，您需要手动复制 {romlist} 文件。您可以在 Joey Jr 网站上找到它的最新版本。"
+"请注意，您需要手动复制 {romlist} 文件。您可以在 Joey Jr 网站上找到它的最新版"
+"本。"
 
 #: ../package/FlashGBX/hw_JoeyJr.py:774
 msgid ""
@@ -5005,8 +5005,8 @@ msgid ""
 "update the firmware on Windows or Linux, or use the standalone firmware "
 "updater."
 msgstr ""
-"如果您的 Joey Jr 设备当前正在运行 Drag’n’Drop 固件，请在 Windows 或 Linux 上更新固件，"
-"或使用独立固件更新器。"
+"如果您的 Joey Jr 设备当前正在运行 Drag’n’Drop 固件，请在 Windows 或 Linux 上"
+"更新固件，或使用独立固件更新器。"
 
 #: ../package/FlashGBX/hw_JoeyJr.py:778
 #, python-brace-format

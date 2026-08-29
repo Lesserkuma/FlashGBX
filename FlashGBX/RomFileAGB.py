@@ -49,6 +49,67 @@ class RomFileAGB:
 		self.CalcChecksumHeader(True)
 		return self.ROMFILE[0:0x200]
 
+	@staticmethod
+	def GetSaveTypeFromHeaderMarker(header):
+		if header is False or len(header) <= 0xBF:
+			return None
+		if header[0xBE] != 0x4C:
+			return None
+
+		flags = header[0xBF]
+		save_size_map = {
+			0b000: 0,
+			0b001: 512,
+			0b010: 8192,
+			0b011: 32768,
+			0b100: 65536,
+			0b101: 131072,
+		}
+		save_size_code = flags & 0x07
+		if save_size_code not in save_size_map:
+			return None
+
+		save_size = save_size_map[save_size_code]
+		save_medium = (flags & 0x18) >> 3
+		batteryless = (flags & 0x20) != 0
+
+		# Waitstate (0x40) and Fake RTC (0x80) are independent of the
+		# save configuration and therefore do not affect its decoding.
+		if save_medium == 0:
+			if save_size != 0 or batteryless:
+				return None
+			return (0, 0)
+
+		if save_medium == 1: # SRAM
+			if batteryless:
+				if save_size == 0:
+					return None
+				return (9, save_size)
+			if save_size <= 32768:
+				return (3, save_size)
+			if save_size == 65536:
+				return (7, save_size)
+			if save_size == 131072:
+				return (8, save_size)
+
+		if batteryless:
+			return None
+		if save_medium == 2: # EEPROM
+			if save_size == 0:
+				# FlashGBX uses save type 1 for the EEPROM family. A size of
+				# zero keeps 4K and 64K EEPROM intentionally unresolved.
+				return (1, 0)
+			if save_size == 512:
+				return (1, save_size)
+			if save_size == 8192:
+				return (2, save_size)
+		if save_medium == 3: # FLASH
+			if save_size == 131072:
+				return (5, save_size)
+			else:
+				return (4, save_size)
+		return None
+
 	def LogoToImage(self, data, valid=True):
 		if Image is None: return False
 		if data in (bytearray([0] * len(data)), bytearray([0xFF] * len(data))): return False
@@ -173,6 +234,10 @@ class RomFileAGB:
 		data["rom_size_calc"] = int(len(buffer))
 		data["save_type"] = None
 		data["save_size"] = 0
+		save_type_marker = self.GetSaveTypeFromHeaderMarker(buffer)
+		if save_type_marker is not None:
+			dprint("Patch header marker found: {identifier:02X}, {flags:08b}. Result: {save_type_marker}".format(identifier=buffer[0xBE], flags=buffer[0xBF], save_type_marker=str(save_type_marker)))
+			data["save_type"], data["save_size"] = save_type_marker
 
 		# Vast Fame (unlicensed protected carts)
 		data["vast_fame"] = False

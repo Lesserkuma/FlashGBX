@@ -159,16 +159,16 @@ jobs:
           }
           Rename-Item -Path "$myFilesDir\FlashGBX.exe" -NewName "FlashGBX-app.exe" -Force
 
-      - name: Install Inno Setup 6.7.0
+      - name: Install Inno Setup 7.1.0
         run: |
-          $innoSetupUrl = "https://github.com/jrsoftware/issrc/releases/download/is-6_7_2/innosetup-6.7.2.exe"
+          $innoSetupUrl = "https://github.com/jrsoftware/issrc/releases/download/is-7_1_0/innosetup-7.1.0-x64.exe"
           $installerPath = "is.exe"
           Invoke-WebRequest -Uri $innoSetupUrl -OutFile $installerPath
           Start-Process -FilePath $installerPath -ArgumentList "/SILENT" -Wait
 
       - name: Create Setup archive
         run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "setup.iss"
+          & "C:\Program Files\Inno Setup 7\ISCC.exe" "setup.iss"
           Move-Item "setup\Setup_FlashGBX.exe" "setup\FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.exe"
           & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=3 "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip" ".\setup\*"
 

@@ -74,6 +74,28 @@ class FlashGBX_CLI():
 			return mode
 		return None
 
+	def _GetNextExportIndex(self, directory, prefix, ext, digits=2, minimum=1):
+		existing_index = minimum - 1
+		try:
+			for fn in os.listdir(directory):
+				if not fn.lower().endswith(ext.lower()):
+					continue
+				name = fn[:-len(ext)]
+				if not name.startswith(os.path.basename(prefix)):
+					continue
+				suffix = name[len(os.path.basename(prefix)):]
+				if len(suffix) != digits or not suffix.isdigit():
+					continue
+				idx = int(suffix)
+				if idx > existing_index:
+					existing_index = idx
+			return existing_index + 1
+		except OSError:
+			return minimum
+
+	def _IsPhotoCustomRom(self, path):
+		return os.path.isfile(path) and os.path.getsize(path) == 0x100000
+
 	def run(self):
 		sys.stdout = Logger()
 		config_ret = self.ARGS["config_ret"]
@@ -174,19 +196,53 @@ class FlashGBX_CLI():
 					print(__("Canceled."))
 					return 0
 
+			if not os.path.isfile(args.path):
+				print("\n" + ANSI.RED + __("Couldn’t open the save data file at “{path}”.", path=os.path.abspath(args.path)) + ANSI.RESET)
+				return 1
+
+			folder = os.path.splitext(args.path)[0]
+			if os.path.isfile(folder):
+				print("\n" + ANSI.RED + __("Can’t save pictures at location “{path}”.", path=os.path.abspath(folder)) + ANSI.RESET)
+				return 1
+			if not os.path.isdir(folder):
+				os.makedirs(folder)
+
+			if self._IsPhotoCustomRom(args.path):
+				full_file = None
+				try:
+					with open(args.path, "rb") as f:
+						full_file = bytearray(f.read())
+				except OSError:
+					print("\n" + ANSI.RED + __("Couldn’t read the save data file at “{path}”.", path=os.path.abspath(args.path)) + ANSI.RESET)
+					return 1
+
+				for roll in range(1, 9):
+					pc = PocketCamera()
+					with open(args.path, "rb") as f:
+						f.seek(0x20000 * (roll - 1))
+						roll_data = bytearray(f.read(0x20000))
+					if pc.LoadFile(roll_data) == False:
+						continue
+					pc.SetPalette(PocketCamera.PALETTE_NAMES.index(args.gbcamera_palette))
+					prefix = os.path.join(folder, "IMG_P{:d}".format(roll))
+					ext = "." + args.gbcamera_outfile_format
+					start = 1 if args.overwrite else self._GetNextExportIndex(folder, prefix, ext)
+					for i in range(0, 32):
+						file = prefix + "{:02d}".format(start + i) + ext
+						pc.ExportPicture(i, file, scale=1)
+				print(__("The pictures from “{save_file}” were extracted to “{destination}”.", save_file=os.path.abspath(args.path), destination=os.path.abspath(folder) + os.sep + "IMG_P**.{:s}".format(args.gbcamera_outfile_format)))
+				return 0
+
 			pc = PocketCamera()
 			if pc.LoadFile(args.path) != False:
 				pc.SetPalette(PocketCamera.PALETTE_NAMES.index(args.gbcamera_palette))
-				file = os.path.splitext(args.path)[0] + os.sep + "IMG_PC00.png"
-				if os.path.isfile(os.path.dirname(file)):
-					print("\n" + ANSI.RED + __("Can’t save pictures at location “{path}”.", path=os.path.abspath(os.path.dirname(file))) + ANSI.RESET)
-					return 1
-				if not os.path.isdir(os.path.dirname(file)):
-					os.makedirs(os.path.dirname(file))
+				prefix = os.path.join(folder, "IMG_PC")
+				ext = "." + args.gbcamera_outfile_format
+				start = 1 if args.overwrite else self._GetNextExportIndex(folder, prefix, ext)
 				for i in range(0, 32):
-					file = os.path.splitext(args.path)[0] + os.sep + "IMG_PC{:02d}".format(i+1) + "." + args.gbcamera_outfile_format
+					file = prefix + "{:02d}".format(start + i) + ext
 					pc.ExportPicture(i, file, scale=1)
-				print(__("The pictures from “{save_file}” were extracted to “{destination}”.", save_file=os.path.abspath(args.path), destination=os.path.abspath(os.path.dirname(file)) + os.sep + "IMG_PC**.{:s}".format(args.gbcamera_outfile_format)))
+				print(__("The pictures from “{save_file}” were extracted to “{destination}”.", save_file=os.path.abspath(args.path), destination=os.path.abspath(folder) + os.sep + "IMG_PC**.{:s}".format(args.gbcamera_outfile_format)))
 			else:
 				print("\n" + ANSI.RED + __("Couldn’t parse the save data file.") + ANSI.RESET)
 			return 0
@@ -503,8 +559,11 @@ class FlashGBX_CLI():
 								f.seek(0x20000 * (roll - 1))
 								roll_data = bytearray(f.read(0x20000))
 							if pc.LoadFile(roll_data) != False:
+								prefix = base + os.sep + "IMG_P{:d}".format(roll)
+								ext = "." + self.ARGS["argparsed"].gbcamera_outfile_format
+								start = 1 if self.ARGS["argparsed"].overwrite else self._GetNextExportIndex(base, prefix, ext)
 								for i in range(0, 32):
-									file = base + os.sep + "IMG_P{:1d}{:02d}.{}".format(roll, i, self.ARGS["argparsed"].gbcamera_outfile_format)
+									file = prefix + "{:02d}".format(start + i) + ext
 									pc.ExportPicture(i, file, scale=1)
 					else:
 						file = self.CONN.INFO["last_path"]

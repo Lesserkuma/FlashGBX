@@ -1,0 +1,20 @@
+CC    = cl.exe
+RC    = rc.exe
+LINK  = link.exe
+
+CFLAGS  = /O2 /MT /W3 /DUNICODE /D_UNICODE
+LDFLAGS = /SUBSYSTEM:WINDOWS /BREPRO /OPT:REF /OPT:ICF
+
+all: launcher.exe
+
+launcher.exe: FlashGBX_Launcher.obj FlashGBX_Launcher.res
+	$(LINK) $(LDFLAGS) /OUT:$@ $** user32.lib shell32.lib kernel32.lib
+
+FlashGBX_Launcher.obj: FlashGBX_Launcher.c
+	$(CC) $(CFLAGS) /c $** /Fo$@
+
+FlashGBX_Launcher.res: FlashGBX_Launcher.rc
+	$(RC) /fo$@ $**
+
+clean:
+	-del *.obj *.res launcher.exe *.exp *.lib

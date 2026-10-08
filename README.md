@@ -148,8 +148,11 @@ for Windows, Linux, macOS (→ [Download](#downloads))
   - insideGadgets 32 MiB, 512K FLASH
   - insideGadgets 32 MiB, 4K/64K EEPROM
   - insideGadgets 32 MiB, 256K FRAM with Rumble option
+  - SuperChis Prime internal SuperFW firmware flash (EXPERIMENTAL)¹
 
 *¹ = Cannot always be auto-detected, select cartridge type manually*
+
+*The SuperChis Prime profile is for internal SuperFW firmware flash only; it is not for game ROMs or SRAM. A backup -> restore -> backup round-trip of a real 2 MiB SuperFW firmware image (SHA-256 verified identical before and after) plus a normal boot of the cartridge after restoring has been confirmed on real SuperChis Prime hardware. Beyond that specific round-trip, this profile is still lightly tested: it must be selected manually (no auto-detection, no flash ID check), and only 2 MiB images containing the signature `SUPERFW~DAVIDGF` at offset 0xF0 are accepted for writing — do not override the ROM/backup size for this profile, since the SuperChis Prime's internal flash is only reachable as a 32 MiB window at most via the GBA cart bus's standard WS0/WS1/WS2 mirrors, and this profile does not implement the cart's NOR bank-switching, so anything read or written beyond the first few MiB is meaningless mirrored/open-bus data, not real additional content. Writing performs a full chip erase, which may also erase any NOR games stored on the cart (full bank-switching support covering the rest of the NOR chip, including stored games, has not been implemented). The cartridge is left write-enabled after each operation; power-cycle it afterwards. Copy the `.txt` profile to the FlashGBX config directory manually. The chip erase timeout is set to 2400 s as a conservative upper bound; real erase duration has not been separately measured.*
 
 </details>
 <details>

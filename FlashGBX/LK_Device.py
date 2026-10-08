@@ -2963,6 +2963,8 @@ class LK_Device(ABC):
 
 			else:
 				self.INFO["dump_info"]["agb_read_method"] = self.AGB_READ_METHODS[self.AGB_READ_METHOD]
+				if flashcart and cart_type.get("unlock_before_read") is True:
+					flashcart.Unlock()
 
 			if flashcart and "flash_bank_size" in cart_type:
 				if "verify_write" in args:
@@ -4126,6 +4128,20 @@ class LK_Device(ABC):
 			self.SetProgress({"action":"ABORT", "info_type":"msgbox_critical", "info_msg":__("This flashcart profile requires at least firmware version L14."), "abortable":False})
 			return False
 		# Firmware check L14
+
+		# Profile-specific image guards (opt-in, only active when keys present in cart_type)
+		if cart_type.get("flash_size_strict") is True and "flash_size" in cart_type and len(data_import) > cart_type["flash_size"]:
+			self.SetProgress({"action":"ABORT", "info_type":"msgbox_critical",
+				"info_msg":__("The selected file is larger than the flash chip of this flashcart profile ({max_size}). Writing was aborted.",
+				max_size="0x{:X}".format(cart_type["flash_size"])), "abortable":False})
+			return False
+		if "required_image_signature" in cart_type:
+			(sig_offset, sig_bytes) = cart_type["required_image_signature"]
+			if bytes(data_import[sig_offset:sig_offset + len(sig_bytes)]) != bytes(sig_bytes):
+				self.SetProgress({"action":"ABORT", "info_type":"msgbox_critical",
+					"info_msg":__("The selected file does not contain the image signature required by this flashcart profile. Writing was aborted."),
+					"abortable":False})
+				return False
 
 		# Ensure cart is powered
 		if self.CanPowerCycleCart(): self.CartPowerOn()

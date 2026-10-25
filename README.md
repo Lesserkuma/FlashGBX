@@ -14,6 +14,11 @@ for Windows, Linux, macOS (→ [Download](#downloads))
 - Many reproduction cartridges and flash cartridges can be auto-detected
 - A flash chip query (including Common Flash Interface information) can be performed for flash cartridges
 - Decode and extract Game Boy Camera photos from save data
+- Extract all Game Boy Camera photos from a single custom Photo ROM save file in one pass
+- In the GUI, use "Save / Extract All Pictures" to export all rolls from a 1 MiB Photo ROM without overwriting existing files
+- Add an "Export Filename Prefix" option in the GB Camera Album Viewer Options panel. This prefix is applied to single-picture saves, group exports, and full roll extraction within the current session.
+- The export prefix defaults to `IMG_PC` on each application launch and is used to build consistent export file names.
+- Automatically increment exported file suffixes when prior pictures already exist to avoid overwriting
 - Generate ROM dump reports for game preservation purposes
 - Supported interface languages: English, German, Simplified Chinese
 

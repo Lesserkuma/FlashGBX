@@ -6,14 +6,16 @@ import sys, os, glob, re, json, zlib, argparse, zipfile, traceback, platform, da
 from .i18n import __, c__, init_language
 from .app import AppInfo, AppContext, HW_DEVICES
 from .IniSettings import IniSettings
+from .PluginLoader import LoadPlugins
 from .CartridgeTypes import RomSizes, AgbSaveTypes, DmgSaveTypes
 from .Flashcart import empty_flashcarts_map
 from .Logging import ANSI
 from .PocketCamera import PocketCamera
+from .EReader import ScanControl
 
 STATIC_ACTIONS = ["info", "flash-info", "backup-rom", "flash-rom", "backup-save",
-                  "restore-save", "erase-save", "gbcamera-extract",
-                  "interactive", "debug-test-save"]
+                  "restore-save", "erase-save", "gbcamera-extract", "gbcamera-live-image",
+                  "interactive", "ereader-dump", "debug-test-save"]
 FWUPDATE_ACTIONS = []
 for _d in HW_DEVICES:
 	try:
@@ -25,6 +27,44 @@ for _d in HW_DEVICES:
 	except Exception:
 		pass
 ALL_ACTIONS = STATIC_ACTIONS + FWUPDATE_ACTIONS
+
+def GetLinuxDevicePorts(serial_ports):
+	if platform.system() != "Linux": return set()
+	usb_ids = {usb_id for hw_device in HW_DEVICES for usb_id in (getattr(hw_device.GbxDevice, "USB_IDS", None) or ())}
+	return {port.device for port in serial_ports if (port.vid, port.pid) in usb_ids}
+
+def GetHostLauncherEnv():
+	env = os.environ.copy()
+	if platform.system() != "Linux": return env
+	for var in ("LD_LIBRARY_PATH", "APPDIR", "APPIMAGE", "ARGV0"):
+		env.pop(var, None)
+	if "LD_LIBRARY_PATH_ORIG" in env:
+		env["LD_LIBRARY_PATH"] = env["LD_LIBRARY_PATH_ORIG"]
+	return env
+
+def GetLinuxDeviceAccessCommand(ports, permanent=False):
+	if not permanent:
+		return ["pkexec", "--disable-internal-agent", "/bin/sh", "-c", 'chmod 0666 -- "$@" || exit 1', "flashgbx"] + ports
+	script = '''set -e
+trap 'test $? -eq 0 || exit 1' 0
+mkdir -p /etc/udev/rules.d
+cat > /etc/udev/rules.d/50-flashgbx.rules <<'RULES'
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0666"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b010", MODE="0666"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="27dd", MODE="0666"
+RULES
+chown root:root /etc/udev/rules.d/50-flashgbx.rules
+chmod 0644 /etc/udev/rules.d/50-flashgbx.rules
+udevadm control --reload-rules
+udevadm trigger --settle "$@"
+'''
+	return ["pkexec", "--disable-internal-agent", "/bin/sh", "-c", script, "flashgbx"] + ports
+
+def GetLinuxDeviceAccessResult(exit_code, stderr):
+	if exit_code == 0: return True, ""
+	if exit_code == 126: return False, ""
+	return False, stderr.strip() or "pkexec exited with status {:d}.".format(exit_code)
 
 def ReadConfigFiles(args):
 	reset = args['argparsed'].reset
@@ -65,9 +105,10 @@ def LoadConfig(args):
 		if os.path.exists(app_path + os.sep + os.path.join("res", "config.zip")):
 			try:
 				with zipfile.ZipFile(app_path + os.sep + os.path.join("res", "config.zip")) as zip:
-					for zfile in zip.namelist():
-						if os.path.exists(config_path + os.sep + zfile):
-							zfile_crc = zip.getinfo(zfile).CRC
+					for zinfo in zip.infolist():
+						zfile = zinfo.filename
+						if not zinfo.is_dir() and os.path.exists(config_path + os.sep + zfile):
+							zfile_crc = zinfo.CRC
 							with open(config_path + os.sep + zfile, "rb") as ofile: buffer = ofile.read()
 							ofile_crc = zlib.crc32(buffer) & 0xFFFFFFFF
 							if zfile_crc == ofile_crc: continue
@@ -164,6 +205,9 @@ def main(portableMode=False):
 	"  " + __("Extract Game Boy Camera pictures as .png files from a save data file") + ":\n\tFlashGBX --mode dmg --action gbcamera-extract --gbcamera-outfile-format png GAMEBOYCAMERA.sav\n\n" + \
 	"  " + __("Backup a {gb_memory_cartridge} ROM including its hidden sector .map file", gb_memory_cartridge="NP GB-Memory Cartridge") + ":\n\tFlashGBX --mode dmg --action backup-rom --dmg-mbc 0x105\n\n"
 
+	examples += "  " + __("Dump an e-Reader Dot Code to a RAW file") + ":\n\tFlashGBX --action ereader-dump card.raw\n\n"
+	examples += "  " + __("Continuously save a live Game Boy Camera image after automatic exposure calibration") + ":\n\tFlashGBX --gbcamera-live-image --gbcamera-palette cgb1 IMG_PC.png\n\n"
+
 	parser = argparse.ArgumentParser(formatter_class=ArgParseCustomFormatter, epilog=examples)
 	try:
 		# pylint: disable=protected-access
@@ -203,25 +247,45 @@ def main(portableMode=False):
 	ap_cli2.add_argument("--no-verify-write", action="store_true", help=c__("Command Line Help", "do not verify written data"))
 	ap_cli2.add_argument("--generate-dump-report", action="store_true", help=c__("Command Line Help", "generate a dump report for a ROM backup"))
 	ap_cli2.add_argument("--save-filename-add-datetime", action="store_true", help=c__("Command Line Help", "adds a timestamp to the file name of save data backups"))
-	ap_cli2.add_argument("--gbcamera-palette", choices=PocketCamera.PALETTE_NAMES, type=str.lower, default="grayscale", help=c__("Command Line Help", "sets the color palette of pictures extracted from Game Boy Camera saves"))
-	ap_cli2.add_argument("--gbcamera-outfile-format", choices=PocketCamera.OUTPUT_FORMATS, type=str.lower, default="png", help=c__("Command Line Help", "sets the file format of saved pictures extracted from Game Boy Camera saves"))
+	ap_cli2.add_argument("--gbcamera-palette", choices=PocketCamera.PALETTE_NAMES, type=str.lower, default="grayscale", help=c__("Command Line Help", "sets the color palette of Game Boy Camera pictures"))
+	ap_cli2.add_argument("--gbcamera-outfile-format", choices=PocketCamera.OUTPUT_FORMATS, type=str.lower, default="png", help=c__("Command Line Help", "sets the file format of saved Game Boy Camera pictures"))
 	ap_cli2.add_argument("--gbcamera-extract", action="store_true", default=False, help=c__("Command Line Help", "automatically extract Game Boy Camera pictures after backing up save data"))
+	ap_cli2.add_argument("--gbcamera-live-image", action="store_true", help=c__("Command Line Help", "continuously update a live Game Boy Camera image after automatic exposure calibration; stop with Ctrl+C"))
 	ap_cli2.add_argument("--device-port", help=c__("Command Line Help", "override device port"), default=None)
+	ap_cli2.add_argument("--device-flow-control", action="store_true", help=c__("Command Line Help", "enable GBxCart RW flow control"))
 	ap_cli2.add_argument("--device-limit-baudrate", action="store_true", help=c__("Command Line Help", "limit connection to a slower baud rate"))
 	ap_cli2.add_argument("--compare-sectors", action="store_true", help=c__("Command Line Help", "compare sectors and only write those that differ when writing a ROM (only for flash carts that support this feature)"), default=True)
 	ap_cli2.add_argument("--wait", action="store_true", help=c__("Command Line Help", "wait for key press after the program has ended"))
-	args = None
+	ap_ereader = parser.add_argument_group(c__("Command Line Arguments Category", "e-Reader Dot Code Dumper arguments"))
+	ap_ereader.add_argument("--ereader-factory-data", help=c__("Command Line Help", "64-byte factory calibration or e-Reader save data file (read from the cartridge when omitted)"))
+	for option, key in (("--ereader-brightness", "sensor_brightness"), ("--ereader-vertical-offset", "vertical_offset"),
+		("--ereader-pwm", "pwm"), ("--ereader-threshold-factor", "threshold_factor")):
+		minimum, maximum, label = ScanControl.RANGES[key]
+		ap_ereader.add_argument(option, dest="ereader_" + key, type=int, default=None,
+			help=c__("Command Line Help", "{setting} for manual calibration ({minimum}..{maximum}). Specifying any calibration value disables automatic calibration.",
+				setting=__(label), minimum=minimum, maximum=maximum))
+
 	try:
 		args, _ = parser.parse_known_args()
-	except SystemExit:
-		if args is None or "--help" in sys.argv:
-			input("\n\n" + __("Press ENTER to exit.") + "\n")
-			return 0
+	except SystemExit as e:
+		if "--wait" in sys.argv and sys.stdin is not None and sys.stdin.isatty():
+			try:
+				input("\n\n" + __("Press ENTER to exit.") + "\n")
+			except (EOFError, KeyboardInterrupt):
+				pass
+		return e.code
 
 	if "appdata" in cp and hasattr(args, 'cfgdir'):
 		parsed_config_path = cp[args.cfgdir]
 		if parsed_config_path != config_path:
 			config_path = parsed_config_path
+
+	if args.gbcamera_live_image:
+		if args.action not in (None, "gbcamera-live-image"):
+			parser.error(__("The live camera image cannot be combined with another action."))
+		args.action = "gbcamera-live-image"
+	if args.action == "gbcamera-live-image" and args.gbcamera_extract:
+		parser.error(__("The live camera image cannot be combined with save data extraction."))
 
 	if args.mode is not None or args.action is not None:
 		args.cli = True
@@ -252,6 +316,7 @@ def main(portableMode=False):
 			if args["argparsed"].wait: input("\n\n" + __("Press ENTER to exit.") + "\n")
 			return
 
+	AppContext.CONFIG_PATH = config_path
 	args.update(LoadConfig(args))
 
 	app = None
@@ -260,6 +325,7 @@ def main(portableMode=False):
 	if not args["argparsed"].cli:
 		try:
 			from . import FlashGBX_GUI
+			LoadPlugins(config_path, gui=True)
 			app = FlashGBX_GUI.FlashGBX_GUI(args)
 		except ModuleNotFoundError:
 			exc = traceback.format_exc()
@@ -270,6 +336,7 @@ def main(portableMode=False):
 
 		if app is None:
 			from . import FlashGBX_CLI
+			LoadPlugins(config_path)
 			if args["argparsed"].action is None:
 				parser.print_help()
 				print("\n\n{:s}" + __("Note: GUI mode couldn’t be launched, but the application can be run in CLI mode.") + "\n      " + __("Optional command line switches are explained above.") + "{:s}\n".format(ANSI.RED, ANSI.RESET))
@@ -288,6 +355,7 @@ def main(portableMode=False):
 
 	else:
 		from . import FlashGBX_CLI
+		LoadPlugins(config_path)
 		print("\n" + __("Now running in CLI mode."))
 		app = FlashGBX_CLI.FlashGBX_CLI(args)
 		try:

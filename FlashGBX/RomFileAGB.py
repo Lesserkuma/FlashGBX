@@ -18,6 +18,14 @@ class RomFileAGB:
 	ROMFILE = bytearray()
 	DATA = None
 
+	@staticmethod
+	def GetParser(file=None):
+		return RomFileAGB(file)
+
+	@staticmethod
+	def ReadHeaderBuffer(file):
+		return bytearray(file.read(0x1000))
+
 	def __init__(self, file=None):
 		if isinstance(file, str):
 			self.ROMFILE_PATH = file
@@ -209,6 +217,7 @@ class RomFileAGB:
 		game_title = re.sub(r"((_)_+|(\x00)\x00+|(\s)\s+)", "\\2\\3\\4", game_title).replace("\x00", "_")
 		game_title = ''.join(filter(lambda x: x in set(string.printable), game_title))
 		data["game_title"] = game_title.replace("\n", "")
+		data["sintax"] = buffer[0xA0:0xAC].rstrip(b"\x00 ") == b"YJencrypted" or (buffer[4:6] == b"\x90\xAE" and buffer[8:10] == b"YJ")
 		data["game_code_raw"] = bytearray(buffer[0xAC:0xB0]).decode("ascii", "replace")
 		game_code = data["game_code_raw"]
 		game_code = re.sub(r"(\x00+)$", "", game_code)
@@ -224,7 +233,9 @@ class RomFileAGB:
 		data["header_checksum"] = int(buffer[0xBD])
 		data["header_checksum_calc"] = self.CalcChecksumHeader()
 		data["header_checksum_correct"] = data["header_checksum"] == data["header_checksum_calc"]
-		if len(game_code) == 4 and game_code[0] == "M":
+		if data["game_title"].rstrip() == "YJencrypted":
+			data["header_sha1"] = hashlib.sha1(buffer[0x0A:0x180]).hexdigest()
+		elif len(game_code) == 4 and game_code[0] == "M":
 			data["header_sha1"] = hashlib.sha1(buffer[0x0:0x100]).hexdigest()
 		else:
 			data["header_sha1"] = hashlib.sha1(buffer[0x0:0x180]).hexdigest()
@@ -261,6 +272,7 @@ class RomFileAGB:
 
 		self.DATA = data
 		data["db"] = self.GetDatabaseEntry()
+		data["sintax_name"] = data["db"]["gn"] if data["sintax"] and data["db"] is not None else None
 
 		# 3D Memory (GBA Video 64 MB)
 		data["3d_memory"] = False
@@ -280,8 +292,8 @@ class RomFileAGB:
 				except (json.JSONDecodeError, ValueError) as e:
 					print(__("Error: Database for Game Boy Advance titles is corrupted.") + "\n" + str(e))
 					return None
-				if data["header_sha1"] in db.keys():
-					db_entry = db[data["header_sha1"]]
+				db_entry = db.get(data["header_sha1"])
+				if db_entry is not None:
 					if db_entry["gc"] in ("ZMAJ", "ZMBJ", "ZMDE"):
 						db_entry["gc"] = "AGS-{:s}".format(db_entry["gc"])
 					elif db_entry["gc"] == "ZBBJ":
@@ -290,7 +302,7 @@ class RomFileAGB:
 						db_entry["gc"] = "PEC-{:s}".format(db_entry["gc"])
 					elif db_entry["gc"] in ("PSAJ", "PSAE"):
 						db_entry["gc"] = "PES-{:s}".format(db_entry["gc"])
-					else:
+					elif db_entry["gc"]:
 						db_entry["gc"] = "AGB-{:s}".format(db_entry["gc"])
 				else:
 					dprint(__("No database entry found for this title (Header SHA1: {sha1})", sha1=data["header_sha1"]))

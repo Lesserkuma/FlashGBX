@@ -3,8 +3,9 @@
 # Author: Lesserkuma (github.com/Lesserkuma)
 
 # pylint: disable=wildcard-import, unused-wildcard-import
-import datetime, hashlib, math, os, random, re, struct, time, zipfile
+import datetime, hashlib, math, os, random, re, struct, time, zipfile, zlib
 from serial import SerialException
+from serial.serialutil import Timeout
 from .app import AppInfo
 from .LK_Device import *
 from .i18n import __, c__, format_decimal
@@ -12,9 +13,10 @@ from .IniSettings import IniSettings
 
 class GbxDevice(LK_Device):
 	DEVICE_NAME = "GBxCart RW"
+	USB_IDS = ((0x1A86, 0x7523),)
 	DEVICE_MIN_FW = 1
 	DEVICE_MAX_FW = 1
-	DEVICE_LATEST_FW_TS = { 4:1709317610, 5:1780508702, 6:1780508702, 2:0, 90:0, 100:0 }
+	DEVICE_LATEST_FW_TS = { 4:1709317610, 5:1793184971, 6:1793184971, 2:0, 90:0, 100:0 }
 	PCB_VERSIONS = { 5:'v1.4', 6:'v1.4a/b/c', 2:'v1.1/v1.2', 4:'v1.3', 90:'XMAS v1.0', 100:'Mini v1.0' }
 	DEVICE_LABEL_LONG = "GBxCart RW v1.4 or v1.4a/b/c"
 	DEVICE_LABEL_SHORT = "GBxCart RW v1.4"
@@ -23,6 +25,7 @@ class GbxDevice(LK_Device):
 	DEVICE_SUPPORT_MESSAGE = "For help with your GBxCart RW, please visit the insideGadgets Discord:\nhttps://gbxcart.com/discord"
 
 	BAUDRATE = 1000000
+	FLOW_CONTROL = False
 	MAX_BUFFER_READ = 0x1000
 	MAX_BUFFER_WRITE = 0x400
 	DEVICE_CMD = LK_Device.DEVICE_CMD.copy()
@@ -43,29 +46,50 @@ class GbxDevice(LK_Device):
 		"OFW_LNL_QUERY":0x25,
 	})
 
+	def _OpenSerial(self, *args, **kwargs):
+		return GBxCartSerial(*args, **kwargs)
+
+	def _ConfigureACKTransport(self):
+		if not isinstance(self.DEVICE, GBxCartSerial) or not self.FW: return
+		if self.FW.get("pcb_ver") not in (5, 6) or self.FW.get("cfw_id") != "L" or self.FW.get("fw_ver", 0) < 16: return
+		self.FW["uart_ack"] = self.DEVICE.ConfigureACK(self.FLOW_CONTROL)
+		self.FW["uart_rle"] = self.DEVICE.COMPRESSION_SUPPORTED
+		if self.DEVICE.ACK_ENABLED:
+			self.MAX_BUFFER_READ = 0x2000
+		elif self.BAUDRATE == 1000000:
+			self.MAX_BUFFER_READ = 0x100
+		else:
+			self.MAX_BUFFER_READ = 0x1000
+		self.MAX_BUFFER_WRITE = 0x100 if self.DEVICE.ACK_ENABLED or self.BAUDRATE == 1000000 else 0x400
+		dprint("GBxCart RW Flow Control Mode:", self.DEVICE.ACK_ENABLED)
+
+	def SetFlowControl(self, enabled):
+		self.FLOW_CONTROL = bool(enabled)
+		if self.DEVICE is not None and self.DEVICE.is_open:
+			self._ConfigureACKTransport()
+
+	def _DisableACKTransport(self):
+		if isinstance(self.DEVICE, GBxCartSerial) and self.DEVICE.ACK_ENABLED:
+			self.DEVICE.SetACKMode(False)
+
 	def Initialize(self, flashcarts=None, port=None, max_baud=1500000):
-		if self.IsConnected(): self.DEVICE.close()
-		if platform.system() == "Darwin": max_baud = 1000000
+		if self.DEVICE is not None: self.DEVICE.close()
+		self.DEVICE = None
+		self.FW = None
 
 		conn_msg = []
 		ports = []
 		if port is not None:
 			ports = [ port ]
 		else:
-			comports = serial.tools.list_ports.comports()
-			for i in range(0, len(comports)):
-				if comports[i].vid == 0x1A86 and comports[i].pid == 0x7523:
-					ports.append(comports[i].device)
+			ports = self.GetCandidatePorts()
 			if len(ports) == 0: return False
 
 		for i in range(0, len(ports)):
 			for baudrate in (1000000, 1500000):
-				if max_baud < baudrate: continue
 				try:
-					if self.TryConnect(ports[i], baudrate):
+					if self.TryConnect(ports[i], baudrate, keep_open=True):
 						self.BAUDRATE = baudrate
-						dev = serial.Serial(ports[i], self.BAUDRATE, timeout=0.1)
-						self.DEVICE = dev
 						break
 				except SerialException as e:
 					if "Permission" in str(e):
@@ -77,17 +101,19 @@ class GbxDevice(LK_Device):
 					continue
 
 			if self.FW is None or self.FW == {}: continue
-			if max_baud >= 1500000 and self.FW is not None and "pcb_ver" in self.FW and self.FW["pcb_ver"] in (5, 6, 101) and self.BAUDRATE < 1500000:
-				self.ChangeBaudRate(baudrate=1500000)
-				self.DEVICE.close()
-				dev = serial.Serial(ports[i], self.BAUDRATE, timeout=0.1)
-				self.DEVICE = dev
+			dev = self.DEVICE
+			if self.FW.get("pcb_ver") in (5, 6, 101):
+				self.PORT = ports[i]
+				baudrate = 1500000 if max_baud >= 1500000 else 1000000
+				if self.BAUDRATE != baudrate:
+					self.ChangeBaudRate(baudrate=baudrate, keep_open=True)
 
 			dprint(f"Found a {self.DEVICE_NAME}")
 			dprint("Firmware information:", self.FW)
 			dprint("Baud rate:", self.BAUDRATE)
 
 			if self.DEVICE is None or not self.IsConnected() or self.FW is None or self.FW["pcb_ver"] not in self.DEVICE_LATEST_FW_TS:
+				dev.close()
 				self.DEVICE = None
 				if self.FW is not None:
 					conn_msg.append([0, __("Couldn’t communicate with the {device_name} on port {port}. Please disconnect and reconnect the device, then try again.", device_name=self.DEVICE_NAME, port=ports[i])])
@@ -101,8 +127,13 @@ class GbxDevice(LK_Device):
 				self.MAX_BUFFER_READ = 0x1000
 				self.MAX_BUFFER_WRITE = 0x100
 
+			if self.MAX_BUFFER_READ == 0x1000 and self.BAUDRATE == 1000000:
+				self.MAX_BUFFER_READ = 0x100
+
 			self.PORT = ports[i]
 			self.DEVICE.timeout = self.DEVICE_TIMEOUT
+			self._ConfigureACKTransport()
+			self.FirmwareUpdateAvailable()
 
 			# Load Flash Cartridge Handlers
 			if flashcarts is not None:
@@ -127,7 +158,9 @@ class GbxDevice(LK_Device):
 				self.FW = None
 				return False
 			pcb = temp[0]
-			if pcb == b'': return False
+			if self.DEVICE.baudrate > 1000000 and pcb not in (5, 6, 101):
+				self.FW = None
+				return False
 			self._write(self.DEVICE_CMD["OFW_FW_VER"])
 			ofw = self._read(1)
 			if (pcb == 2 and ofw == 2):
@@ -181,8 +214,11 @@ class GbxDevice(LK_Device):
 				self.FW["cart_mode_switch"] = True if (temp >> 2) & 1 == 1 else False
 
 				# Reset to bootloader support
-				self.FW["bootloader_reset"] = True if self._read(1) == 1 else False
+				temp = self._read(1)
+				self.FW["bootloader_reset"] = bool(temp & 1)
+				self.FW["device_serial"] = self.ReadDeviceSerial() if temp & 2 else None
 
+			self._ConfigureACKTransport()
 			return True
 
 		except Exception as e:
@@ -197,33 +233,46 @@ class GbxDevice(LK_Device):
 				pass
 			return False
 
-	def ChangeBaudRate(self, baudrate):
-		if not self.IsConnected(): return
+	def ChangeBaudRate(self, baudrate, keep_open=False):
+		if baudrate == 1000000:
+			if self.DEVICE is None or not self.DEVICE.isOpen():
+				if not self.PORT: return
+				self.DEVICE = self._OpenSerial(self.PORT, self.BAUDRATE, timeout=0.1)
+		elif not self.IsConnected():
+			return
 		dprint("Changing baud rate to", baudrate)
-		if baudrate == 1500000:
-			self._write(self.DEVICE_CMD["OFW_USART_1_5M_SPEED"])
-		elif baudrate == 1000000:
-			self._write(self.DEVICE_CMD["OFW_USART_1_0M_SPEED"])
-		self.BAUDRATE = baudrate
-		self.DEVICE.close()
+		close_port = True
+		try:
+			self._DisableACKTransport()
+			if baudrate == 1500000:
+				self._write(self.DEVICE_CMD["OFW_USART_1_5M_SPEED"])
+			elif baudrate == 1000000:
+				self._write(self.DEVICE_CMD["OFW_USART_1_0M_SPEED"])
+			self.BAUDRATE = baudrate
+			self.LAST_CHECK_ACTIVE = 0
+			if keep_open:
+				self.DEVICE.baudrate = baudrate
+				close_port = False
+		finally:
+			if close_port: self.DEVICE.close()
 
 	def CheckActive(self):
-		if time.time() < self.LAST_CHECK_ACTIVE + 1: return True
+		if self.LAST_CHECK_ACTIVE and time.monotonic() < self.LAST_CHECK_ACTIVE + 1: return True
 		dprint("Checking if device is active (GBxCart RW specific)")
 		if self.DEVICE is None: return False
 		if self.FW["pcb_name"] is None:
 			if self.LoadFirmwareVersion():
-				self.LAST_CHECK_ACTIVE = time.time()
+				self.LAST_CHECK_ACTIVE = time.monotonic()
 				return True
 			return False
 		try:
 			if self.FW["fw_ver"] == 0: # legacy GBxCart RW firmware
-				self.LAST_CHECK_ACTIVE = time.time()
+				self.LAST_CHECK_ACTIVE = time.monotonic()
 				return True
 			elif self.FW["fw_ver"] < 12:
 				self._write(bytearray([self.DEVICE_CMD["OFW_FW_VER"]]))
 				self._read(1)
-				self.LAST_CHECK_ACTIVE = time.time()
+				self.LAST_CHECK_ACTIVE = time.monotonic()
 				return True
 			else:
 				return super().CheckActive()
@@ -277,7 +326,17 @@ class GbxDevice(LK_Device):
 		else:
 			return self.FW["pcb_ver"] in (5, 6)
 
-	def GetSupprtedModes(self):
+	def CartPowerOn(self):
+		# Restart the ACK window after handling stray bytes during cartridge power-on.
+		ack_enabled = isinstance(self.DEVICE, GBxCartSerial) and self.DEVICE.ACK_ENABLED
+		if ack_enabled: self.DEVICE.SetACKMode(False)
+		try:
+			return super().CartPowerOn()
+		finally:
+			if ack_enabled and self.DEVICE is not None and self.DEVICE.is_open:
+				self.DEVICE.SetACKMode(True)
+
+	def GetSupportedModes(self):
 		if self.FW["pcb_ver"] == 101:
 			return ["DMG"]
 		else:
@@ -309,18 +368,18 @@ class GbxDevice(LK_Device):
 		return self.FW["pcb_ver"] in (2, 4, 5, 6, 90, 100, 101)
 
 	def FirmwareUpdateAvailable(self):
-		if self.FW["fw_ver"] == 0 and self.FW["pcb_ver"] in (2, 4, 90, 100, 101):
-			if self.FW["pcb_ver"] == 4:
-				self.FW_UPDATE_REQ = True
-			else:
-				self.FW_UPDATE_REQ = 2
+		self.FW_UPDATE_REQ = False
+		if self.FW["pcb_ver"] in (2, 4, 90, 100) or (self.FW["fw_ver"] == 0 and self.FW["pcb_ver"] == 101):
+			self.FW_UPDATE_REQ = 2
 			return True
-		if self.FW["pcb_ver"] not in (4, 5, 6): return False
-		if self.FW["pcb_ver"] in (5, 6) and self.FW["fw_ts"] != self.DEVICE_LATEST_FW_TS[self.FW["pcb_ver"]]:
+		if self.FW["pcb_ver"] not in (5, 6): return False
+		if self.FW.get("uart_ack") is False: return True
+		if self.FW.get("uart_rle") is False: return True
+		if self.FW["fw_ts"] != self.DEVICE_LATEST_FW_TS[self.FW["pcb_ver"]]:
 			return True
-		if self.FW["pcb_ver"] == 4 and self.FW["fw_ts"] != self.DEVICE_LATEST_FW_TS[self.FW["pcb_ver"]]:
-			self.FW_UPDATE_REQ = True
-			return True
+
+	def GetLastSupportedVersion(self):
+		return "3.37"
 
 	def GetFirmwareUpdaterClass(self):
 		if self is None or self.FW["pcb_ver"] in (5, 6): # v1.4 / v1.4a/b/c
@@ -342,28 +401,258 @@ class GbxDevice(LK_Device):
 		self._read(1)
 
 	def SupportsBootloaderReset(self):
-		if self.FW["fw_ver"] >= 12:
-			return self.FW["bootloader_reset"]
-		else:
-			return False
+		return bool(self.FW and self.FW.get("fw_ver", 0) >= 16 and self.FW.get("bootloader_reset", False))
 
 	def BootloaderReset(self):
-		return False
+		if not self.SupportsBootloaderReset(): return False
+		dprint("Resetting to bootloader...")
+		try:
+			self._DisableACKTransport()
+			if self._write(self.DEVICE_CMD["BOOTLOADER_RESET"], wait=True) != 1: return False
+			self._write(1)
+			self.DEVICE.close()
+			time.sleep(0.1)
+			return True
+		except (OSError, SerialException) as e:
+			dprint("Bootloader reset failed:", e)
+			return False
 
 	def SupportsAudioAsWe(self):
 		return True
 
 	def Close(self, cartPowerOff=False):
+		dev = self.DEVICE
 		try:
-			self.ResetLEDs()
-		except SerialException:
-			pass
-		return super().Close(cartPowerOff)
+			try:
+				self._DisableACKTransport()
+				self.ResetLEDs()
+			except SerialException:
+				pass
+			return super().Close(cartPowerOff)
+		finally:
+			if dev is not None and dev.is_open:
+				dev.close()
 
 	def SetTimeout(self, seconds=1):
 		if seconds < 1: seconds = 1
 		self.DEVICE_TIMEOUT = seconds
 		self.DEVICE.timeout = self.DEVICE_TIMEOUT
+
+	def _read(self, count):
+		result = super()._read(count)
+		if result is False and isinstance(self.DEVICE, GBxCartSerial) and self.DEVICE.ACK_ENABLED:
+			self.DEVICE.Synchronize(enable_ack=True)
+		return result
+
+	def GetVarState(self):
+		if not isinstance(self.DEVICE, GBxCartSerial) or not self.DEVICE.ACK_ENABLED:
+			return super().GetVarState()
+		self._write(self.DEVICE_CMD["GET_VAR_STATE"])
+		old_timeout = self.DEVICE.timeout
+		self.DEVICE.timeout = 0.1
+		buffer = bytearray()
+		try:
+			while True:
+				part = self.DEVICE.read(64)
+				buffer.extend(part)
+				if len(part) < 64: return buffer
+		finally:
+			self.DEVICE.timeout = old_timeout
+
+
+class GBxCartSerial(serial.Serial):
+	ACK_WINDOW = 64
+	MODE_COMMAND = b"~"
+	FRAME_SIZE = 4096
+
+	def __init__(self, *args, **kwargs):
+		self.ACK_ENABLED = False
+		self.ACK_SUPPORTED = None
+		self.ACK_COUNT = 0
+		self.ACK_SEQUENCE = 0
+		self.COMPRESSION = True
+		self.COMPRESSION_SUPPORTED = None
+		self.COMPRESSION_ENABLED = False
+		self.FRAME_SEQUENCE = 0
+		self.FRAME_INPUT = bytearray()
+		self.FRAME_OUTPUT = bytearray()
+
+		super().__init__(*args, **kwargs)
+		if self.is_open:
+			try:
+				self.Synchronize()
+			except (OSError, serial.SerialException):
+				super().close()
+				raise
+
+	def _WriteRaw(self, data):
+		if super().write(data) != len(data):
+			raise serial.SerialTimeoutException("Incomplete GBxCart RW serial write")
+
+	def Synchronize(self, enable_ack=False):
+		self.ACK_ENABLED = False
+		self.ACK_COUNT = self.ACK_SEQUENCE = 0
+		self.COMPRESSION_ENABLED = False
+		self.FRAME_SEQUENCE = 0
+		self.FRAME_INPUT.clear()
+		self.FRAME_OUTPUT.clear()
+		super().reset_output_buffer()
+		self._WriteRaw(b"\xFF\x18" * 3)
+		self.flush()
+		time.sleep(0.2)
+		super().reset_input_buffer()
+		if enable_ack:
+			self.SetACKMode(True)
+
+	def ConfigureACK(self, enabled):
+		if self.ACK_SUPPORTED is None:
+			self._WriteRaw(self.MODE_COMMAND + b"\x00")
+			reply = super().read(1)
+			self.ACK_SUPPORTED = reply == b"\x06"
+			if not self.ACK_SUPPORTED:
+				if reply:
+					super().read(1)
+				super().reset_input_buffer()
+		if self.ACK_SUPPORTED and self.COMPRESSION_SUPPORTED is None:
+			self.write(self.MODE_COMMAND + b"\x03")
+			self.COMPRESSION_SUPPORTED = self.read(1) == b"\xD3"
+		if self.ACK_SUPPORTED:
+			self.SetACKMode(enabled)
+		return self.ACK_SUPPORTED
+
+	def SetACKMode(self, enabled):
+		compressed = bool(enabled and self.COMPRESSION_SUPPORTED and self.COMPRESSION)
+		if self.ACK_ENABLED == enabled and self.COMPRESSION_ENABLED == compressed: return
+		self.write(self.MODE_COMMAND + bytes((7 if compressed else int(enabled),)))
+		if self.read(1) != b"\x06":
+			raise serial.SerialException("GBxCart RW ACK mode negotiation failed")
+		self.ACK_ENABLED = enabled
+		self.ACK_COUNT = self.ACK_SEQUENCE = 0
+		self.COMPRESSION_ENABLED = compressed
+		self.FRAME_SEQUENCE = 0
+		self.FRAME_INPUT.clear()
+		self.FRAME_OUTPUT.clear()
+
+	def write(self, data):
+		if not self.ACK_ENABLED:
+			return super().write(data)
+		data = bytes(data)
+		self._WriteRaw(data.replace(b"\xFF", b"\xFF\xFF"))
+		return len(data)
+
+	def flush(self):
+		if self.write_timeout is None:
+			return super().flush()
+		deadline = Timeout(self.write_timeout)
+		while self.out_waiting:
+			if deadline.expired():
+				raise serial.SerialTimeoutException("GBxCart RW serial flush timed out")
+			time.sleep(0.001)
+
+	def _ReadACK(self, size):
+		if not self.ACK_ENABLED:
+			return super().read(size)
+		buffer = bytearray()
+		deadline = Timeout(self.timeout)
+		while len(buffer) < size:
+			count = min(size - len(buffer), self.ACK_WINDOW - self.ACK_COUNT)
+			part = super().read(count)
+			buffer.extend(part)
+			self.ACK_COUNT += len(part)
+			if self.ACK_COUNT == self.ACK_WINDOW:
+				self._WriteRaw(b"\xFF\x06" + bytes((self.ACK_SEQUENCE,)))
+				self.ACK_SEQUENCE = (self.ACK_SEQUENCE + 1) & 255
+				self.ACK_COUNT = 0
+			if len(part) != count or (not deadline.is_non_blocking and deadline.expired()):
+				break
+		return bytes(buffer)
+
+	def _ReadFrameBytes(self, size):
+		if len(self.FRAME_INPUT) < size:
+			self.FRAME_INPUT.extend(self._ReadACK(size - len(self.FRAME_INPUT)))
+		return len(self.FRAME_INPUT) >= size
+
+	def _ReadFrame(self):
+		if not self._ReadFrameBytes(4): return False
+		try:
+			size, field = struct.unpack_from("<HH", self.FRAME_INPUT)
+			compressed = bool(field & 0x4000)
+			repeated = field == 0x8001
+			if not 1 <= size <= self.FRAME_SIZE or not (field == size or repeated or 0x4000 < field < 0x4000 + size) or (repeated and size < 2):
+				raise ValueError("Invalid compressed frame length or flags")
+			length = field & 0x3FFF if compressed else 1 if repeated else size
+			if not self._ReadFrameBytes(length + 8): return False
+			checksum = struct.unpack_from("<I", self.FRAME_INPUT, length + 4)[0]
+			if zlib.crc32(self.FRAME_INPUT[:length + 4], self.FRAME_SEQUENCE) != checksum:
+				raise ValueError("Compressed frame checksum or sequence mismatch")
+			payload = self.FRAME_INPUT[4:length + 4]
+			buffer = bytearray()
+			if compressed:
+				position = 0
+				while position < len(payload):
+					token = payload[position]
+					position += 1
+					count = (token & 0x7F) + (3 if token & 0x80 else 1)
+					take = 1 if token & 0x80 else count
+					if position + take > len(payload) or len(buffer) + count > size:
+						raise ValueError("Invalid RLE group length")
+					data = payload[position:position + take]
+					buffer.extend(data * count if token & 0x80 else data)
+					position += take
+				if len(buffer) != size: raise ValueError("Incomplete RLE frame")
+			else:
+				buffer = payload * size if repeated else payload
+			self.FRAME_OUTPUT.extend(buffer)
+			del self.FRAME_INPUT[:length + 8]
+			self.FRAME_SEQUENCE = (self.FRAME_SEQUENCE + 1) & 0xFFFFFFFF
+			return True
+		except ValueError as e:
+			self.Synchronize()
+			raise serial.SerialException("GBxCart RW compressed transfer failed: " + str(e)) from e
+
+	def read(self, size=1):
+		if not self.COMPRESSION_ENABLED: return self._ReadACK(size)
+		buffer = bytearray()
+		deadline = Timeout(self.timeout)
+		while len(buffer) < size:
+			if not self.FRAME_OUTPUT and not self._ReadFrame(): break
+			count = min(size - len(buffer), len(self.FRAME_OUTPUT))
+			buffer.extend(self.FRAME_OUTPUT[:count])
+			del self.FRAME_OUTPUT[:count]
+			if not deadline.is_non_blocking and deadline.expired(): break
+		return bytes(buffer)
+
+	def _GetInWaiting(self):
+		return len(self.FRAME_OUTPUT) + len(self.FRAME_INPUT) + super().in_waiting
+	in_waiting = property(_GetInWaiting)
+
+	def reset_input_buffer(self):
+		if self.ACK_ENABLED:
+			self.Synchronize(enable_ack=True)
+		else:
+			super().reset_input_buffer()
+
+	def reset_output_buffer(self):
+		if self.ACK_ENABLED and self.out_waiting:
+			self.flush()
+		super().reset_output_buffer()
+
+	def close(self):
+		try:
+			if self.is_open and self.ACK_ENABLED:
+				if self.in_waiting or self.FRAME_INPUT:
+					self.Synchronize()
+				else:
+					self.SetACKMode(False)
+		except (OSError, serial.SerialException):
+			try:
+				self.Synchronize()
+			except (OSError, serial.SerialException):
+				pass
+		finally:
+			self.ACK_ENABLED = False
+			self.COMPRESSION_ENABLED = False
+			super().close()
 
 
 class FirmwareUpdater():
@@ -636,10 +925,12 @@ try:
 		def UpdateFirmware(self):
 			if self.optDevicePCBVer14.isChecked():
 				device_version = "v1.4"
+				pcb_version = 5
 				file_name = self.FWUPD.APP_PATH + os.sep + os.path.join("res", "fw_GBxCart_RW_v1_4.zip")
 				led = "Done"
 			elif self.optDevicePCBVer14a.isChecked():
 				device_version = "v1.4a/b/c"
+				pcb_version = 6
 				file_name = self.FWUPD.APP_PATH + os.sep + os.path.join("res", "fw_GBxCart_RW_v1_4a.zip")
 				led = "Status"
 			else:
@@ -647,22 +938,24 @@ try:
 				answer = msgbox.exec()
 				return False
 
+			bootloader_entered = bool(self.DEVICE is not None and self.DEVICE.FW and self.DEVICE.FW.get("pcb_ver") == pcb_version and self.DEVICE.BootloaderReset())
 			self.APP.DisconnectDevice()
 
-			text = __("Please follow these steps to proceed with the firmware update:")
-			text += "\n\n" + __(
-				"- Disconnect the USB cable of your GBxCart RW {device_version}.\n"
-				"- On the circuit board of your GBxCart RW {device_version}, press and hold down the small button while connecting the USB cable again.\n"
-				"- Keep the small button held for at least 2 seconds, then let go of it.\n"
-				"- If done right, the green LED labeled “{led}” should remain lit.",
-				device_version=device_version,
-				led=led
-			)
-			text += "\n" + __("- Click OK to continue.")
-			msgbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Information, windowTitle=AppInfo.NAME, text=text, standardButtons=QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-			msgbox.setDefaultButton(QtWidgets.QMessageBox.Ok)
-			answer = msgbox.exec()
-			if answer == QtWidgets.QMessageBox.Cancel: return
+			if not bootloader_entered:
+				text = __("Please follow these steps to proceed with the firmware update:")
+				text += "\n\n" + __(
+					"- Disconnect the USB cable of your GBxCart RW {device_version}.\n"
+					"- On the circuit board of your GBxCart RW {device_version}, press and hold down the small button while connecting the USB cable again.\n"
+					"- Keep the small button held for at least 2 seconds, then let go of it.\n"
+					"- If done right, the green LED labeled “{led}” should remain lit.",
+					device_version=device_version,
+					led=led
+				)
+				text += "\n" + __("- Click OK to continue.")
+				msgbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Information, windowTitle=AppInfo.NAME, text=text, standardButtons=QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+				msgbox.setDefaultButton(QtWidgets.QMessageBox.Ok)
+				answer = msgbox.exec()
+				if answer == QtWidgets.QMessageBox.Cancel: return
 			self.btnUpdate.setEnabled(False)
 			self.btnClose.setEnabled(False)
 			self.optDevicePCBVer14.setEnabled(False)

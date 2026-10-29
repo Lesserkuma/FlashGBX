@@ -2,12 +2,10 @@
 	"type":"DMG",
 	"names":[
 		"DMG-DHCN-20 with MX29LV320ET",
-		"DMG-GBRW-20 with 29LV320ETMI-70G",
 		"DMG-GBRW-50 with MX29LV320ET",
 		"BennVenn MBC3000 v5 RTC cart"
 	],
 	"flash_ids":[
-		[ 0xC2, 0xC2, 0xA7, 0xA7 ],
 		[ 0xC2, 0xC2, 0xA7, 0xA7 ],
 		[ 0xC2, 0xC2, 0xA7, 0xA7 ],
 		[ 0xC2, 0xC2, 0xA7, 0xA7 ]

@@ -6,9 +6,9 @@ import platform, importlib, re, sys
 
 class AppInfo:
 	NAME = "FlashGBX"
-	VERSION_PEP440 = "5.1"
+	VERSION_PEP440 = "5.2"
 	VERSION = "v{:s}".format(VERSION_PEP440)
-	VERSION_TIMESTAMP = 1788010533
+	VERSION_TIMESTAMP = 1793368285
 
 	@classmethod
 	def os_string(cls) -> str:
@@ -133,7 +133,7 @@ def generate_filename(mode, header, settings=None):
 		path = "%TITLE%_%CODE%-%REVISION%"
 		if settings is not None:
 			path = settings.value(key="FileNameFormatAGB", default=path)
-		path_title = header["game_title"]
+		path_title = header.get("sintax_name") or header["game_title"]
 		path_code = header["game_code"]
 		path_revision = str(header["version"])
 		path_extension = "gba"

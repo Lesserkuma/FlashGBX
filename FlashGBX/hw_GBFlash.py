@@ -4,44 +4,70 @@
 
 # pylint: disable=wildcard-import, unused-wildcard-import
 import datetime, os, struct, time, zipfile
+from enum import IntEnum
+from serial import SerialException
 from .app import AppInfo
 from .LK_Device import *
 from .i18n import __, c__
 from .IniSettings import IniSettings
 
+class USBMode(IntEnum):
+	CH340 = 0
+	CDC = 1
+
+USB_IDS = {
+	USBMode.CH340:(0x1A86, 0x7523),
+	USBMode.CDC:(0x16C0, 0x27DD),
+}
+
 class GbxDevice(LK_Device):
+	USBMode = USBMode
 	DEVICE_NAME = "GBFlash"
+	USB_IDS = tuple(USB_IDS.values())
 	DEVICE_MIN_FW = 1
 	DEVICE_MAX_FW = 12
-	DEVICE_LATEST_FW_TS = { 5:1780508702, 10:1780508702, 11:1780508702, 12:1780508702, 13:1780508702 }
+	DEVICE_LATEST_FW_TS = { 5:1793184971, 10:1793184971, 11:1793184971, 12:1793184971, 13:1793184971 }
 	PCB_VERSIONS = { 5:'', 12:'v1.2', 13:'v1.3' }
 	DEVICE_LABEL_LONG = "GBFlash"
 	DEVICE_LABEL_SHORT = "GBFlash"
 	FWUPDATE_ACTION = "fwupdate-gbflash"
 	CLI_UPDATER_METHOD = "UpdateFirmwareGBFlash"
-	DEVICE_SUPPORT_MESSAGE = "For help with your GBFlash, please visit the GitHub page:\nhttps://github.com/simonkwng/GBFlash"
+	DEVICE_SUPPORT_MESSAGE = "For help with your GBFlash, please visit the GitHub page:\nhttps://github.com/simonkwng/GBFlash/issues"
+
+	MAX_BUFFER_READ = 0x1000
+	MAX_BUFFER_WRITE = 0x800
+	DEVICE_CMD = LK_Device.DEVICE_CMD.copy()
+	DEVICE_CMD.update({
+		"SET_USB_MODE_CH340":0x3C,
+		"SET_USB_MODE_CDC":0x3E,
+	})
 
 	def __init__(self):
-		pass
+		self.DEVICE = None
+		self.FW = None
+		self.USB_PORT = {}
+		self.USB_MODE = None
 
 	def Initialize(self, flashcarts, port=None, max_baud=2000000):
-		if self.IsConnected(): self.DEVICE.close()
+		reconnect = port is not None and self.USB_PORT.get("device") == port
+		if self.DEVICE is not None: self.DEVICE.close()
+		self.DEVICE = None
+		self.FW = None
 		conn_msg = []
 		ports = []
+		usb_ports = self.GetUSBPorts()
 		if port is not None:
 			ports = [ port ]
 		else:
-			comports = serial.tools.list_ports.comports()
-			for i in range(0, len(comports)):
-				if comports[i].vid == 0x1A86 and comports[i].pid == 0x7523:
-					ports.append(comports[i].device)
+			for i in range(0, len(usb_ports)):
+				if (usb_ports[i]["vid"], usb_ports[i]["pid"]) in self.USB_IDS:
+					ports.append(usb_ports[i]["device"])
 			if len(ports) == 0: return False
 
 		for i in range(0, len(ports)):
-			if self.TryConnect(ports[i], max_baud):
+			if self.TryConnect(ports[i], max_baud, keep_open=True):
 				self.BAUDRATE = max_baud
-				dev = serial.Serial(ports[i], self.BAUDRATE, timeout=0.1)
-				self.DEVICE = dev
+				dev = self.DEVICE
 			else:
 				continue
 
@@ -49,14 +75,14 @@ class GbxDevice(LK_Device):
 
 			dprint(f"Found a {self.DEVICE_NAME}")
 			dprint("Firmware information:", self.FW)
-			# dprint("Baud rate:", self.BAUDRATE)
 
 			if self.DEVICE is None or not self.IsConnected():
+				dev.close()
 				self.DEVICE = None
 				if self.FW is not None:
 					conn_msg.append([0, __("Couldn’t communicate with the {device_name} on port {port}. Please disconnect and reconnect the device, then try again.", device_name=self.DEVICE_NAME, port=ports[i])])
 				continue
-			elif self.FW is None or self.FW["pcb_ver"] not in self.PCB_VERSIONS.keys() or "cfw_id" not in self.FW or self.FW["cfw_id"] != 'L' or self.FW["fw_ver"] < self.DEVICE_MIN_FW: # Not a CFW by Lesserkuma
+			elif not self.IsIdentified():
 				dprint("Incompatible firmware:", self.FW)
 				dev.close()
 				self.DEVICE = None
@@ -64,10 +90,8 @@ class GbxDevice(LK_Device):
 			elif self.FW["fw_ts"] > self.DEVICE_LATEST_FW_TS[self.FW["pcb_ver"]]:
 				conn_msg.append([1, __("Note: The {device_name} on port {port} is running a firmware version that is newer than what this version of FlashGBX was developed to work with, so errors may occur.", device_name=self.DEVICE_NAME, port=ports[i])])
 
-			self.MAX_BUFFER_READ = 0x1000
-			self.MAX_BUFFER_WRITE = 0x800
+			self.SetUSBPort(self.GetUSBPort(ports[i], usb_ports))
 
-			self.PORT = ports[i]
 			self.DEVICE.timeout = self.DEVICE_TIMEOUT
 
 			# Load Flash Cartridge Handlers
@@ -76,6 +100,7 @@ class GbxDevice(LK_Device):
 			# Stop after first found device
 			break
 
+		if reconnect and not self.IsIdentified(): return False
 		return conn_msg
 
 	def LoadFirmwareVersion(self):
@@ -122,7 +147,8 @@ class GbxDevice(LK_Device):
 
 				# Reset to bootloader support
 				temp = self._read(1)
-				self.FW["bootloader_reset"] = True if temp & 1 == 1 else False
+				self.FW["bootloader_reset"] = bool(temp & 1)
+				self.FW["device_serial"] = self.ReadDeviceSerial() if temp & 2 else None
 				self.FW["unregistered"] = True if temp >> 7 == 1 else False
 
 			return True
@@ -139,8 +165,144 @@ class GbxDevice(LK_Device):
 				pass
 			return False
 
+	def FormatDeviceSerial(self, data):
+		return data.hex("-").upper()
+
 	def ChangeBaudRate(self, _):
 		dprint("Baudrate change is not supported.")
+
+	@staticmethod
+	def GetUSBPorts():
+		ports = []
+		comports = serial.tools.list_ports.comports()
+		for i in range(0, len(comports)):
+			ports.append({
+				"device":comports[i].device,
+				"vid":comports[i].vid,
+				"pid":comports[i].pid,
+				"location":comports[i].location,
+			})
+		return ports
+
+	@staticmethod
+	def GetUSBPort(name, ports):
+		for port in ports:
+			if port["device"] == name: return port.copy()
+		return { "device":name }
+
+	@staticmethod
+	def FindUSBPort(source, before, ports, usb_id, restore=False):
+		candidates = []
+		for port in ports:
+			if (port.get("vid"), port.get("pid")) == usb_id:
+				candidates.append(port)
+
+		matches = []
+		location = source.get("location")
+		if location: location = location.split(":", 1)[0]
+		if location:
+			for port in candidates:
+				port_location = port.get("location")
+				if port_location and port_location.split(":", 1)[0] == location: matches.append(port)
+		elif restore:
+			for port in ports:
+				if port["device"] == source["device"] and (port in candidates or (port.get("vid"), port.get("pid")) == (None, None)):
+					matches.append(port)
+		else:
+			known = []
+			old_ports = []
+			for port in before:
+				if (port.get("vid"), port.get("pid")) in USB_IDS.values(): known.append(port)
+				if (port.get("vid"), port.get("pid")) == usb_id: old_ports.append(port["device"])
+			if len(known) != 1 or known[0]["device"] != source["device"]: return None
+			if len(candidates) != 1: return None
+			for port in candidates:
+				if port["device"] not in old_ports: matches.append(port)
+
+		if len(matches) == 1: return matches[0]
+		return None
+
+	def ChangeUSBMode(self, mode):
+		if isinstance(mode, bool) or not isinstance(mode, int):
+			raise ValueError("USB mode must be USBMode.CH340 (0) or USBMode.CDC (1)")
+		mode = USBMode(mode)
+		if not self.IsIdentified():
+			raise RuntimeError("USB mode changes require an identified GBFlash connection")
+		if self.FW["fw_ver"] < 16:
+			dprint("USB mode switching requires firmware L16 or newer")
+			return False
+
+		usb_ports = self.GetUSBPorts()
+		source = self.GetUSBPort(self.PORT, usb_ports)
+		self.SetUSBPort(source)
+		if self.USB_MODE == mode: return True
+
+		dprint("Changing USB mode to", mode.name)
+		firmware = self.FW.copy()
+		try:
+			if mode == USBMode.CH340:
+				self._write(self.DEVICE_CMD["SET_USB_MODE_CH340"])
+			elif mode == USBMode.CDC:
+				self._write(self.DEVICE_CMD["SET_USB_MODE_CDC"])
+		except (OSError, SerialException):
+			# The device may disconnect before the OS reports write completion.
+			pass
+		finally:
+			self.DEVICE.close()
+			self.DEVICE = None
+
+		deadline = time.monotonic() + 10
+		while time.monotonic() < deadline:
+			candidate = self.FindUSBPort(source, usb_ports, self.GetUSBPorts(), USB_IDS[mode])
+			if candidate is not None and self.ReopenUSBPort(candidate, firmware):
+				return True
+			time.sleep(0.1)
+
+		# Restore the selected device if the mode change did not complete.
+		candidate = self.FindUSBPort(source, usb_ports, self.GetUSBPorts(), (source.get("vid"), source.get("pid")), restore=True)
+		if candidate is not None:
+			self.ReopenUSBPort(candidate, firmware)
+		return False
+
+	def IsIdentified(self):
+		if self.DEVICE is None or not self.DEVICE.isOpen(): return False
+		if not isinstance(self.FW, dict): return False
+		if self.FW.get("cfw_id") != "L" or self.FW.get("pcb_ver") not in self.PCB_VERSIONS: return False
+		if self.FW.get("fw_ver", 0) < self.DEVICE_MIN_FW: return False
+		if self.FW.get("pcb_name") not in (None, "GBFlash"): return False
+		return True
+
+	def SetUSBPort(self, port):
+		self.USB_PORT = port.copy()
+		self.PORT = port["device"]
+		self.USB_MODE = None
+		for mode in USB_IDS:
+			if (port.get("vid"), port.get("pid")) == USB_IDS[mode]:
+				self.USB_MODE = mode
+				break
+		self.MAX_BUFFER_READ = 0x2000 if self.USB_MODE == USBMode.CDC else 0x1000
+
+	def ReopenUSBPort(self, port, firmware):
+		try:
+			self.DEVICE = serial.Serial(port["device"], self.BAUDRATE, timeout=0.1)
+			self.FW = None
+			if self.LoadFirmwareVersion() and self.IsIdentified():
+				match = True
+				for key in ("cfw_id", "fw_ver", "pcb_ver", "fw_ts", "pcb_name", "device_serial"):
+					if self.FW.get(key) != firmware.get(key):
+						match = False
+						break
+				if match:
+					self.SetUSBPort(port)
+					self.DEVICE.timeout = self.DEVICE_TIMEOUT
+					return True
+		except (OSError, SerialException):
+			pass
+		if self.DEVICE is not None:
+			self.DEVICE.close()
+		self.DEVICE = None
+		self.FW = firmware
+		return False
 
 	def GetFirmwareVersion(self, more=False):
 		s = "{:s}{:d}".format(self.FW["cfw_id"], self.FW["fw_ver"])
@@ -152,7 +314,9 @@ class GbxDevice(LK_Device):
 
 	def GetFullNameExtended(self, more=False):
 		if more:
-			return __("{device_name} – Firmware {fw_version} ({timestamp}) on {port}", device_name=self.GetFullName(), fw_version=self.GetFirmwareVersion(), timestamp=self.FW["fw_dt"], port=self.GetPort())
+			s = __("{device_name} – Firmware {fw_version} ({timestamp}) on {port}", device_name=self.GetFullName(), fw_version=self.GetFirmwareVersion(), timestamp=self.FW["fw_dt"], port=self.GetPort())
+			if self.USB_MODE == USBMode.CH340: s += " (CH340)"
+			return s
 		else:
 			return __("{device_name} – Firmware {fw_version} ({port})", device_name=self.GetFullName(), fw_version=self.GetFirmwareVersion(), port=self.GetPort())
 
@@ -168,7 +332,7 @@ class GbxDevice(LK_Device):
 	def CanPowerCycleCart(self):
 		return self.FW["cart_power_ctrl"]
 
-	def GetSupprtedModes(self):
+	def GetSupportedModes(self):
 		return ["DMG", "AGB"]
 
 	def IsSupported3dMemory(self):
@@ -205,9 +369,13 @@ class GbxDevice(LK_Device):
 		if not self.SupportsBootloaderReset(): return False
 		dprint("Resetting to bootloader...")
 		try:
-			self._write(self.DEVICE_CMD["BOOTLOADER_RESET"], wait=True)
-			self._write(1)
-			self.DEVICE.close()
+			if self._write(self.DEVICE_CMD["BOOTLOADER_RESET"], wait=True) != 1: return False
+			try:
+				self._write(1)
+			except (OSError, SerialException):
+				pass
+			finally:
+				self.DEVICE.close()
 			return True
 		except Exception as e:
 			print(__("Disconnecting..."), e)
@@ -245,6 +413,10 @@ class FirmwareUpdater():
 	def __init__(self, app_path=".", port=None):
 		self.APP_PATH = app_path
 		self.PORT = port
+		self.USB_PORTS = GbxDevice.GetUSBPorts()
+		self.USB_SOURCE = GbxDevice.GetUSBPort(port, self.USB_PORTS)
+		self.BOOTLOADER_REQUESTED = False
+		self.UPDATED = False
 
 	def PackPacket(self, packet):
 		values = list(packet.values())[:-2]
@@ -293,55 +465,103 @@ class FirmwareUpdater():
 
 		return wCRC
 
+	def ClosePort(self):
+		if self.DEVICE is not None:
+			self.DEVICE.close()
+		self.DEVICE = None
+
+	def FindApplicationPort(self):
+		deadline = time.monotonic() + 10
+		while time.monotonic() < deadline:
+			ports = GbxDevice.GetUSBPorts()
+			candidates = []
+			for usb_id in USB_IDS.values():
+				port = GbxDevice.FindUSBPort(self.USB_SOURCE, self.USB_PORTS, ports, usb_id, restore=True)
+				if port is None:
+					port = GbxDevice.FindUSBPort(self.USB_SOURCE, self.USB_PORTS, ports, usb_id)
+				if port is not None and port not in candidates: candidates.append(port)
+			if len(candidates) == 1: return candidates[0]["device"]
+			time.sleep(0.1)
+		return None
+
 	def TryConnect(self, port):
-		seq_no = 1
 		packet = {
 			"intro":0x48484A4A,
 			"sender":0,
-			"seq_no":seq_no,
+			"seq_no":1,
 			"command":0x21,
 			"payload_len":0,
 			"payload":bytearray(),
 			"outro":0x4A4A4848,
 		}
-		data = self.PackPacket(packet)
-
+		query = self.PackPacket(packet)
 		self.DEVICE = None
+		if self.USB_SOURCE.get("device") != port:
+			self.USB_PORTS = GbxDevice.GetUSBPorts()
+			self.USB_SOURCE = GbxDevice.GetUSBPort(port, self.USB_PORTS)
+		source = self.USB_SOURCE
 		try:
-			self.DEVICE = serial.Serial(port, 2000000, timeout=0.5)
-			self.DEVICE.write(b'\xF1')
-			self.DEVICE.read(1)
-			self.DEVICE.write(b'\x01')
-			self.DEVICE.close()
-			time.sleep(3)
-			self.DEVICE = serial.Serial(port, 2000000, timeout=0.5)
-
-		except serial.serialutil.SerialException:
-			return False
-
-		self.DEVICE.write(data)
-		time.sleep(0.1)
-		self.DEVICE.read(self.DEVICE.in_waiting)
-		self.DEVICE.write(data)
-		data = self.GetPacket()
-		if data is None:
-			self.DEVICE = None
-			return False
-		if "error" in data:
-			self.DEVICE = None
-			return data
-		if data["seq_no"] != seq_no:
-			self.DEVICE = None
-			return False
-		if data["command"] != 0x21:
-			self.DEVICE = None
-			return False
-		if struct.unpack(">H", data["payload"][1:3])[0] != 0x03:
-			self.DEVICE = None
-			return False
-		return data
+			if not self.BOOTLOADER_REQUESTED:
+				current = None
+				for usb_port in GbxDevice.GetUSBPorts():
+					if usb_port["device"] == port:
+						current = usb_port
+						break
+				if current is not None:
+					self.DEVICE = serial.Serial(port, 2000000, timeout=0.5)
+					self.DEVICE.reset_input_buffer()
+					self.DEVICE.write(b'\xF1')
+					self.DEVICE.flush()
+					if self.DEVICE.read(1) == b'\x01':
+						self.BOOTLOADER_REQUESTED = True
+						try:
+							self.DEVICE.write(b'\x01')
+							self.DEVICE.flush()
+						except (OSError, SerialException):
+							pass
+					self.ClosePort()
+					if self.BOOTLOADER_REQUESTED: time.sleep(0.25)
+			deadline = time.monotonic() + 10
+			while time.monotonic() < deadline:
+				candidate = GbxDevice.FindUSBPort(source, self.USB_PORTS, GbxDevice.GetUSBPorts(), USB_IDS[USBMode.CH340], restore=True)
+				if candidate is None:
+					# A CDC COM port may be replaced by a new CH340 COM port.
+					candidate = GbxDevice.FindUSBPort(source, self.USB_PORTS, GbxDevice.GetUSBPorts(), USB_IDS[USBMode.CH340])
+				if candidate is not None:
+					try:
+						self.DEVICE = serial.Serial(candidate["device"], 2000000, timeout=0.5)
+						self.DEVICE.reset_input_buffer()
+						self.DEVICE.write(query)
+						self.DEVICE.flush()
+						time.sleep(0.1)
+						self.DEVICE.reset_input_buffer()
+						self.DEVICE.write(query)
+						self.DEVICE.flush()
+						data = self.GetPacket()
+						if (isinstance(data, dict) and "error" not in data
+							and data.get("seq_no") == 1 and data.get("command") == 0x21
+							and len(data.get("payload", b"")) >= 9 and data["payload"][1:3] == b'\x00\x03'):
+							self.PORT = candidate["device"]
+							return data
+						if isinstance(data, dict) and data.get("clone"):
+							self.ClosePort()
+							return data
+					except (OSError, SerialException):
+						pass
+					self.ClosePort()
+				time.sleep(0.1)
+		except (OSError, SerialException):
+			self.ClosePort()
+		return False
 
 	def WriteFirmware(self, zipfn, fncSetStatus):
+		self.UPDATED = False
+		try:
+			return self._WriteFirmware_Worker(zipfn, fncSetStatus)
+		finally:
+			self.ClosePort()
+
+	def _WriteFirmware_Worker(self, zipfn, fncSetStatus):
 		try:
 			with zipfile.ZipFile(zipfn) as archive:
 				with archive.open("fw.bin") as f: fw_data = bytearray(f.read())
@@ -353,10 +573,13 @@ class FirmwareUpdater():
 		data = False
 		if self.PORT is None:
 			ports = []
-			comports = serial.tools.list_ports.comports()
-			for i in range(0, len(comports)):
-				if comports[i].vid == 0x1A86 and comports[i].pid == 0x7523:
-					ports.append(comports[i].device)
+			usb_ports = GbxDevice.GetUSBPorts()
+			for i in range(0, len(usb_ports)):
+				if (usb_ports[i]["vid"], usb_ports[i]["pid"]) in USB_IDS.values():
+					ports.append(usb_ports[i]["device"])
+			if len(ports) > 1:
+				fncSetStatus(__("More than one device found. Please select a port."))
+				return 2
 			if len(ports) == 0:
 				fncSetStatus(__("No device found."))
 				return 2
@@ -375,9 +598,15 @@ class FirmwareUpdater():
 			fncSetStatus(__("No device found."))
 			return 2
 
+		if len(data.get("payload", b"")) < 9:
+			fncSetStatus(text=__("Update failed!"), enableUI=True)
+			return 2
 		data["program_size"] = struct.unpack(">H", data["payload"][3:5])[0]
 		data["page_size"] = struct.unpack(">H", data["payload"][7:9])[0]
 		page_size = data["page_size"]
+		if page_size == 0:
+			fncSetStatus(text=__("Update failed!"), enableUI=True)
+			return 2
 		num_packets = len(fw_data) / page_size
 		num_packets = int(-(-num_packets // 1)) # round up
 
@@ -409,11 +638,14 @@ class FirmwareUpdater():
 			if data is None:
 				fncSetStatus(__("No response from device."))
 				return 2
-			if data["seq_no"] != seq_no:
+			if len(data.get("payload", b"")) < 3:
+				fncSetStatus(text=__("Update failed!"), enableUI=True)
+				return 2
+			if data.get("seq_no") != seq_no:
 				fncSetStatus(__("Incorrect sequence number."))
 				time.sleep(1)
 				continue
-			if data["command"] != 0x24:
+			if data.get("command") != 0x24:
 				fncSetStatus(__("Incorrect command."))
 				time.sleep(1)
 				continue
@@ -451,10 +683,13 @@ class FirmwareUpdater():
 			if data is None:
 				fncSetStatus(__("No response from device."))
 				return 2
-			if data["payload"][0] != 1:
+			if (data.get("seq_no") != seq_no or data.get("command") != 0x23
+				or len(data.get("payload", b"")) < 1 or data["payload"][0] != 1):
 				fncSetStatus(text=__("Update failed!"), enableUI=True)
+				return 2
 
-			self.DEVICE.close()
+			self.UPDATED = True
+			self.ClosePort()
 			time.sleep(0.8)
 			fncSetStatus(__("Done!"))
 			time.sleep(0.2)
@@ -604,8 +839,10 @@ try:
 				return
 
 		def hideEvent(self, event):
-			if self.DEVICE is None:
-				self.APP.ConnectDevice()
+			if self.DEVICE is None and self.FWUPD.UPDATED:
+				port = self.FWUPD.FindApplicationPort()
+				if port is not None:
+					self.APP.FindDevices(port=port)
 			self.APP.activateWindow()
 
 		def reject(self):
@@ -639,6 +876,7 @@ try:
 				answer = msgbox.exec()
 				if answer == QtWidgets.QMessageBox.Cancel: return
 			else:
+				self.FWUPD.BOOTLOADER_REQUESTED = True
 				self.APP.DisconnectDevice()
 				time.sleep(1)
 

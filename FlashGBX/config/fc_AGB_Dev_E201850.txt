@@ -1,9 +1,11 @@
 {
 	"type":"AGB",
 	"names":[
-		"Development AGB Cartridge 128M Flash S, E201850"
+		"Development AGB Cartridge 128M Flash S, E201850",
+		"Development AGB Cartridge 128M Flash Case Iri, E201736"
 	],
 	"flash_ids":[
+		[ 0xB0, 0x00, 0xE2, 0x00 ],
 		[ 0xB0, 0x00, 0xE2, 0x00 ]
 	],
 	"voltage":3.3,

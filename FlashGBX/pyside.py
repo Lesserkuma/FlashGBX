@@ -48,13 +48,14 @@ except ModuleNotFoundError:
 		raise err3
 
 # exec
-try:
-	if not callable(getattr(QApplication, "exec", None)):
-		QApplication.exec = QApplication.exec_
-	if not callable(getattr(QApplication, "exec_", None)):
-		QApplication.exec_ = QApplication.exec
-except (AttributeError, TypeError):
-	pass
+for qt_class in (QApplication, QtWidgets.QFileDialog, QtWidgets.QMessageBox, QtWidgets.QDialog, QtCore.QEventLoop):
+	try:
+		if not callable(getattr(qt_class, "exec", None)):
+			qt_class.exec = qt_class.exec_
+		if not callable(getattr(qt_class, "exec_", None)):
+			qt_class.exec_ = qt_class.exec
+	except (AttributeError, TypeError):
+		pass
 
 # QDesktopWidget
 class QDesktopWidget(object):

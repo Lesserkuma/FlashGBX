@@ -4,5 +4,6 @@
 
 # Note: This file runs FlashGBX in portable mode.
 
+import sys
 from FlashGBX import FlashGBX
-FlashGBX.main(portableMode=True)
+sys.exit(FlashGBX.main(portableMode=True))

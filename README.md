@@ -13,7 +13,8 @@ for Windows, Linux, macOS (→ [Download](#downloads))
 - Write new ROMs to a wide variety of Game Boy and Game Boy Advance flash cartridges
 - Many reproduction cartridges and flash cartridges can be auto-detected
 - A flash chip query (including Common Flash Interface information) can be performed for flash cartridges
-- Decode and extract Game Boy Camera photos from save data
+- Decode and extract Game Boy Camera photos
+- Backup e-Reader Card Dot Codes
 - Generate ROM dump reports for game preservation purposes
 - Supported interface languages: English, German, Simplified Chinese
 
@@ -56,6 +57,7 @@ for Windows, Linux, macOS (→ [Download](#downloads))
   - 3D Memory (GBA Video)
   - Unlicensed 4G Mapper
   - Unlicensed GBA Movie Player v2
+  - Unlicensed Sintax YJencrypted Mapper
 
 ### Supported re-writable cartridges
 
@@ -129,6 +131,7 @@ for Windows, Linux, macOS (→ [Download](#downloads))
   - Development AGB Cartridge 64M Flash, E201629 (128M, with 4× LH28F320BJE)¹
   - Development AGB Cartridge 64M Flash S, E201843¹
   - Development AGB Cartridge 128M Flash S, E201850
+  - Development AGB Cartridge 128M Flash Case Iri, E201736
   - Development AGB Cartridge 256M Flash S, E201868
   - DL9SEC GBA flashcart with TE28F128
   - DL9SEC GBA flashcart with TE28F256
@@ -317,7 +320,7 @@ In the GitHub [Releases](https://github.com/Lesserkuma/FlashGBX/releases) sectio
 
 > [!NOTE]
 > You may need to give yourself permissions to access the cartridge reader/writer hardware using one of the following methods.
-> * Permanent system-wide permissions via udev rules (e.g. /etc/udev/rules.d/50-flashgbx.rules):<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="B010", MODE="0666"`<br>Then run `sudo udevadm control --reload-rules && sudo udevadm trigger`.
+> * Permanent system-wide permissions via udev rules (e.g. /etc/udev/rules.d/50-flashgbx.rules):<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="b010", MODE="0666"`<br>`SUBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="27dd", MODE="0666"`<br>Then run `sudo udevadm control --reload-rules && sudo udevadm trigger`.
 > * Permanent user account permissions via user group:<br>`sudo usermod -a -G dialout $USER` or `sudo usermod -a -G uucp $USER`<br>Then logout or reboot.
 > * Temporary permissions:<br>`sudo chmod 0666 /dev/ttyUSB0` (replace with actual device path)
 
@@ -329,9 +332,6 @@ In the GitHub [Releases](https://github.com/Lesserkuma/FlashGBX/releases) sectio
 
 > [!NOTE]
 > If the application doesn’t run, it probably got quarantined due to the lack of a Apple Developer Program certificate. Extract the FlashGBX app from the .dmg file, then right-click the extracted FlashGBX icon, choose “Open Terminal at Folder” and enter this command to unquarantine it: `xattr -d com.apple.quarantine ../FlashGBX.app`.
-
-> [!NOTE]
-> If you use a Joey Jr, you will have run the separate [Joey Jr Firmware Updater](https://github.com/Lesserkuma/JoeyJr_FWUpdater) before using FlashGBX on macOS. Otherwise, FlashGBX will not be able to find your Joey Jr.
 
 ## Run via Python
 
@@ -381,9 +381,9 @@ FlashGBX can also be run in a local Python environment like so:
 
   * If the save data detection says “512K FLASH (64 KiB) or 1M FLASH (128 KiB)”, that means the size can not be determined until actual save data is written to the cartridge.
 
-  * If the save data detection says something like “1M FLASH (128 KiB) (Unlicensed ···)”, try the [Custom 1M FLASH Patcher](https://github.com/Lesserkuma/Custom_1M_FLASH_Patcher).
+  * If your reproduction/bootleg cartridge has an SRAM memory chip but no battery, it was not designed for unmodified ROM files and you will need a “Batteryless SRAM” patch.
 
-  * If your reproduction/bootleg cartridge has an SRAM memory chip but no battery, it was not designed for unmodified ROM files and you will need a “Batteryless SRAM” patch. It’s often a lost cause, but you can try the [GBA ROM Patcher website](https://www.gbarompatcher.com/).
+  * The [GBA Save Type Patcher](https://lesserkuma.github.io/GBA_Save_Type_Patcher/) can be used to patch Game Boy Advance save libraries for various official and unofficial save types.
 
 * If you use a GBxCart RW and it resets itself while connecting to some Game Boy cartridges, this can be caused by a GBxCart RW hardware issue. As a workaround, try hotplugging the cartridge: Disable the “Automatic cartridge power off” setting, then click Connect → Game Boy → *Insert Cartridge* → Refresh.
 
@@ -399,13 +399,15 @@ FlashGBX can also be run in a local Python environment like so:
 
 The author would like to thank the following very kind people for their help, contributions or documentation (in alphabetical order):
 
-2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, Kelly, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, orzgithub, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr
+2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Daemon125, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, Kelly, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, orzgithub, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr
 
 Thanks to the No-Intro project for their game databases which FlashGBX’s databases are partly based on.
 
 ## Third Party Notices and Licenses
 
-Please view the [Third Party Notices](https://github.com/Lesserkuma/FlashGBX/blob/master/Third%20Party%20Notices.md).
+Please view the included [Third Party Notices](Third%20Party%20Notices.md).
+
+FlashGBX includes [libmgba 0.10.5](https://github.com/mgba-emu/mgba/tree/0.10.5) by Jeffrey Pfau.
 
 ## DISCLAIMER
 

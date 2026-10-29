@@ -22,12 +22,19 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE prev, PWSTR cmdLine, int show) {
 		return 1;
 	}
 
+	wchar_t python[8192];
+	DWORD path_len = GetModuleFileNameW(NULL, python, 8192);
+	if (path_len == 0 || path_len >= 8192) {
+		MessageBoxW(NULL, L"Couldn't determine the FlashGBX installation directory.", L"FlashGBX", MB_ICONERROR);
+		LocalFree(argv);
+		return 1;
+	}
+	wchar_t *exe = wcsrchr(python, L'\\');
+	bool is_app = (_wcsicmp(exe + 1, L"FlashGBX-app.exe") == 0);
+	*exe = L'\0';
+	StringCchCatW(python, 8192, L"\\Python\\python.exe");
 	wchar_t cmd[8192];
-	StringCchCopyW(cmd, 8192, L"Python\\python.exe -m FlashGBX");
-
-	const wchar_t *exe = wcsrchr(argv[0], L'\\');
-	exe = exe ? exe + 1 : argv[0];
-	bool is_app = (_wcsicmp(exe, L"FlashGBX-app.exe") == 0);
+	StringCchPrintfW(cmd, 8192, L"\"%s\" -m FlashGBX", python);
 	bool cli = false, cfg = false;
 
 	for (int i = 1; i < argc; i++) {
@@ -40,7 +47,20 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE prev, PWSTR cmdLine, int show) {
         	if (_wcsnicmp(argv[i], L"--", 2) == 0) cli = true;
 		}
 		StringCchCatW(cmd, 8192, L" \"");
-		StringCchCatW(cmd, 8192, argv[i]);
+		size_t backslashes = 0;
+		for (const wchar_t *arg = argv[i]; ; arg++) {
+			if (*arg == L'\\') {
+				backslashes++;
+				continue;
+			}
+			for (size_t j = 0; j < backslashes; j++) {
+				StringCchCatW(cmd, 8192, (*arg == L'"' || *arg == L'\0') ? L"\\\\" : L"\\");
+			}
+			if (*arg == L'\0') break;
+			if (*arg == L'"') StringCchCatW(cmd, 8192, L"\\");
+			StringCchCatNW(cmd, 8192, arg, 1);
+			backslashes = 0;
+		}
 		StringCchCatW(cmd, 8192, L"\"");
 	}
 	if (cli) StringCchCatW(cmd, 8192, L" --wait");
@@ -49,7 +69,7 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE prev, PWSTR cmdLine, int show) {
     STARTUPINFOW startInfo = { sizeof(startInfo) };
     startInfo.lpTitle = L"FlashGBX";
 	PROCESS_INFORMATION procInfo = {0};
-	if (!CreateProcessW(NULL, cmd, NULL, NULL, FALSE, cli ? CREATE_NEW_CONSOLE : CREATE_NO_WINDOW, NULL, NULL, &startInfo, &procInfo)) {
+	if (!CreateProcessW(python, cmd, NULL, NULL, FALSE, cli ? CREATE_NEW_CONSOLE : CREATE_NO_WINDOW, NULL, NULL, &startInfo, &procInfo)) {
         DWORD err = GetLastError();
         wchar_t buf[1024];
         FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -64,8 +84,10 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE prev, PWSTR cmdLine, int show) {
 
 	CloseHandle(procInfo.hThread);
 	WaitForSingleObject(procInfo.hProcess, INFINITE);
+	DWORD exit_code;
+	if (!GetExitCodeProcess(procInfo.hProcess, &exit_code)) exit_code = 1;
 	CloseHandle(procInfo.hProcess);
 	LocalFree(argv);
 
-	return 0;
+	return (int)exit_code;
 }

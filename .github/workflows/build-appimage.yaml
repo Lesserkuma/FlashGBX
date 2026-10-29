@@ -4,18 +4,30 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.release.tag_name || inputs.version }}
+  cancel-in-progress: false
+
+env:
+  PIP_NO_CACHE_DIR: '1'
 
 jobs:
   build:
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
         include:
           - arch: x86_64
             runs-on: ubuntu-22.04
-            linuxdeploy: linuxdeploy-x86_64.AppImage
           - arch: arm64
             runs-on: ubuntu-24.04-arm
-            linuxdeploy: linuxdeploy-aarch64.AppImage
 
     runs-on: ${{ matrix.runs-on }}
 
@@ -23,66 +35,130 @@ jobs:
       contents: write
 
     env:
-      VERSION: ${{ github.event.release.tag_name || '0.0' }}
+      VERSION: ${{ github.event.release.tag_name || inputs.version }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Create directory for Python packages
-        run: |
-          mkdir -p ${{ github.workspace }}/venv
-
-      - name: Cache Python packages
-        id: cache-pip
-        uses: actions/cache@v4
         with:
-          path: |
-            ${{ github.workspace }}/venv
-          key: flashgbx-linux-appimage-${{ matrix.arch }}-python-dependencies-20260205
-          restore-keys: |
-            flashgbx-linux-appimage-${{ matrix.arch }}-python-dependencies-
+          ref: ${{ github.event.release.tag_name || github.ref }}
+          persist-credentials: false
+
+      - name: Check out mGBA 0.10.5
+        uses: actions/checkout@v4
+        with:
+          repository: mgba-emu/mgba
+          ref: 0.10.5
+          path: vendor/mgba
+          persist-credentials: false
+
+      - name: Prepare temporary directories
+        run: |
+          printf 'VENV_PATH=%s/flashgbx-venv\nBUILD_ROOT=%s/flashgbx-build\nTMPDIR=%s\nPYINSTALLER_CONFIG_DIR=%s/flashgbx-pyinstaller\n' "$RUNNER_TEMP" "$RUNNER_TEMP" "$RUNNER_TEMP" "$RUNNER_TEMP" >> "$GITHUB_ENV"
+
+      - name: Install AppImage dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            cmake ninja-build binutils desktop-file-utils jq \
+            libxkbcommon0 libxkbcommon-x11-0 libx11-xcb1 \
+            libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+            libxcb-render-util0 libxcb-xinerama0 libxcb-xkb1
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.12.10'
 
       - name: Install Python packages
-        if: steps.cache-pip.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m venv ${{ github.workspace }}/venv
-          source ${{ github.workspace }}/venv/bin/activate
+          python -m venv "$VENV_PATH"
+          source "$VENV_PATH/bin/activate"
           python -m pip install \
             pyinstaller==6.18.0 \
             Pillow==12.1.0 \
-            PySide6==6.10.2 \
+            PySide6-Essentials==6.10.2 \
             pyserial==3.5 \
+            reedsolo==1.7.0 \
             python-dateutil==2.9.0.post0 \
             requests==2.32.5 \
-            packaging==26.0
+            packaging==26.0 \
+            urllib3==2.7.0 \
+            idna==3.19 \
+            charset-normalizer==3.5.1 \
+            certifi==2026.7.22 \
+            six==1.17.0
 
-      - name: Download linuxdeploy
+      - name: Download and verify AppImage tools
         run: |
-          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/${{ matrix.linuxdeploy }}
-          chmod +x ${{ matrix.linuxdeploy }}
+          mkdir -p "$BUILD_ROOT"
+          for key in linuxdeploy-${{ matrix.arch }} appimage-runtime-${{ matrix.arch }}; do
+            url="$(jq -r --arg key "$key" '.[$key].url' .github/build/downloads.json)"
+            sha256="$(jq -r --arg key "$key" '.[$key].sha256' .github/build/downloads.json)"
+            curl --fail --location "$url" --output "$BUILD_ROOT/$key"
+            printf '%s  %s\n' "$sha256" "$BUILD_ROOT/$key" | sha256sum --check -
+          done
+          chmod +x "$BUILD_ROOT/linuxdeploy-${{ matrix.arch }}"
+
+      - name: Build libmgba
+        run: |
+          cat > vendor/CMakeLists.txt <<'CMAKE'
+          cmake_minimum_required(VERSION 3.20)
+          project(FlashGBX LANGUAGES C CXX)
+          set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+          set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+          set(LIBMGBA_ONLY ON)
+          set(SKIP_GIT ON)
+          set(MINIMAL_CORE 2)
+          set(M_CORE_GB OFF)
+          set(ENABLE_EXTRA OFF)
+          set(DISABLE_THREADING ON)
+          set(BUILD_LTO OFF)
+          add_subdirectory("${MGBA_SOURCE_DIR}" mgba EXCLUDE_FROM_ALL)
+          get_target_property(SOURCES mgba SOURCES)
+          add_library(mgba_shared SHARED ${SOURCES})
+          foreach(PROPERTY INCLUDE_DIRECTORIES COMPILE_OPTIONS LINK_LIBRARIES)
+              get_target_property(VALUE mgba ${PROPERTY})
+              if(VALUE)
+                  set_property(TARGET mgba_shared PROPERTY ${PROPERTY} "${VALUE}")
+              endif()
+          endforeach()
+          get_target_property(DEFINITIONS mgba COMPILE_DEFINITIONS)
+          get_directory_property(DIRECTORY_DEFINITIONS DIRECTORY "${MGBA_SOURCE_DIR}" COMPILE_DEFINITIONS)
+          list(REMOVE_ITEM DEFINITIONS BUILD_STATIC)
+          target_compile_definitions(mgba_shared PRIVATE ${DEFINITIONS} ${DIRECTORY_DEFINITIONS} MGBA_DLL MINIMAL_CORE=2 DISABLE_THREADING)
+          get_directory_property(CMAKE_C_FLAGS DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS)
+          get_directory_property(CMAKE_C_FLAGS_RELEASE DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS_RELEASE)
+          add_dependencies(mgba_shared mgba-version-info)
+          set_target_properties(mgba_shared PROPERTIES
+              C_STANDARD 11 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF
+              OUTPUT_NAME mgba PREFIX lib WINDOWS_EXPORT_ALL_SYMBOLS ON
+              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native"
+              LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native")
+          if(MINGW)
+              target_link_options(mgba_shared PRIVATE -static -static-libgcc -static-libstdc++ -Wl,--export-all-symbols)
+          endif()
+          CMAKE
+          cmake -S vendor -B "$RUNNER_TEMP/libmgba" -G Ninja -DCMAKE_BUILD_TYPE=Release -DMGBA_SOURCE_DIR="$PWD/vendor/mgba"
+          cmake --build "$RUNNER_TEMP/libmgba" --target mgba_shared --parallel
+          cp "$RUNNER_TEMP/libmgba/native/libmgba.so" FlashGBX/res/libmgba-linux-${{ matrix.arch }}.so
 
       - name: Build FlashGBX
         run: |
           rm -r FlashGBX/config
 
           cat > run_AppImage.py << 'EOF'
+          import sys
           from FlashGBX import FlashGBX
-          FlashGBX.main()
+          sys.exit(FlashGBX.main())
           EOF
 
-          source ${{ github.workspace }}/venv/bin/activate
+          source "$VENV_PATH/bin/activate"
 
-          pyinstaller --clean --noconfirm --onedir --name FlashGBX \
+          pyinstaller --clean --noconfirm --strip --onedir --name FlashGBX \
+            --runtime-hook .github/build/Linux/appimage_runtime_hook.py \
             --collect-all FlashGBX \
-            --collect-all PIL \
-            --collect-all PySide6 \
             --hidden-import FlashGBX.hw_GBxCartRW \
             --hidden-import FlashGBX.hw_GBFlash \
             --hidden-import FlashGBX.hw_JoeyJr \
@@ -94,39 +170,34 @@ jobs:
           mkdir -p dist/FlashGBX/locale
           cp -a FlashGBX/locale/. dist/FlashGBX/locale/
 
-      - name: Remove unnecessary Qt and system libraries
+      - name: Remove unnecessary Qt libraries and prepare system fallbacks
+        shell: bash
         run: |
           rm -f dist/FlashGBX/_internal/PySide6/Qt{*WebEngine*,*Multimedia*,*SpatialAudio*,*Bluetooth*,*RemoteObjects*,*Pdf*,*Charts*,*Graphs*,*DataVisualization*,*Location*,*3D*,*Quick*,*Qml*,*Network*,*Designer*,*Shader*,*HttpServer*,*Qt6Labs*,*Nfc*,*OpenGL*,*Print*,*Sensors*,*avutil*,*avcodec*,*avformat*,*assimp*}.so* || true
           rm -f dist/FlashGBX/_internal/PySide6/Qt/lib/lib{*WebEngine*,*Multimedia*,*SpatialAudio*,*Bluetooth*,*RemoteObjects*,*Pdf*,*Charts*,*Graphs*,*DataVisualization*,*Location*,*3D*,*Quick*,*Qml*,*Network*,*Designer*,*Shader*,*HttpServer*,*Qt6Labs*,*Nfc*,*OpenGL*,*Print*,*Sensors*,*avutil*,*avcodec*,*avformat*,*assimp*}.so* || true
           rm -r dist/FlashGBX/_internal/PySide6/Qt/translations || true
           rm -r dist/FlashGBX/_internal/PySide6/Qt/resources || true
           rm -r dist/FlashGBX/_internal/PySide6/Qt/qml || true
-          rm dist/FlashGBX/_internal/libxkbcommon.so* || true
-          rm dist/FlashGBX/_internal/libX11.so* || true
-          rm dist/FlashGBX/_internal/libxcb*.so* || true
-          rm dist/FlashGBX/_internal/libXrandr.so* || true
-          rm dist/FlashGBX/_internal/libXi.so* || true
-          rm dist/FlashGBX/_internal/libXcursor.so* || true
-          rm dist/FlashGBX/_internal/libXrender.so* || true
-          rm dist/FlashGBX/_internal/libXext.so* || true
-          rm dist/FlashGBX/_internal/libglib-2.0.so* || true
-          rm dist/FlashGBX/_internal/libgobject-2.0.so* || true
-          rm dist/FlashGBX/_internal/libgio-2.0.so* || true
-          rm dist/FlashGBX/_internal/libgtk-3.so* || true
-          rm dist/FlashGBX/_internal/libpango*.so* || true
-          rm dist/FlashGBX/_internal/libatk-1.0.so* || true
-          rm dist/FlashGBX/_internal/libatk-bridge-2.0.so* || true
-          rm dist/FlashGBX/_internal/libatspi.so* || true
-          rm dist/FlashGBX/_internal/libgbm.so* || true
-          rm dist/FlashGBX/_internal/libepoxy.so* || true
-          rm dist/FlashGBX/_internal/libasound.so* || true
-          rm dist/FlashGBX/_internal/libudev.so* || true
-          rm dist/FlashGBX/_internal/libssl.so* || true
-          rm dist/FlashGBX/_internal/libcrypto.so* || true
-          rm dist/FlashGBX/_internal/libfontconfig.so* || true
-          rm dist/FlashGBX/_internal/libfreetype.so* || true
-          rm dist/FlashGBX/_internal/libharfbuzz.so* || true
-          rm dist/FlashGBX/_internal/libcairo.so* || true
+          find dist/FlashGBX -path '*/imageformats/*' ! -name '*qico*' -delete
+          find dist/FlashGBX -path '*/iconengines/*' -delete
+          cd dist/FlashGBX/_internal
+          export LC_ALL=C
+          mkdir fallback-libs
+          shopt -s nullglob
+          libraries=({libX11*,libXcursor,libXext,libXi,libXrandr,libXrender,libasound,libatk-1.0,libatk-bridge-2.0,libatspi,libblkid,libcairo,libcap,libcrypto,libepoxy,libfontconfig,libfreetype,libgbm,libgcrypt,libgio-2.0,libglib-2.0,libgmodule-2.0,libgobject-2.0,libgpg-error,libgthread-2.0,libgtk-3,libharfbuzz,liblz4,liblzma,libmount,libpango*,libssl,libsystemd,libudev,libxcb*,libxkbcommon*,libzstd}.so*)
+
+          relocated_libraries=()
+          for library in "${libraries[@]}"; do
+            # Keep wheel-private libraries in their collected locations.
+            [[ "$library" =~ -[0-9a-f]{8,}\.so ]] && continue
+            soname="$(readelf -d -- "$library" | sed -n 's/.*(SONAME).*\[\([^]]*\)\].*/\1/p')"
+            test -n "$soname"
+            # Versioned filenames must not bypass a system library with the same SONAME.
+            cp -Lp -- "$library" "fallback-libs/$soname"
+            relocated_libraries+=("$library")
+          done
+
+          rm -f -- "${relocated_libraries[@]}"
 
       - name: Prepare AppDir
         run: |
@@ -138,7 +209,7 @@ jobs:
           APPDIR="$(dirname "$(readlink -f "$0")")"
 
           # Expose bundled data (icons, desktop file) to the app process
-          export XDG_DATA_DIRS="${APPDIR}/usr/share${XDG_DATA_DIRS:+:${XDG_DATA_DIRS}}"
+          export XDG_DATA_DIRS="${APPDIR}/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
           # Desktop integration: install icon and .desktop file into the user's
           # local share dirs so that Wayland compositors and X11 desktop
@@ -159,7 +230,10 @@ jobs:
               fi
 
               # Always rewrite Exec= so it points at the current AppImage path.
-              sed "s|^Exec=.*|Exec=${APPIMAGE}|" "${_desk_src}" > "${_desk_dst}"
+              # Escape the desktop command, then the sed replacement.
+              _exec_path="$(printf '%s' "${APPIMAGE}" | sed 's/[\\"`$]/\\&/g; s/\\/\\\\/g; s/%/%%/g')"
+              _exec_path="$(printf '%s' "${_exec_path}" | sed 's/[\\&|]/\\&/g')"
+              sed "s|^Exec=.*|Exec=/usr/bin/env \"${_exec_path}\"|" "${_desk_src}" > "${_desk_dst}"
               update-desktop-database "${HOME}/.local/share/applications" 2>/dev/null || true
           fi
 
@@ -185,67 +259,99 @@ jobs:
           cp FlashGBX/res/icon.png AppDir/flashgbx.png
           ln -sf flashgbx.png AppDir/.DirIcon
 
-      - name: Validate desktop and icon wiring
-        run: |
-          desktop_file="AppDir/usr/share/applications/flashgbx.desktop"
-          if [ ! -f "$desktop_file" ]; then
-            echo "Desktop file missing: $desktop_file"
-            exit 1
-          fi
+          mkdir -p AppDir/usr/share/metainfo
+          cp .github/build/Linux/flashgbx.appdata.xml AppDir/usr/share/metainfo/
+          python - << 'PY'
+          import datetime
+          import json
+          import os
+          import xml.etree.ElementTree as ET
 
-          desktop_id="$(basename "$desktop_file" .desktop)"
-          icon_name="$(awk -F= '/^Icon=/{print $2; exit}' "$desktop_file" | tr -d '[:space:]')"
-          if [ -z "$icon_name" ]; then
-            echo "Desktop file Icon entry is missing."
-            exit 1
-          fi
-
-          icon_path="AppDir/usr/share/icons/hicolor/256x256/apps/${icon_name}.png"
-          if [ ! -f "$icon_path" ]; then
-            echo "Icon file referenced by desktop entry is missing: $icon_path"
-            exit 1
-          fi
-
-          if [ ! -L AppDir/.DirIcon ] || [ ! -e AppDir/.DirIcon ]; then
-            echo "AppDir/.DirIcon symlink is missing or broken."
-            ls -la AppDir
-            exit 1
-          fi
-
-          if [ "$(readlink AppDir/.DirIcon)" != "${icon_name}.png" ]; then
-            echo "AppDir/.DirIcon does not point to ${icon_name}.png"
-            exit 1
-          fi
-
-          if [ "$desktop_id" != "$icon_name" ]; then
-            echo "Desktop ID ($desktop_id) and Icon name ($icon_name) should match for reliable taskbar mapping."
-            exit 1
-          fi
+          path = "AppDir/usr/share/metainfo/flashgbx.appdata.xml"
+          tree = ET.parse(path)
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as event_file:
+              event = json.load(event_file)
+          date = event.get("release", {}).get("published_at") or datetime.datetime.now(datetime.timezone.utc).isoformat()
+          releases = ET.SubElement(tree.getroot(), "releases")
+          ET.SubElement(releases, "release", version=os.environ["VERSION"], date=date[:10])
+          ET.indent(tree, space="  ")
+          tree.write(path, encoding="utf-8", xml_declaration=True)
+          PY
 
       - name: Build AppImage with linuxdeploy
+        env:
+          LDAI_OUTPUT: FlashGBX-${{ env.VERSION }}_Linux-${{ matrix.arch }}.AppImage
+          LDAI_RUNTIME_FILE: ${{ runner.temp }}/flashgbx-build/appimage-runtime-${{ matrix.arch }}
+          APPIMAGE_EXTRACT_AND_RUN: '1'
         run: |
-          ./${{ matrix.linuxdeploy }} --appdir AppDir \
-            --executable AppDir/FlashGBX \
+          "$BUILD_ROOT/linuxdeploy-${{ matrix.arch }}" --appdir AppDir \
+            --deploy-deps-only AppDir/FlashGBX \
             --desktop-file AppDir/usr/share/applications/flashgbx.desktop \
-            --icon-file AppDir/usr/share/icons/hicolor/256x256/apps/flashgbx.png \
-            --output appimage
+            --icon-file AppDir/usr/share/icons/hicolor/256x256/apps/flashgbx.png
 
-          mv FlashGBX-${{ env.VERSION }}-*.AppImage FlashGBX-${{ env.VERSION }}_Linux-${{ matrix.arch }}.AppImage
+          declare -A copied=([GPL-3]=yes [LGPL-2.1]=yes [Apache-2.0]=yes)
+          while IFS= read -r -d '' library; do
+            case "$library" in
+              */PySide6/*|*/shiboken6/*|*/libpython*|*-????????????????.so*) continue ;;
+            esac
+            name="$(basename "$library")"
+            original="$(ldconfig -p | awk -v name="$name" '$1 == name && !found++ { print $NF }')"
+            test -n "$original" || continue
+            # Diversion records can be returned without a package owner, so query both paths.
+            owner="$(dpkg-query -S "$original" "$(readlink -f "$original")" 2>/dev/null || true)"
+            package="$(printf '%s\n' "$owner" | sed -n 's/^\([^[:space:]]*\): \/.*$/\1/p' | head -n 1)"
+            if [[ -z "$package" ]]; then
+              printf 'Could not find the package owning %s\n' "$original" >&2
+              exit 1
+            fi
+            read -r binary source version < <(dpkg-query -W -f='${Package} ${source:Package} ${source:Version}\n' "$package")
+            copyright="/usr/share/doc/$binary/copyright"
+            test -f "$copyright"
+            digest="$(sha256sum "$copyright" | cut -d ' ' -f 1)"
+            if [[ -z "${copied[$digest]+yes}" ]]; then
+              printf '\n\n## Ubuntu %s %s\n\n' "$source" "$version" >> "AppDir/res/Third Party Notices.md"
+              printf 'Source and distributor patches: https://launchpad.net/ubuntu/+source/%s/%s\n\n' "$source" "$version" >> "AppDir/res/Third Party Notices.md"
+              cat "$copyright" >> "AppDir/res/Third Party Notices.md"
+              copied[$digest]=yes
+            fi
+            while read -r license; do
+              if [[ ! -f "/usr/share/common-licenses/$license" && "$license" == *.0 ]]; then
+                license="${license%.0}"
+              fi
+              if [[ -z "${copied[$license]+yes}" ]]; then
+                printf '\n\n## %s\n\n' "$license" >> "AppDir/res/Third Party Notices.md"
+                cat "/usr/share/common-licenses/$license" >> "AppDir/res/Third Party Notices.md"
+                copied[$license]=yes
+              fi
+            done < <(grep -oE '/usr/share/common-licenses/[A-Za-z0-9.+-]+' "$copyright" | sed 's|.*/||; s/[.,;:)]*$//' | sort -u)
+          done < <(find AppDir -type f -name 'lib*.so*' -print0)
+
+          (
+            cd "$BUILD_ROOT"
+            "./linuxdeploy-${{ matrix.arch }}" --appimage-extract > /dev/null
+          )
+
+          "$BUILD_ROOT/squashfs-root/plugins/linuxdeploy-plugin-appimage/usr/bin/appimagetool" \
+            --no-appstream --comp zstd \
+            --mksquashfs-opt=-Xcompression-level --mksquashfs-opt=19 \
+            --mksquashfs-opt=-b --mksquashfs-opt=128K \
+            --runtime-file "$LDAI_RUNTIME_FILE" \
+            AppDir "$LDAI_OUTPUT"
+
+          test -s "$LDAI_OUTPUT"
+          printf '\n' | QT_QPA_PLATFORM=offscreen "./$LDAI_OUTPUT" --appimage-extract-and-run --help > /dev/null
 
       - name: Create artifact
-        if: env.VERSION == '0.0'
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: FlashGBX_Linux-${{ matrix.arch }}
+          name: FlashGBX-${{ env.VERSION }}_Linux-${{ matrix.arch }}
           path: FlashGBX-${{ env.VERSION }}_Linux-${{ matrix.arch }}.AppImage
+          if-no-files-found: error
 
       - name: Upload release asset
-        if: env.VERSION != '0.0'
-        uses: softprops/action-gh-release@v2.0.8
-        with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: FlashGBX-${{ env.VERSION }}_Linux-${{ matrix.arch }}.AppImage
-          draft: false
-          prerelease: false
+        if: github.event_name == 'release'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload "$VERSION" "FlashGBX-${VERSION}_Linux-${{ matrix.arch }}.AppImage" --clobber

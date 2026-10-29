@@ -26,6 +26,15 @@
   "lg": "En",
   "rg": "World"
  },
+ "e6f02c835a6829c42581d71a1d3589b7ae0a981a": {
+  "gn": "Avenging Spirit",
+  "ne": "(USA, Europe) (Retro-Bit)",
+  "gc": "",
+  "rc": 3132439355,
+  "rs": 262144,
+  "lg": "En",
+  "rg": "USA, Europe"
+ },
  "9c14b105c7569621d2b7736093d890a648095186": {
   "gn": "Baby T-Rex",
   "ne": "(World) (v1.1) (ModRetro Chromatic)",
@@ -89,6 +98,33 @@
   "rs": 32768,
   "lg": "En",
   "rg": "USA"
+ },
+ "2368e515fa5eba68acf266ca23f349095fa7999f": {
+  "gn": "Bubsy II",
+  "ne": "(USA)",
+  "gc": "DMG-ABBE",
+  "rc": 1611295445,
+  "rs": 262144,
+  "lg": "En",
+  "rg": "USA"
+ },
+ "4194a5e7589f5f31faf59c0adf0104284b5b22bc": {
+  "gn": "Bug's Life, A",
+  "ne": "(USA) (SGB Enhanced) (GB Compatible)",
+  "gc": "DMG-APXE",
+  "rc": 2204107898,
+  "rs": 1048576,
+  "lg": "En",
+  "rg": "USA"
+ },
+ "c2ad1c607b18e3cb1a32c2be796b888c19135385": {
+  "gn": "Buzz Lightyear of Star Command",
+  "ne": "(USA, Europe)",
+  "gc": "CGB-BUZE",
+  "rc": 2229443463,
+  "rs": 524288,
+  "lg": "En",
+  "rg": "USA, Europe"
  },
  "0e03f8a0ec284a621220c753282316706857957b": {
   "gn": "Centipede",
@@ -191,6 +227,15 @@
   "lg": "En",
   "rg": "World"
  },
+ "bc3bc1666c341ec507e6668dda2446c938e1b8c9": {
+  "gn": "Exodus - Journey to the Promised Land",
+  "ne": "(USA) (Unl)",
+  "gc": "",
+  "rc": 777295855,
+  "rs": 131072,
+  "lg": "En",
+  "rg": "USA"
+ },
  "618d850a659e076a3f5e23616c303f90a2dc206e": {
   "gn": "Fidgetts, The",
   "ne": "(USA, Europe) (En,Fr,De,Es,It,Nl,Sv)",
@@ -274,6 +319,15 @@
   "lg": "En",
   "rg": "World"
  },
+ "f1530117f2940575392c5b0388e145f8a7153ad0": {
+  "gn": "Joshua & the Battle of Jericho",
+  "ne": "(USA) (Unl)",
+  "gc": "",
+  "rc": 3771697051,
+  "rs": 131072,
+  "lg": "En",
+  "rg": "USA"
+ },
  "6a8c80a3690e523f13f3b12eea5624fbfc1f7069": {
   "gn": "Jurassic Park",
   "ne": "(World) (Limited Run Games)",
@@ -291,6 +345,15 @@
   "rs": 262144,
   "lg": "En,Fr,De,It",
   "rg": "World"
+ },
+ "6afb0f8a5b7d8d7f0c14321abbe218b50c3e5c75": {
+  "gn": "King James Bible",
+  "ne": "(USA) (Unl)",
+  "gc": "",
+  "rc": 593990193,
+  "rs": 1048576,
+  "lg": "En",
+  "rg": "USA"
  },
  "416b7bca4177f71b42523d2471de03231c2b31bb": {
   "gn": "Koudai Guaishou - Da Jihe",
@@ -327,6 +390,15 @@
   "rs": 131072,
   "lg": "En",
   "rg": "World"
+ },
+ "913da69dc4b3296024edb80005ea7c7b99696824": {
+  "gn": "NIV Bible & the 20 Lost Levels of Joshua",
+  "ne": "(USA) (Unl)",
+  "gc": "",
+  "rc": 3886181169,
+  "rs": 2097152,
+  "lg": "En",
+  "rg": "USA"
  },
  "0b6c999591622a30783a779cd2d642a368a1af5d": {
   "gn": "Ninja JaJaMaru - The Great World Adventure DX",
@@ -625,6 +697,15 @@
   "lg": "En",
   "rg": "USA, Europe"
  },
+ "3aa344bd955af0db81d210e9f7a4fa7cdd005781": {
+  "gn": "Spiritual Warfare",
+  "ne": "(USA) (Unl)",
+  "gc": "",
+  "rc": 4155072954,
+  "rs": 262144,
+  "lg": "En",
+  "rg": "USA"
+ },
  "f54f7d5b6f58a97258a54f98cabce7ab3af4de7b": {
   "gn": "Star Wars",
   "ne": "(World) (Limited Run Games)",
@@ -705,6 +786,34 @@
   "rs": 1048576,
   "lg": "En",
   "rg": "World"
+ },
+ "ca90590e693e9229c547cb4ac0f17f022f8392fe": {
+  "gn": "Toy Story",
+  "ne": "(USA) (Rev 1) (SGB Enhanced)",
+  "gc": "DMG-AQHE",
+  "rc": 1865856749,
+  "rs": 524288,
+  "rv": "Rev 1",
+  "lg": "En",
+  "rg": "USA"
+ },
+ "bd59484ed8949348bd0d59622598a358ba7bc4ea": {
+  "gn": "Toy Story 2",
+  "ne": "(USA, Europe) (SGB Enhanced) (GB Compatible)",
+  "gc": "DMG-AOQE",
+  "rc": 1202637717,
+  "rs": 1048576,
+  "lg": "En",
+  "rg": "USA, Europe"
+ },
+ "1d094da47b5fbc978dea8efd1aa230413b3e3618": {
+  "gn": "Toy Story Racer",
+  "ne": "(USA, Europe)",
+  "gc": "CGB-BT5E",
+  "rc": 3641826711,
+  "rs": 2097152,
+  "lg": "En",
+  "rg": "USA, Europe"
  },
  "c903c536b978c90fad801456a2e28b7a9ac74c05": {
   "gn": "Trip World",
@@ -2988,15 +3097,6 @@
   "rs": 262144,
   "lg": "Ja",
   "rg": "Japan"
- },
- "2368e515fa5eba68acf266ca23f349095fa7999f": {
-  "gn": "Bubsy II",
-  "ne": "(USA)",
-  "gc": "DMG-ABBE",
-  "rc": 1611295445,
-  "rs": 262144,
-  "lg": "En",
-  "rg": "USA"
  },
  "5a776e8b37aafd7ac3e6f62d19cfc90c025369fc": {
   "gn": "Bubsy II",
@@ -7558,15 +7658,6 @@
   "lg": "Ja",
   "rg": "Japan"
  },
- "bd59484ed8949348bd0d59622598a358ba7bc4ea": {
-  "gn": "Toy Story 2",
-  "ne": "(USA, Europe) (SGB Enhanced) (GB Compatible)",
-  "gc": "DMG-AOQE",
-  "rc": 1202637717,
-  "rs": 1048576,
-  "lg": "En",
-  "rg": "USA, Europe"
- },
  "2107f30109028d5725cb50ff48771b757c4162fd": {
   "gn": "Ronaldo V-Soccer",
   "ne": "(USA) (En,Fr,Es,Pt) (GB Compatible)",
@@ -8232,15 +8323,6 @@
   "lg": "Ja",
   "rg": "Japan"
  },
- "4194a5e7589f5f31faf59c0adf0104284b5b22bc": {
-  "gn": "Bug's Life, A",
-  "ne": "(USA) (SGB Enhanced) (GB Compatible)",
-  "gc": "DMG-APXE",
-  "rc": 2204107898,
-  "rs": 1048576,
-  "lg": "En",
-  "rg": "USA"
- },
  "dc2e556cbf985c9bd3bf17324899c37fdbba9bd6": {
   "gn": "Bug's Life, A",
   "ne": "(Europe) (SGB Enhanced) (GB Compatible)",
@@ -8392,16 +8474,6 @@
   "gc": "DMG-AQHE",
   "rc": 3544352716,
   "rs": 524288,
-  "lg": "En",
-  "rg": "USA"
- },
- "ca90590e693e9229c547cb4ac0f17f022f8392fe": {
-  "gn": "Toy Story",
-  "ne": "(USA) (Rev 1) (SGB Enhanced)",
-  "gc": "DMG-AQHE",
-  "rc": 1865856749,
-  "rs": 524288,
-  "rv": "Rev 1",
   "lg": "En",
   "rg": "USA"
  },
@@ -9002,11 +9074,11 @@
  },
  "91d4477ee483f5493230463076057d4b4c2a5418": {
   "gn": "Super Bombliss",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-ASBJ",
   "rc": 3036938157,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "2cbb79821bd8cac1e3ea0218958eac2f63595c83": {
@@ -12193,7 +12265,7 @@
   "rg": "Japan"
  },
  "55fffb3dd26d89e4b278c9e059d38d07163bbe05": {
-  "gn": "Vitamina Oukoku Monogatari",
+  "gn": "Bitamina Oukoku Monogatari",
   "ne": "(Japan)",
   "gc": "DMG-B6J",
   "rc": 2309467850,
@@ -17734,15 +17806,6 @@
   "lg": "En",
   "rg": "USA"
  },
- "1d094da47b5fbc978dea8efd1aa230413b3e3618": {
-  "gn": "Toy Story Racer",
-  "ne": "(USA, Europe)",
-  "gc": "CGB-BT5E",
-  "rc": 3641826711,
-  "rs": 2097152,
-  "lg": "En",
-  "rg": "USA, Europe"
- },
  "b623378696e7bffc60c20591839d6fe1d66d0fc6": {
   "gn": "Toy Story Racer",
   "ne": "(Europe) (En,Fr,De)",
@@ -18266,15 +18329,6 @@
   "rs": 524288,
   "lg": "De",
   "rg": "Germany"
- },
- "c2ad1c607b18e3cb1a32c2be796b888c19135385": {
-  "gn": "Buzz Lightyear of Star Command",
-  "ne": "(USA, Europe)",
-  "gc": "CGB-BUZE",
-  "rc": 2229443463,
-  "rs": 524288,
-  "lg": "En",
-  "rg": "USA, Europe"
  },
  "91e4032b5af0d02a8eab0c99de749e1422e23530": {
   "gn": "Aventures de Buzz l'Eclair, Les",
@@ -20210,11 +20264,11 @@
  },
  "b6490b286d3979d08a7a4e4513f02512514eddca": {
   "gn": "Tetris Flash",
-  "ne": "(Japan) (SGB Enhanced)",
+  "ne": "(Japan) (En) (SGB Enhanced)",
   "gc": "DMG-EHJ",
   "rc": 2650583941,
   "rs": 131072,
-  "lg": "Ja",
+  "lg": "En",
   "rg": "Japan"
  },
  "38e0dc0d70f6ef0a8b3669c8e415bc3e238cbf3b": {

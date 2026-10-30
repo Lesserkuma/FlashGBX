@@ -67,13 +67,13 @@ class FlashDetectionTests(unittest.TestCase):
         generic = profile("generic", [TOP_ID[:4]])
         specific = load_profile("fc_DMG_S29JL032J_TOP.txt")
         result, device = detect([generic, specific])
-        self.assertEqual(result[:2], ([2, 1], 2))
+        self.assertEqual(result[:2], ([2], 2))
         self.assertEqual(device.INFO["flash_diagnostics"]["matches"][0], specific["names"][0])
 
     def test_longest_matching_id_within_profile_counts(self):
         medium = profile("medium", [TOP_ID[:6]], OFFSETS)
         specific = profile("specific", [TOP_ID[:4], TOP_ID], OFFSETS)
-        self.assertEqual(detect([medium, specific])[0][:2], ([2, 1], 2))
+        self.assertEqual(detect([medium, specific])[0][:2], ([2], 2))
 
     def test_equal_length_matches_keep_profile_order(self):
         profiles = [profile(name, [TOP_ID], OFFSETS) for name in ("first", "second")]

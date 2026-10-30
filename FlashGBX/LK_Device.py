@@ -4745,7 +4745,7 @@ class LK_Device(ABC):
 			self.INFO["action"] = self.ACTIONS["ROM_WRITE"]
 		self.SetProgress({"action":"UPDATE_POS", "pos":flash_offset})
 
-		if smallest_sector_size is not False:
+		if smallest_sector_size is not False and not chip_erase:
 			buffer_len = smallest_sector_size
 		elif self.MODE == "DMG":
 			buffer_len = _mbc.GetROMBankSize()

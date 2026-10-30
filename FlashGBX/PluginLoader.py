@@ -2,7 +2,7 @@
 # FlashGBX
 # Author: Lesserkuma (github.com/Lesserkuma)
 
-import ast, configparser, hashlib, importlib.util, json, os, platform, sys
+import ast, configparser, importlib.util, json, os, platform, sys
 
 from .i18n import __, c__
 from .IniSettings import IniSettings
@@ -20,8 +20,8 @@ def _GetPluginDirectory(config_path):
 	path = _GetSettings(config_path, main_section="General").value("PluginDirectory", default="").strip()
 	return os.path.abspath(os.path.join(config_path, os.path.expanduser(path) if path else "plugins"))
 
-def _SavePluginSettings(config_path, filename, digest, enabled):
-	_GetSettings(config_path).setValue(filename, json.dumps({"sha256": digest, "enabled": enabled}))
+def _SavePluginSettings(config_path, filename, enabled):
+	_GetSettings(config_path).setValue(filename, json.dumps({"enabled": enabled}))
 
 def _DeletePlugin(config_path, filename):
 	plugin_dir = _GetPluginDirectory(config_path)
@@ -44,7 +44,7 @@ def _MigrateApprovals(config_path, settings):
 			raise ValueError("Invalid plugin approvals")
 		for filename, digest in approvals.items():
 			if isinstance(digest, str) and settings.value(filename) is None:
-				_SavePluginSettings(config_path, filename, digest, True)
+				_SavePluginSettings(config_path, filename, True)
 		os.remove(path)
 	except FileNotFoundError:
 		pass
@@ -87,7 +87,7 @@ def AddPluginMenu(parent, parent_menu, config_path):
 		if button_clicked not in (button_toggle, button_delete): return
 		try:
 			enabled = not plugin["enabled"] if button_clicked is button_toggle else False
-			_SavePluginSettings(config_path, filename, plugin["sha256"], enabled)
+			_SavePluginSettings(config_path, filename, enabled)
 			plugin["enabled"] = enabled
 			if button_clicked is button_delete:
 				_DeletePlugin(config_path, filename)
@@ -148,7 +148,7 @@ def _GetPluginMetadata(source, filename):
 def _GetPluginName(source, filename):
 	return _GetPluginMetadata(source, filename)["name"]
 
-def _ConfirmPlugin(filename, digest, gui, config_path=None, name=None, description=None, version=None):
+def _ConfirmPlugin(filename, gui, config_path=None, name=None, description=None, version=None):
 	details = [
 		c__("Plugin loading", "Plugin: {filename}", filename=filename),
 		c__("Plugin loading", "Name: {name}", name=name or filename[:-3]),
@@ -157,14 +157,13 @@ def _ConfirmPlugin(filename, digest, gui, config_path=None, name=None, descripti
 		details.append(c__("Plugin loading", "Version: {version}", version=version))
 	if description:
 		details.append(c__("Plugin loading", "Description: {description}", description=description))
-	details.append("")
-	details += ["SHA-256:", digest]
 	msg = "\n\n".join((
 		c__("Plugin loading", "A new plugin has been found in the plugins directory."),
 		"\n".join(details),
 		" ".join((
 			c__("Plugin loading", "This plugin contains executable Python code and runs with the same permissions as FlashGBX."),
 			c__("Plugin loading", "Only load plugins from trusted sources."),
+			c__("Plugin loading", "Once enabled, this plugin and its future updates will load automatically."),
 		)),
 	))
 	if gui:
@@ -221,7 +220,7 @@ def LoadPlugins(config_path, gui=False):
 		settings = _GetSettings(config_path)
 		plugin_dir = _GetPluginDirectory(config_path)
 	except (OSError, ValueError, configparser.Error) as error:
-		print("Could not read plugin approvals: {}".format(error))
+		print("Could not read plugin settings: {}".format(error))
 		return
 	try:
 		os.makedirs(plugin_dir, exist_ok=True)
@@ -234,7 +233,7 @@ def LoadPlugins(config_path, gui=False):
 	try:
 		_MigrateApprovals(config_path, settings)
 	except (OSError, ValueError, configparser.Error) as error:
-		print("Could not read plugin approvals: {}".format(error))
+		print("Could not read plugin settings: {}".format(error))
 		return
 
 	for filename in filenames:
@@ -247,28 +246,27 @@ def LoadPlugins(config_path, gui=False):
 				approval = json.loads(settings.value(filename) or "{}")
 			except ValueError:
 				approval = {}
-			if not isinstance(approval, dict):
-				approval = {}
+			enabled = approval.get("enabled") if isinstance(approval, dict) else None
+			if not isinstance(enabled, bool): enabled = None
 			if not metadata["name"]:
-				if approval.get("sha256"):
-					PLUGINS[filename] = {**metadata, "name": filename[:-3], "sha256": approval["sha256"], "enabled": approval.get("enabled") is not False}
+				if enabled is not None:
+					PLUGINS[filename] = {**metadata, "name": filename[:-3], "enabled": enabled}
 				continue
-			digest = hashlib.sha256(source).hexdigest()
-			if approval.get("enabled") is False:
-				PLUGINS[filename] = {**metadata, "sha256": approval.get("sha256"), "enabled": False}
+			if enabled is False:
+				PLUGINS[filename] = {**metadata, "enabled": False}
 				continue
-			if approval.get("sha256") != digest:
-				decision = _ConfirmPlugin(filename, digest, gui, config_path, name=metadata["name"], description=metadata.get("description"), version=metadata.get("version"))
+			if enabled is None:
+				decision = _ConfirmPlugin(filename, gui, config_path, name=metadata["name"], description=metadata.get("description"), version=metadata.get("version"))
 				if decision is False:
-					PLUGINS[filename] = {**metadata, "sha256": approval.get("sha256"), "enabled": False}
-					_SavePluginSettings(config_path, filename, approval.get("sha256"), False)
+					PLUGINS[filename] = {**metadata, "enabled": False}
+					_SavePluginSettings(config_path, filename, False)
 				if decision is not True: continue
 				try:
-					_SavePluginSettings(config_path, filename, digest, True)
+					_SavePluginSettings(config_path, filename, True)
 				except OSError as error:
-					print("Could not save plugin approvals: {}".format(error))
+					print("Could not save plugin settings: {}".format(error))
 
-			PLUGINS[filename] = {**metadata, "sha256": digest, "enabled": True}
+			PLUGINS[filename] = {**metadata, "enabled": True}
 			module_name = "_flashgbx_plugin_" + filename[:-3]
 			spec = importlib.util.spec_from_file_location(module_name, path)
 			module = importlib.util.module_from_spec(spec)

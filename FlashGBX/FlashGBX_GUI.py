@@ -1315,7 +1315,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 	def AboutGameDB(self):
 		msg = __("FlashGBX uses a game database that is based on the ongoing efforts of the No-Intro project. Visit {url} for more information.", url="<a href=\"https://no-intro.org/\">https://no-intro.org/</a>") + "<br><br>"
 		msg += __("No-Intro databases referenced for this version of FlashGBX:") + "<br>"
-		msg += "• Nintendo - Game Boy (20261024-134731)<br>• Nintendo - Game Boy Advance (20261028-031703)<br>• Nintendo - Game Boy Advance (e-Reader) (20260920-151102)<br>• Nintendo - Game Boy Advance (Video) (20261006-104433)<br>• Nintendo - Game Boy Color (20261027-225941)" # No-Intro DBs
+		msg += "• Nintendo - Game Boy (20261024-134731)<br>• Nintendo - Game Boy Advance (20261030-072724)<br>• Nintendo - Game Boy Advance (e-Reader) (20260920-151102)<br>• Nintendo - Game Boy Advance (Video) (20261006-104433)<br>• Nintendo - Game Boy Color (20261027-225941)" # No-Intro DBs
 		QtWidgets.QMessageBox.information(self, "FlashGBX {:s}".format(AppInfo.VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def _GetDeviceSupportData(self):

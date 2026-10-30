@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FlashGBX v5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/Lesserkuma/FlashGBX/issues\n"
-"POT-Creation-Date: 2026-10-30 13:59+0100\n"
+"POT-Creation-Date: 2026-10-30 17:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -497,25 +497,30 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX.py:218
 msgctxt "Command Line Help"
-msgid "clears all settings such as last used directory information"
+msgid "start without loading plugins"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX.py:219
 msgctxt "Command Line Help"
-msgid "enable debug messages used for development"
+msgid "clears all settings such as last used directory information"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX.py:220
 msgctxt "Command Line Help"
+msgid "enable debug messages used for development"
+msgstr ""
+
+#: ../package/FlashGBX/FlashGBX.py:221
+msgctxt "Command Line Help"
 msgid "sets the language of the program (e.g. “auto”, “en”, “de”, ...)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:223
+#: ../package/FlashGBX/FlashGBX.py:224
 msgctxt "Command Line Arguments Category"
 msgid "Configuration arguments"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:224
+#: ../package/FlashGBX/FlashGBX.py:225
 #, python-brace-format
 msgctxt "Configuration Help"
 msgid ""
@@ -523,63 +528,63 @@ msgid ""
 "directory ({appdata}), or a subdirectory of this application ({subdir})"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:226
+#: ../package/FlashGBX/FlashGBX.py:227
 msgctxt "Command Line Arguments Category"
 msgid "Main command line interface arguments"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:227
+#: ../package/FlashGBX/FlashGBX.py:228
 msgctxt "Command Line Help"
 msgid "set platform to “dmg” (Game Boy) or “agb” (Game Boy Advance)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:228
+#: ../package/FlashGBX/FlashGBX.py:229
 msgctxt "Command Line Help"
 msgid "select program action"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:229
+#: ../package/FlashGBX/FlashGBX.py:230
 msgctxt "Command Line Help"
 msgid "overwrite without asking if target file already exists"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:230
+#: ../package/FlashGBX/FlashGBX.py:231
 msgctxt "Command Line Help"
 msgid ""
 "target or source file path (optional when reading, required when writing)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:232
+#: ../package/FlashGBX/FlashGBX.py:233
 msgctxt "Command Line Arguments Category"
 msgid "Optional command line interface arguments"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:233
+#: ../package/FlashGBX/FlashGBX.py:234
 msgctxt "Command Line Help"
 msgid "set size of Game Boy cartridge ROM data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:234
+#: ../package/FlashGBX/FlashGBX.py:235
 msgctxt "Command Line Help"
 msgid "set mapper type of Game Boy cartridge"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:235
+#: ../package/FlashGBX/FlashGBX.py:236
 msgctxt "Command Line Help"
 msgid "set type of Game Boy cartridge save data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:236
+#: ../package/FlashGBX/FlashGBX.py:237
 msgctxt "Command Line Help"
 msgid "set size of Game Boy Advance cartridge ROM data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:237
+#: ../package/FlashGBX/FlashGBX.py:238
 msgctxt "Command Line Help"
 msgid "set type of Game Boy Advance cartridge save data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:238
+#: ../package/FlashGBX/FlashGBX.py:239
 #, python-brace-format
 msgctxt "Command Line Help"
 msgid ""
@@ -587,126 +592,126 @@ msgid ""
 "“{dmg_savetype_batteryless}” or “{agb_savetype_batteryless}”)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:239
+#: ../package/FlashGBX/FlashGBX.py:240
 msgctxt "Command Line Help"
 msgid "Size of Batteryless SRAM data in ROM (e.g. 0x10000)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:240
+#: ../package/FlashGBX/FlashGBX.py:241
 msgctxt "Command Line Help"
 msgid ""
 "Bank layout of Batteryless SRAM data for DMG mode: 0=continuous, 1=first "
 "half of ROM bank, 2=second half"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:241
+#: ../package/FlashGBX/FlashGBX.py:242
 msgctxt "Command Line Help"
 msgid "store RTC register values if supported"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:242
+#: ../package/FlashGBX/FlashGBX.py:243
 msgctxt "Command Line Help"
 msgid "keep existing calibration data of the e-Reader when writing save data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:243
+#: ../package/FlashGBX/FlashGBX.py:244
 msgctxt "Command Line Help"
 msgid "don’t stop if invalid data found in cartridge header data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:244
+#: ../package/FlashGBX/FlashGBX.py:245
 msgctxt "Command Line Help"
 msgid "name of flash cart profile; see .txt files in config directory"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:245
+#: ../package/FlashGBX/FlashGBX.py:246
 msgctxt "Command Line Help"
 msgid "prefer full chip erase over sector erase when both available"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:246
+#: ../package/FlashGBX/FlashGBX.py:247
 msgctxt "Command Line Help"
 msgid "force 5V when writing Game Boy flash cartridges"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:247
+#: ../package/FlashGBX/FlashGBX.py:248
 msgctxt "Command Line Help"
 msgid "do not verify written data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:248
+#: ../package/FlashGBX/FlashGBX.py:249
 msgctxt "Command Line Help"
 msgid "generate a dump report for a ROM backup"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:249
+#: ../package/FlashGBX/FlashGBX.py:250
 msgctxt "Command Line Help"
 msgid "adds a timestamp to the file name of save data backups"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:250
+#: ../package/FlashGBX/FlashGBX.py:251
 msgctxt "Command Line Help"
 msgid "sets the color palette of Game Boy Camera pictures"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:251
+#: ../package/FlashGBX/FlashGBX.py:252
 msgctxt "Command Line Help"
 msgid "sets the file format of saved Game Boy Camera pictures"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:252
+#: ../package/FlashGBX/FlashGBX.py:253
 msgctxt "Command Line Help"
 msgid ""
 "automatically extract Game Boy Camera pictures after backing up save data"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:253
+#: ../package/FlashGBX/FlashGBX.py:254
 msgctxt "Command Line Help"
 msgid ""
 "continuously update a live Game Boy Camera image after automatic exposure "
 "calibration; stop with Ctrl+C"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:254
+#: ../package/FlashGBX/FlashGBX.py:255
 msgctxt "Command Line Help"
 msgid "override device port"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:255
+#: ../package/FlashGBX/FlashGBX.py:256
 msgctxt "Command Line Help"
 msgid "enable GBxCart RW flow control"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:256
+#: ../package/FlashGBX/FlashGBX.py:257
 msgctxt "Command Line Help"
 msgid "limit connection to a slower baud rate"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:257
+#: ../package/FlashGBX/FlashGBX.py:258
 msgctxt "Command Line Help"
 msgid ""
 "compare sectors and only write those that differ when writing a ROM (only "
 "for flash carts that support this feature)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:258
+#: ../package/FlashGBX/FlashGBX.py:259
 msgctxt "Command Line Help"
 msgid "wait for key press after the program has ended"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:259
+#: ../package/FlashGBX/FlashGBX.py:260
 msgctxt "Command Line Arguments Category"
 msgid "e-Reader Dot Code Dumper arguments"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:260
+#: ../package/FlashGBX/FlashGBX.py:261
 msgctxt "Command Line Help"
 msgid ""
 "64-byte factory calibration or e-Reader save data file (read from the "
 "cartridge when omitted)"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:265
+#: ../package/FlashGBX/FlashGBX.py:266
 #, python-brace-format
 msgctxt "Command Line Help"
 msgid ""
@@ -714,50 +719,50 @@ msgid ""
 "calibration value disables automatic calibration."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:273 ../package/FlashGBX/FlashGBX.py:316
-#: ../package/FlashGBX/FlashGBX.py:351 ../package/FlashGBX/FlashGBX.py:365
+#: ../package/FlashGBX/FlashGBX.py:274 ../package/FlashGBX/FlashGBX.py:317
+#: ../package/FlashGBX/FlashGBX.py:352 ../package/FlashGBX/FlashGBX.py:366
 msgid "Press ENTER to exit."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:285
+#: ../package/FlashGBX/FlashGBX.py:286
 msgid "The live camera image cannot be combined with another action."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:288
+#: ../package/FlashGBX/FlashGBX.py:289
 msgid "The live camera image cannot be combined with save data extraction."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:306
+#: ../package/FlashGBX/FlashGBX.py:307
 #, python-brace-format
 msgid ""
 "Error: This program has no permission to use the configuration directory "
 "“{config_path}”!"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:308
+#: ../package/FlashGBX/FlashGBX.py:309
 #, python-brace-format
 msgid "Use directory “{appdata_folder}” instead?"
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:342
+#: ../package/FlashGBX/FlashGBX.py:343
 msgid ""
 "Note: GUI mode couldn’t be launched, but the application can be run in CLI "
 "mode."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:342
+#: ../package/FlashGBX/FlashGBX.py:343
 msgid "Optional command line switches are explained above."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:345
+#: ../package/FlashGBX/FlashGBX.py:346
 msgid "Falling back to CLI mode."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:350 ../package/FlashGBX/FlashGBX.py:364
+#: ../package/FlashGBX/FlashGBX.py:351 ../package/FlashGBX/FlashGBX.py:365
 msgid "Program stopped."
 msgstr ""
 
-#: ../package/FlashGBX/FlashGBX.py:359
+#: ../package/FlashGBX/FlashGBX.py:360
 msgid "Now running in CLI mode."
 msgstr ""
 
@@ -4716,7 +4721,7 @@ msgid "Enable"
 msgstr ""
 
 #: ../package/FlashGBX/PluginLoader.py:81
-#: ../package/FlashGBX/PluginLoader.py:195
+#: ../package/FlashGBX/PluginLoader.py:194
 msgid "Delete"
 msgstr ""
 
@@ -4770,48 +4775,54 @@ msgctxt "Plugin loading"
 msgid "Name: {name}"
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:163
+#: ../package/FlashGBX/PluginLoader.py:161
 msgctxt "Plugin loading"
 msgid "A new plugin has been found in the plugins directory."
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:166
+#: ../package/FlashGBX/PluginLoader.py:164
 msgctxt "Plugin loading"
 msgid ""
 "This plugin contains executable Python code and runs with the same "
 "permissions as FlashGBX."
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:167
+#: ../package/FlashGBX/PluginLoader.py:165
 msgctxt "Plugin loading"
 msgid "Only load plugins from trusted sources."
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:193
+#: ../package/FlashGBX/PluginLoader.py:166
+msgctxt "Plugin loading"
+msgid ""
+"Once enabled, this plugin and its future updates will load automatically."
+msgstr ""
+
+#: ../package/FlashGBX/PluginLoader.py:192
 msgid "Load"
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:194
+#: ../package/FlashGBX/PluginLoader.py:193
 msgid "Do not load"
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:197
+#: ../package/FlashGBX/PluginLoader.py:196
 msgid "Delete permanently removes the plugin file."
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:205
+#: ../package/FlashGBX/PluginLoader.py:204
 #, python-brace-format
 msgid "Could not delete plugin: {error}"
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:207
+#: ../package/FlashGBX/PluginLoader.py:206
 #, python-brace-format
 msgid ""
 "The plugin file has been deleted:\n"
 "{filename}"
 msgstr ""
 
-#: ../package/FlashGBX/PluginLoader.py:212
+#: ../package/FlashGBX/PluginLoader.py:211
 msgid "Load plugin?"
 msgstr ""
 

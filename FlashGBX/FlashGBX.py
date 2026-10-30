@@ -215,6 +215,7 @@ def main(portableMode=False):
 	except:
 		pass
 	parser.add_argument("--cli", help=c__("Command Line Help", "force command line interface mode"), action="store_true")
+	parser.add_argument("--no-plugins", help=c__("Command Line Help", "start without loading plugins"), action="store_true")
 	parser.add_argument("--reset", help=c__("Command Line Help", "clears all settings such as last used directory information"), action="store_true")
 	parser.add_argument("--debug", help=c__("Command Line Help", "enable debug messages used for development"), action="store_true")
 	parser.add_argument("--language", action="store", help=c__("Command Line Help", "sets the language of the program (e.g. “auto”, “en”, “de”, ...)"))
@@ -325,7 +326,7 @@ def main(portableMode=False):
 	if not args["argparsed"].cli:
 		try:
 			from . import FlashGBX_GUI
-			LoadPlugins(config_path, gui=True)
+			if not args["argparsed"].no_plugins: LoadPlugins(config_path, gui=True)
 			app = FlashGBX_GUI.FlashGBX_GUI(args)
 		except ModuleNotFoundError:
 			exc = traceback.format_exc()
@@ -336,7 +337,7 @@ def main(portableMode=False):
 
 		if app is None:
 			from . import FlashGBX_CLI
-			LoadPlugins(config_path)
+			if not args["argparsed"].no_plugins: LoadPlugins(config_path)
 			if args["argparsed"].action is None:
 				parser.print_help()
 				print("\n\n{:s}" + __("Note: GUI mode couldn’t be launched, but the application can be run in CLI mode.") + "\n      " + __("Optional command line switches are explained above.") + "{:s}\n".format(ANSI.RED, ANSI.RESET))
@@ -355,7 +356,7 @@ def main(portableMode=False):
 
 	else:
 		from . import FlashGBX_CLI
-		LoadPlugins(config_path)
+		if not args["argparsed"].no_plugins: LoadPlugins(config_path)
 		print("\n" + __("Now running in CLI mode."))
 		app = FlashGBX_CLI.FlashGBX_CLI(args)
 		try:

@@ -12,7 +12,7 @@
 - The older insideGadgets GBxCart RW v1.3 device is no longer supported from this version onward due to its many technical limitations
 - Joey Jr firmware updates on macOS while on the Drag'n'Drop firmware now work from within FlashGBX, so the extra firmware updater tool is no longer necessary
 - Added Linux GUI assistance for temporary device access and permanent udev rule installation through system authentication
-- Added a simple plugin system, allowing for third-party and experimental feature extensions
+- Added a simple plugin system, allowing for third-party and experimental feature extensions *(thanks fredemmott for additional suggestions)*
 - Confirmed support for Development AGB Cartridge 128M Flash Case Iri, E201736 *(thanks Kelly)*
 - Updated the lookup databases for save types, ROM sizes and checksums
 - Minor bug fixes and improvements

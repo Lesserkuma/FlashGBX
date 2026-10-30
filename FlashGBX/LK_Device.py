@@ -2533,6 +2533,7 @@ class LK_Device(ABC):
 			"firmware":self.GetFirmwareVersion(), "mode":self.MODE, "voltage":3.3 if limitVoltage or self.MODE == "AGB" else 5, "reads":[]}
 		read = self._ReadFlashDiagnostic
 		matched_we = {}
+		matched_id_index = {}
 		matched_lengths = {}
 
 		if self.MODE == "DMG":
@@ -2723,7 +2724,7 @@ class LK_Device(ABC):
 							"read_cfi":profile["commands"].get("read_cfi", [[commands["read_identifier"][0][0], 0x98]])}})
 						if candidate not in read_cfi_cmds: read_cfi_cmds.append(candidate)
 						flashcart = Flashcart(config=profile, fncptr=fc_fncptr)
-						for group in flashcart.GetFlashIDSets(profile):
+						for id_index, group in enumerate(flashcart.GetFlashIDSets(profile)):
 							if len(group) != 1 or group[0][0] is not None: continue
 							expected = group[0][1]
 							if (expected and len(baseline) == len(cmp) == length
@@ -2731,6 +2732,8 @@ class LK_Device(ABC):
 								and flashcart.GetFlashIDBytes(baseline, len(expected)) != expected):
 								flash_types.append(f)
 								matched_we[f] = we
+								if len(expected) > matched_lengths.get(f, 0):
+									matched_id_index[f] = id_index
 								matched_lengths[f] = max(matched_lengths.get(f, 0), len(expected))
 					if cmp and baseline != cmp:
 						display = list(cmp[:max(8, c["id_length"])])
@@ -2741,7 +2744,7 @@ class LK_Device(ABC):
 							if selected: flash_id_s += "[{:s}] {:s}\n{:s}↑ {:s}\n".format(prefix, " ".join(format(x, "02X") for x in selected), " " * (len(prefix)), "".join("+{:02X}".format(o) for o in offsets))
 			self._cart_write_flash([[0, 0xFF], [0, 0xF0]], True)
 		flash_types = sorted(set(flash_types))
-		if self.MODE == "AGB" and matched_lengths:
+		if matched_lengths:
 			longest_id = max(matched_lengths.values())
 			flash_types = [f for f in flash_types if matched_lengths[f] == longest_id]
 		dprint("Compatible flash types:", [(i, supported_carts[i]["names"][0]) for i in flash_types])
@@ -2835,6 +2838,18 @@ class LK_Device(ABC):
 									flash_type_id = flash_types[i]
 									size_undetected = False
 									break
+
+		if self.MODE == "DMG" and flash_type_id in matched_id_index:
+			profile = supported_carts[flash_type_id]
+			names = profile.get("_profile_names", [])
+			if len(names) > 1 and len(names) == len(profile["flash_ids"]):
+				id_index = matched_id_index[flash_type_id]
+				paired_names = [names[i] for i, flash_id in enumerate(profile["flash_ids"]) if flash_id == profile["flash_ids"][id_index]]
+				if profile["names"][0] not in paired_names:
+					for index in flash_types:
+						if supported_carts[index].get("_profile_names") == names and supported_carts[index]["names"][0] in paired_names:
+							flash_type_id = index
+							break
 
 		self.INFO["flash_diagnostics"]["matches"] = [supported_carts[i]["names"][0] for i in flash_types]
 		return (flash_types, flash_type_id, flash_id_s, cfi_s, cfi, detected_size)

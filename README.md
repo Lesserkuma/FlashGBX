@@ -76,6 +76,8 @@ for Windows, Linux, macOS (→ [Download](#downloads))
   - BUNG Doctor GB Card 16M
   - BUNG Doctor GB Card 64M
   - Catskull 32k Gameboy Flash Cart
+  - ChisMBC5 MAX(32 MiB)(28EW256A)
+  - ChisMBC5 MAX(32 MiB)(S29GL256N)
   - DIY cart with 28F016S5
   - DIY cart with AM29F010
   - DIY cart with AM29F016/29F016
@@ -120,6 +122,8 @@ for Windows, Linux, macOS (→ [Download](#downloads))
   - insideGadgets MegaDuck 32K
   - ModRetro Chromatic Cartridge with 39VF1681
   - ModRetro Chromatic Cartridge with IS29GL032
+  - ModRetro Chromatic Cartridge with S29JL032
+  - ModRetro Chromatic Cartridge with S29JL032 (top boot)
   - Mr Flash 64M
   - Sillyhatday MBC5-DUAL-FLASH-4/8MB
   - Squareboi 4 MiB (2× 2 MiB)

@@ -140,6 +140,7 @@ def LoadConfig(args):
 					if not specs["type"] in flashcarts: continue # only DMG and AGB are supported right now
 					temp = copy.deepcopy(specs)
 					temp["names"] = [name]
+					temp["_profile_names"] = list(specs["names"])
 					flashcarts[specs["type"]][name] = temp
 
 	return { "flashcarts":flashcarts, "config_ret":ret }

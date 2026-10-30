@@ -2,11 +2,9 @@
 	"type":"AGB",
 	"names":[
 		"AGB-E08-09 with 29LV128DTMC-90Q",
-		"AGB-E05-01 with MX29GL128FHT2I-90G",
 		"AGB-E05-06L with 29LV128DBT2C-90Q"
 	],
 	"flash_ids":[
-		[ 0xC1, 0x00, 0x7D, 0x22 ],
 		[ 0xC1, 0x00, 0x7D, 0x22 ],
 		[ 0xC1, 0x00, 0x79, 0x22 ]
 	],

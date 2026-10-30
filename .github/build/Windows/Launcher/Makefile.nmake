@@ -1,20 +1,27 @@
-CC    = cl.exe
-RC    = rc.exe
-LINK  = link.exe
+CC       = cl.exe
+RC       = rc.exe
+LINK     = link.exe
 
-CFLAGS  = /O2 /MT /W3 /DUNICODE /D_UNICODE
-LDFLAGS = /SUBSYSTEM:WINDOWS /BREPRO /OPT:REF /OPT:ICF
+TARGET   = launcher-msvc.exe
+OBJECT   = FlashGBX_Launcher.msvc.obj
+RESOURCE = FlashGBX_Launcher.msvc.res
 
-all: launcher.exe
+CFLAGS   = /nologo /O2 /MT /W3 /DUNICODE /D_UNICODE
+RFLAGS   = /nologo
+LDFLAGS  = /nologo /SUBSYSTEM:WINDOWS /MANIFEST:NO /BREPRO /OPT:REF /OPT:ICF
 
-launcher.exe: FlashGBX_Launcher.obj FlashGBX_Launcher.res
-	$(LINK) $(LDFLAGS) /OUT:$@ $** user32.lib shell32.lib kernel32.lib
+all: $(TARGET)
 
-FlashGBX_Launcher.obj: FlashGBX_Launcher.c
-	$(CC) $(CFLAGS) /c $** /Fo$@
+$(TARGET): $(OBJECT) $(RESOURCE) Makefile.nmake
+	$(LINK) $(LDFLAGS) /OUT:"$@" "$(OBJECT)" "$(RESOURCE)" user32.lib shell32.lib kernel32.lib
 
-FlashGBX_Launcher.res: FlashGBX_Launcher.rc
-	$(RC) /fo$@ $**
+$(OBJECT): FlashGBX_Launcher.c Makefile.nmake
+	$(CC) $(CFLAGS) /c FlashGBX_Launcher.c /Fo"$@"
+
+$(RESOURCE): FlashGBX_Launcher.rc FlashGBX_Launcher.ico FlashGBX_Launcher.manifest Makefile.nmake
+	$(RC) $(RFLAGS) /fo"$@" FlashGBX_Launcher.rc
 
 clean:
-	-del *.obj *.res launcher.exe *.exp *.lib
+	@if exist "$(OBJECT)" del /q "$(OBJECT)"
+	@if exist "$(RESOURCE)" del /q "$(RESOURCE)"
+	@if exist "$(TARGET)" del /q "$(TARGET)"

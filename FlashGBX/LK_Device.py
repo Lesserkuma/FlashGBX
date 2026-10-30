@@ -2533,6 +2533,7 @@ class LK_Device(ABC):
 			"firmware":self.GetFirmwareVersion(), "mode":self.MODE, "voltage":3.3 if limitVoltage or self.MODE == "AGB" else 5, "reads":[]}
 		read = self._ReadFlashDiagnostic
 		matched_we = {}
+		matched_lengths = {}
 
 		if self.MODE == "DMG":
 			if limitVoltage:
@@ -2730,7 +2731,7 @@ class LK_Device(ABC):
 								and flashcart.GetFlashIDBytes(baseline, len(expected)) != expected):
 								flash_types.append(f)
 								matched_we[f] = we
-								break
+								matched_lengths[f] = max(matched_lengths.get(f, 0), len(expected))
 					if cmp and baseline != cmp:
 						display = list(cmp[:max(8, c["id_length"])])
 						prefix = "{:s}/{:4X}/{:2X}".format(we.ljust(5), *commands["read_identifier"][0]) if we else "{:6X}/{:4X}".format(*commands["read_identifier"][0])
@@ -2740,6 +2741,9 @@ class LK_Device(ABC):
 							if selected: flash_id_s += "[{:s}] {:s}\n{:s}↑ {:s}\n".format(prefix, " ".join(format(x, "02X") for x in selected), " " * (len(prefix)), "".join("+{:02X}".format(o) for o in offsets))
 			self._cart_write_flash([[0, 0xFF], [0, 0xF0]], True)
 		flash_types = sorted(set(flash_types))
+		if self.MODE == "AGB" and matched_lengths:
+			longest_id = max(matched_lengths.values())
+			flash_types = [f for f in flash_types if matched_lengths[f] == longest_id]
 		dprint("Compatible flash types:", [(i, supported_carts[i]["names"][0]) for i in flash_types])
 
 		if flash_types:

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FlashGBX v5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/Lesserkuma/FlashGBX/issues\n"
-"POT-Creation-Date: 2026-10-30 18:22+0100\n"
+"POT-Creation-Date: 2026-10-30 20:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2829,7 +2829,7 @@ msgid "Save data writing complete!"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2101
-#: ../package/FlashGBX/LK_Device.py:5037
+#: ../package/FlashGBX/LK_Device.py:5041
 msgid ""
 "Troubleshooting advice:\n"
 "- Clean cartridge contacts\n"
@@ -2845,24 +2845,24 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2109
 #: ../package/FlashGBX/FlashGBX_GUI.py:2111
-#: ../package/FlashGBX/LK_Device.py:4401 ../package/FlashGBX/LK_Device.py:4403
+#: ../package/FlashGBX/LK_Device.py:4405 ../package/FlashGBX/LK_Device.py:4407
 msgid "- Check mapper type used:"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2109
-#: ../package/FlashGBX/LK_Device.py:4401
+#: ../package/FlashGBX/LK_Device.py:4405
 msgctxt "Mapper Type"
 msgid "manual selection"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2111
-#: ../package/FlashGBX/LK_Device.py:4403
+#: ../package/FlashGBX/LK_Device.py:4407
 msgctxt "Mapper Type"
 msgid "forced by selected flashcart profile"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2113
-#: ../package/FlashGBX/LK_Device.py:4405
+#: ../package/FlashGBX/LK_Device.py:4409
 #, python-brace-format
 msgid "- Check mapper type ROM size limit: likely up to {max_size}"
 msgstr ""
@@ -4142,7 +4142,7 @@ msgid ""
 "Error: Bad response “{response}” while trying to communicate with the device."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:861 ../package/FlashGBX/LK_Device.py:4278
+#: ../package/FlashGBX/LK_Device.py:861 ../package/FlashGBX/LK_Device.py:4282
 msgid "This flashcart profile requires at least firmware version L12."
 msgstr ""
 
@@ -4183,7 +4183,7 @@ msgctxt "Game Data"
 msgid "Invalid RTC data"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:1247 ../package/FlashGBX/LK_Device.py:3361
+#: ../package/FlashGBX/LK_Device.py:1247 ../package/FlashGBX/LK_Device.py:3365
 #, python-brace-format
 msgid ""
 "An error occured while trying to read the hidden sector data of the "
@@ -4248,116 +4248,116 @@ msgid ""
 "trying to write {length} bytes"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2857
+#: ../package/FlashGBX/LK_Device.py:2861
 msgid "ROM checksum"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2889
+#: ../package/FlashGBX/LK_Device.py:2893
 msgid "Error querying the flash save chip."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:2965
+#: ../package/FlashGBX/LK_Device.py:2969
 msgid "The Sintax ROM backup failed."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3014 ../package/FlashGBX/LK_Device.py:4267
+#: ../package/FlashGBX/LK_Device.py:3018 ../package/FlashGBX/LK_Device.py:4271
 #, python-brace-format
 msgid ""
 "Note: This flashcart profile may not be fully compatible with your "
 "{device_name} running an old or legacy firmware version."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3035 ../package/FlashGBX/LK_Device.py:3507
-#: ../package/FlashGBX/LK_Device.py:4387
+#: ../package/FlashGBX/LK_Device.py:3039 ../package/FlashGBX/LK_Device.py:3511
+#: ../package/FlashGBX/LK_Device.py:4391
 #, python-brace-format
 msgid ""
 "This cartridge uses a mapper that is not supported by FlashGBX using your "
 "{device_name}."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3170
+#: ../package/FlashGBX/LK_Device.py:3174
 #, python-brace-format
 msgid ""
 "Note: This cartridge may not be fully compatible with your {device_name}."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3287
+#: ../package/FlashGBX/LK_Device.py:3291
 #, python-brace-format
 msgid "Note: Incomplete transfer detected. Resuming from {address}..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3297
+#: ../package/FlashGBX/LK_Device.py:3301
 #, python-brace-format
 msgid "Buffer size adjusted to {size} bytes."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3309
+#: ../package/FlashGBX/LK_Device.py:3313
 msgid ""
 "An error occured while reading from the cartridge. When connecting the "
 "device, avoid passive USB hubs and try different USB ports/cables."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3412
+#: ../package/FlashGBX/LK_Device.py:3416
 msgid "MD5 hash"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3414
+#: ../package/FlashGBX/LK_Device.py:3418
 msgid "SHA-1 hash"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3416
+#: ../package/FlashGBX/LK_Device.py:3420
 msgid "SHA-256 hash"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3418
+#: ../package/FlashGBX/LK_Device.py:3422
 msgid "CRC32 checksum"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3607
+#: ../package/FlashGBX/LK_Device.py:3611
 msgid "Couldn’t detect the save data flash chip type."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3627
+#: ../package/FlashGBX/LK_Device.py:3631
 #, python-brace-format
 msgid ""
 "Couldn’t detect the DACS flash chip.\n"
 "Unknown Flash ID: {flash_id}"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3830
+#: ../package/FlashGBX/LK_Device.py:3834
 msgid "Error: Inconsistent reads detected."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3834
+#: ../package/FlashGBX/LK_Device.py:3838
 msgid ""
 "Failed to read save data consistently. Please ensure that the cartridge "
 "contacts are clean."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3884
+#: ../package/FlashGBX/LK_Device.py:3888
 #, python-brace-format
 msgid ""
 "Error: Save data flash sector at {address} didn’t erase successfully "
 "(SR={status_register})."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:3941 ../package/FlashGBX/LK_Device.py:3949
+#: ../package/FlashGBX/LK_Device.py:3945 ../package/FlashGBX/LK_Device.py:3953
 msgid ""
 "An error occured while writing to the DACS cartridge. Please make sure that "
 "the cartridge contacts are clean, re-connect the device and try again from "
 "the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4094
+#: ../package/FlashGBX/LK_Device.py:4098
 msgid ""
 "The save data was written completely, but didn’t pass the verification check."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4103
+#: ../package/FlashGBX/LK_Device.py:4107
 msgid "more than 10 differences found"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4107
+#: ../package/FlashGBX/LK_Device.py:4111
 #, python-brace-format
 msgid ""
 "The save data was written completely, but {count} byte ({percent}%) didn’t "
@@ -4368,126 +4368,126 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../package/FlashGBX/LK_Device.py:4162 ../package/FlashGBX/LK_Device.py:4470
-#: ../package/FlashGBX/LK_Device.py:4525
+#: ../package/FlashGBX/LK_Device.py:4166 ../package/FlashGBX/LK_Device.py:4474
+#: ../package/FlashGBX/LK_Device.py:4529
 msgid "This flashcart profile is currently not supported for ROM writing."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4219
+#: ../package/FlashGBX/LK_Device.py:4223
 msgid ""
 "Note: The last 256 bytes of this 32 MiB ROM will not be written as this area "
 "is reserved by the EEPROM save type."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4243
+#: ../package/FlashGBX/LK_Device.py:4247
 msgctxt "Flashcart Profile"
 msgid "Unknown"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4249
+#: ../package/FlashGBX/LK_Device.py:4253
 msgid "This flashcart profile requires at least firmware version L2."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4254
+#: ../package/FlashGBX/LK_Device.py:4258
 #, python-brace-format
 msgid ""
 "Note: Update your {device_name} firmware to version L3 or higher for a "
 "better transfer rate with this flashcart profile."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4259
+#: ../package/FlashGBX/LK_Device.py:4263
 msgid "This flashcart profile requires at least firmware version L5."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4262
+#: ../package/FlashGBX/LK_Device.py:4266
 #, python-brace-format
 msgid ""
 "Note: Update your {device_name} firmware to version L5 or higher for a "
 "better transfer rate with this flashcart profile."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4272
+#: ../package/FlashGBX/LK_Device.py:4276
 #, python-brace-format
 msgid ""
 "Note: This flashcart profile may not be fully compatible with your "
 "{device_name} until updated to a newer firmware version."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4276
+#: ../package/FlashGBX/LK_Device.py:4280
 msgid ""
 "This flashcart profile requires a different firmware version. Please update "
 "your GBxCart RW firmware using the older FlashGBX v4.3 and try again."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4283
+#: ../package/FlashGBX/LK_Device.py:4287
 msgid "This flashcart profile requires at least firmware version L14."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4341
+#: ../package/FlashGBX/LK_Device.py:4345
 msgid ""
 "Note: Chip erase mode is not supported for this flashcart profile. Sector "
 "erase mode will be used."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4434
+#: ../package/FlashGBX/LK_Device.py:4438
 #, python-brace-format
 msgid ""
 "An error occured while trying to generate the hidden sector data for the "
 "{gb_memory_cartridge}."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4438
+#: ../package/FlashGBX/LK_Device.py:4442
 #, python-brace-format
 msgid ""
 "The {gb_memory_cartridge} requires extra hidden sector data. As it couldn’t "
 "be auto-generated, please provide your own at the following path:"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4626
+#: ../package/FlashGBX/LK_Device.py:4630
 #, python-brace-format
 msgid ""
 "Note: This cartridge’s Flash ID ({flash_id}) doesn’t match the flashcart "
 "profile selection."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4685
+#: ../package/FlashGBX/LK_Device.py:4689
 msgid ""
 "No flash sectors were found that would need to be updated for delta flashing."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4731
+#: ../package/FlashGBX/LK_Device.py:4735
 msgid "No erase method available."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4767
+#: ../package/FlashGBX/LK_Device.py:4771
 msgid ""
 "Couldn’t start writing ROM because the flash cart couldn’t be detected "
 "properly."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:4997
+#: ../package/FlashGBX/LK_Device.py:5001
 msgctxt "Status Register"
 msgid "Unknown"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5022
+#: ../package/FlashGBX/LK_Device.py:5026
 msgctxt "Status Register"
 msgid "Timeout"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5032 ../package/FlashGBX/LK_Device.py:5078
+#: ../package/FlashGBX/LK_Device.py:5036 ../package/FlashGBX/LK_Device.py:5082
 #, python-brace-format
 msgid ""
 "An error occured while writing {buffer_len} bytes at position {buffer_pos} "
 "({file_size}). Please re-connect the device and try again from the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5044 ../package/FlashGBX/LK_Device.py:5067
-#: ../package/FlashGBX/LK_Device.py:5093
+#: ../package/FlashGBX/LK_Device.py:5048 ../package/FlashGBX/LK_Device.py:5071
+#: ../package/FlashGBX/LK_Device.py:5097
 msgid "Status Register:"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5056
+#: ../package/FlashGBX/LK_Device.py:5060
 #, python-brace-format
 msgid ""
 "Unstable connection detected while writing {buffer_len} bytes in iteration "
@@ -4495,7 +4495,7 @@ msgid ""
 "device and try again from the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5061
+#: ../package/FlashGBX/LK_Device.py:5065
 msgid ""
 "Troubleshooting advice:\n"
 "- Clean cartridge contacts\n"
@@ -4503,7 +4503,7 @@ msgid ""
 "- Avoid passive USB hubs and try different USB ports/cables"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5083
+#: ../package/FlashGBX/LK_Device.py:5087
 #, python-brace-format
 msgid ""
 "Troubleshooting advice:\n"
@@ -4516,12 +4516,12 @@ msgid ""
 "- The cartridge may also be incompatible with your {device_name} device"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5102
+#: ../package/FlashGBX/LK_Device.py:5106
 #, python-brace-format
 msgid "Write error! Retrying from {address}..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5118
+#: ../package/FlashGBX/LK_Device.py:5122
 #, python-brace-format
 msgid ""
 "A critical connection error occured while writing {buffer_len} bytes at "
@@ -4529,46 +4529,46 @@ msgid ""
 "again from the beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5130
+#: ../package/FlashGBX/LK_Device.py:5134
 msgid "The erroneous process has been stopped."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5162
+#: ../package/FlashGBX/LK_Device.py:5166
 msgid ""
 "An error occured while writing the hidden sector. Please make sure that the "
 "cartridge contacts are clean, re-connect the device and try again from the "
 "beginning."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5337
+#: ../package/FlashGBX/LK_Device.py:5341
 #, python-brace-format
 msgid "Error: Couldn’t update write-protected file “{file}”"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5405
+#: ../package/FlashGBX/LK_Device.py:5409
 msgid "Retry at 5V?"
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5406
+#: ../package/FlashGBX/LK_Device.py:5410
 msgid ""
 "Writing at 3.3V failed. Do you want to retry at 5V? Some cartridges of the "
 "same kind require 5V for successful writing, but please note that 5V can be "
 "unsafe for some flash chips."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5419 ../package/FlashGBX/LK_Device.py:5426
+#: ../package/FlashGBX/LK_Device.py:5423 ../package/FlashGBX/LK_Device.py:5430
 msgid "Note: Writing at 3.3V failed. Retrying at 5V..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5420 ../package/FlashGBX/LK_Device.py:5427
+#: ../package/FlashGBX/LK_Device.py:5424 ../package/FlashGBX/LK_Device.py:5431
 msgid "Switching voltage..."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5442
+#: ../package/FlashGBX/LK_Device.py:5446
 msgid "Connection timed out. Please reconnect the device."
 msgstr ""
 
-#: ../package/FlashGBX/LK_Device.py:5446
+#: ../package/FlashGBX/LK_Device.py:5450
 msgid "Connection closed."
 msgstr ""
 

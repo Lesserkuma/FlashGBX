@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>flashgbx</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>FlashGBX</name>
+  <summary>Reads and writes Game Boy and Game Boy Advance cartridges</summary>
+  <description>
+    <p>FlashGBX reads and writes Game Boy, Game Boy Color and Game Boy Advance
+    cartridge data using compatible cartridge reader/writer hardware.</p>
+    <ul>
+      <li>Backup, restore and erase save data, including Real Time Clock registers</li>
+      <li>Backup ROM data from game cartridges</li>
+      <li>Write new ROMs to a wide variety of flash cartridges</li>
+      <li>Automatically detect many reproduction and flash cartridges</li>
+      <li>Query flash chips, including Common Flash Interface information</li>
+      <li>Decode and extract Game Boy Camera photos from save data</li>
+      <li>Generate ROM dump reports for game preservation</li>
+    </ul>
+    <p>Compatible cartridge reader/writer hardware includes GBxCart RW, GBFlash,
+    Joey Jr and Game Bub.</p>
+  </description>
+  <launchable type="desktop-id">flashgbx.desktop</launchable>
+  <developer_name>Lesserkuma</developer_name>
+  <url type="homepage">https://github.com/Lesserkuma/FlashGBX</url>
+  <url type="bugtracker">https://github.com/Lesserkuma/FlashGBX/issues</url>
+  <provides>
+    <binary>FlashGBX</binary>
+  </provides>
+  <categories>
+    <category>Game</category>
+    <category>Utility</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+</component>

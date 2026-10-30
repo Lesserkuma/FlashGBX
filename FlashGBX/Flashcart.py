@@ -33,6 +33,7 @@ class Flashcart:
 		self.CART_READ_FNCPTR = fncptr["cart_read_fncptr"]
 		self.CART_POWERCYCLE_FNCPTR = fncptr["cart_powercycle_fncptr"]
 		self.PROGRESS_FNCPTR = fncptr["progress_fncptr"]
+		self.FLASH_READ_FNCPTR = fncptr.get("flash_read_fncptr")
 		self.SET_WE_PIN_WR = fncptr["set_we_pin_wr"]
 		self.SET_WE_PIN_AUDIO = fncptr["set_we_pin_audio"]
 		self.CONFIG = config
@@ -83,21 +84,6 @@ class Flashcart:
 		return flash_ids
 
 	@staticmethod
-	def ExtendFlashID(flash_id, rom, cart_read, address=0):
-		# A chip answering 7E as its device ID has two more device ID cycles, at byte addresses 0x1C and 0x1E on the 8-bit
-		# DMG bus, and needs them to be told apart from others answering 7E (every Spansion S29GL and S29JL part answers
-		# 01 7E). They take the place of bytes 4 to 7, which only report sector protection and indicator bits. 7D is 7E on a
-		# cartridge with D0 and D1 swapped. Call it while the chip is still in autoselect mode; a read that did not leave ROM
-		# data, or a failed read of the extra cycles, leaves the Flash ID as it is.
-		flash_id = list(flash_id)
-		compared = min(4, len(rom))
-		if len(flash_id) >= 8 and flash_id[2] == flash_id[3] and flash_id[2] in (0x7E, 0x7D) and flash_id[:compared] != list(rom[:compared]):
-			cycles = list(cart_read(address + 0x1C, 4))
-			if len(cycles) == 4:
-				flash_id[4:8] = cycles
-		return flash_id
-
-	@staticmethod
 	def GetROMAccessParameters(config, offset):
 		if config["type"].upper() != "DMG": return ([], offset)
 		bank, address = divmod(offset, 0x4000)
@@ -111,6 +97,12 @@ class Flashcart:
 
 	def GetFlashID(self, index=0):
 		return self.GetFlashIDSets(self.CONFIG)[index][0][1]
+
+	def GetFlashIDBytes(self, buffer, length, config=None):
+		if config is None: config = self.CONFIG
+		offsets = config.get("flash_id_offsets", range(length))[:length]
+		if len(offsets) != length or any(type(o) is not int or o < 0 or o >= len(buffer) for o in offsets): return []
+		return [buffer[o] for o in offsets]
 
 	def GetVoltage(self):
 		return self.CONFIG["voltage"]
@@ -270,11 +262,11 @@ class Flashcart:
 		observations = {}
 		try:
 			for offset, length in lengths.items():
+				length = max(length, max(config.get("flash_id_offsets", []), default=0) + 1)
+				if config["type"] == "AGB": length += length % 2
+				address = config.get("read_identifier_at", 0)
 				if offset is None:
 					self.Reset()
-					rom = list(self.CartRead(0, length))
-					self.Unlock()
-					address = config.get("read_identifier_at", 0)
 					read_identifier = config["commands"]["read_identifier"]
 					reset = config["commands"].get("reset", [])
 				else:
@@ -285,17 +277,21 @@ class Flashcart:
 					reset = self.RelocateFlashCommands(config["commands"].get("reset", []), address)
 					if reset:
 						self.CartWrite(reset)
-					rom = list(self.CartRead(address, length))
 
-				self.CartWrite(read_identifier)
-				time.sleep(0.001)
-				if config["type"].upper() == "DMG" and length > 4:
-					cart_flash_id = self.ExtendFlashID(self.CartRead(address, max(length, 8)), rom, self.CartRead, address)
-				else:
-					cart_flash_id = list(self.CartRead(address, length))
-				observations[offset] = (rom, cart_flash_id)
-				if reset:
-					self.CartWrite(reset)
+				diagnostic_config = dict(config, commands=dict(config["commands"], read_identifier=read_identifier, reset=reset))
+				def read(kind):
+					if self.FLASH_READ_FNCPTR:
+						return self.FLASH_READ_FNCPTR(kind, address, length, diagnostic_config, None, offset // 0x4000 if offset is not None and config["type"] == "DMG" else None)
+					return self.CartRead(address, length) or bytearray()
+				try:
+					rom = list(read("rom"))
+					if offset is None: self.Unlock()
+					self.CartWrite(read_identifier)
+					time.sleep(0.001)
+					cart_flash_id = list(read("id"))
+					observations[offset] = (rom, cart_flash_id)
+				finally:
+					if reset: self.CartWrite(reset)
 		finally:
 			if any(offset is not None for offset in lengths):
 				bank_commands, address = self.GetROMAccessParameters(config, 0)
@@ -308,12 +304,13 @@ class Flashcart:
 			verified = True
 			for offset, expected in flash_id_set:
 				rom, flash_id = observations[offset]
-				flash_id = list(flash_id[:len(expected)])
-				if flash_id != expected or flash_id == list(rom[:len(expected)]):
+				flash_id = self.GetFlashIDBytes(flash_id, len(expected), config)
+				rom_id = self.GetFlashIDBytes(rom, len(expected), config)
+				if flash_id != expected or len(rom_id) != len(expected) or flash_id == rom_id:
 					verified = False
 					break
 			if verified: break
-		cart_flash_id = list(next(iter(observations.values()))[1])
+		cart_flash_id = self.GetFlashIDBytes(next(iter(observations.values()))[1], next(iter(lengths.values())), config)
 		dprint(config["names"], config["commands"]["read_identifier"])
 		for offset, (_rom, observed) in observations.items():
 			dprint("Flash ID at {:s}: {:s}".format("default" if offset is None else "0x{:X}".format(offset), ' '.join(format(x, '02X') for x in observed)))
@@ -429,7 +426,7 @@ class Flashcart:
 
 	def ChipErase(self):
 		self.Reset(full_reset=True)
-		time_start = time.time()
+		time_start = time.perf_counter()
 		if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"ERASE", "time_start":time_start, "time_estimated": self.CONFIG["chip_erase_timeout"], "abortable":False})
 		for i in range(0, len(self.CONFIG["commands"]["chip_erase"])):
 			addr = self.CONFIG["commands"]["chip_erase"][i][0]
@@ -578,7 +575,7 @@ class Flashcart:
 							#self.PROGRESS_FNCPTR({"action":"ABORT", "info_type":"msgbox_critical", "info_msg":"The sector erase attempt timed out. The last status register value was 0x{:X}.\n\nPlease make sure that the cartridge contacts are clean, and that the selected flashcart profile and settings are correct.".format(self.LAST_SR), "abortable":False})
 							return False
 						if wait_for == data: break
-						self.PROGRESS_FNCPTR({"action":"SECTOR_ERASE", "sector_pos":buffer_pos, "time_start":time.time(), "abortable":True})
+						self.PROGRESS_FNCPTR({"action":"SECTOR_ERASE", "sector_pos":buffer_pos, "time_start":time.perf_counter(), "abortable":True})
 					dprint("Done waiting!")
 
 			self.Reset(full_reset=False)
@@ -659,7 +656,8 @@ class CFI:
 			if buffer[0x36] == 0xFF and buffer[0x48] == 0xFF:
 				print(__("Warning: No information about the voltage range found in CFI data."))
 				try:
-					with open(AppContext.CONFIG_PATH + os.sep + "cfi_debug.bin", "wb") as f: f.write(buffer)
+					if AppContext.CONFIG_PATH:
+						with open(AppContext.CONFIG_PATH + os.sep + "cfi_debug.bin", "wb") as f: f.write(buffer)
 				except:
 					pass
 				return False
@@ -730,7 +728,8 @@ class CFI:
 		except:
 			print(__("Error: Trying to parse CFI data resulted in an error."))
 			try:
-				with open(AppContext.CONFIG_PATH + os.sep + "cfi_debug.bin", "wb") as f: f.write(buffer)
+				if AppContext.CONFIG_PATH:
+					with open(AppContext.CONFIG_PATH + os.sep + "cfi_debug.bin", "wb") as f: f.write(buffer)
 			except:
 				pass
 			return False
@@ -793,7 +792,7 @@ class Flashcart_DMG_BUNG_16M(Flashcart):
 		return True
 
 	def ChipErase(self, pos=0, buffer_pos=0, skip=False):
-		time_start = time.time()
+		time_start = time.perf_counter()
 		if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"ERASE", "time_start":time_start, "abortable":False})
 
 		self.CartWrite([[0x2000, 0x02]], fast_write=False)
@@ -869,7 +868,7 @@ class Flashcart_DMG_MMSA(Flashcart):
 		return True
 
 	def EraseHiddenSector(self, buffer):
-		if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"SECTOR_ERASE", "sector_pos":0, "time_start":time.time(), "abortable":False})
+		if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"SECTOR_ERASE", "sector_pos":0, "time_start":time.perf_counter(), "abortable":False})
 
 		if self.UnlockForWriting() is False: return False
 
@@ -923,7 +922,7 @@ class Flashcart_DMG_MMSA(Flashcart):
 		self.CartWrite(cmds)
 		lives = 10
 		while lives > 0:
-			if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"SECTOR_ERASE", "sector_pos":0, "time_start":time.time(), "abortable":False})
+			if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"SECTOR_ERASE", "sector_pos":0, "time_start":time.perf_counter(), "abortable":False})
 			raw = self.CartRead(0)
 			sr = raw[0] if raw else 0
 			self.LAST_SR = sr
@@ -1011,7 +1010,7 @@ class Flashcart_DMG_MMSA(Flashcart):
 		return True
 
 	def ChipErase(self):
-		time_start = time.time()
+		time_start = time.perf_counter()
 		if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"ERASE", "time_start":time_start, "abortable":False})
 
 		if self.UnlockForWriting() is False: return False
@@ -1108,7 +1107,7 @@ class Flashcart_DMG_MMSA(Flashcart):
 		return self.UnlockForWriting()
 
 	def UnlockForWriting(self):
-		time_start = time.time()
+		time_start = time.perf_counter()
 		if self.PROGRESS_FNCPTR is not None: self.PROGRESS_FNCPTR({"action":"UNLOCK", "time_start":time_start, "abortable":False})
 
 		self.CartWrite([[ 0x2100, 0x01 ]])

@@ -1,0 +1,12 @@
+{
+	"type":"AGB",
+	"names":[
+		"Sintax YJencrypted Cartridge"
+	],
+	"flash_size":0x2000000,
+	"voltage":3.3,
+	"sintax":true,
+	"manual_select":true,
+	"command_set":"SINTAX_YJENCRYPTED",
+	"commands":{}
+}

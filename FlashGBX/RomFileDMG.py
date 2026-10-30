@@ -20,6 +20,14 @@ class RomFileDMG:
 	DATA = None
 	BATTERYLESS_SRAM_DB = None
 
+	@staticmethod
+	def GetParser(file=None):
+		return RomFileDMG(file)
+
+	@staticmethod
+	def ReadHeaderBuffer(file):
+		return bytearray(file.read(0x1000))
+
 	def __init__(self, file=None):
 		if isinstance(file, str):
 			self.Open(file)
@@ -137,6 +145,8 @@ class RomFileDMG:
 			if buffer[0x149] < DmgSaveTypes().GetNumberOfTypes():
 				data["ram_size"] = DmgSaveTypes(index=buffer[0x149]).GetString()
 		data["header_sha1"] = hashlib.sha1(buffer[0x0:0x180]).hexdigest()
+		if data["header_sha1"] == "70b207b42d87ff0102211a61b62aa4ad22e5d00e" and len(buffer) >= 0x280:
+			data["header_sha1"] = hashlib.sha1(buffer[0x0:0x280]).hexdigest()
 		data["version"] = int(buffer[0x14C])
 		data["header_checksum"] = int(buffer[0x14D])
 		data["header_checksum_calc"] = self.CalcChecksumHeader()

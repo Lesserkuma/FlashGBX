@@ -2,5 +2,6 @@
 # FlashGBX
 # Author: Lesserkuma (github.com/Lesserkuma)
 
+import sys
 from . import FlashGBX
-FlashGBX.main()
+sys.exit(FlashGBX.main())

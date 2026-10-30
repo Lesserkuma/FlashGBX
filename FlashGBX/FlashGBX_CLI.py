@@ -3,7 +3,7 @@
 # Author: Lesserkuma (github.com/Lesserkuma)
 
 import sys
-import datetime, shutil, platform, os, math, traceback, re, time, serial, zipfile
+import datetime, shutil, platform, os, math, traceback, re, time, serial, zipfile, zlib, hashlib, tempfile
 from .i18n import __, c__, ___, format_decimal
 try:
 	# pylint: disable=import-error
@@ -15,12 +15,13 @@ except:
 
 from .RomFileDMG import RomFileDMG
 from .RomFileAGB import RomFileAGB
-from .PocketCamera import PocketCamera
+from .PocketCamera import PocketCamera, PocketCameraCapture
 from .Mapper import DMG_Mapper
 from .app import AppInfo, AppContext, generate_filename, HW_DEVICES
 from .Logging import ANSI, Logger
 from .CartridgeTypes import RomSizes, AgbSaveTypes, DmgSaveTypes
 from .InteractiveConsole import InteractiveConsole
+from .EReader import EReader, EReaderScanWorker, ScanControl
 from .Progress import Progress
 from .Formatter import Formatter
 from .Flashcart import empty_flashcarts_map, has_3v_compatible_profile
@@ -38,6 +39,8 @@ class FlashGBX_CLI():
 	FWUPD_R = False
 	INI = None
 	RETVAL = 0
+	# Shell convention: 128 + SIGINT (2) = 130; also used for EOF and explicit cancellation.
+	EXIT_CANCELLED = 130
 
 	def __init__(self, args):
 		self.ARGS = args
@@ -60,7 +63,7 @@ class FlashGBX_CLI():
 
 	def _GetAutoPlatformMode(self, conn, supported_modes=None):
 		if supported_modes is None:
-			supported_modes = conn.GetSupprtedModes()
+			supported_modes = conn.GetSupportedModes()
 		if len(supported_modes) == 1:
 			return supported_modes[0]
 		if conn.FW.get("cart_mode_switch"):
@@ -75,6 +78,17 @@ class FlashGBX_CLI():
 		return None
 
 	def run(self):
+		self.RETVAL = 0
+		try:
+			return self.Run()
+		except (KeyboardInterrupt, EOFError):
+			print("\n\n" + __("Operation stopped."))
+			self.RETVAL = self.EXIT_CANCELLED
+			if self.CONN is not None:
+				self.DisconnectDevice()
+			return self.RETVAL
+
+	def Run(self):
 		sys.stdout = Logger()
 		config_ret = self.ARGS["config_ret"]
 		for i in range(0, len(config_ret)):
@@ -91,6 +105,7 @@ class FlashGBX_CLI():
 
 		menu_items = [
 			("info",             __("Read Cartridge Information")),
+			("flash-info",       __("Read Flash Chip Information")),
 			("backup-rom",       __("Backup ROM")),
 			("flash-rom",        __("Write ROM")),
 			("backup-save",      __("Backup Save Data")),
@@ -98,6 +113,8 @@ class FlashGBX_CLI():
 			("erase-save",       __("Erase Save Data")),
 			("gbcamera-extract", __("Extract Game Boy Camera Pictures From Existing Save Data Backup")),
 			("interactive",      __("Interactive Console")),
+			("ereader-dump",     __("e-Reader Dot Code Dumper")),
+			("gbcamera-live-image", __("Save Live Game Boy Camera Image")),
 		]
 		for hw_mod in HW_DEVICES:
 			try:
@@ -131,31 +148,45 @@ class FlashGBX_CLI():
 			args.action = input(__("Enter number ({range}) [{default}]:", range=f"1-{n}", default="1") + " ").lower().strip()
 			try:
 				if int(args.action) == 0:
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
-					return 0
+					return self.RETVAL
 				args.action = menu_items[int(args.action) - 1][0]
 			except:
 				if args.action == "":
 					args.action = "info"
 				else:
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
-					return 0
+					return self.RETVAL
 		else:
 			self.ARGS["called_with_args"] = True
 
+		if args.action == "ereader-dump" and args.mode not in (None, "agb"):
+			print(ANSI.RED + __("The e-Reader Dot Code Dumper requires Game Boy Advance mode.") + ANSI.RESET)
+			return 1
+		if args.action == "gbcamera-live-image" and args.mode not in (None, "dmg"):
+			print(ANSI.RED + __("Live Game Boy Camera capture requires Game Boy mode.") + ANSI.RESET)
+			return 1
+
 		if args.action is None or args.action not in ({"gbcamera-extract"} | fwupdate_actions):
-			if not self.FindDevices(port=args.device_port):
-				print(__("No devices found."))
+			if not self.FindDevices(port=args.device_port, connect=True):
+				if self.DEVICE is None:
+					print(__("No devices found."))
+				else:
+					print(__("Couldn’t connect to the device."))
 				return 1
 			else:
-				if not self.ConnectDevice():
-					print(__("Couldn’t connect to the device."))
-					return 1
 				dev = self.DEVICE[1]
 				builddate = dev.GetFWBuildDate()
 
-				if dev.FirmwareUpdateAvailable() and dev.FW_UPDATE_REQ is True:
-					print(__("The current firmware version of your device is not supported.\nPlease update to a supported firmware version first."))
+				if dev.FirmwareUpdateAvailable() and dev.FW_UPDATE_REQ:
+					if dev.FW_UPDATE_REQ == 2:
+						print(__("Support for {device_name} devices has been discontinued. The last fully supported version is {appname} v{version}.", device_name=dev.GetFullName(), appname=AppInfo.NAME, version=dev.GetLastSupportedVersion()))
+						print(__("More modern alternatives include GBFlash, Joey Jr and GBxCart RW v1.4."))
+					else:
+						print(__("The current firmware version of your device is not supported.\nPlease update to a supported firmware version first."))
+					self.DisconnectDevice()
 					return 1
 
 				if builddate != "":
@@ -171,24 +202,30 @@ class FlashGBX_CLI():
 				args.path = input(__("Enter file path of Game Boy Camera save data file:") + " ").strip().replace("\"", "")
 				print("")
 				if args.path == "":
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
-					return 0
+					return self.RETVAL
 
 			pc = PocketCamera()
-			if pc.LoadFile(args.path) != False:
-				pc.SetPalette(PocketCamera.PALETTE_NAMES.index(args.gbcamera_palette))
-				file = os.path.splitext(args.path)[0] + os.sep + "IMG_PC00.png"
-				if os.path.isfile(os.path.dirname(file)):
-					print("\n" + ANSI.RED + __("Can’t save pictures at location “{path}”.", path=os.path.abspath(os.path.dirname(file))) + ANSI.RESET)
+			try:
+				if pc.LoadFile(args.path) == False:
+					print("\n" + ANSI.RED + __("Couldn’t parse the save data file.") + ANSI.RESET)
 					return 1
-				if not os.path.isdir(os.path.dirname(file)):
-					os.makedirs(os.path.dirname(file))
-				for i in range(0, 32):
-					file = os.path.splitext(args.path)[0] + os.sep + "IMG_PC{:02d}".format(i+1) + "." + args.gbcamera_outfile_format
+				pc.SetPalette(PocketCamera.PALETTE_NAMES.index(args.gbcamera_palette))
+				directory = os.path.splitext(args.path)[0]
+				if os.path.isfile(directory):
+					print("\n" + ANSI.RED + __("Can’t save pictures at location “{path}”.", path=os.path.abspath(directory)) + ANSI.RESET)
+					return 1
+				files = [os.path.join(directory, "IMG_PC{:02d}.{}".format(i, args.gbcamera_outfile_format)) for i in range(1, 33)]
+				if not self._ConfirmCameraExport(files): return self.RETVAL
+				if not os.path.isdir(directory):
+					os.makedirs(directory)
+				for i, file in enumerate(files):
 					pc.ExportPicture(i, file, scale=1)
-				print(__("The pictures from “{save_file}” were extracted to “{destination}”.", save_file=os.path.abspath(args.path), destination=os.path.abspath(os.path.dirname(file)) + os.sep + "IMG_PC**.{:s}".format(args.gbcamera_outfile_format)))
-			else:
-				print("\n" + ANSI.RED + __("Couldn’t parse the save data file.") + ANSI.RESET)
+			except (OSError, ValueError, IndexError) as e:
+				print("\n" + ANSI.RED + __("The pictures could not be extracted: {error}", error=str(e)) + ANSI.RESET)
+				return 1
+			print(__("The pictures from “{save_file}” were extracted to “{destination}”.", save_file=os.path.abspath(args.path), destination=os.path.abspath(directory) + os.sep + "IMG_PC**.{:s}".format(args.gbcamera_outfile_format)))
 			return 0
 
 		if args.action in fwupdate_actions:
@@ -200,44 +237,57 @@ class FlashGBX_CLI():
 					method = getattr(self, dev.CLIUpdaterMethod())
 					kwargs = {"port": args.device_port}
 					method(**kwargs)
-					return 0
+					return self.RETVAL
+
+		if args.action == "gbcamera-live-image":
+			try:
+				return self.CaptureCameraImage(args)
+			finally:
+				self.DisconnectDevice()
+
+		if args.action == "ereader-dump":
+			try:
+				retval = self.DumpEReader(args)
+				print("")
+				return retval
+			finally:
+				self.DisconnectDevice()
 
 		if args.mode is None:
-			supported_modes = self.CONN.GetSupprtedModes()
+			supported_modes = self.CONN.GetSupportedModes()
 			auto_mode = self._GetAutoPlatformMode(self.CONN, supported_modes)
-			match len(supported_modes):
-				case 0:
-					print(__("The connected device does not support any platform modes.") + "\n")
+			if len(supported_modes) == 0:
+				print(__("The connected device does not support any platform modes.") + "\n")
+				self.DisconnectDevice()
+				return 1
+			elif len(supported_modes) == 1:
+				mode = auto_mode or supported_modes[0]
+				print(__("Using only supported platform: {platform}", platform=mode) + "\n")
+				args.mode = mode.lower()
+			elif auto_mode is not None:
+				if self.CONN.FW.get("cart_mode_switch"):
+					print(__("Using platform mode set by cartridge mode switch: {platform}", platform=self._GetPlatformName(auto_mode)) + "\n")
+				else:
+					print(__("Using platform mode: {platform}", platform=self._GetPlatformName(auto_mode)) + "\n")
+				args.mode = auto_mode.lower()
+			else:
+				print(
+					__("Select Platform:") + "\n"
+					"  1) " + __("Game Boy or Game Boy Color") + "\n"
+					"  2) " + __("Game Boy Advance") + "\n"
+				)
+				answer = input(__("Enter number ({range}) [{default}]:", range="1-2", default="2") + " ").lower().strip()
+				print("")
+				if answer == "1":
+					args.mode = "dmg"
+				elif answer == "2" or answer == "":
+					args.mode = "agb"
+				else:
+					self.RETVAL = self.EXIT_CANCELLED
+					print(__("Canceled."))
 					self.DisconnectDevice()
-					return 1
-				case 1:
-					mode = auto_mode or supported_modes[0]
-					print(__("Using only supported platform: {platform}", platform=mode) + "\n")
-					args.mode = mode.lower()
-				case _:
-					if auto_mode is not None:
-						if self.CONN.FW.get("cart_mode_switch"):
-							print(__("Using platform mode set by cartridge mode switch: {platform}", platform=self._GetPlatformName(auto_mode)) + "\n")
-						else:
-							print(__("Using platform mode: {platform}", platform=self._GetPlatformName(auto_mode)) + "\n")
-						args.mode = auto_mode.lower()
-					else:
-						print(
-							__("Select Platform:") + "\n"
-							"  1) " + __("Game Boy or Game Boy Color") + "\n"
-							"  2) " + __("Game Boy Advance") + "\n"
-						)
-						answer = input(__("Enter number ({range}) [{default}]:", range="1-2", default="2") + " ").lower().strip()
-						print("")
-						if answer == "1":
-							args.mode = "dmg"
-						elif answer == "2" or answer == "":
-							args.mode = "agb"
-						else:
-							print(__("Canceled."))
-							self.DisconnectDevice()
-							return 0
-						print("")
+					return self.RETVAL
+				print("")
 
 		if args.mode == "dmg":
 			print(__("Platform: {platform}", platform=__("Game Boy or Game Boy Color")))
@@ -250,10 +300,11 @@ class FlashGBX_CLI():
 		if args.action == "interactive":
 			try:
 				self.InteractiveConsole()
-			except KeyboardInterrupt:
+			except (KeyboardInterrupt, EOFError):
+				self.RETVAL = self.EXIT_CANCELLED
 				print("\n\n" + __("Operation stopped."))
 			self.DisconnectDevice()
-			return 0
+			return self.RETVAL
 
 		header = self.CONN.ReadHeader()
 		(bad_read, s_header, header) = self.ReadCartridge(header)
@@ -283,9 +334,10 @@ class FlashGBX_CLI():
 					args.path = input(__("Enter file path of save data file:") + " ").strip().replace("\"", "")
 					print("")
 					if args.path == "":
+						self.RETVAL = self.EXIT_CANCELLED
 						print(__("Canceled."))
 						self.DisconnectDevice()
-						return 0
+						return self.RETVAL
 				self.BackupRestoreRAM(args, header)
 
 			elif args.action == "erase-save":
@@ -299,15 +351,20 @@ class FlashGBX_CLI():
 					args.path = input(__("Enter file path of ROM file:") + " ").strip().replace("\"", "")
 					print("")
 					if args.path == "":
+						self.RETVAL = self.EXIT_CANCELLED
 						print(__("Canceled."))
 						self.DisconnectDevice()
-						return 0
+						return self.RETVAL
 				self.FlashROM(args, header)
 
-			if args.action != "info":
+			elif args.action == "flash-info":
+				if self.DetectCartridge() in (-1, -2): self.RETVAL = 1
+
+			if args.action != "info" and args.action != "flash-info":
 				print("")
 
-		except KeyboardInterrupt:
+		except (KeyboardInterrupt, EOFError):
+			self.RETVAL = self.EXIT_CANCELLED
 			print("\n\n" + __("Operation stopped."))
 
 		self.DisconnectDevice()
@@ -320,6 +377,7 @@ class FlashGBX_CLI():
 			msg += "\n\n" + __("Press ENTER to continue.") + "\n"
 			answer = input(msg).strip().lower()
 			if len(answer.strip()) != 0:
+				self.RETVAL = self.EXIT_CANCELLED
 				self.CONN.USER_ANSWER = False
 			else:
 				self.CONN.USER_ANSWER = True
@@ -329,6 +387,8 @@ class FlashGBX_CLI():
 			msg += "\n\n" + args["title"] + " [y/N] "
 			answer = input(msg).strip().lower()
 			self.CONN.USER_ANSWER = answer in ("y", "yes")
+			if not self.CONN.USER_ANSWER:
+				self.RETVAL = self.EXIT_CANCELLED
 
 	def UpdateProgress(self, args):
 		if args is None: return
@@ -357,7 +417,7 @@ class FlashGBX_CLI():
 			elif args["action"] == "ERASE":
 				print(ANSI.CLEAR_LINE + __("Please wait while the flash chip is being erased... (Elapsed time: {elapsed_time})", elapsed_time=Formatter.progress_time(elapsed)), end="\r")
 			elif args["action"] == "UNLOCK":
-				print(ANSI.CLEAR_LINE + __("Please wait while the flash chip is being unlocked... (Elapsed time: {elapsed_time})", elapsed_time=Formatter.progress_time(elapsed)), end="\r")
+				print(ANSI.CLEAR_LINE + (args.get("text") or __("Please wait while the flash chip is being unlocked... (Elapsed time: {elapsed_time})", elapsed_time=Formatter.progress_time(elapsed))), end="\r", flush=True)
 			elif args["action"] == "SECTOR_ERASE":
 				print(ANSI.CLEAR_LINE + __("Erasing flash sector at address {address}...", address="0x{:X}".format(args["sector_pos"])), end="\r")
 			elif args["action"] == "UPDATE_RTC":
@@ -372,16 +432,16 @@ class FlashGBX_CLI():
 				print("\n")
 				self.FinishOperation()
 			elif args["action"] == "ABORT":
+				if args.get("from_user", False):
+					self.RETVAL = self.EXIT_CANCELLED
 				print("\n" + __("Operation stopped.") + "\n")
 				if "info_type" in args.keys() and "info_msg" in args.keys():
 					if args["info_type"] == "msgbox_critical":
 						self.RETVAL = 1
 						print(ANSI.RED + args["info_msg"] + ANSI.RESET)
 					elif args["info_type"] == "msgbox_information":
-						self.RETVAL = 0
 						print(args["info_msg"])
 					elif args["info_type"] == "label":
-						self.RETVAL = 0
 						print(args["info_msg"])
 				return
 			elif args["action"] == "PROGRESS":
@@ -403,12 +463,59 @@ class FlashGBX_CLI():
 				except:
 					pass
 
+	def ShowROMBackupResult(self):
+		if self.CONN.GetMode() == "DMG":
+			print("CRC32: {:08x}".format(self.CONN.INFO["file_crc32"]))
+			print("SHA-1: {:s}\n".format(self.CONN.INFO["file_sha1"]))
+			if self.CONN.INFO["rom_checksum"] == self.CONN.INFO["rom_checksum_calc"]:
+				print(ANSI.GREEN + __("The ROM backup is complete and the checksum was verified successfully!") + ANSI.RESET)
+			elif ("DMG-MMSA-JPN" in self.ARGS["argparsed"].flashcart_type) or ("mapper_raw" in self.CONN.INFO and self.CONN.INFO["mapper_raw"] in (0x105, 0x202)):
+				print(__("The ROM backup is complete!"))
+			else:
+				msg = __("The ROM was dumped, but the checksum is not correct.")
+				if self.CONN.INFO["loop_detected"] is not False:
+					msg += "\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
+				else:
+					msg += "\n" + __("This may indicate a bad dump, however this can be normal for some reproduction cartridges, unlicensed games, prototypes, patched games and intentional overdumps.")
+				print("{:s}{:s}{:s}".format(ANSI.YELLOW, msg, ANSI.RESET))
+		elif self.CONN.GetMode() == "AGB":
+			print("CRC32: {:08x}".format(self.CONN.INFO["file_crc32"]))
+			print("SHA-1: {:s}\n".format(self.CONN.INFO["file_sha1"]))
+			if "db" in self.CONN.INFO and self.CONN.INFO["db"] is not None:
+				if self.CONN.INFO["db"]["rc"] == self.CONN.INFO["file_crc32"]:
+					print(ANSI.GREEN + __("The ROM backup is complete and the checksum was verified successfully!") + ANSI.RESET)
+				else:
+					msg = __("The ROM backup is complete, but the checksum doesn’t match the known database entry.")
+					if self.CONN.INFO["loop_detected"] is not False:
+						msg += "\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
+					else:
+						msg += "\n" + __("This may indicate a bad dump, however this can be normal for some reproduction cartridges, unlicensed games, prototypes, patched games and intentional overdumps.")
+					print(ANSI.YELLOW + msg + ANSI.RESET)
+			else:
+				msg = __("The ROM backup is complete! As there is no known checksum for this ROM in the database, verification was skipped.")
+				if self.CONN.INFO["loop_detected"] is not False:
+					msg += "\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
+				print(ANSI.YELLOW + msg + ANSI.RESET)
+
+	def _ConfirmCameraExport(self, files):
+		if self.ARGS["argparsed"].overwrite or not any(os.path.exists(file) for file in files): return True
+		print(__("There are already pictures that use the same file names. If you continue, these files will be overwritten."))
+		answer = input(__("Do you want to continue?") + " [y/N]: ").strip().lower()
+		print("")
+		if answer == "y": return True
+		self.RETVAL = self.EXIT_CANCELLED
+		print(__("Canceled."))
+		return False
+
 	def FinishOperation(self):
 		time_elapsed = None
 		speed = None
 		if "time_start" in self.PROGRESS.PROGRESS and self.PROGRESS.PROGRESS["time_start"] > 0:
-			time_elapsed = time.time() - self.PROGRESS.PROGRESS["time_start"]
-			speed = format_decimal((self.CONN.INFO["transferred"] / 1024.0) / time_elapsed, precision=2) + __(" KiB/s")
+			time_elapsed = time.perf_counter() - self.PROGRESS.PROGRESS["time_start"]
+			transfer_rate = (self.CONN.INFO["transferred"] / 1024.0) / time_elapsed
+			if self.CONN.INFO["last_action"] == 1 and self.PROGRESS.PROGRESS.get("transfer_elapsed", 0) > 0:
+				transfer_rate = self.PROGRESS.PROGRESS["speed"]
+			speed = format_decimal(transfer_rate, precision=2) + __(" KiB/s")
 			self.PROGRESS.PROGRESS["time_start"] = 0
 
 		if self.CONN.INFO["last_action"] == 4: # Flash ROM
@@ -439,57 +546,32 @@ class FlashGBX_CLI():
 					dump_report = self.CONN.GetDumpReport()
 					if dump_report is not False:
 						if time_elapsed is not None and speed is not None:
-							dump_report = dump_report.replace("%TRANSFER_RATE%", "{:.2f}".format((self.CONN.INFO["transferred"] / 1024.0) / time_elapsed) + " KiB/s")
+							dump_report = dump_report.replace("%TRANSFER_RATE%", "{:.2f}".format(transfer_rate) + " KiB/s")
 							dump_report = dump_report.replace("%TIME_ELAPSED%", Formatter.progress_time(time_elapsed, localized=False))
 						else:
 							dump_report = dump_report.replace("%TRANSFER_RATE%", "N/A")
 							dump_report = dump_report.replace("%TIME_ELAPSED%", "N/A")
 						dumpinfo_file = os.path.splitext(self.CONN.INFO["last_path"])[0] + ".txt"
+						if os.path.splitext(self.CONN.INFO["last_path"])[1].lower() == ".txt": dumpinfo_file = self.CONN.INFO["last_path"] + ".txt"
 						with open(dumpinfo_file, "wb") as f:
 							f.write(bytearray([ 0xEF, 0xBB, 0xBF ])) # UTF-8 BOM
 							f.write(dump_report.encode("UTF-8"))
 				except Exception as e:
 					print(__("Error:") + " " + str(e))
 
-			if self.CONN.GetMode() == "DMG":
-				print("CRC32: {:08x}".format(self.CONN.INFO["file_crc32"]))
-				print("SHA-1: {:s}\n".format(self.CONN.INFO["file_sha1"]))
-				if self.CONN.INFO["rom_checksum"] == self.CONN.INFO["rom_checksum_calc"]:
-					print(ANSI.GREEN + __("The ROM backup is complete and the checksum was verified successfully!") + ANSI.RESET)
-				elif ("DMG-MMSA-JPN" in self.ARGS["argparsed"].flashcart_type) or ("mapper_raw" in self.CONN.INFO and self.CONN.INFO["mapper_raw"] in (0x105, 0x202)):
-					print(__("The ROM backup is complete!"))
-				else:
-					msg = __("The ROM was dumped, but the checksum is not correct.")
-					if self.CONN.INFO["loop_detected"] is not False:
-						msg += "\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
-					else:
-						msg += "\n" + __("This may indicate a bad dump, however this can be normal for some reproduction cartridges, unlicensed games, prototypes, patched games and intentional overdumps.")
-					print("{:s}{:s}{:s}".format(ANSI.YELLOW, msg, ANSI.RESET))
-			elif self.CONN.GetMode() == "AGB":
-				print("CRC32: {:08x}".format(self.CONN.INFO["file_crc32"]))
-				print("SHA-1: {:s}\n".format(self.CONN.INFO["file_sha1"]))
-				if "db" in self.CONN.INFO and self.CONN.INFO["db"] is not None:
-					if self.CONN.INFO["db"]["rc"] == self.CONN.INFO["file_crc32"]:
-						print(ANSI.GREEN + __("The ROM backup is complete and the checksum was verified successfully!") + ANSI.RESET)
-					else:
-						msg = __("The ROM backup is complete, but the checksum doesn’t match the known database entry.")
-						if self.CONN.INFO["loop_detected"] is not False:
-							msg += "\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
-						else:
-							msg += "\n" + __("This may indicate a bad dump, however this can be normal for some reproduction cartridges, unlicensed games, prototypes, patched games and intentional overdumps.")
-						print(ANSI.YELLOW + msg + ANSI.RESET)
-				else:
-					msg = __("The ROM backup is complete! As there is no known checksum for this ROM in the database, verification was skipped.")
-					if self.CONN.INFO["loop_detected"] is not False:
-						msg += "\n" + __("A data loop was detected in the ROM backup at position {pos} ({size}). This may indicate a bad dump or overdump.", pos="0x{:X}".format(self.CONN.INFO["loop_detected"]), size=Formatter.file_size(self.CONN.INFO["loop_detected"], as_int=True))
-					print(ANSI.YELLOW + msg + ANSI.RESET)
+			self.ShowROMBackupResult()
 
 		elif self.CONN.INFO["last_action"] == 2: # Backup RAM
 			self.CONN.INFO["last_action"] = 0
 			if not "debug" in self.ARGS and self.CONN.GetMode() == "DMG" and self.CONN.INFO["mapper_raw"] == 252 and self.CONN.INFO["transferred"] == 0x20000 or (self.CONN.INFO["transferred"] == 0x100000 and "ram_size_raw" in self.CONN.INFO["dump_info"]["header"] and self.CONN.INFO["dump_info"]["header"]["ram_size_raw"] == 0x204):
 				if getattr(self.ARGS["argparsed"], "gbcamera_extract", False):
+					base = os.path.splitext(self.CONN.INFO["last_path"])[0]
 					if self.CONN.INFO["transferred"] == 0x100000:
-						base = os.path.splitext(self.CONN.INFO["last_path"])[0]
+						files = [os.path.join(base, "IMG_P{:1d}{:02d}.{}".format(roll, i, self.ARGS["argparsed"].gbcamera_outfile_format)) for roll in range(1, 9) for i in range(32)]
+					else:
+						files = [os.path.join(base, "IMG_PC{:02d}.{}".format(i, self.ARGS["argparsed"].gbcamera_outfile_format)) for i in range(32)]
+					if not self._ConfirmCameraExport(files): return
+					if self.CONN.INFO["transferred"] == 0x100000:
 						if os.path.isfile(base):
 							print(__("Can’t save pictures at location “{path}”.", path=os.path.abspath(base)))
 							self.RETVAL = 1
@@ -497,29 +579,26 @@ class FlashGBX_CLI():
 						if not os.path.isdir(base):
 							os.makedirs(base)
 						pc = PocketCamera()
-						pc.SetPalette(PocketCamera.PALETTE_NAMES.index(self.ARGS["argparsed"].gbcamera_palette))
 						for roll in range(1, 9):
 							with open(self.CONN.INFO["last_path"], "rb") as f:
 								f.seek(0x20000 * (roll - 1))
 								roll_data = bytearray(f.read(0x20000))
 							if pc.LoadFile(roll_data) != False:
-								for i in range(0, 32):
-									file = base + os.sep + "IMG_P{:1d}{:02d}.{}".format(roll, i, self.ARGS["argparsed"].gbcamera_outfile_format)
+								pc.SetPalette(PocketCamera.PALETTE_NAMES.index(self.ARGS["argparsed"].gbcamera_palette))
+								for i, file in enumerate(files[(roll - 1) * 32:roll * 32]):
 									pc.ExportPicture(i, file, scale=1)
 					else:
 						file = self.CONN.INFO["last_path"]
 						pc = PocketCamera()
 						if pc.LoadFile(file) != False:
 							pc.SetPalette(PocketCamera.PALETTE_NAMES.index(self.ARGS["argparsed"].gbcamera_palette))
-							file = os.path.splitext(self.CONN.INFO["last_path"])[0] + os.sep + "IMG_PC00.png"
-							if os.path.isfile(os.path.dirname(file)):
-								print(__("Can’t save pictures at location “{path}”.", path=os.path.abspath(os.path.dirname(file))))
+							if os.path.isfile(base):
+								print(__("Can’t save pictures at location “{path}”.", path=os.path.abspath(base)))
 								self.RETVAL = 1
 								return
-							if not os.path.isdir(os.path.dirname(file)):
-								os.makedirs(os.path.dirname(file))
-							for i in range(0, 32):
-								file = os.path.splitext(self.CONN.INFO["last_path"])[0] + os.sep + "IMG_PC{:02d}".format(i) + "." + self.ARGS["argparsed"].gbcamera_outfile_format
+							if not os.path.isdir(base):
+								os.makedirs(base)
+							for i, file in enumerate(files):
 								pc.ExportPicture(i, file, scale=1)
 					print(__("The pictures were extracted."))
 				print("")
@@ -537,34 +616,53 @@ class FlashGBX_CLI():
 		else:
 			self.CONN.INFO["last_action"] = 0
 
-	def FindDevices(self, port=None):
+	def FindDevices(self, port=None, connect=False):
 		self.DEVICE = None
 		for hw_device in HW_DEVICES:
 			dev = hw_device.GbxDevice()
-			ret = dev.Initialize(self.FLASHCARTS, port=port, max_baud=1000000 if self.ARGS["argparsed"].device_limit_baudrate else 2000000)
-			if ret is False:
-				self.CONN = None
-			elif isinstance(ret, list):
-				if len(ret) > 0: print("")
-				for i in range(0, len(ret)):
-					status = ret[i][0]
-					msg = re.sub('<[^<]+?>', '', ret[i][1])
-					if status == 3:
-						print(ANSI.RED + msg.replace("\n\n", "\n") + ANSI.RESET)
-						self.CONN = None
+			keep_connection = False
+			try:
+				if hasattr(dev, "SetFlowControl"):
+					dev.SetFlowControl(self.ARGS["argparsed"].device_flow_control)
+				ret = dev.Initialize(self.FLASHCARTS, port=port, max_baud=1000000 if self.ARGS["argparsed"].device_limit_baudrate else 2000000)
+				if ret is False:
+					self.CONN = None
+				elif isinstance(ret, list):
+					if len(ret) > 0: print("")
+					for i in range(0, len(ret)):
+						status = ret[i][0]
+						msg = re.sub('<[^<]+?>', '', ret[i][1])
+						if status == 3:
+							print(ANSI.RED + msg.replace("\n\n", "\n") + ANSI.RESET)
+							self.CONN = None
 
-			if dev.IsConnected():
-				self.DEVICE = (dev.GetFullNameExtended(), dev)
-				dev.Close()
-				break
+				if dev.IsConnected():
+					self.DEVICE = (dev.GetFullNameExtended(), dev)
+					if connect:
+						keep_connection = self.ConnectDevice(connection_messages=ret)
+						return keep_connection
+					break
+			finally:
+				connection = dev.DEVICE
+				if connection is not None and not keep_connection:
+					try:
+						dev.Close()
+					finally:
+						connection.close()
+						if self.CONN is dev: self.CONN = None
 
 		if self.DEVICE is None: return False
 		return True
 
-	def ConnectDevice(self):
+	def ConnectDevice(self, connection_messages=None):
 		dev = self.DEVICE[1]
 		port = dev.GetPort()
-		ret = dev.Initialize(self.FLASHCARTS, port=port, max_baud=1000000 if self.ARGS["argparsed"].device_limit_baudrate else 2000000)
+		if hasattr(dev, "SetFlowControl"):
+			dev.SetFlowControl(self.ARGS["argparsed"].device_flow_control)
+		if connection_messages is not None and dev.IsConnected():
+			ret = connection_messages
+		else:
+			ret = dev.Initialize(self.FLASHCARTS, port=port, max_baud=1000000 if self.ARGS["argparsed"].device_limit_baudrate else 2000000)
 
 		if ret is False:
 			print("\n" + ANSI.RED + __("An error occured while trying to connect to the device.") + ANSI.RESET)
@@ -587,11 +685,34 @@ class FlashGBX_CLI():
 					self.CONN = None
 					return False
 
-		if dev.FW_UPDATE_REQ:
+		if dev.FW_UPDATE_REQ is True:
 			print(ANSI.RED + __("A firmware update for your {device_name} is required to fully use this software.", device_name=dev.GetFullName()) + "\n" + ANSI.YELLOW + __("Current firmware version: {fw_version}", fw_version=dev.GetFirmwareVersion()) + ANSI.RESET)
 			time.sleep(5)
 
 		self.CONN = dev
+		settings = IniSettings(path=AppContext.CONFIG_PATH + os.sep + "settings.ini")
+		if (self.CONN.GetName() == "GBFlash" and dev.USB_MODE == dev.USBMode.CH340
+			and dev.FW.get("cfw_id") == "L" and dev.FW.get("fw_ver", 0) >= 16
+			and sys.stdin is not None and sys.stdin.isatty()
+			and settings.value("SkipGBFlashCDCModePrompt", default="disabled") != "enabled"):
+			print(
+				"\n" + __("Your GBFlash is currently using CH340 mode.") + "\n"
+				+ __("CDC mode provides faster data transfers, so ROM backups and other transfers take less time.") + "\n"
+				+ (__("On Linux, CDC mode uses a different USB VID/PID combination (16C0:27DD), which may also need to be whitelisted. See the README for more information.") + "\n" if platform.system() == "Linux" else "")
+				+ __("If anything does not work as expected, a short press of the U22 button on your GBFlash lets you switch between CDC and CH340 mode at any time.")
+			)
+			answer = input(__("Would you like to switch to the new CDC mode now?") + " [Y/n] ").strip().lower()
+			if answer != "n":
+				try:
+					success = dev.ChangeUSBMode(dev.USBMode.CDC)
+				except (OSError, serial.SerialException, RuntimeError) as e:
+					dprint("Could not change GBFlash USB mode:", e)
+					success = False
+				if not success:
+					print(ANSI.YELLOW + __("Could not switch the GBFlash USB mode. Please reconnect the device and try again.") + ANSI.RESET)
+					self.CONN = None
+					return False
+			settings.setValue("SkipGBFlashCDCModePrompt", "enabled")
 		return True
 
 	def InteractiveConsole(self):
@@ -613,11 +734,240 @@ class FlashGBX_CLI():
 			try:
 				line = input().strip()
 			except EOFError:
+				self.RETVAL = self.EXIT_CANCELLED
 				break
 			if not line:
 				continue
 			if not im.execute_line(line):
 				break
+
+	def CaptureCameraImage(self, args):
+		camera = None
+		try:
+			if "DMG" not in self.CONN.GetSupportedModes():
+				raise RuntimeError(__("Live Game Boy Camera capture requires Game Boy mode."))
+			path = args.path
+			name = "IMG_PC." + args.gbcamera_outfile_format
+			if path == "auto": path = name
+			elif os.path.isdir(path): path = os.path.join(path, name)
+			else: path = os.path.splitext(path)[0] + "." + args.gbcamera_outfile_format
+			path = os.path.abspath(path)
+			if not os.path.isdir(os.path.dirname(path)):
+				raise OSError(__("The output directory must already exist."))
+			if not args.overwrite and os.path.exists(path):
+				answer = input(__("The target file “{file_path}” already exists.\nDo you want to overwrite it?", file_path=path) + " [y/N]: ").strip().lower()
+				print("")
+				if answer != "y":
+					print(__("Canceled."))
+					return self.EXIT_CANCELLED
+			self.CONN.SetMode("DMG")
+			print(__("Calibrating Game Boy Camera exposure..."), flush=True)
+			camera = PocketCameraCapture(self.CONN)
+			with camera:
+				for _ in range(60):
+					image = camera.Capture()
+					if camera.EXPOSURE == camera.USED_EXPOSURE: break
+				if not 35 <= camera.LEVEL <= 37:
+					print(ANSI.YELLOW + __("Automatic exposure did not reach the target range. Calibration will continue during capture.") + ANSI.RESET)
+				print(__("Continuously updating the live Game Boy Camera image at “{path}”.", path=path) + " " + __("Press Ctrl+C to stop."), flush=True)
+				palette = PocketCamera.PALETTES[PocketCamera.PALETTE_NAMES.index(args.gbcamera_palette)]
+				fps_start, fps_frames = time.monotonic(), 0
+				images_taken, framerate = 0, 0.0
+				def print_status():
+					print("\r" + ANSI.CLEAR_LINE + __("Images taken: {count}, Framerate: {framerate} fps", count=images_taken, framerate=format_decimal(framerate, precision=1)), end="", flush=True)
+				print_status()
+				while True:
+					images_taken += 1
+					image.putpalette(palette)
+					# Stage beside the destination so replacement stays on the same filesystem.
+					with tempfile.NamedTemporaryFile(dir=os.path.dirname(path), prefix=".IMG_PC_", suffix="." + args.gbcamera_outfile_format, delete=False) as temporary:
+						staged_path = temporary.name
+					try:
+						PocketCamera.ExportImage(image, staged_path, scale=1)
+						try:
+							os.replace(staged_path, path)
+							fps_frames += 1
+						except PermissionError as error:
+							# Windows readers may briefly prevent replacement; try the next frame.
+							if getattr(error, "winerror", None) not in (32, 33): raise
+					finally:
+						if os.path.exists(staged_path): os.unlink(staged_path)
+					now = time.monotonic()
+					if now - fps_start >= 1:
+						framerate = fps_frames / (now - fps_start)
+						fps_start, fps_frames = now, 0
+					print_status()
+					image = camera.Capture()
+		except (KeyboardInterrupt, EOFError):
+			if camera is not None: camera.Abort()
+			print("\n" + __("Operation stopped."))
+			return self.EXIT_CANCELLED
+		except Exception as error:
+			if camera is not None: camera.Abort()
+			print("\n" + ANSI.RED + __("Error:") + " " + str(error) + ANSI.RESET)
+			return 1
+
+	def DumpEReader(self, args):
+		try:
+			if args.mode not in (None, "agb"):
+				print(ANSI.RED + __("The e-Reader Dot Code Dumper requires Game Boy Advance mode.") + ANSI.RESET)
+				return 1
+			if "AGB" not in self.CONN.GetSupportedModes():
+				print(ANSI.RED + __("This device does not support e-Reader scanning.") + ANSI.RESET)
+				return 1
+			if (self.CONN.FW or {}).get("fw_ver", 0) < 16 or not self.CONN.IsClkConnected():
+				print(ANSI.RED + __("The e-Reader Dot Code Dumper requires firmware L16 or newer and a connected CLK pin.") + ANSI.RESET)
+				return 1
+			args.mode = "agb"
+			self.CONN.SetMode("AGB")
+			header = self.CONN.ReadHeader(checkRtc=False)
+			if (not isinstance(header, dict) or header.get("game_code") not in ("PSAE", "PSAJ")
+					or header.get("logo_correct") is not True or header.get("header_checksum_correct") is not True):
+				print(ANSI.RED + __("No compatible e-Reader cartridge was detected.") + ANSI.RESET)
+				return 1
+
+			values = {key:getattr(args, "ereader_" + key, None) for key in ScanControl.RANGES}
+			automatic = not any(value is not None for value in values.values())
+			if values["threshold_factor"] is None: values["threshold_factor"] = 56
+			control = ScanControl(auto_calibration=automatic, **values)
+			factory = None
+			factory_path = getattr(args, "ereader_factory_data", None)
+			if factory_path is not None:
+				with open(factory_path, "rb") as file:
+					factory = EReader().ExtractFactoryCalibration(file.read())
+				if factory is False:
+					print(ANSI.RED + __("No valid e-Reader factory calibration found.") + ANSI.RESET)
+					return 1
+
+			path = args.path
+			directory = os.getcwd()
+			if path != "auto" and os.path.isdir(path):
+				directory = os.path.abspath(path)
+				path = "auto"
+			if path != "auto":
+				if not path:
+					print(ANSI.RED + __("Please specify a path for saving the Dot Code.") + ANSI.RESET)
+					return 1
+				if os.path.splitext(path)[1].lower() != ".raw": path = os.path.splitext(path)[0] + ".raw"
+				path = os.path.abspath(path)
+				if not os.path.isdir(os.path.dirname(path)):
+					print(ANSI.RED + __("The output directory must already exist.") + ANSI.RESET)
+					return 1
+
+			print(__("Platform: {platform}", platform=__("Game Boy Advance")))
+			print("\n" + __("e-Reader Dot Code Dumper"))
+			if automatic:
+				print(__("Place the card so that the Dot Code strip is centered in the e-Reader.") + "\n" + __("Do not move the card during calibration."))
+			else:
+				print(__("Automatic calibration is disabled. Unspecified values use the factory calibration."))
+			print(__("After calibration, move the card to the left and right until the scan is complete.") + " " + __("Press Ctrl+C to stop.") + "\n")
+			raw = self.ScanEReader(factory, control)
+			if raw is False:
+				return self.EXIT_CANCELLED if self.EREADER_READER.CANCEL_REQUESTED and not self.EREADER_READER.ERROR else 1
+			if path == "auto":
+				path = os.path.join(directory, self.EREADER_READER.GetFileName(raw))
+			overwrite = args.overwrite
+			if os.path.lexists(path) and not overwrite:
+				print(__("The target file “{file_path}” already exists.\nDo you want to overwrite it?", file_path=path))
+				if input("[y/N] ").strip().lower() not in ("y", "yes"):
+					self.RETVAL = self.EXIT_CANCELLED
+					print(__("Canceled."))
+					return self.RETVAL
+				overwrite = True
+			if not self.EREADER_READER.SaveRaw(raw, path, overwrite=overwrite):
+				print(ANSI.RED + __("Invalid e-Reader Dot Code data") + ANSI.RESET)
+				return 1
+			print("\n" + __("The Dot Code was saved to “{path}”.", path=os.path.abspath(path)))
+			print("\nCRC32: {:08x}".format(zlib.crc32(raw)))
+			print("SHA-1: {:s}\n".format(hashlib.sha1(raw).hexdigest()))
+			print(ANSI.GREEN + __("The e-Reader Dot Code backup is complete and the checksum was verified successfully!") + ANSI.RESET)
+			if args.generate_dump_report:
+				try:
+					if self.EREADER_READER.SaveDumpReport(raw, path) is False:
+						dprint("No scan information is available for the dump report.")
+				except Exception as e:
+					print(__("Dump Report Error:") + " " + str(e))
+			return 0
+		except (KeyboardInterrupt, EOFError):
+			print("\n" + __("Operation stopped."))
+			return self.EXIT_CANCELLED
+		except Exception as e:
+			dprint(traceback.format_exc())
+			print("\n" + ANSI.RED + str(e) + ANSI.RESET)
+			return 1
+
+	def ScanEReader(self, factory, control):
+		# Only the worker communicates with the device. Terminal output stays on the main thread.
+		state = {"status":None, "raw":None, "error":None, "stopped":False}
+		worker = EReaderScanWorker(self.CONN, factory, control,
+			on_status=lambda status: state.update(status=status),
+			on_completed=lambda raw: state.update(raw=raw),
+			on_stopped=lambda: state.update(stopped=True),
+			on_failed=lambda message, disconnected: state.update(error=message),
+			on_warning=lambda message: print("\n" + ANSI.YELLOW + message + ANSI.RESET, flush=True))
+		self.EREADER_READER = worker.READER
+		stream = sys.__stdout__ if isinstance(sys.stdout, Logger) else sys.stdout
+		in_place = getattr(stream, "isatty", lambda: False)()
+		last_line, last_width, last_update = None, 0, 0
+
+		def Redraw(force=False):
+			nonlocal last_line, last_width, last_update
+			status = state["status"]
+			line = __("Initializing...")
+			if status is not None:
+				values = dict(status)
+				values["status"] = __(status["status"])
+				values["bar"] = "[" + "".join(EReader.BLOCK_SYMBOLS[item] for item in status["block_states"]) + "]"
+				values["mode"] = "AUTO" if status["auto_calibration"] else "MAN"
+				values["factor"] = status["active_factor"] if status["active_factor"] is not None else control.Get()["threshold_factor"]
+				values["framerate"] = format_decimal(status["framerate"], precision=1)
+				line = ("{status} {bar} {blocks_confirmed}/{block_count} | {framerate} fps | "
+					"{mode} B{sensor_brightness} V{vertical_offset} P{pwm} T{factor}").format(**values)
+			now = time.monotonic()
+			if not force and (line == last_line or now - last_update < (0.1 if in_place else 0.5)): return
+			if in_place:
+				print("\r" + line.ljust(last_width), end="\n" if force else "", flush=True)
+				last_width = len(line)
+			elif line != last_line:
+				print(line, flush=True)
+			last_line, last_update = line, now
+
+		cancelled = False
+		try:
+			worker.start()
+			while worker.is_alive():
+				try:
+					Redraw()
+					time.sleep(0.02)
+				except KeyboardInterrupt:
+					worker.READER.Cancel()
+					if not cancelled: print("\n" + __("Stopping..."))
+					cancelled = True
+		except KeyboardInterrupt:
+			cancelled = True
+			worker.READER.Cancel()
+		finally:
+			# Never close the connection while a scan or its cleanup is still running.
+			# Avoid an interruptible join while the thread owns the serial connection.
+			while worker.is_alive():
+				worker.READER.Cancel()
+				try:
+					time.sleep(0.02)
+				except KeyboardInterrupt:
+					cancelled = True
+			if worker.ident is not None: worker.join()
+		Redraw(force=True)
+		if state["error"] is not None:
+			print(ANSI.RED + state["error"] + ANSI.RESET)
+			return False
+		if cancelled or state["stopped"]:
+			worker.READER.Cancel()
+			print(__("Operation stopped."))
+			return False
+		if state["raw"] is None:
+			print(ANSI.RED + __("Scan ended without Dot Code data.") + ANSI.RESET)
+			return False
+		return state["raw"]
 
 	def DisconnectDevice(self):
 		try:
@@ -727,7 +1077,9 @@ class FlashGBX_CLI():
 
 			rows.append((__("Real Time Clock:"), data["rtc_string"]))
 
-			if data["logo_correct"]:
+			if data.get("sintax"):
+				rows.append((__("Boot Logo:"), "YJencrypted"))
+			elif data["logo_correct"]:
 				rows.append((__("Boot Logo:"), c__("Game Data", "OK")))
 				if not os.path.exists(AppContext.CONFIG_PATH + os.sep + "bootlogo_agb.bin"):
 					with open(AppContext.CONFIG_PATH + os.sep + "bootlogo_agb.bin", "wb") as f:
@@ -977,6 +1329,7 @@ class FlashGBX_CLI():
 			answer = input(__("The target file “{file_path}” already exists.\nDo you want to overwrite it?", file_path=os.path.abspath(path)) + " [y/N]: ").strip().lower()
 			print("")
 			if answer != "y":
+				self.RETVAL = self.EXIT_CANCELLED
 				print(__("Canceled."))
 				return
 
@@ -984,9 +1337,11 @@ class FlashGBX_CLI():
 			f = open(path, "ab+")
 			f.close()
 		except PermissionError:
+			self.RETVAL = 1
 			print(ANSI.RED + __("Couldn’t access file “{path}”.", path=path) + ANSI.RESET)
 			return
 		except FileNotFoundError:
+			self.RETVAL = 1
 			print(ANSI.RED + __("Couldn’t find file “{path}”.", path=path) + ANSI.RESET)
 			return
 
@@ -1018,7 +1373,9 @@ class FlashGBX_CLI():
 					cart_type = i
 					break
 			if cart_type == 0:
+				self.RETVAL = 1
 				print(__("Error: Couldn’t select the flashcart profile.") + "\n")
+				return
 		else:
 			if self.CONN.GetMode() == "AGB":
 				cart_types = self.CONN.GetSupportedCartridgesAGB()
@@ -1032,7 +1389,14 @@ class FlashGBX_CLI():
 							print(__("Selected flashcart profile: {profile}", profile=cart_types[0][i]) + "\n")
 							cart_type = i
 							break
-		self.CONN.TransferData(args={ 'mode':1, 'path':path, 'mbc':mbc, 'rom_size':rom_size, 'agb_rom_size':rom_size, 'start_addr':0, 'fast_read_mode':True, 'cart_type':cart_type }, signal=self.PROGRESS.SetProgress)
+		sintax_unlock_log = False
+		if self.CONN.GetMode() == "AGB":
+			cart = self.CONN.GetSupportedCartridgesAGB()[1][cart_type]
+			if isinstance(cart, dict) and cart.get("sintax"):
+				settings = IniSettings(path=AppContext.CONFIG_PATH + os.sep + "settings.ini")
+				setting = settings.value("SintaxUnlockLog", default="enabled")
+				sintax_unlock_log = setting == "enabled"
+		self.CONN.TransferData(args={ 'mode':1, 'path':path, 'mbc':mbc, 'rom_size':rom_size, 'agb_rom_size':rom_size, 'start_addr':0, 'fast_read_mode':True, 'cart_type':cart_type, 'sintax_unlock_log':sintax_unlock_log }, signal=self.PROGRESS.SetProgress)
 
 	def FlashROM(self, args, header):
 		path = ""
@@ -1060,17 +1424,22 @@ class FlashGBX_CLI():
 			cart_type = self.DetectCartridge()
 			if cart_type is None: cart_type = 0
 			if cart_type == 0:
+				self.RETVAL = 1
 				msg_5v = ""
 				if mode == "DMG":
 					msg_5v = __("If your flash cartridge requires 5V to work, you can use the “{switch}” command line switch, however please note that 5V can be unsafe for some flash chips.", switch="--force-5v")
 				print("\n" + ANSI.RED + __("Auto-detection failed. Please use the “{switch}” command line switch to select the flashcart profile manually.", switch="--flashcart-type") + "\n" + ANSI.RESET + msg_5v + ANSI.RESET)
 				return
-			elif cart_type < 0: return
+			elif cart_type < 0:
+				self.RETVAL = 1
+				return
 		elif cart_type == 0 and args.flashcart_type != "autodetect":
+			self.RETVAL = 1
 			print(ANSI.RED + __("Couldn’t find the selected flashcart profile “{profile}”. Please make sure the correct platform is selected and copy the exact name from the configuration files located in {config_path}.", profile=args.flashcart_type, config_path=AppContext.CONFIG_PATH) + ANSI.RESET)
 			return
 
 		if args.path == "auto":
+			self.RETVAL = 1
 			print(ANSI.RED + __("No ROM file for writing was selected.") + ANSI.RESET)
 			return
 		else:
@@ -1078,9 +1447,11 @@ class FlashGBX_CLI():
 
 		try:
 			if os.path.getsize(path) > 0x20000000: # reject too large files to avoid exploding RAM
+				self.RETVAL = 1
 				print(ANSI.RED + __("ROM files bigger than 512{mib} are not supported.", mib=__(" MiB")) + ANSI.RESET)
 				return
 			elif os.path.getsize(path) < 0x400:
+				self.RETVAL = 1
 				print(ANSI.RED + __("ROM files smaller than 1{kib} are not supported.", kib=__(" KiB")) + ANSI.RESET)
 				return
 
@@ -1089,8 +1460,10 @@ class FlashGBX_CLI():
 				if ext.lower() == ".isx":
 					buffer = bytearray(file.read())
 					buffer = from_isx(buffer)
+				elif mode == "DMG":
+					buffer = RomFileDMG.ReadHeaderBuffer(file)
 				else:
-					buffer = bytearray(file.read(0x1000))
+					buffer = RomFileAGB.ReadHeaderBuffer(file)
 			rom_size = os.stat(path).st_size
 			if "flash_size" in carts[cart_type]:
 				if rom_size > carts[cart_type]['flash_size']:
@@ -1098,13 +1471,16 @@ class FlashGBX_CLI():
 					answer = input(__("Do you want to continue?") + " [y/N]: ").strip().lower()
 					print("")
 					if answer != "y":
+						self.RETVAL = self.EXIT_CANCELLED
 						print(__("Canceled."))
 						return
 
 		except PermissionError:
+			self.RETVAL = 1
 			print(ANSI.RED + __("Couldn’t access file “{path}”.", path=args.path) + ANSI.RESET)
 			return
 		except FileNotFoundError:
+			self.RETVAL = 1
 			print(ANSI.RED + __("Couldn’t find file “{path}”.", path=args.path) + ANSI.RESET)
 			return
 
@@ -1132,7 +1508,7 @@ class FlashGBX_CLI():
 		fix_bootlogo = False
 		fix_header = False
 		if self.CONN.GetMode() == "DMG":
-			hdr = RomFileDMG(buffer).GetHeader()
+			hdr = RomFileDMG.GetParser(buffer).GetHeader()
 
 			mbc = 0x19 # MBC5 default
 			if "mbc" in carts[cart_type]:
@@ -1167,7 +1543,7 @@ class FlashGBX_CLI():
 						mbc = 0x19
 
 		elif self.CONN.GetMode() == "AGB":
-			hdr = RomFileAGB(buffer).GetHeader()
+			hdr = RomFileAGB.GetParser(buffer).GetHeader()
 		else:
 			raise NotImplementedError
 
@@ -1212,6 +1588,7 @@ class FlashGBX_CLI():
 			print(ANSI.YELLOW + __("Warning: A 3.3V flashcart profile is selected, but your device is fixed to a 5V supply in Game Boy mode. Writing to a 3.3V flash chip at 5V may cause overvoltage issues.") + ANSI.RESET)
 			answer = input(__("Do you want to continue?") + " [y/N]: ").strip().lower()
 			if answer != "y":
+				self.RETVAL = self.EXIT_CANCELLED
 				print(__("Canceled."))
 				return
 
@@ -1326,6 +1703,7 @@ class FlashGBX_CLI():
 				answer = input(__("The target file “{file_path}” already exists.\nDo you want to overwrite it?", file_path=os.path.abspath(path)) + " [y/N]: ").strip().lower()
 				print("")
 				if answer != "y":
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
 					return
 			print(__("The cartridge save data will now be read and saved to the following file:") + "\n" + os.path.abspath(path))
@@ -1333,6 +1711,7 @@ class FlashGBX_CLI():
 			if not args.overwrite:
 				answer = input(__("Do you want to overwrite the existing save data that’s currently on the cartridge?") + " [y/N]: ").strip().lower()
 				if answer != "y":
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
 					return
 			print(__("The following save data file will now be written to the cartridge:") + "\n" + os.path.abspath(path))
@@ -1340,6 +1719,7 @@ class FlashGBX_CLI():
 			if not args.overwrite:
 				answer = input(__("Do you really want to erase the save data from the cartridge?") + " [y/N]: ").strip().lower()
 				if answer != "y":
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
 					return
 			print(__("The cartridge save data will now be erased from the cartridge."))
@@ -1545,6 +1925,7 @@ class FlashGBX_CLI():
 				answer = input(__("The target file “{file_path}” already exists.\nDo you want to overwrite it?", file_path=os.path.abspath(path)) + " [y/N]: ").strip().lower()
 				print("")
 				if answer != "y":
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
 					return
 			print(__("The Batteryless SRAM save data will now be read and saved to the following file:") + "\n" + os.path.abspath(path))
@@ -1569,7 +1950,9 @@ class FlashGBX_CLI():
 				answer = input(__("Do you want to overwrite the existing Batteryless SRAM save data on the cartridge?") + " [y/N]: ").strip().lower()
 				print("")
 				if answer != "y":
-					print(__("Canceled.")); return
+					self.RETVAL = self.EXIT_CANCELLED
+					print(__("Canceled."))
+					return
 			print(__("The following save data file will now be written to the cartridge’s Batteryless SRAM region:") + "\n" + os.path.abspath(path))
 			try:
 				f = open(path, "rb+"); f.close()
@@ -1581,7 +1964,9 @@ class FlashGBX_CLI():
 				answer = input(__("Do you really want to erase the Batteryless SRAM save data from the cartridge?") + " [y/N]: ").strip().lower()
 				print("")
 				if answer != "y":
-					print(__("Canceled.")); return
+					self.RETVAL = self.EXIT_CANCELLED
+					print(__("Canceled."))
+					return
 			print(__("The Batteryless SRAM save data will now be erased from the cartridge."))
 
 		if mode == "DMG" and self.CONN.CanSetVoltageByAutoswitch() and not self.CONN.CanSetVoltageByCode():
@@ -1591,6 +1976,7 @@ class FlashGBX_CLI():
 				print(ANSI.YELLOW + __("Warning: A 3.3V flashcart profile is selected, but your device is fixed to a 5V supply in Game Boy mode. Writing to a 3.3V flash chip at 5V may cause overvoltage issues.") + ANSI.RESET)
 				answer = input(__("Do you want to continue?") + " [y/N]: ").strip().lower()
 				if answer != "y":
+					self.RETVAL = self.EXIT_CANCELLED
 					print(__("Canceled."))
 					return
 
@@ -1654,6 +2040,7 @@ class FlashGBX_CLI():
 			print(text, flush=True)
 
 	def UpdateFirmwareGBxCartRW(self, pcb=5, port=False):
+		self.RETVAL = 1
 		if pcb != 5: return False
 		title = __("Firmware Updater for {device_name}", device_name="GBxCart RW v1.4")
 		print("\n" + title)
@@ -1668,6 +2055,7 @@ class FlashGBX_CLI():
 			led = "Status"
 			file_name = AppContext.APP_PATH + os.sep + os.path.join("res", "fw_GBxCart_RW_v1_4a.zip")
 		else:
+			self.RETVAL = self.EXIT_CANCELLED
 			print(__("Canceled."))
 			return
 
@@ -1690,6 +2078,7 @@ class FlashGBX_CLI():
 		text += "\n" + __("- Press ENTER to continue.")
 		print(text)
 		if len(input("").strip()) != 0:
+			self.RETVAL = self.EXIT_CANCELLED
 			print(__("Canceled."))
 			return False
 
@@ -1716,15 +2105,13 @@ class FlashGBX_CLI():
 				except serial.serialutil.SerialException:
 					port = input(__("Couldn’t access port {port}.\nEnter new port:", port=port) + " ").strip()
 					if len(port) == 0:
+						self.RETVAL = self.EXIT_CANCELLED
 						print(__("Canceled."))
 						return False
 					continue
-				except Exception as err:
-					traceback.print_exception(type(err), err, err.__traceback__)
-					print(err)
-					return False
 
 			if ret == 1:
+				self.RETVAL = 0
 				print(__("The firmware update is complete!"))
 				return True
 			elif ret == 3:
@@ -1733,12 +2120,19 @@ class FlashGBX_CLI():
 			else:
 				return False
 
+		except (KeyboardInterrupt, EOFError):
+			self.RETVAL = self.EXIT_CANCELLED
+			print("\n" + __("Operation stopped."))
+			return False
 		except Exception as err:
 			traceback.print_exception(type(err), err, err.__traceback__)
 			print(str(err))
 			return False
 
 	def UpdateFirmwareGBFlash(self, port=False):
+		self.RETVAL = 1
+		from . import hw_GBFlash
+		FWUPD = hw_GBFlash.FirmwareUpdater(port=port) if port else None
 		title = __("Firmware Updater for {device_name}", device_name="GBFlash")
 		print("\n" + title)
 		print("=" * len(title))
@@ -1763,6 +2157,7 @@ class FlashGBX_CLI():
 		print(text)
 
 		if len(input("").strip()) != 0:
+			self.RETVAL = self.EXIT_CANCELLED
 			print(__("Canceled."))
 			return False
 
@@ -1771,33 +2166,33 @@ class FlashGBX_CLI():
 			if port is None or port is False:
 				comports = serial.tools.list_ports.comports()
 				for i in range(0, len(comports)):
-					if comports[i].vid == 0x1A86 and comports[i].pid == 0x7523:
+					if (comports[i].vid, comports[i].pid) in hw_GBFlash.USB_IDS.values():
 						ports.append(comports[i].device)
 				if len(ports) == 0:
 					print(__("No device found."))
 					return False
+				if len(ports) > 1:
+					print(__("More than one device found. Please select a port."))
+					return False
 				port = ports[0]
-
-			from . import hw_GBFlash
 			while True:
 				try:
 					print(__("Using port {port}", port=port) + "\n")
 					FirmwareUpdater = hw_GBFlash.FirmwareUpdater
-					FWUPD = FirmwareUpdater(port=port)
+					if FWUPD is None or FWUPD.PORT != port:
+						FWUPD = FirmwareUpdater(port=port)
 					ret = FWUPD.WriteFirmware(file_name, self.UpdateFirmware_PrintText)
 					break
 				except serial.serialutil.SerialException:
 					port = input(__("Couldn’t access port {port}.\nEnter new port:", port=port) + " ").strip()
 					if len(port) == 0:
+						self.RETVAL = self.EXIT_CANCELLED
 						print(__("Canceled."))
 						return False
 					continue
-				except Exception as err:
-					traceback.print_exception(type(err), err, err.__traceback__)
-					print(err)
-					return False
 
 			if ret == 1:
+				self.RETVAL = 0
 				print(__("The firmware update is complete!"))
 				return True
 			elif ret == 3:
@@ -1806,12 +2201,17 @@ class FlashGBX_CLI():
 			else:
 				return False
 
+		except (KeyboardInterrupt, EOFError):
+			self.RETVAL = self.EXIT_CANCELLED
+			print("\n" + __("Operation stopped."))
+			return False
 		except Exception as err:
 			traceback.print_exception(type(err), err, err.__traceback__)
 			print(str(err))
 			return False
 
 	def UpdateFirmwareJoeyJr(self, port=False):
+		self.RETVAL = 1
 		title = __("Firmware Updater for {device_name}", device_name="Joey Jr")
 		print("\n" + title)
 		print("=" * len(title))
@@ -1841,25 +2241,43 @@ class FlashGBX_CLI():
 			fw_choice = 0
 
 		if fw_choice == 0:
+			self.RETVAL = self.EXIT_CANCELLED
 			print(__("Canceled."))
 			return False
 
 		try:
 			ports = []
+			msc_path = None
 			if port is None or port is False:
 				comports = serial.tools.list_ports.comports()
 				for i in range(0, len(comports)):
 					if comports[i].vid == 0x483 and comports[i].pid == 0x5740:
 						ports.append(comports[i].device)
 				if len(ports) == 0:
-					print(__("No devices found. If your Joey Jr is running the Drag’n’Drop firmware, you will have to use the JoeyGUI software to update the firmware."))
+					if platform.system() != "Darwin":
+						print(__("No devices found. If your Joey Jr is running the Drag’n’Drop firmware, you will have to use the JoeyGUI software to update the firmware."))
+						return False
+					msc_path = input(__("Enter the path to the {mode_txt} file of your Joey Jr removable drive:", mode_txt="MODE.TXT") + " ").strip().strip('"')
+					if len(msc_path) == 0:
+						self.RETVAL = self.EXIT_CANCELLED
+						print(__("Canceled."))
+						return False
+					port = None
+				else:
+					port = ports[0]
+
+			if msc_path is not None and fw_choice != 2:
+				print(__("After installing this firmware, the Joey Jr removable drive will no longer be available. You can restore it at any time by reinstalling the Drag’n’Drop firmware using this updater.") + "\n")
+				answer = input(__("Do you want to continue?") + " [y/N]: ").strip().lower()
+				if answer not in ("y", "yes"):
+					self.RETVAL = self.EXIT_CANCELLED
+					print(__("Canceled."))
 					return False
-				port = ports[0]
 
 			from . import hw_JoeyJr
 			while True:
 				try:
-					print(__("Using port {port}", port=port) + "\n")
+					if msc_path is None: print(__("Using port {port}", port=port) + "\n")
 					FirmwareUpdater = hw_JoeyJr.FirmwareUpdater
 					FWUPD = FirmwareUpdater(port=port)
 					file_name = AppContext.APP_PATH + os.sep + os.path.join("res", "fw_JoeyJr.zip")
@@ -1872,21 +2290,22 @@ class FlashGBX_CLI():
 						elif fw_choice == 3:
 							with archive.open("FIRMWARE_JOEYGUI.JR") as f: fw_data = bytearray(f.read())
 
-					ret = FWUPD.WriteFirmware(fw_data, self.UpdateFirmware_PrintText)
+					if msc_path is None:
+						ret = FWUPD.WriteFirmware(fw_data, self.UpdateFirmware_PrintText)
+					else:
+						ret = FWUPD.WriteFirmwareMSC(msc_path, fw_data, self.UpdateFirmware_PrintText)
 					break
 				except serial.serialutil.SerialException:
 					port = input(__("Couldn’t access port {port}.\nEnter new port:", port=port) + " ").strip()
 					if len(port) == 0:
+						self.RETVAL = self.EXIT_CANCELLED
 						print(__("Canceled."))
 						return False
 					continue
-				except Exception as err:
-					traceback.print_exception(type(err), err, err.__traceback__)
-					print(err)
-					return False
 
 			print("")
 			if ret == 1:
+				self.RETVAL = 0
 				print(__("The firmware update is complete!"))
 				return True
 			elif ret == 3:
@@ -1895,6 +2314,10 @@ class FlashGBX_CLI():
 			else:
 				return False
 
+		except (KeyboardInterrupt, EOFError):
+			self.RETVAL = self.EXIT_CANCELLED
+			print("\n" + __("Operation stopped."))
+			return False
 		except Exception as err:
 			traceback.print_exception(type(err), err, err.__traceback__)
 			print(str(err))

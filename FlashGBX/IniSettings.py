@@ -46,8 +46,11 @@ class IniSettings():
 	def reload(self):
 		if self.SETTINGS is None: return
 		if self.FILENAME is not False:
+			settings = configparser.RawConfigParser()
+			settings.optionxform = str
 			with open(self.FILENAME, "r", encoding="UTF-8") as f:
-				self.SETTINGS.read_file(f)
+				settings.read_file(f)
+			self.SETTINGS = settings
 		if not self.SETTINGS.has_section(self.MAIN_SECTION):
 			self.SETTINGS.add_section(self.MAIN_SECTION)
 

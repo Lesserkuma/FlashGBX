@@ -4,14 +4,27 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.release.tag_name || inputs.version }}
+  cancel-in-progress: false
+
+env:
+  PIP_NO_CACHE_DIR: '1'
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     permissions:
       contents: write
     env:
-      VERSION: ${{ github.event.release.tag_name || '0.0' }}
+      VERSION: ${{ github.event.release.tag_name || inputs.version }}
     strategy:
       fail-fast: false
       matrix:
@@ -24,20 +37,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Create directory for Python packages
-        run: |
-          mkdir -p ${{ github.workspace }}/venv
-
-      - name: Cache Python packages
-        id: cache-pip
-        uses: actions/cache@v4
         with:
-          path: |
-            ${{ github.workspace }}/venv
-          key: flashgbx-macos-${{ matrix.arch }}-python-dependencies-20260207
-          restore-keys: |
-            flashgbx-macos-${{ matrix.arch }}-python-dependencies-
+          ref: ${{ github.event.release.tag_name || github.ref }}
+          persist-credentials: false
+
+      - name: Check out mGBA 0.10.5
+        uses: actions/checkout@v4
+        with:
+          repository: mgba-emu/mgba
+          ref: 0.10.5
+          path: vendor/mgba
+          persist-credentials: false
+
+      - name: Prepare temporary directories
+        run: |
+          printf 'VENV_PATH=%s/flashgbx-venv\nTMPDIR=%s\nPYINSTALLER_CONFIG_DIR=%s/flashgbx-pyinstaller\n' "$RUNNER_TEMP" "$RUNNER_TEMP" "$RUNNER_TEMP" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -45,18 +59,65 @@ jobs:
           python-version: '3.10.11'
 
       - name: Install Python packages
-        if: steps.cache-pip.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m venv ${{ github.workspace }}/venv
-          source ${{ github.workspace }}/venv/bin/activate
-          python -m pip install pyinstaller==6.11.0 Pillow==10.3.0 PySide6==6.7.2 pyserial==3.5 python-dateutil==2.9.0.post0 requests==2.32.3 packaging==25.0
+          python -m venv "$VENV_PATH"
+          source "$VENV_PATH/bin/activate"
+          python -m pip install pyinstaller==6.11.0 Pillow==10.3.0 PySide6-Essentials==6.7.2 pyserial==3.5 reedsolo==1.7.0 python-dateutil==2.9.0.post0 requests==2.32.3 packaging==25.0 urllib3==2.7.0 idna==3.19 charset-normalizer==3.5.1 certifi==2026.7.22 six==1.17.0
+
+      - name: Set up libmgba build tools
+        run: brew install ninja
+
+      - name: Build libmgba
+        run: |
+          cat > vendor/CMakeLists.txt <<'CMAKE'
+          cmake_minimum_required(VERSION 3.20)
+          project(FlashGBX LANGUAGES C CXX)
+          set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+          set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+          set(LIBMGBA_ONLY ON)
+          set(SKIP_GIT ON)
+          set(MINIMAL_CORE 2)
+          set(M_CORE_GB OFF)
+          set(ENABLE_EXTRA OFF)
+          set(DISABLE_THREADING ON)
+          set(BUILD_LTO OFF)
+          add_subdirectory("${MGBA_SOURCE_DIR}" mgba EXCLUDE_FROM_ALL)
+          get_target_property(SOURCES mgba SOURCES)
+          add_library(mgba_shared SHARED ${SOURCES})
+          foreach(PROPERTY INCLUDE_DIRECTORIES COMPILE_OPTIONS LINK_LIBRARIES)
+              get_target_property(VALUE mgba ${PROPERTY})
+              if(VALUE)
+                  set_property(TARGET mgba_shared PROPERTY ${PROPERTY} "${VALUE}")
+              endif()
+          endforeach()
+          get_target_property(DEFINITIONS mgba COMPILE_DEFINITIONS)
+          get_directory_property(DIRECTORY_DEFINITIONS DIRECTORY "${MGBA_SOURCE_DIR}" COMPILE_DEFINITIONS)
+          list(REMOVE_ITEM DEFINITIONS BUILD_STATIC)
+          target_compile_definitions(mgba_shared PRIVATE ${DEFINITIONS} ${DIRECTORY_DEFINITIONS} MGBA_DLL MINIMAL_CORE=2 DISABLE_THREADING)
+          get_directory_property(CMAKE_C_FLAGS DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS)
+          get_directory_property(CMAKE_C_FLAGS_RELEASE DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS_RELEASE)
+          add_dependencies(mgba_shared mgba-version-info)
+          set_target_properties(mgba_shared PROPERTIES
+              C_STANDARD 11 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF
+              OUTPUT_NAME mgba PREFIX lib WINDOWS_EXPORT_ALL_SYMBOLS ON
+              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native"
+              LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native")
+          if(MINGW)
+              target_link_options(mgba_shared PRIVATE -static -static-libgcc -static-libstdc++ -Wl,--export-all-symbols)
+          endif()
+          CMAKE
+          cmake -S vendor -B "$RUNNER_TEMP/libmgba" -G Ninja -DCMAKE_BUILD_TYPE=Release -DMGBA_SOURCE_DIR="$PWD/vendor/mgba" -DCMAKE_OSX_DEPLOYMENT_TARGET=${{ matrix.arch == 'arm64' && '11.0' || '10.15' }}
+          cmake --build "$RUNNER_TEMP/libmgba" --target mgba_shared --parallel
+          cp "$RUNNER_TEMP/libmgba/native/libmgba.dylib" FlashGBX/res/libmgba-macos-${{ matrix.arch }}.dylib
 
       - name: Build FlashGBX
         run: |
           cd "${{ github.workspace }}"
           cat > "./FlashGBX.spec" <<'PYINSTALLER_SPEC'
           # -*- mode: python ; coding: utf-8 -*-
+
+          import os
 
           hiddenimports = [
               'FlashGBX.hw_GBxCartRW',
@@ -68,7 +129,7 @@ jobs:
           a = Analysis(
             ['run.py'],
             pathex=[],
-            binaries=[('FlashGBX/res/icon.ico', 'res')],
+            binaries=[],
             datas=[],
             hiddenimports=hiddenimports,
             hookspath=[],
@@ -105,7 +166,7 @@ jobs:
             'CFBundleName': 'FlashGBX',
             'CFBundleDisplayName': 'FlashGBX',
             'CFBundleGetInfoString': 'Interface software for GB/GBC/GBA cart readers',
-            'CFBundleShortVersionString': '<APP_VERSION>',
+            'CFBundleShortVersionString': os.environ['VERSION'],
             'CFBundleIdentifier': 'com.lesserkuma.FlashGBX',
           }
           app = BUNDLE(
@@ -116,31 +177,41 @@ jobs:
             info_plist=info_plist,
           )
           PYINSTALLER_SPEC
-          sed -i '' 's/<APP_VERSION>/${{ env.VERSION }}/g' "./FlashGBX.spec"
           rm -r FlashGBX/config
-          source ${{ github.workspace }}/venv/bin/activate
+          source "$VENV_PATH/bin/activate"
           pyinstaller FlashGBX.spec
           mkdir dist/FlashGBX.app/Contents/MacOS/config
-          mkdir dist/FlashGBX.app/Contents/MacOS/res
-          mkdir dist/FlashGBX.app/Contents/MacOS/locale
-          cp -r FlashGBX/res/* dist/FlashGBX.app/Contents/MacOS/res
-          cp -r FlashGBX/locale/* dist/FlashGBX.app/Contents/MacOS/locale
+          mkdir -p dist/FlashGBX.app/Contents/Resources/res
+          mkdir -p dist/FlashGBX.app/Contents/Resources/locale
+          cp -R FlashGBX/res/. dist/FlashGBX.app/Contents/Resources/res/
+          cp -R FlashGBX/locale/. dist/FlashGBX.app/Contents/Resources/locale/
+          ln -s ../Resources/res dist/FlashGBX.app/Contents/MacOS/res
+          ln -s ../Resources/locale dist/FlashGBX.app/Contents/MacOS/locale
           
           # Remove unnecessary files
-          rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}.framework*
-          rm -rf dist/FlashGBX.app/Contents/Resources/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}
+          rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}.framework*
+          rm -rf dist/FlashGBX.app/Contents/Resources/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}
           rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/translations
-          rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}.framework*
-          rm -rf dist/FlashGBX.app/Contents/Frameworks/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*}
+          rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}.framework*
+          rm -rf dist/FlashGBX.app/Contents/Frameworks/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}
           rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/translations
+          find dist/FlashGBX.app -path '*/imageformats/*' ! -name '*qico*' -delete
+          find dist/FlashGBX.app -path '*/iconengines/*' -delete
+          find dist/FlashGBX.app -name 'QtSvg*.so' -delete
+
+      - name: Sign and verify completed bundle
+        run: |
+          codesign --force --sign - dist/FlashGBX.app/Contents/Resources/res/libmgba-macos-${{ matrix.arch }}.dylib
+          codesign --force --deep --sign - dist/FlashGBX.app
+          codesign --verify --deep --strict dist/FlashGBX.app
 
       - name: Create DMG
         run: |
           brew install create-dmg
           mkdir -p "${{ github.workspace }}/dist/dmg"
-          cp -r "${{ github.workspace }}/dist/FlashGBX.app" "${{ github.workspace }}/dist/dmg"
+          ditto "${{ github.workspace }}/dist/FlashGBX.app" "${{ github.workspace }}/dist/dmg/FlashGBX.app"
 
-          dmg_path="${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg"
+          dmg_path="${{ github.workspace }}/dist/FlashGBX-${VERSION}_macOS-${{ matrix.arch }}.dmg"
 
           max_retries=5
           retry_delay=10
@@ -157,7 +228,7 @@ jobs:
                 --app-drop-link 425 120 \
                 "$dmg_path" \
                 "${{ github.workspace }}/dist/dmg/"; then
-              echo "Successfully created image of FlashGBX v${{ env.VERSION }}."
+              echo "Successfully created image of FlashGBX v${VERSION}."
               break
             else
               echo "Failed to create DMG (attempt $attempt/$max_retries). Retrying in $retry_delay seconds..."
@@ -169,21 +240,19 @@ jobs:
               exit 1
             fi
           done
+          hdiutil verify "$dmg_path"
 
       - name: Create artifact
-        if: env.VERSION == '0.0'
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: FlashGBX_macOS-${{ matrix.arch }}
           path: ${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg
+          if-no-files-found: error
 
       - name: Upload release asset
-        if: env.VERSION != '0.0'
-        uses: softprops/action-gh-release@v2.0.8
-        with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: ${{ github.workspace }}/dist/FlashGBX-${{ env.VERSION }}_macOS-${{ matrix.arch }}.dmg
-          draft: false
-          prerelease: false
+        if: github.event_name == 'release'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload "$VERSION" "dist/FlashGBX-${VERSION}_macOS-${{ matrix.arch }}.dmg" --clobber

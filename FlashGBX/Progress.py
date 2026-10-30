@@ -29,7 +29,8 @@ class Progress():
 		self.MUTEX.acquire(1)
 		try:
 			if not "method" in self.PROGRESS: self.PROGRESS = {}
-			now = time.time()
+			now = time.perf_counter()
+			emit_now = time.monotonic()
 			if args["action"] == "USER_ACTION":
 				self.WAITER(args)
 
@@ -64,11 +65,13 @@ class Progress():
 					self.PROGRESS["abortable"] = args["abortable"]
 				else:
 					self.PROGRESS["abortable"] = True
-				self.PROGRESS["time_last_emit"] = now
+				self.PROGRESS["time_last_emit"] = emit_now
 				self.PROGRESS["time_last_update_speed"] = now
 				self.PROGRESS["time_left"] = 0
 				self.PROGRESS["speed"] = 0
 				self.PROGRESS["speeds"] = []
+				self.PROGRESS["transfer_elapsed"] = 0
+				self.PROGRESS["transfer_bytes"] = 0
 				self.PROGRESS["bytes_last_update_speed"] = 0
 				self.PROGRESS["sector_erase_time"] = 0
 				self.UPDATER(self.PROGRESS)
@@ -94,6 +97,9 @@ class Progress():
 				elif args["action"] == "READ" and self.PROGRESS["method"] in ("SAVE_WRITE", "ROM_WRITE"): return
 				elif args["action"] == "WRITE" and self.PROGRESS["method"] in ("SAVE_READ", "ROM_READ", "ROM_WRITE_VERIFY"): return
 				if self.PROGRESS["pos"] > self.PROGRESS["size"]: return
+				if self.PROGRESS["method"] == "ROM_READ" and "transfer_elapsed" in args:
+					self.PROGRESS["transfer_elapsed"] += args["transfer_elapsed"]
+					self.PROGRESS["transfer_bytes"] += args["transfer_bytes"]
 				skip_speed = False
 				self.PROGRESS["action"] = "PROGRESS"
 				if args["action"] in ("READ", "WRITE"):
@@ -115,11 +121,11 @@ class Progress():
 					if "abortable" in args:
 						self.PROGRESS["abortable"] = args["abortable"]
 
-				if ((now - self.PROGRESS["time_last_emit"]) > 0.06) or "force_update" in args and args["force_update"] is True:
+				if ((emit_now - self.PROGRESS["time_last_emit"]) > 0.06) or "force_update" in args and args["force_update"] is True:
 					self.PROGRESS["time_elapsed"] = now - self.PROGRESS["time_start"]
 					time_delta = now - self.PROGRESS["time_last_update_speed"]
 					pos_delta = self.PROGRESS["pos"] - self.PROGRESS["bytes_last_update_speed"]
-					if time_delta > 0 and (time.time() - self.PROGRESS["time_start"] > 2) and "sector_erase_time" not in args:
+					if time_delta > 0 and (now - self.PROGRESS["time_start"] > 2) and "sector_erase_time" not in args:
 						speed = (pos_delta / time_delta) / 1024
 						if speed > 0 and not skip_speed:
 							if len(self.PROGRESS["speeds"]) < 40 or not self._is_outlier(speeds=self.PROGRESS["speeds"], new_number=speed, threshold=25):
@@ -146,7 +152,7 @@ class Progress():
 							self.PROGRESS["time_left"] += self.PROGRESS["sector_erase_time"] * (self.PROGRESS["sector_count"] - self.PROGRESS["sector_pos"])
 
 					self.UPDATER(self.PROGRESS)
-					self.PROGRESS["time_last_emit"] = now
+					self.PROGRESS["time_last_emit"] = emit_now
 
 			elif args["action"] == "UPDATE_INFO":
 				self.PROGRESS["text"] = args["text"]
@@ -159,7 +165,7 @@ class Progress():
 				self.PROGRESS["action"] = args["action"]
 				self.PROGRESS["bytes_last_update_speed"] = self.PROGRESS["size"]
 				self.PROGRESS["time_elapsed"] = now - self.PROGRESS["time_start"]
-				self.PROGRESS["time_last_emit"] = now
+				self.PROGRESS["time_last_emit"] = emit_now
 				self.PROGRESS["time_last_update_speed"] = now
 				self.PROGRESS["time_left"] = 0
 				if self.PROGRESS["time_elapsed"] == 0: self.PROGRESS["time_elapsed"] = 0.001
@@ -170,6 +176,9 @@ class Progress():
 
 				if self.PROGRESS["speed"] > self.PROGRESS["size"] / 1024:
 					self.PROGRESS["speed"] = self.PROGRESS["size"] / 1024
+
+				if self.PROGRESS["method"] == "ROM_READ" and self.PROGRESS["transfer_elapsed"] > 0:
+					self.PROGRESS["speed"] = self.PROGRESS["transfer_bytes"] / self.PROGRESS["transfer_elapsed"] / 1024
 
 				self.UPDATER(self.PROGRESS)
 				del(self.PROGRESS["method"])

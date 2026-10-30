@@ -1,4 +1,22 @@
 # Release notes
+### v5.2 (released 2026-10-30)
+- Updated the FlashGBX LK Firmware to version L16, adding e-Reader scanning, device serial number queries, unlock sequence replay and faster cartridge clock generation
+- Added a Game Boy Camera live viewer with automatic exposure, brightness and contrast controls, plus continuous image-file updates via `--gbcamera-live-image` (requires firmware L16 and a connected CLK pin)
+- Added an e-Reader Dot Code Dumper for scanning short and long Dot Code strips to `.raw` files (requires firmware L16 and a connected CLK pin)
+- Added a No-Intro lookup database for e-Reader Dot Codes, automatic file naming and detailed dump reports with card information, calibration settings and scan results
+- Added device serial numbers to the connected device information dialog where supported by the firmware
+- Added support for dumping ROM and the unlock sequence code of Sintax YJencrypted cartridges *(collaboration with RibShark)*, done via libmgba 0.10.5 by Jeffrey Pfau
+- Added support for GBFlash CDC USB mode for faster transfers, may require updated udev rules on Linux (see README.md) *(thanks Daemon125)*
+- Improved Game Boy Advance ROM read timing and flash save writing; flash save writes now wait for programming to complete and report timeouts *(thanks Daemon125)*
+- Added an option for GBxCart RW flow control which uses 64-byte UART acknowledgement windows to improve stability at the cost of a slower transfer rate
+- The older insideGadgets GBxCart RW v1.3 device is no longer supported from this version onward due to its many technical limitations
+- Joey Jr firmware updates on macOS while on the Drag'n'Drop firmware now work from within FlashGBX, so the extra firmware updater tool is no longer necessary
+- Added Linux GUI assistance for temporary device access and permanent udev rule installation through system authentication
+- Added a simple plugin system, allowing for third-party and experimental feature extensions *(thanks fredemmott for additional suggestions)*
+- Confirmed support for Development AGB Cartridge 128M Flash Case Iri, E201736 *(thanks Kelly)*
+- Updated the lookup databases for save types, ROM sizes and checksums
+- Minor bug fixes and improvements
+
 ### v5.1 (released 2026-08-29)
 - Added support for DMG-MBC3-16M-FLASH Development Cartridge *(thanks Kelly)*
 - Added support for DMG-MBC5-32M-R-FLASH Development Cartridge *(thanks Kelly)*

@@ -49,7 +49,7 @@ def set_locale(language=None):
 		return False
 
 def loadTranslation(language):
-	# Based on msgfmt.py by Martin v. Löwis: https://github.com/python/cpython/blob/main/Tools/i18n/msgfmt.py
+	# Based on msgfmt.py by Martin v. Löwis: https://github.com/python/cpython/blob/v3.12.10/Tools/i18n/msgfmt.py
 	messages = {}
 	section = None
 	msgctxt = None

@@ -8,6 +8,7 @@ from .i18n import __
 
 class GbxDevice(LK_Device):
 	DEVICE_NAME = "Game Bub"
+	USB_IDS = ((0x1209, 0xB010),)
 	MAX_BUFFER_READ = 1024
 	MAX_BUFFER_WRITE = 512
 	DEVICE_LABEL_LONG = "Game Bub"
@@ -30,27 +31,21 @@ class GbxDevice(LK_Device):
 		return super()._write(data, wait=wait)
 
 	def Initialize(self, flashcarts, port=None, max_baud=2000000):
-		if self.IsConnected(): self.DEVICE.close()
+		if self.DEVICE is not None: self.DEVICE.close()
+		self.DEVICE = None
+		self.FW = None
 		conn_msg = []
 		ports = []
 		if port is not None:
 			ports = [ port ]
 		else:
-			comports = serial.tools.list_ports.comports()
-			for i in range(0, len(comports)):
-				if comports[i].vid == 0x1209 and comports[i].pid == 0xB010:
-					ports.append(comports[i].device)
+			ports = self.GetCandidatePorts()
 			if len(ports) == 0: return False
 
 		for i in range(0, len(ports)):
-			if self.TryConnect(ports[i], max_baud):
+			if self.TryConnect(ports[i], max_baud, keep_open=True):
 				self.BAUDRATE = max_baud
-				try:
-					dev = serial.Serial(ports[i], self.BAUDRATE, timeout=0.1, exclusive=True)
-				except (SerialException, OSError) as e:
-					dprint(f"Couldn’t reopen port {ports[i]:s}:", e)
-					continue
-				self.DEVICE = dev
+				dev = self.DEVICE
 			else:
 				continue
 
@@ -60,6 +55,7 @@ class GbxDevice(LK_Device):
 			dprint("Firmware information:", self.FW)
 
 			if self.DEVICE is None or not self.IsConnected():
+				dev.close()
 				self.DEVICE = None
 				if self.FW is not None:
 					conn_msg.append([0, __("Couldn’t communicate with the {device_name} on port {port}. Please disconnect and reconnect the device, then try again.", device_name=self.DEVICE_NAME, port=ports[i])])
@@ -114,7 +110,9 @@ class GbxDevice(LK_Device):
 				self.FW["cart_mode_switch"] = True if (temp >> 2) & 1 == 1 else False
 
 				# Reset to bootloader support
-				self.FW["bootloader_reset"] = True if self._read(1) == 1 else False
+				temp = self._read(1)
+				self.FW["bootloader_reset"] = bool(temp & 1)
+				self.FW["device_serial"] = self.ReadDeviceSerial() if temp & 2 else None
 
 			return True
 
@@ -157,7 +155,7 @@ class GbxDevice(LK_Device):
 	def CanPowerCycleCart(self):
 		return True
 
-	def GetSupprtedModes(self):
+	def GetSupportedModes(self):
 		return ["DMG", "AGB"]
 
 	def IsSupported3dMemory(self):

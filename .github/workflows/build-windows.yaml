@@ -4,77 +4,136 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event.release.tag_name || inputs.version }}
+  cancel-in-progress: false
+
+env:
+  PIP_NO_CACHE_DIR: '1'
 
 jobs:
   build:
     runs-on: windows-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     env:
-      VERSION: ${{ github.event.release.tag_name || '0.0' }}
+      VERSION: ${{ github.event.release.tag_name || inputs.version }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+          persist-credentials: false
+
+      - name: Check out mGBA 0.10.5
+        uses: actions/checkout@v4
+        with:
+          repository: mgba-emu/mgba
+          ref: 0.10.5
+          path: vendor/mgba
+          persist-credentials: false
 
       - name: Prepare directories
         run: |
+          $env:BUILD_ROOT = Join-Path $env:RUNNER_TEMP 'flashgbx-build'
+          "BUILD_ROOT=$env:BUILD_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           New-Item -ItemType Directory -Force -Path output | Out-Null
-          New-Item -ItemType Directory -Force -Path cache | Out-Null
-          New-Item -ItemType Directory -Force -Path embedded-python | Out-Null
-
-      - name: Cache prerequisites
-        id: cache-prerequisites
-        uses: actions/cache@v4
-        with:
-          path: |
-            cache
-          key: flashgbx-windows-x64-prerequisites-20260210
-          restore-keys: |
-            flashgbx-windows-x64-prerequisites-
+          New-Item -ItemType Directory -Force -Path $env:BUILD_ROOT | Out-Null
 
       - name: Get TDM-GCC 9.2.0
-        if: steps.cache-prerequisites.outputs.cache-hit != 'true'
         run: |
-          $url = "https://github.com/jmeubank/tdm-gcc/releases/download/v9.2.0-tdm64-1/tdm64-gcc-9.2.0.exe"
-          Invoke-WebRequest $url -OutFile tdm-gcc.zip
-          & "C:\Program Files\7-Zip\7z.exe" e tdm-gcc.zip -ocache\tdm-gcc -y
-          & "C:\Program Files\7-Zip\7z.exe" e cache\tdm-gcc\*.tar.xz -ocache\tdm-gcc -y
-          & "C:\Program Files\7-Zip\7z.exe" x cache\tdm-gcc\*.tar.lzma -ocache\tdm-gcc -y
-          & "C:\Program Files\7-Zip\7z.exe" x cache\tdm-gcc\*.tar -ocache\tdm-gcc -y
+          $download = (Get-Content .github/build/downloads.json -Raw | ConvertFrom-Json).'tdm-gcc'
+          Invoke-WebRequest $download.url -OutFile "$env:BUILD_ROOT\tdm-gcc.exe"
+          if ((Get-FileHash "$env:BUILD_ROOT\tdm-gcc.exe" -Algorithm SHA256).Hash -ne $download.sha256) { throw 'TDM-GCC SHA-256 mismatch' }
+          & "C:\Program Files\7-Zip\7z.exe" e "$env:BUILD_ROOT\tdm-gcc.exe" "-o$env:BUILD_ROOT\tdm-gcc" -y
+          & "C:\Program Files\7-Zip\7z.exe" e "$env:BUILD_ROOT\tdm-gcc\*.tar.xz" "-o$env:BUILD_ROOT\tdm-gcc" -y
+          & "C:\Program Files\7-Zip\7z.exe" x "$env:BUILD_ROOT\tdm-gcc\*.tar.lzma" "-o$env:BUILD_ROOT\tdm-gcc" -y
+          & "C:\Program Files\7-Zip\7z.exe" x "$env:BUILD_ROOT\tdm-gcc\*.tar" "-o$env:BUILD_ROOT\tdm-gcc" -y
+
+      - name: Set up libmgba build tools
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
+
+      - name: Build libmgba
+        shell: msys2 {0}
+        run: |
+          cat > vendor/CMakeLists.txt <<'CMAKE'
+          cmake_minimum_required(VERSION 3.20)
+          project(FlashGBX LANGUAGES C CXX)
+          set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+          set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+          set(LIBMGBA_ONLY ON)
+          set(SKIP_GIT ON)
+          set(MINIMAL_CORE 2)
+          set(M_CORE_GB OFF)
+          set(ENABLE_EXTRA OFF)
+          set(DISABLE_THREADING ON)
+          set(BUILD_LTO OFF)
+          add_subdirectory("${MGBA_SOURCE_DIR}" mgba EXCLUDE_FROM_ALL)
+          get_target_property(SOURCES mgba SOURCES)
+          add_library(mgba_shared SHARED ${SOURCES})
+          foreach(PROPERTY INCLUDE_DIRECTORIES COMPILE_OPTIONS LINK_LIBRARIES)
+              get_target_property(VALUE mgba ${PROPERTY})
+              if(VALUE)
+                  set_property(TARGET mgba_shared PROPERTY ${PROPERTY} "${VALUE}")
+              endif()
+          endforeach()
+          get_target_property(DEFINITIONS mgba COMPILE_DEFINITIONS)
+          get_directory_property(DIRECTORY_DEFINITIONS DIRECTORY "${MGBA_SOURCE_DIR}" COMPILE_DEFINITIONS)
+          list(REMOVE_ITEM DEFINITIONS BUILD_STATIC)
+          target_compile_definitions(mgba_shared PRIVATE ${DEFINITIONS} ${DIRECTORY_DEFINITIONS} MGBA_DLL MINIMAL_CORE=2 DISABLE_THREADING)
+          get_directory_property(CMAKE_C_FLAGS DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS)
+          get_directory_property(CMAKE_C_FLAGS_RELEASE DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS_RELEASE)
+          add_dependencies(mgba_shared mgba-version-info)
+          set_target_properties(mgba_shared PROPERTIES
+              C_STANDARD 11 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF
+              OUTPUT_NAME mgba PREFIX lib WINDOWS_EXPORT_ALL_SYMBOLS ON
+              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native"
+              LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native")
+          if(MINGW)
+              target_link_options(mgba_shared PRIVATE -static -static-libgcc -static-libstdc++ -Wl,--export-all-symbols)
+          endif()
+          CMAKE
+          cmake -S vendor -B "$RUNNER_TEMP/libmgba" -G Ninja -DCMAKE_BUILD_TYPE=Release -DMGBA_SOURCE_DIR="$PWD/vendor/mgba"
+          cmake --build "$RUNNER_TEMP/libmgba" --target mgba_shared --parallel
+          cp "$RUNNER_TEMP/libmgba/native/libmgba.dll" FlashGBX/res/libmgba-windows-x86_64.dll
+          printf '\n\n## MinGW-w64 runtime (libmgba)\n\n' >> "Third Party Notices.md"
+          cat /mingw64/share/licenses/crt/{COPYING,COPYING.MinGW-w64-runtime.txt} /mingw64/share/licenses/winpthreads/COPYING >> "Third Party Notices.md"
+          cp "Third Party Notices.md" FlashGBX/res/
 
       - name: Download and verify CH341 driver for Setup package
         run: |
-          New-Item -ItemType Directory -Force -Path ".github\build\Windows\Drivers\CH341" | Out-Null
-          $url = "https://www.wch-ic.com/download/file?id=65"
-          $outputPath = ".github\build\Windows\Drivers\CH341\CH341SER.EXE"
-          Write-Host "Downloading CH341 driver from $url..."
-          Invoke-WebRequest $url -OutFile $outputPath
-          Write-Host "Verifying digital signature..."
-          $signature = Get-AuthenticodeSignature $outputPath
-          if ($signature.Status -ne "Valid") {
-              Write-Error "Invalid digital signature on CH341.EXE!"
-              Write-Error "Status: $($signature.Status)"
-              if ($signature.SignerCertificate) {
-                  Write-Error "Signer: $($signature.SignerCertificate.SubjectName.Name)"
-              }
-              exit 1
-          }
-          Write-Host "✓ Driver signature verified successfully"
-          Write-Host "  Signer: $($signature.SignerCertificate.SubjectName.Name)"
+          $outputPath = "$env:BUILD_ROOT\Drivers\CH341\CH341SER.EXE"
+          New-Item -ItemType Directory -Force -Path (Split-Path $outputPath) | Out-Null
+          $download = (Get-Content .github/build/downloads.json -Raw | ConvertFrom-Json).ch341
+          Invoke-WebRequest $download.url -OutFile $outputPath
+          if ((Get-FileHash $outputPath -Algorithm SHA256).Hash -ne $download.sha256) { throw 'CH341 SHA-256 mismatch' }
 
       - name: Set up embedded Python 3.12.10
-        if: steps.cache-prerequisites.outputs.cache-hit != 'true'
         run: |
-          $url = "https://www.python.org/ftp/python/3.12.10/python-3.12.10-embed-amd64.zip"
-          Invoke-WebRequest $url -OutFile python.zip
-          Expand-Archive python.zip -DestinationPath cache\embedded-python
-          $py = Get-ChildItem cache\embedded-python -Filter python.exe -Recurse | Select-Object -First 1
+          $download = (Get-Content .github/build/downloads.json -Raw | ConvertFrom-Json).'python-embedded'
+          Invoke-WebRequest $download.url -OutFile "$env:BUILD_ROOT\python.zip"
+          if ((Get-FileHash "$env:BUILD_ROOT\python.zip" -Algorithm SHA256).Hash -ne $download.sha256) { throw 'Embedded Python SHA-256 mismatch' }
+          Expand-Archive "$env:BUILD_ROOT\python.zip" -DestinationPath "$env:BUILD_ROOT\embedded-python"
+          $py = Get-ChildItem "$env:BUILD_ROOT\embedded-python" -Filter python.exe -Recurse | Select-Object -First 1
 
-          Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py
-          & $py.FullName get-pip.py
+          $download = (Get-Content .github/build/downloads.json -Raw | ConvertFrom-Json).'get-pip'
+          Invoke-WebRequest $download.url -OutFile "$env:BUILD_ROOT\get-pip.py"
+          if ((Get-FileHash "$env:BUILD_ROOT\get-pip.py" -Algorithm SHA256).Hash -ne $download.sha256) { throw 'get-pip.py SHA-256 mismatch' }
+          & $py.FullName "$env:BUILD_ROOT\get-pip.py"
 
-          $pth = Get-ChildItem cache\embedded-python -Filter "*._pth" | Select-Object -First 1
+          $pth = Get-ChildItem "$env:BUILD_ROOT\embedded-python" -Filter "*._pth" | Select-Object -First 1
           $newContent = @"
           python312.zip
           .
@@ -85,65 +144,79 @@ jobs:
 
           & $py.FullName -m pip install `
             Pillow==12.1.0 `
-            PySide6==6.10.2 `
+            PySide6-Essentials==6.10.2 `
             pyserial==3.5 `
+            reedsolo==1.7.0 `
             python-dateutil==2.9.0.post0 `
             requests==2.32.5 `
             packaging==26.0 `
+            urllib3==2.7.0 `
+            idna==3.19 `
+            charset-normalizer==3.5.1 `
+            certifi==2026.7.22 `
+            six==1.17.0 `
             --no-cache-dir
 
           # Remove unnecessary files
-          Get-ChildItem cache\embedded-python -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
-          Get-ChildItem cache\embedded-python -Recurse -Filter "*.pyc" | Remove-Item -Force
+          $buildPath = (Resolve-Path $env:BUILD_ROOT).Path
+          if ($buildPath -ne (Join-Path (Resolve-Path $env:RUNNER_TEMP).Path 'flashgbx-build')) { throw 'Unexpected build directory' }
+          Get-ChildItem "$env:BUILD_ROOT\embedded-python" -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+          Get-ChildItem "$env:BUILD_ROOT\embedded-python" -Recurse -Filter "*.pyc" | Remove-Item -Force
           $folders = @(
-              "cache\embedded-python\Lib\site-packages\PySide6\examples",
-              "cache\embedded-python\Lib\site-packages\PySide6\include",
-              "cache\embedded-python\Lib\site-packages\PySide6\typesystems",
-              "cache\embedded-python\Lib\site-packages\PySide6\support",
-              "cache\embedded-python\Lib\site-packages\PySide6\translations",
-              "cache\embedded-python\Lib\site-packages\PySide6\resources",
-              "cache\embedded-python\Lib\site-packages\PySide6\qml",
-              "cache\embedded-python\Lib\site-packages\PySide6\lib",
-              "cache\embedded-python\Scripts"
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\examples",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\include",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\typesystems",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\support",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\translations",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\resources",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\qml",
+              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\lib",
+              "$env:BUILD_ROOT\embedded-python\Scripts"
           )
           foreach ($folder in $folders) {
               if (Test-Path $folder) {
-                  Remove-Item $folder -Recurse -Force
+                  Remove-Item -LiteralPath $folder -Recurse -Force
               }
           }
-          Get-ChildItem "cache\embedded-python\Lib\site-packages\PySide6" -Recurse -Include *.exe |
+          Get-ChildItem "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6" -Recurse -Include *.exe |
             Remove-Item -Force
-          $dllPatterns = @( "*WebEngine*", "*Multimedia*", "*SpatialAudio*", "*Bluetooth*", "*RemoteObjects*", "*Pdf*", "*Charts*", "*Graphs*", "*DataVisualization*", "*Location*", "*3D*", "*Quick*", "*Qml*", "*Network*", "*Designer*", "*Shader*", "*HttpServer*", "*Qt6Labs*", "*Nfc*", "*OpenGL*", "*Print*", "*Sensors*", "*avutil*", "*avcodec*", "*avformat*", "*opengl32sw*", "*assimp*" )
+          $qt = "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6"
+          Get-ChildItem $qt -Filter 'Qt6*.dll' | Where-Object Name -NotIn @('Qt6Core.dll', 'Qt6Gui.dll', 'Qt6Widgets.dll') | Remove-Item
+          Get-ChildItem $qt -File | Where-Object { $_.Extension -in @('.pyd', '.pyi') -and $_.BaseName -like 'Qt*' -and $_.BaseName -notin @('QtCore', 'QtGui', 'QtWidgets') } | Remove-Item
+          Get-ChildItem "$qt\plugins" -File -Recurse | Where-Object { $_.FullName.Substring($qt.Length + 9) -notin @('platforms\qwindows.dll', 'styles\qmodernwindowsstyle.dll', 'imageformats\qico.dll') } | Remove-Item
+          $dllPatterns = @( "*avutil*", "*avcodec*", "*avformat*", "*swresample*", "*swscale*", "*opengl32sw*", "*assimp*" )
           foreach ($pattern in $dllPatterns) {
-            Get-ChildItem "cache\embedded-python\Lib\site-packages\PySide6" -Recurse -Filter $pattern | Remove-Item -Recurse -Force
+            Get-ChildItem "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6" -Recurse -Filter $pattern | Remove-Item -Recurse -Force
           }
 
       - name: Compile Launcher EXE
         run: |
-          $env:PATH = "${{ github.workspace }}\cache\tdm-gcc\bin;" + $env:PATH
+          $env:PATH = "$env:BUILD_ROOT\tdm-gcc\bin;" + $env:PATH
           Copy-Item -Path ".github\build\Windows\Launcher\*" -Destination . -Force
           mingw32-make.exe -f Makefile all
 
       - name: Prepare Output
         run: |
           Move-Item "launcher.exe" "output\FlashGBX.exe"
-          Move-Item LICENSE output\
-          Move-Item CHANGES.md output\
-          Move-Item README.md output\
-          Move-Item "Third Party Notices.md" output\
-          Copy-Item cache\embedded-python output\Python -Recurse
+          Copy-Item LICENSE output\
+          Copy-Item CHANGES.md output\
+          Copy-Item README.md output\
+          Copy-Item "Third Party Notices.md" output\
+          Copy-Item "$env:BUILD_ROOT\embedded-python" output\Python -Recurse
+          Get-ChildItem output\Python\Lib\site-packages -Directory | Where-Object Name -Match '^pip(?:-.*\.dist-info)?$' | Remove-Item -Recurse -Force
           Copy-Item FlashGBX "output\FlashGBX" -Recurse
           Remove-Item "output\FlashGBX\config" -Recurse -Force -ErrorAction SilentlyContinue
 
       - name: Create ZIP archive
         run: |
-          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=9 "FlashGBX-${{ env.VERSION }}_Windows-x64.zip" ".\output\*"
+          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=9 "FlashGBX-${env:VERSION}_Windows-x64.zip" ".\output\*"
+          & "C:\Program Files\7-Zip\7z.exe" t "FlashGBX-${env:VERSION}_Windows-x64.zip"
 
       - name: Configure Setup
         run: |
-          $myAppVersion = "${{ env.VERSION }}"
+          $myAppVersion = $env:VERSION
           $myFilesDir = "output"
-          $myCH341Dir = ".github\build\Windows\Drivers\CH341"
+          $myCH341Dir = "$env:BUILD_ROOT\Drivers\CH341"
           $myOutputDir = "setup"
           mkdir $myOutputDir | Out-Null
 
@@ -159,49 +232,39 @@ jobs:
           }
           Rename-Item -Path "$myFilesDir\FlashGBX.exe" -NewName "FlashGBX-app.exe" -Force
 
-      - name: Install Inno Setup 6.7.0
+      - name: Install Inno Setup 6.7.2
         run: |
-          $innoSetupUrl = "https://github.com/jrsoftware/issrc/releases/download/is-6_7_2/innosetup-6.7.2.exe"
-          $installerPath = "is.exe"
-          Invoke-WebRequest -Uri $innoSetupUrl -OutFile $installerPath
-          Start-Process -FilePath $installerPath -ArgumentList "/SILENT" -Wait
+          $installerPath = "$env:BUILD_ROOT\is.exe"
+          $download = (Get-Content .github/build/downloads.json -Raw | ConvertFrom-Json).'inno-setup'
+          Invoke-WebRequest $download.url -OutFile $installerPath
+          if ((Get-FileHash $installerPath -Algorithm SHA256).Hash -ne $download.sha256) { throw 'Inno Setup SHA-256 mismatch' }
+          Start-Process -FilePath $installerPath -ArgumentList "/SILENT" -WindowStyle Hidden -Wait
 
       - name: Create Setup archive
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "setup.iss"
-          Move-Item "setup\Setup_FlashGBX.exe" "setup\FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.exe"
-          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=3 "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip" ".\setup\*"
+          Move-Item "setup\Setup_FlashGBX.exe" "setup\FlashGBX-${env:VERSION}_Windows-x64_Setup.exe"
+          & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=3 "FlashGBX-${env:VERSION}_Windows-x64_Setup.zip" ".\setup\*"
+          & "C:\Program Files\7-Zip\7z.exe" t "FlashGBX-${env:VERSION}_Windows-x64_Setup.zip"
 
       - name: Create artifact
-        if: env.VERSION == '0.0'
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: FlashGBX_Windows-x64
           path: "FlashGBX-${{ env.VERSION }}_Windows-x64.zip"
+          if-no-files-found: error
       - name: Create artifact (Setup)
-        if: env.VERSION == '0.0'
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: FlashGBX_Windows-x64_Setup
           path: "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip"
+          if-no-files-found: error
 
-      - name: Upload release asset
-        if: env.VERSION != '0.0'
-        uses: softprops/action-gh-release@v2.0.8
-        with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: "FlashGBX-${{ env.VERSION }}_Windows-x64.zip"
-          draft: false
-          prerelease: false
+      - name: Upload release assets
+        if: github.event_name == 'release'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload release asset (Setup)
-        if: env.VERSION != '0.0'
-        uses: softprops/action-gh-release@v2.0.8
-        with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: "FlashGBX-${{ env.VERSION }}_Windows-x64_Setup.zip"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload "$env:VERSION" "FlashGBX-${env:VERSION}_Windows-x64.zip" "FlashGBX-${env:VERSION}_Windows-x64_Setup.zip" --clobber

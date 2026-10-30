@@ -1,9 +1,9 @@
 [project]
 name = "FlashGBX"
-version = "5.1"
+version = "5.2"
 description = "Reads and writes Game Boy and Game Boy Advance cartridge data"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 
@@ -13,6 +13,7 @@ authors = [
 
 dependencies = [
     "pyserial>=3.5",
+    "reedsolo>=1.7.0",
     "Pillow>=9.1.0",
     "requests",
     "python-dateutil",
@@ -47,3 +48,7 @@ include = ["FlashGBX*"]
 
 [tool.setuptools.package-data]
 FlashGBX = ["res/**/*", "locale/**/*"]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"

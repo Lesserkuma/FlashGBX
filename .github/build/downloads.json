@@ -1,0 +1,38 @@
+{
+  "tdm-gcc": {
+    "url": "https://github.com/jmeubank/tdm-gcc/releases/download/v9.2.0-tdm64-1/tdm64-gcc-9.2.0.exe",
+    "sha256": "8385fdd88e68a4b0401a853a636d24782f9a504bd4e5c61c88e900746efc3854"
+  },
+  "python-embedded": {
+    "url": "https://www.python.org/ftp/python/3.12.10/python-3.12.10-embed-amd64.zip",
+    "sha256": "4acbed6dd1c744b0376e3b1cf57ce906f9dc9e95e68824584c8099a63025a3c3"
+  },
+  "ch341": {
+    "url": "https://www.wch-ic.com/download/file?id=65",
+    "sha256": "458c37bdafbe4ce3cd0baf728c232b4b765b36d7463956e9b94cdf099212cad1"
+  },
+  "inno-setup": {
+    "url": "https://github.com/jrsoftware/issrc/releases/download/is-6_7_2/innosetup-6.7.2.exe",
+    "sha256": "9f27f8386e554eb093336a1ca5c2dcacb7dbf04ab020889491d7ac53c38a12ff"
+  },
+  "get-pip": {
+    "url": "https://raw.githubusercontent.com/pypa/get-pip/f6f644156f23dfe9acc06e7b9ca75eee311f2e37/public/get-pip.py",
+    "sha256": "fb24e693bab954209a063d90953621412ccad4a500905a726286e038f508ddf6"
+  },
+  "linuxdeploy-x86_64": {
+    "url": "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage",
+    "sha256": "c20cd71e3a4e3b80c3483cef793cda3f4e990aca14014d23c544ca3ce1270b4d"
+  },
+  "linuxdeploy-arm64": {
+    "url": "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-aarch64.AppImage",
+    "sha256": "620095110d693282b8ebeb244a95b5e911cf8f65f76c88b4b47d16ae6346fcff"
+  },
+  "appimage-runtime-x86_64": {
+    "url": "https://github.com/AppImage/type2-runtime/releases/download/20251108/runtime-x86_64",
+    "sha256": "2fca8b443c92510f1483a883f60061ad09b46b978b2631c807cd873a47ec260d"
+  },
+  "appimage-runtime-arm64": {
+    "url": "https://github.com/AppImage/type2-runtime/releases/download/20251108/runtime-aarch64",
+    "sha256": "00cbdfcf917cc6c0ff6d3347d59e0ca1f7f45a6df1a428a0d6d8a78664d87444"
+  }
+}

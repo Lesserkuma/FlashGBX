@@ -35,10 +35,16 @@ class Logger:
 				self.LOG_ERROR = True
 			AppContext.PRINT_LOG.append(re.sub(r'\x1B\[[0-?]*[ -/]*[@-~]', '', msg.strip()))
 			if len(AppContext.PRINT_LOG) > 16 * 1024: AppContext.PRINT_LOG.pop(0)
-		sys.__stdout__.write(msg)
+		try:
+			sys.__stdout__.write(msg)
+		except (OSError, ValueError):
+			pass
 
 	def flush(self):
-		sys.__stdout__.flush()
+		try:
+			sys.__stdout__.flush()
+		except (OSError, ValueError):
+			pass
 
 	@classmethod
 	def dprint(cls, *args, **kwargs):
@@ -55,12 +61,17 @@ class Logger:
 			msg = ANSI.CLEAR_LINE + msg
 			if isinstance(sys.stdout, Logger):
 				temp = sys.stdout
-				sys.stdout = sys.__stdout__
-				print(msg)
-				sys.stdout = temp
+				try:
+					sys.stdout = sys.__stdout__
+					print(msg)
+				except (OSError, ValueError):
+					pass
+				finally:
+					sys.stdout = temp
 
 	@classmethod
 	def write_debug_log(cls, device=False):
+		if not AppContext.CONFIG_PATH: return False
 		cls.dprint("Now writing debug log file")
 		msg = "\n\n\n---- Debug Log ----\n"
 		msg += "{:s} version: {:s} ({:d})\n".format(

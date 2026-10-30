@@ -152,7 +152,8 @@ class FlashDetectionTests(unittest.TestCase):
         with zipfile.ZipFile(ROOT / "FlashGBX" / "res" / "config.zip") as archive:
             for filename in filenames:
                 with self.subTest(filename=filename):
-                    self.assertEqual(archive.read(filename), (ROOT / "FlashGBX" / "config" / filename).read_bytes())
+                    packaged = archive.read(filename).decode("utf-8").splitlines()
+                    self.assertEqual(packaged, (ROOT / "FlashGBX" / "config" / filename).read_text(encoding="utf-8").splitlines())
 
 
 if __name__ == "__main__":

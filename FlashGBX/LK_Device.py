@@ -2534,6 +2534,7 @@ class LK_Device(ABC):
 		read = self._ReadFlashDiagnostic
 		matched_we = {}
 		matched_ids = {}
+		matched_lengths = {}
 
 		if self.MODE == "DMG":
 			if limitVoltage:
@@ -2733,6 +2734,7 @@ class LK_Device(ABC):
 								matched_we[f] = we
 								if f not in matched_ids or len(expected) > matched_ids[f][0]:
 									matched_ids[f] = (len(expected), id_index)
+								matched_lengths[f] = max(matched_lengths.get(f, 0), len(expected))
 					if cmp and baseline != cmp:
 						display = list(cmp[:max(8, c["id_length"])])
 						prefix = "{:s}/{:4X}/{:2X}".format(we.ljust(5), *commands["read_identifier"][0]) if we else "{:6X}/{:4X}".format(*commands["read_identifier"][0])
@@ -2744,6 +2746,9 @@ class LK_Device(ABC):
 		flash_types = sorted(set(flash_types))
 		if self.MODE == "DMG":
 			flash_types.sort(key=lambda f: -matched_ids.get(f, (0, None))[0])
+		if self.MODE == "AGB" and matched_lengths:
+			longest_id = max(matched_lengths.values())
+			flash_types = [f for f in flash_types if matched_lengths[f] == longest_id]
 		dprint("Compatible flash types:", [(i, supported_carts[i]["names"][0]) for i in flash_types])
 
 		if flash_types:
@@ -4761,7 +4766,7 @@ class LK_Device(ABC):
 			self.INFO["action"] = self.ACTIONS["ROM_WRITE"]
 		self.SetProgress({"action":"UPDATE_POS", "pos":flash_offset})
 
-		if smallest_sector_size is not False:
+		if smallest_sector_size is not False and not chip_erase:
 			buffer_len = smallest_sector_size
 		elif self.MODE == "DMG":
 			buffer_len = _mbc.GetROMBankSize()

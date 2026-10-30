@@ -8,7 +8,7 @@ class AppInfo:
 	NAME = "FlashGBX"
 	VERSION_PEP440 = "5.2"
 	VERSION = "v{:s}".format(VERSION_PEP440)
-	VERSION_TIMESTAMP = 1793376228
+	VERSION_TIMESTAMP = 1793388549
 
 	@classmethod
 	def os_string(cls) -> str:

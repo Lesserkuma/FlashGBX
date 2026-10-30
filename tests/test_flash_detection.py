@@ -87,11 +87,11 @@ class FlashDetectionTests(unittest.TestCase):
         top = profile("top", [TOP_ID], OFFSETS)
         self.assertEqual(detect([top], rom_is_id=True)[0][:2], ([], 0))
 
-    def test_agb_match_order_is_unchanged(self):
+    def test_agb_keeps_only_the_longest_match(self):
         profiles = [profile("generic", [TOP_ID[:4]]), profile("specific", [TOP_ID], OFFSETS)]
         for config in profiles:
             config["type"] = "AGB"
-        self.assertEqual(detect(profiles, mode="AGB")[0][:2], ([1, 2], 1))
+        self.assertEqual(detect(profiles, mode="AGB")[0][:2], ([2], 2))
 
     def test_matching_alias_is_reported(self):
         names = ["other cartridge", "ModRetro cartridge"]

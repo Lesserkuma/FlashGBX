@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FlashGBX v5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/Lesserkuma/FlashGBX/issues\n"
-"POT-Creation-Date: 2026-10-30 13:59+0100\n"
-"PO-Revision-Date: 2026-10-30 14:32+0100\n"
+"POT-Creation-Date: 2026-10-30 18:22+0100\n"
+"PO-Revision-Date: 2026-10-30 18:25+0100\n"
 "Last-Translator: Lesserkuma\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -254,8 +254,8 @@ msgstr "Fehlerkorrektur verwenden"
 #: ../package/FlashGBX/EReaderWindow.py:212
 #: ../package/FlashGBX/FlashGBX_GUI.py:1213
 #: ../package/FlashGBX/InteractiveConsoleWindow.py:54
-#: ../package/FlashGBX/PocketCameraWindow.py:357
-#: ../package/FlashGBX/PocketCameraWindow.py:692
+#: ../package/FlashGBX/PocketCameraWindow.py:360
+#: ../package/FlashGBX/PocketCameraWindow.py:703
 #: ../package/FlashGBX/hw_GBFlash.py:803
 #: ../package/FlashGBX/hw_GBxCartRW.py:858
 #: ../package/FlashGBX/hw_GBxCartRW.py:1135
@@ -383,7 +383,7 @@ msgstr "e-Reader-Dot-Code-RAW-Daten"
 
 #: ../package/FlashGBX/EReaderWindow.py:473
 #: ../package/FlashGBX/PocketCameraWindow.py:122
-#: ../package/FlashGBX/PocketCameraWindow.py:873
+#: ../package/FlashGBX/PocketCameraWindow.py:884
 msgid "All files"
 msgstr "Alle Dateien"
 
@@ -524,27 +524,32 @@ msgstr "Kommandozeilen-Modus erzwingen"
 
 #: ../package/FlashGBX/FlashGBX.py:218
 msgctxt "Command Line Help"
+msgid "start without loading plugins"
+msgstr "startet, ohne Plugins zu laden"
+
+#: ../package/FlashGBX/FlashGBX.py:219
+msgctxt "Command Line Help"
 msgid "clears all settings such as last used directory information"
 msgstr ""
 "setzt alle Einstellungen zurück, darunter Informationen der zuletzt "
 "genutzten Ordner"
 
-#: ../package/FlashGBX/FlashGBX.py:219
+#: ../package/FlashGBX/FlashGBX.py:220
 msgctxt "Command Line Help"
 msgid "enable debug messages used for development"
 msgstr "aktiviert Debug-Nachrichten für die Entwicklung"
 
-#: ../package/FlashGBX/FlashGBX.py:220
+#: ../package/FlashGBX/FlashGBX.py:221
 msgctxt "Command Line Help"
 msgid "sets the language of the program (e.g. “auto”, “en”, “de”, ...)"
 msgstr "stellt die Sprache des Programms ein (z. B. „auto“, „en“, „de”, ...)"
 
-#: ../package/FlashGBX/FlashGBX.py:223
+#: ../package/FlashGBX/FlashGBX.py:224
 msgctxt "Command Line Arguments Category"
 msgid "Configuration arguments"
 msgstr "Konfigurations-Parameter"
 
-#: ../package/FlashGBX/FlashGBX.py:224
+#: ../package/FlashGBX/FlashGBX.py:225
 #, python-brace-format
 msgctxt "Configuration Help"
 msgid ""
@@ -555,64 +560,64 @@ msgstr ""
 "vorgeschlagenen Ordner ({appdata}) oder auf einen Unterordner dieser "
 "Anwendung ({subdir})"
 
-#: ../package/FlashGBX/FlashGBX.py:226
+#: ../package/FlashGBX/FlashGBX.py:227
 msgctxt "Command Line Arguments Category"
 msgid "Main command line interface arguments"
 msgstr "Hauptsächliche Kommandozeilen-Parameter"
 
-#: ../package/FlashGBX/FlashGBX.py:227
+#: ../package/FlashGBX/FlashGBX.py:228
 msgctxt "Command Line Help"
 msgid "set platform to “dmg” (Game Boy) or “agb” (Game Boy Advance)"
 msgstr "setzt die Plattform auf „dmg” (Game Boy) oder „agb” (Game Boy Advance)"
 
-#: ../package/FlashGBX/FlashGBX.py:228
+#: ../package/FlashGBX/FlashGBX.py:229
 msgctxt "Command Line Help"
 msgid "select program action"
 msgstr "Programmfunktion wählen"
 
-#: ../package/FlashGBX/FlashGBX.py:229
+#: ../package/FlashGBX/FlashGBX.py:230
 msgctxt "Command Line Help"
 msgid "overwrite without asking if target file already exists"
 msgstr "vorhandene Dateien ohne Nachfrage überschreiben"
 
-#: ../package/FlashGBX/FlashGBX.py:230
+#: ../package/FlashGBX/FlashGBX.py:231
 msgctxt "Command Line Help"
 msgid ""
 "target or source file path (optional when reading, required when writing)"
 msgstr ""
 "Ziel- oder Quell-Dateipfad (beim Lesen optional, beim Schreiben erforderlich)"
 
-#: ../package/FlashGBX/FlashGBX.py:232
+#: ../package/FlashGBX/FlashGBX.py:233
 msgctxt "Command Line Arguments Category"
 msgid "Optional command line interface arguments"
 msgstr "Optionale Kommandozeilen-Parameter"
 
-#: ../package/FlashGBX/FlashGBX.py:233
+#: ../package/FlashGBX/FlashGBX.py:234
 msgctxt "Command Line Help"
 msgid "set size of Game Boy cartridge ROM data"
 msgstr "setzt die ROM-Daten-Größe für Game-Boy-Spielmodule"
 
-#: ../package/FlashGBX/FlashGBX.py:234
+#: ../package/FlashGBX/FlashGBX.py:235
 msgctxt "Command Line Help"
 msgid "set mapper type of Game Boy cartridge"
 msgstr "setzt den Mapper-Typ für Game-Boy-Spielmodule"
 
-#: ../package/FlashGBX/FlashGBX.py:235
+#: ../package/FlashGBX/FlashGBX.py:236
 msgctxt "Command Line Help"
 msgid "set type of Game Boy cartridge save data"
 msgstr "setzt die Spielstand-Daten-Größe für Game-Boy-Spielmodule"
 
-#: ../package/FlashGBX/FlashGBX.py:236
+#: ../package/FlashGBX/FlashGBX.py:237
 msgctxt "Command Line Help"
 msgid "set size of Game Boy Advance cartridge ROM data"
 msgstr "setzt die ROM-Daten-Größe für Game-Boy-Advance-Spielmodule"
 
-#: ../package/FlashGBX/FlashGBX.py:237
+#: ../package/FlashGBX/FlashGBX.py:238
 msgctxt "Command Line Help"
 msgid "set type of Game Boy Advance cartridge save data"
 msgstr "setzt die Spielstand-Daten-Größe für Game-Boy-Advance-Spielmodule"
 
-#: ../package/FlashGBX/FlashGBX.py:238
+#: ../package/FlashGBX/FlashGBX.py:239
 #, python-brace-format
 msgctxt "Command Line Help"
 msgid ""
@@ -622,12 +627,12 @@ msgstr ""
 "Speicherort der Batteryless-SRAM-Daten im ROM (z. B. 0xFC0000); nur mit "
 "„{dmg_savetype_batteryless}“ oder „{agb_savetype_batteryless}“"
 
-#: ../package/FlashGBX/FlashGBX.py:239
+#: ../package/FlashGBX/FlashGBX.py:240
 msgctxt "Command Line Help"
 msgid "Size of Batteryless SRAM data in ROM (e.g. 0x10000)"
 msgstr "Größe der Batteryless-SRAM-Daten im ROM (z. B. 0x10000)"
 
-#: ../package/FlashGBX/FlashGBX.py:240
+#: ../package/FlashGBX/FlashGBX.py:241
 msgctxt "Command Line Help"
 msgid ""
 "Bank layout of Batteryless SRAM data for DMG mode: 0=continuous, 1=first "
@@ -636,74 +641,74 @@ msgstr ""
 "Bank-Layout der Batteryless-SRAM-Daten beim DMG-Modus: 0=fortlaufend, "
 "1=erste Hälfte einer ROM-Bank, 2=zweite Hälfte einer ROM-Bank"
 
-#: ../package/FlashGBX/FlashGBX.py:241
+#: ../package/FlashGBX/FlashGBX.py:242
 msgctxt "Command Line Help"
 msgid "store RTC register values if supported"
 msgstr "speichert die Echzeituhr-Registerwerte, falls unterstützt"
 
-#: ../package/FlashGBX/FlashGBX.py:242
+#: ../package/FlashGBX/FlashGBX.py:243
 msgctxt "Command Line Help"
 msgid "keep existing calibration data of the e-Reader when writing save data"
 msgstr ""
 "vorhandene e-Reader-Kalibrierungsdaten beim Schreiben von Spielstand-Daten "
 "erhalten"
 
-#: ../package/FlashGBX/FlashGBX.py:243
+#: ../package/FlashGBX/FlashGBX.py:244
 msgctxt "Command Line Help"
 msgid "don’t stop if invalid data found in cartridge header data"
 msgstr "bei ungültigen Spielmodul-Header-Daten nicht anhalten"
 
-#: ../package/FlashGBX/FlashGBX.py:244
+#: ../package/FlashGBX/FlashGBX.py:245
 msgctxt "Command Line Help"
 msgid "name of flash cart profile; see .txt files in config directory"
 msgstr ""
 "Name des Flashkarten-Profils; siehe .txt-Dateien im Konfigurationsverzeichnis"
 
-#: ../package/FlashGBX/FlashGBX.py:245
+#: ../package/FlashGBX/FlashGBX.py:246
 msgctxt "Command Line Help"
 msgid "prefer full chip erase over sector erase when both available"
 msgstr ""
 "vollständige Chip-Löschung der Sektoren-Löschung vorziehen, wenn beides "
 "verfügbar ist"
 
-#: ../package/FlashGBX/FlashGBX.py:246
+#: ../package/FlashGBX/FlashGBX.py:247
 msgctxt "Command Line Help"
 msgid "force 5V when writing Game Boy flash cartridges"
 msgstr "beim Schreiben von Game-Boy-Flashkarten 5 Volt erzwingen"
 
-#: ../package/FlashGBX/FlashGBX.py:247
+#: ../package/FlashGBX/FlashGBX.py:248
 msgctxt "Command Line Help"
 msgid "do not verify written data"
 msgstr "geschriebene Daten nicht gegenprüfen"
 
-#: ../package/FlashGBX/FlashGBX.py:248
+#: ../package/FlashGBX/FlashGBX.py:249
 msgctxt "Command Line Help"
 msgid "generate a dump report for a ROM backup"
 msgstr "Dump-Reports für ROM-Backups schreiben"
 
-#: ../package/FlashGBX/FlashGBX.py:249
+#: ../package/FlashGBX/FlashGBX.py:250
 msgctxt "Command Line Help"
 msgid "adds a timestamp to the file name of save data backups"
 msgstr "Datum && Uhrzeit den Spielstand-Dateinamen anhängen"
 
-#: ../package/FlashGBX/FlashGBX.py:250
+#: ../package/FlashGBX/FlashGBX.py:251
 msgctxt "Command Line Help"
 msgid "sets the color palette of Game Boy Camera pictures"
 msgstr "setzt die Farbpalette der Game-Boy-Camera-Fotos"
 
-#: ../package/FlashGBX/FlashGBX.py:251
+#: ../package/FlashGBX/FlashGBX.py:252
 msgctxt "Command Line Help"
 msgid "sets the file format of saved Game Boy Camera pictures"
 msgstr "setzt das Dateiformat der gespeicherten Game-Boy-Camera-Fotos"
 
-#: ../package/FlashGBX/FlashGBX.py:252
+#: ../package/FlashGBX/FlashGBX.py:253
 msgctxt "Command Line Help"
 msgid ""
 "automatically extract Game Boy Camera pictures after backing up save data"
 msgstr ""
 "Game-Boy-Camera-Bilder nach einem Spielstand-Backup automatisch extrahieren"
 
-#: ../package/FlashGBX/FlashGBX.py:253
+#: ../package/FlashGBX/FlashGBX.py:254
 msgctxt "Command Line Help"
 msgid ""
 "continuously update a live Game Boy Camera image after automatic exposure "
@@ -712,22 +717,22 @@ msgstr ""
 "aktualisiert ein Livebild der Game Boy Camera nach automatischer "
 "Belichtungsregelung fortlaufend; Strg+C beendet die Aufnahme"
 
-#: ../package/FlashGBX/FlashGBX.py:254
+#: ../package/FlashGBX/FlashGBX.py:255
 msgctxt "Command Line Help"
 msgid "override device port"
 msgstr "Geräte-Port überschreiben"
 
-#: ../package/FlashGBX/FlashGBX.py:255
+#: ../package/FlashGBX/FlashGBX.py:256
 msgctxt "Command Line Help"
 msgid "enable GBxCart RW flow control"
 msgstr "aktiviert die Flusskontrolle für GBxCart RW"
 
-#: ../package/FlashGBX/FlashGBX.py:256
+#: ../package/FlashGBX/FlashGBX.py:257
 msgctxt "Command Line Help"
 msgid "limit connection to a slower baud rate"
 msgstr "begrenzt die Verbindung auf eine langsamere Baudrate"
 
-#: ../package/FlashGBX/FlashGBX.py:257
+#: ../package/FlashGBX/FlashGBX.py:258
 msgctxt "Command Line Help"
 msgid ""
 "compare sectors and only write those that differ when writing a ROM (only "
@@ -736,17 +741,17 @@ msgstr ""
 "Beim ROM-Schreiben Sektoren vergleichen und nur solche schreiben, die sich "
 "unterscheiden (nur für Flashkarten, die es unterstützen)"
 
-#: ../package/FlashGBX/FlashGBX.py:258
+#: ../package/FlashGBX/FlashGBX.py:259
 msgctxt "Command Line Help"
 msgid "wait for key press after the program has ended"
 msgstr "wartet bei Programm-Ende auf einen Tastendruck"
 
-#: ../package/FlashGBX/FlashGBX.py:259
+#: ../package/FlashGBX/FlashGBX.py:260
 msgctxt "Command Line Arguments Category"
 msgid "e-Reader Dot Code Dumper arguments"
 msgstr "Parameter für den e-Reader Dot Code Dumper"
 
-#: ../package/FlashGBX/FlashGBX.py:260
+#: ../package/FlashGBX/FlashGBX.py:261
 msgctxt "Command Line Help"
 msgid ""
 "64-byte factory calibration or e-Reader save data file (read from the "
@@ -755,7 +760,7 @@ msgstr ""
 "64-Byte-Werkskalibrierung oder E-Reader-Spielstand-Datei (wird ansonsten vom "
 "Modul eingelesen)"
 
-#: ../package/FlashGBX/FlashGBX.py:265
+#: ../package/FlashGBX/FlashGBX.py:266
 #, python-brace-format
 msgctxt "Command Line Help"
 msgid ""
@@ -765,23 +770,23 @@ msgstr ""
 "{setting} für die manuelle Kalibrierung ({minimum}–{maximum}). Die Angabe "
 "eines Kalibrierungswerts deaktiviert die automatische Kalibrierung."
 
-#: ../package/FlashGBX/FlashGBX.py:273 ../package/FlashGBX/FlashGBX.py:316
-#: ../package/FlashGBX/FlashGBX.py:351 ../package/FlashGBX/FlashGBX.py:365
+#: ../package/FlashGBX/FlashGBX.py:274 ../package/FlashGBX/FlashGBX.py:317
+#: ../package/FlashGBX/FlashGBX.py:352 ../package/FlashGBX/FlashGBX.py:366
 msgid "Press ENTER to exit."
 msgstr "Drücke die EINGABETASTE zum Beenden."
 
-#: ../package/FlashGBX/FlashGBX.py:285
+#: ../package/FlashGBX/FlashGBX.py:286
 msgid "The live camera image cannot be combined with another action."
 msgstr ""
 "Die Liveaufnahme kann nicht mit einer anderen Aktion kombiniert werden."
 
-#: ../package/FlashGBX/FlashGBX.py:288
+#: ../package/FlashGBX/FlashGBX.py:289
 msgid "The live camera image cannot be combined with save data extraction."
 msgstr ""
 "Die Liveaufnahme kann nicht mit dem Extrahieren von Spielstandbildern "
 "kombiniert werden."
 
-#: ../package/FlashGBX/FlashGBX.py:306
+#: ../package/FlashGBX/FlashGBX.py:307
 #, python-brace-format
 msgid ""
 "Error: This program has no permission to use the configuration directory "
@@ -790,12 +795,12 @@ msgstr ""
 "Fehler: Dieses Programm hat keine Berechtigungen, um auf das "
 "Konfigurationsverzeichnis „{config_path}“ zuzugreifen!"
 
-#: ../package/FlashGBX/FlashGBX.py:308
+#: ../package/FlashGBX/FlashGBX.py:309
 #, python-brace-format
 msgid "Use directory “{appdata_folder}” instead?"
 msgstr "Soll stattdessen das Verzeichnis „{appdata_folder}“ verwendet werden?"
 
-#: ../package/FlashGBX/FlashGBX.py:342
+#: ../package/FlashGBX/FlashGBX.py:343
 msgid ""
 "Note: GUI mode couldn’t be launched, but the application can be run in CLI "
 "mode."
@@ -803,19 +808,19 @@ msgstr ""
 "Hinweis: Der GUI-Modus konnte nicht gestartet werden, jedoch kann die "
 "Anwendung im CLI-Modus verwendet werden."
 
-#: ../package/FlashGBX/FlashGBX.py:342
+#: ../package/FlashGBX/FlashGBX.py:343
 msgid "Optional command line switches are explained above."
 msgstr "Optionale Kommandozeilen-Schalter werden oben erklärt."
 
-#: ../package/FlashGBX/FlashGBX.py:345
+#: ../package/FlashGBX/FlashGBX.py:346
 msgid "Falling back to CLI mode."
 msgstr "Falle auf CLI-Modus zurück."
 
-#: ../package/FlashGBX/FlashGBX.py:350 ../package/FlashGBX/FlashGBX.py:364
+#: ../package/FlashGBX/FlashGBX.py:351 ../package/FlashGBX/FlashGBX.py:365
 msgid "Program stopped."
 msgstr "Programm gestoppt."
 
-#: ../package/FlashGBX/FlashGBX.py:359
+#: ../package/FlashGBX/FlashGBX.py:360
 msgid "Now running in CLI mode."
 msgstr "Laufe nun im CLI-Modus."
 
@@ -1201,7 +1206,7 @@ msgstr ""
 "Prüfsumme in der Datenbank existiert, wurde die Verifizierung übersprungen."
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:502
-#: ../package/FlashGBX/PocketCameraWindow.py:881
+#: ../package/FlashGBX/PocketCameraWindow.py:892
 msgid ""
 "There are already pictures that use the same file names. If you continue, "
 "these files will be overwritten."
@@ -1388,7 +1393,7 @@ msgid "Press Ctrl+C to stop."
 msgstr "Drücke Strg+C zum Stoppen."
 
 #: ../package/FlashGBX/FlashGBX_CLI.py:777
-#: ../package/FlashGBX/PocketCameraWindow.py:437
+#: ../package/FlashGBX/PocketCameraWindow.py:448
 #, python-brace-format
 msgid "Images taken: {count}, Framerate: {framerate} fps"
 msgstr "Aufgenommene Bilder: {count}, Bildwiederholrate: {framerate} fps"
@@ -3170,7 +3175,7 @@ msgstr "Game-Boy-ROM-Datei"
 #: ../package/FlashGBX/FlashGBX_GUI.py:2325
 #: ../package/FlashGBX/FlashGBX_GUI.py:2327
 #: ../package/FlashGBX/FlashGBX_GUI.py:2762
-#: ../package/FlashGBX/PocketCameraWindow.py:857
+#: ../package/FlashGBX/PocketCameraWindow.py:868
 #: ../package/FlashGBX/hw_GBxCartRW.py:1208
 msgid "All Files"
 msgstr "Alle Dateien"
@@ -3342,7 +3347,7 @@ msgstr ""
 "daher könnten einige Tests übersprungen werden."
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:2762
-#: ../package/FlashGBX/PocketCameraWindow.py:857
+#: ../package/FlashGBX/PocketCameraWindow.py:868
 msgid "Save Data File"
 msgstr "Spielstand-Datei"
 
@@ -5269,7 +5274,7 @@ msgid "Enable"
 msgstr "Aktivieren"
 
 #: ../package/FlashGBX/PluginLoader.py:81
-#: ../package/FlashGBX/PluginLoader.py:195
+#: ../package/FlashGBX/PluginLoader.py:194
 msgid "Delete"
 msgstr "Löschen"
 
@@ -5325,12 +5330,12 @@ msgctxt "Plugin loading"
 msgid "Name: {name}"
 msgstr "Name: {name}"
 
-#: ../package/FlashGBX/PluginLoader.py:163
+#: ../package/FlashGBX/PluginLoader.py:161
 msgctxt "Plugin loading"
 msgid "A new plugin has been found in the plugins directory."
 msgstr "Ein neues Plugin wurde im Plugins-Verzeichnis gefunden."
 
-#: ../package/FlashGBX/PluginLoader.py:166
+#: ../package/FlashGBX/PluginLoader.py:164
 msgctxt "Plugin loading"
 msgid ""
 "This plugin contains executable Python code and runs with the same "
@@ -5339,29 +5344,37 @@ msgstr ""
 "Dieses Plugin enthält ausführbaren Python-Code und läuft mit denselben "
 "Berechtigungen wie FlashGBX selbst."
 
-#: ../package/FlashGBX/PluginLoader.py:167
+#: ../package/FlashGBX/PluginLoader.py:165
 msgctxt "Plugin loading"
 msgid "Only load plugins from trusted sources."
 msgstr "Lade Plugins nur aus sicheren Quellen."
 
-#: ../package/FlashGBX/PluginLoader.py:193
+#: ../package/FlashGBX/PluginLoader.py:166
+msgctxt "Plugin loading"
+msgid ""
+"Once enabled, this plugin and its future updates will load automatically."
+msgstr ""
+"Nach der Aktivierung werden dieses Plugin und seine zukünftigen Updates "
+"automatisch geladen."
+
+#: ../package/FlashGBX/PluginLoader.py:192
 msgid "Load"
 msgstr "Laden"
 
-#: ../package/FlashGBX/PluginLoader.py:194
+#: ../package/FlashGBX/PluginLoader.py:193
 msgid "Do not load"
 msgstr "Nicht laden"
 
-#: ../package/FlashGBX/PluginLoader.py:197
+#: ../package/FlashGBX/PluginLoader.py:196
 msgid "Delete permanently removes the plugin file."
 msgstr "Löschen entfernt die Plugin-Datei unwiderruflich."
 
-#: ../package/FlashGBX/PluginLoader.py:205
+#: ../package/FlashGBX/PluginLoader.py:204
 #, python-brace-format
 msgid "Could not delete plugin: {error}"
 msgstr "Plugin konnte nicht gelöscht werden: {error}"
 
-#: ../package/FlashGBX/PluginLoader.py:207
+#: ../package/FlashGBX/PluginLoader.py:206
 #, python-brace-format
 msgid ""
 "The plugin file has been deleted:\n"
@@ -5370,7 +5383,7 @@ msgstr ""
 "Die Plugin-Datei wurde gelöscht:\n"
 "{filename}"
 
-#: ../package/FlashGBX/PluginLoader.py:212
+#: ../package/FlashGBX/PluginLoader.py:211
 msgid "Load plugin?"
 msgstr "Plugin laden?"
 
@@ -5454,22 +5467,22 @@ msgid "Save Photo"
 msgstr "Foto speichern"
 
 #: ../package/FlashGBX/PocketCameraWindow.py:122
-#: ../package/FlashGBX/PocketCameraWindow.py:873
+#: ../package/FlashGBX/PocketCameraWindow.py:884
 msgid "PNG files"
 msgstr "PNG-Dateien"
 
 #: ../package/FlashGBX/PocketCameraWindow.py:122
-#: ../package/FlashGBX/PocketCameraWindow.py:873
+#: ../package/FlashGBX/PocketCameraWindow.py:884
 msgid "BMP files"
 msgstr "BMP-Dateien"
 
 #: ../package/FlashGBX/PocketCameraWindow.py:122
-#: ../package/FlashGBX/PocketCameraWindow.py:873
+#: ../package/FlashGBX/PocketCameraWindow.py:884
 msgid "GIF files"
 msgstr "GIF-Dateien"
 
 #: ../package/FlashGBX/PocketCameraWindow.py:122
-#: ../package/FlashGBX/PocketCameraWindow.py:873
+#: ../package/FlashGBX/PocketCameraWindow.py:884
 msgid "JPEG files"
 msgstr "JPEG-Dateien"
 
@@ -5478,115 +5491,115 @@ msgstr "JPEG-Dateien"
 msgid "The photo could not be saved: {error}"
 msgstr "Das Foto konnte nicht gespeichert werden: {error}"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:289
+#: ../package/FlashGBX/PocketCameraWindow.py:292
 msgid "Live View"
 msgstr "Live-Ansicht"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:305
-#: ../package/FlashGBX/PocketCameraWindow.py:658
+#: ../package/FlashGBX/PocketCameraWindow.py:308
+#: ../package/FlashGBX/PocketCameraWindow.py:669
 msgid "Color Palette:"
 msgstr "Farbpalette:"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:310
+#: ../package/FlashGBX/PocketCameraWindow.py:313
 msgid "Scaling:"
 msgstr "Größe:"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:316
+#: ../package/FlashGBX/PocketCameraWindow.py:319
 msgid "Rotation:"
 msgstr "Drehung:"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:320
+#: ../package/FlashGBX/PocketCameraWindow.py:323
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Frame"
 msgstr "&Rahmen"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:322
+#: ../package/FlashGBX/PocketCameraWindow.py:325
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Overclock"
 msgstr "&Übertakten"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:326
+#: ../package/FlashGBX/PocketCameraWindow.py:329
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "&Image Sharpening"
 msgstr "&Bildschärfung"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:334
+#: ../package/FlashGBX/PocketCameraWindow.py:337
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:335
+#: ../package/FlashGBX/PocketCameraWindow.py:338
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:351
+#: ../package/FlashGBX/PocketCameraWindow.py:354
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Save Current Image"
 msgstr "&Aktuelles Bild speichern"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:452
+#: ../package/FlashGBX/PocketCameraWindow.py:463
 msgid "Game Boy Camera Live View"
 msgstr "Game-Boy-Camera-Live-Ansicht"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:453
+#: ../package/FlashGBX/PocketCameraWindow.py:464
 msgid "Paused"
 msgstr "Pausiert"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:600
+#: ../package/FlashGBX/PocketCameraWindow.py:611
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Abort"
 msgstr "&Abbrechen"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:640
+#: ../package/FlashGBX/PocketCameraWindow.py:651
 msgid "GB Camera Album Viewer"
 msgstr "GB-Camera-Album-Viewer"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:654
+#: ../package/FlashGBX/PocketCameraWindow.py:665
 msgid "Options"
 msgstr "Optionen"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:671
+#: ../package/FlashGBX/PocketCameraWindow.py:682
 msgid "Saved Picture Scaling:"
 msgstr "Größe beim Speichern:"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:679
+#: ../package/FlashGBX/PocketCameraWindow.py:690
 msgctxt "Check Box (& = Keyboard Shortcut)"
 msgid "Save With &Frame"
 msgstr "Mit &Rahmen speichern"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:689
+#: ../package/FlashGBX/PocketCameraWindow.py:700
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Open Save Data File"
 msgstr "Spielstand-Datei &öffnen"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:701
+#: ../package/FlashGBX/PocketCameraWindow.py:712
 msgid "Preview"
 msgstr "Vorschau"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:713
+#: ../package/FlashGBX/PocketCameraWindow.py:724
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Save This Picture"
 msgstr "Dieses Bild &speichern"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:717
+#: ../package/FlashGBX/PocketCameraWindow.py:728
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Save &All Pictures"
 msgstr "&Alle Bilder speichern"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:726
+#: ../package/FlashGBX/PocketCameraWindow.py:737
 msgid "Photo Album"
 msgstr "Fotoalbum"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:747
+#: ../package/FlashGBX/PocketCameraWindow.py:758
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Game Face"
 msgstr "&Spielgesicht"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:751
+#: ../package/FlashGBX/PocketCameraWindow.py:762
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Last Seen Image"
 msgstr "Zu&letzt gesehenes Bild"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:810
+#: ../package/FlashGBX/PocketCameraWindow.py:821
 msgid ""
 "A “Photo!” save file was detected. Please select the roll of pictures that "
 "you would like to load."
@@ -5594,37 +5607,37 @@ msgstr ""
 "Ein „Photo!“-Spielstand wurde erkannt. Wähle bitte die Foto-Rolle aus, die "
 "geladen werden soll."
 
-#: ../package/FlashGBX/PocketCameraWindow.py:812
+#: ../package/FlashGBX/PocketCameraWindow.py:823
 msgid "Film roll:"
 msgstr "Filmrolle:"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:812
+#: ../package/FlashGBX/PocketCameraWindow.py:823
 msgid "Current Save Data"
 msgstr "Aktuelle Spielstand-Daten"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:812
+#: ../package/FlashGBX/PocketCameraWindow.py:823
 #, python-brace-format
 msgid "“{flash_directory}” Slot {number}"
 msgstr "„{flash_directory}“-Platz {number}"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:831
+#: ../package/FlashGBX/PocketCameraWindow.py:842
 msgid "The save data file couldn’t be loaded."
 msgstr "Die Spielstand konnten nicht geladen werden."
 
-#: ../package/FlashGBX/PocketCameraWindow.py:841
+#: ../package/FlashGBX/PocketCameraWindow.py:852
 msgid "An error occured while trying to load the save data file."
 msgstr ""
 "Beim Versuch, die Spielstand-Datei zu laden, ist ein Fehler aufgetreten."
 
-#: ../package/FlashGBX/PocketCameraWindow.py:857
+#: ../package/FlashGBX/PocketCameraWindow.py:868
 msgid "Open GB Camera Save Data File"
 msgstr "GB-Camera-Spielstand-Datei öffnen"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:873
+#: ../package/FlashGBX/PocketCameraWindow.py:884
 msgid "Export all pictures"
 msgstr "Alle Bilder exportieren"
 
-#: ../package/FlashGBX/PocketCameraWindow.py:916
+#: ../package/FlashGBX/PocketCameraWindow.py:927
 msgid ""
 "This picture was marked as “deleted” and may be overwritten when you take "
 "new pictures."

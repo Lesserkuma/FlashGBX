@@ -224,7 +224,10 @@ class PocketCameraLiveImage(QtWidgets.QLabel):
 			delta = position - self.DRAG_POSITION
 			if self.DRAGGED or delta.manhattanLength() >= QtWidgets.QApplication.startDragDistance():
 				self.CLICK_TIMER.stop()
-				self.window().move(self.window().pos() + delta)
+				window = self.window()
+				if QtGui.QGuiApplication.platformName().startswith("wayland") and hasattr(QtGui.QWindow, "startSystemMove"):
+					if not self.DRAGGED: window.windowHandle().startSystemMove()
+				else: window.move(window.pos() + delta)
 				self.DRAG_POSITION = position
 				self.DRAGGED = True
 		else: super().mouseMoveEvent(event)
@@ -374,6 +377,8 @@ class PocketCameraLiveWindow(PocketCameraDialog):
 
 	def ToggleImageOnly(self):
 		if self.CLOSING: return
+		platform_name = QtGui.QGuiApplication.platformName()
+		wayland = platform_name.startswith("wayland")
 		self.SWITCHING_VIEW = True
 		try:
 			if not self.preview.IMAGE_ONLY:
@@ -387,7 +392,7 @@ class PocketCameraLiveWindow(PocketCameraDialog):
 				self.layout().addWidget(self.preview)
 				self.preview.setStyleSheet("border: none;")
 				self.preview.setFixedSize(size)
-				self.setWindowFlags((self.NORMAL_FLAGS & ~QtCore.Qt.MSWindowsFixedSizeDialogHint) | QtCore.Qt.FramelessWindowHint)
+				flags = (self.NORMAL_FLAGS & ~QtCore.Qt.MSWindowsFixedSizeDialogHint) | QtCore.Qt.FramelessWindowHint
 				position = self.IMAGE_POSITION
 			else:
 				position = self.NORMAL_POSITION + self.pos() - self.IMAGE_POSITION
@@ -396,11 +401,17 @@ class PocketCameraLiveWindow(PocketCameraDialog):
 				self.grpPhotoView.layout().insertWidget(0, self.preview, 0, QtCore.Qt.AlignCenter)
 				self.preview.setStyleSheet(self.PREVIEW_STYLE)
 				self.controls.show()
-				self.setWindowFlags(self.NORMAL_FLAGS)
+				flags = self.NORMAL_FLAGS
+			if wayland or platform_name == "windows": self.windowHandle().setFlags(flags)
+			else: self.setWindowFlags(flags)
 			self.preview.show()
+			if not self.preview.IMAGE_ONLY: self.UpdateZoomLimit()
+			self.layout().invalidate()
+			self.layout().activate()
 			self.show()
-			self.move(position)
-			self.KeepOnScreen()
+			if not wayland:
+				self.move(position)
+				self.KeepOnScreen()
 		finally:
 			self.SWITCHING_VIEW = False
 

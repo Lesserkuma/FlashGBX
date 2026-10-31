@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: FlashGBX v5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/Lesserkuma/FlashGBX/issues\n"
 "POT-Creation-Date: 2026-10-31 12:09+0100\n"
-"PO-Revision-Date: 2026-10-31 12:09+0100\n"
+"PO-Revision-Date: 2026-10-31 20:46+0100\n"
 "Last-Translator: Lesserkuma\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -57,6 +57,7 @@ msgid "&Try “{generic_type}”"
 msgstr "„{generic_type}“ versuchen"
 
 #: ../package/FlashGBX/AnalyzeCartridgeDialog.py:84
+msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Analyze again without voltage limit"
 msgstr "Erneut ohne Spannungsbegrenzung analysieren"
 
@@ -66,10 +67,12 @@ msgid "&Always skip this message"
 msgstr "&Diese Nachricht immer überspringen"
 
 #: ../package/FlashGBX/AnalyzeCartridgeDialog.py:91
+msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Continue"
 msgstr "&Fortfahren"
 
 #: ../package/FlashGBX/AnalyzeCartridgeDialog.py:91
+msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Apply"
 msgstr "&Übernehmen"
 
@@ -2463,6 +2466,7 @@ msgid "Game Boy &Advance"
 msgstr "Game Boy &Advance"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:659
+#: ../package/FlashGBX/FlashGBX_GUI.py:3515
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Refresh"
 msgstr "Aktualisie&ren"
@@ -2733,6 +2737,7 @@ msgstr "&Optionen"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:744
 #: ../package/FlashGBX/FlashGBX_GUI.py:1268
+#: ../package/FlashGBX/FlashGBX_GUI.py:3515
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Connect"
 msgstr "&Verbinden"
@@ -3002,6 +3007,7 @@ msgstr "&Dauerhafte Regeln installieren"
 #: ../package/FlashGBX/FlashGBX_GUI.py:2470
 #: ../package/FlashGBX/FlashGBX_GUI.py:2794
 #: ../package/FlashGBX/FlashGBX_GUI.py:2839
+#: ../package/FlashGBX/UserInputDialog.py:24
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Cancel"
 msgstr "&Abbrechen"
@@ -3051,6 +3057,7 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1841
 #: ../package/FlashGBX/FlashGBX_GUI.py:2455
+#: ../package/FlashGBX/UserInputDialog.py:23
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&OK"
 msgstr "&OK"
@@ -3868,14 +3875,6 @@ msgstr "Spielmodul-Versorgung automatisch a&bschalten"
 #, python-brace-format
 msgid "The “{setting}” setting has therefore been disabled."
 msgstr "Die „{setting}“-Einstellung wurde daher deaktiviert."
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:3515
-msgid "&Connect"
-msgstr "&Verbinden"
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:3515
-msgid "&Refresh"
-msgstr "Aktualisie&ren"
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3515
 #, python-brace-format
@@ -5700,14 +5699,6 @@ msgstr "Spielmodul wird entsperrt…"
 #, python-brace-format
 msgid "Emulating unlock... ({reads} reads, {writes} writes)"
 msgstr "Entsperrung läuft... ({reads} gelesen, {writes} geschrieben)"
-
-#: ../package/FlashGBX/UserInputDialog.py:23
-msgid "&OK"
-msgstr "&OK"
-
-#: ../package/FlashGBX/UserInputDialog.py:24
-msgid "&Cancel"
-msgstr "&Abbrechen"
 
 #: ../package/FlashGBX/hw_GBFlash.py:83 ../package/FlashGBX/hw_GBxCartRW.py:119
 #: ../package/FlashGBX/hw_GameBub.py:61 ../package/FlashGBX/hw_JoeyJr.py:60

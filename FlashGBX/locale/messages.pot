@@ -56,6 +56,7 @@ msgid "&Try “{generic_type}”"
 msgstr ""
 
 #: ../package/FlashGBX/AnalyzeCartridgeDialog.py:84
+msgctxt "Button (& = Keyboard Shortcut)"
 msgid "Analyze again without voltage limit"
 msgstr ""
 
@@ -65,10 +66,12 @@ msgid "&Always skip this message"
 msgstr ""
 
 #: ../package/FlashGBX/AnalyzeCartridgeDialog.py:91
+msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Continue"
 msgstr ""
 
 #: ../package/FlashGBX/AnalyzeCartridgeDialog.py:91
+msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Apply"
 msgstr ""
 
@@ -2247,6 +2250,7 @@ msgid "Game Boy &Advance"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:659
+#: ../package/FlashGBX/FlashGBX_GUI.py:3515
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Refresh"
 msgstr ""
@@ -2516,6 +2520,7 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:744
 #: ../package/FlashGBX/FlashGBX_GUI.py:1268
+#: ../package/FlashGBX/FlashGBX_GUI.py:3515
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Connect"
 msgstr ""
@@ -2738,6 +2743,7 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_GUI.py:2470
 #: ../package/FlashGBX/FlashGBX_GUI.py:2794
 #: ../package/FlashGBX/FlashGBX_GUI.py:2839
+#: ../package/FlashGBX/UserInputDialog.py:24
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&Cancel"
 msgstr ""
@@ -2778,6 +2784,7 @@ msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:1841
 #: ../package/FlashGBX/FlashGBX_GUI.py:2455
+#: ../package/FlashGBX/UserInputDialog.py:23
 msgctxt "Button (& = Keyboard Shortcut)"
 msgid "&OK"
 msgstr ""
@@ -3486,14 +3493,6 @@ msgstr ""
 #: ../package/FlashGBX/FlashGBX_GUI.py:3515
 #, python-brace-format
 msgid "The “{setting}” setting has therefore been disabled."
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:3515
-msgid "&Connect"
-msgstr ""
-
-#: ../package/FlashGBX/FlashGBX_GUI.py:3515
-msgid "&Refresh"
 msgstr ""
 
 #: ../package/FlashGBX/FlashGBX_GUI.py:3515
@@ -5123,14 +5122,6 @@ msgstr ""
 #: ../package/FlashGBX/Sintax.py:155
 #, python-brace-format
 msgid "Emulating unlock... ({reads} reads, {writes} writes)"
-msgstr ""
-
-#: ../package/FlashGBX/UserInputDialog.py:23
-msgid "&OK"
-msgstr ""
-
-#: ../package/FlashGBX/UserInputDialog.py:24
-msgid "&Cancel"
 msgstr ""
 
 #: ../package/FlashGBX/hw_GBFlash.py:83 ../package/FlashGBX/hw_GBxCartRW.py:119

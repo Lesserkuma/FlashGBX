@@ -3,7 +3,7 @@
 # Author: Lesserkuma (github.com/Lesserkuma)
 
 from .pyside import QtCore, QtWidgets, QtGui
-from .i18n import __
+from .i18n import __, c__
 from .app import AppInfo
 
 class UserInputDialog(QtWidgets.QDialog):
@@ -20,8 +20,8 @@ class UserInputDialog(QtWidgets.QDialog):
 
 		self.lblIntro = QtWidgets.QLabel(args["intro"])
 		self.lblIntro.setWordWrap(True)
-		self.btnOK = QtWidgets.QPushButton(__("&OK"))
-		self.btnCancel = QtWidgets.QPushButton(__("&Cancel"))
+		self.btnOK = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "&OK"))
+		self.btnCancel = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "&Cancel"))
 
 		grid_layout = QtWidgets.QGridLayout()
 		grid_layout.addWidget(self.lblIntro, 0, 0, 1, 2)

@@ -167,7 +167,6 @@ jobs:
               "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\include",
               "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\typesystems",
               "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\support",
-              "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\translations",
               "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\resources",
               "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\qml",
               "$env:BUILD_ROOT\embedded-python\Lib\site-packages\PySide6\lib",

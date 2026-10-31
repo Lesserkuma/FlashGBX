@@ -191,10 +191,8 @@ jobs:
           # Remove unnecessary files
           rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}.framework*
           rm -rf dist/FlashGBX.app/Contents/Resources/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}
-          rm -rf dist/FlashGBX.app/Contents/Resources/PySide6/Qt/translations
           rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/lib/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}.framework*
           rm -rf dist/FlashGBX.app/Contents/Frameworks/Qt{Pdf*,Quick*,Qml*,Network*,OpenGL*,Svg*}
-          rm -rf dist/FlashGBX.app/Contents/Frameworks/PySide6/Qt/translations
           find dist/FlashGBX.app -path '*/imageformats/*' ! -name '*qico*' -delete
           find dist/FlashGBX.app -path '*/iconengines/*' -delete
           find dist/FlashGBX.app -name 'QtSvg*.so' -delete

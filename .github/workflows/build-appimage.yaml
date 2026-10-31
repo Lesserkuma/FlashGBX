@@ -175,7 +175,6 @@ jobs:
         run: |
           rm -f dist/FlashGBX/_internal/PySide6/Qt{*WebEngine*,*Multimedia*,*SpatialAudio*,*Bluetooth*,*RemoteObjects*,*Pdf*,*Charts*,*Graphs*,*DataVisualization*,*Location*,*3D*,*Quick*,*Qml*,*Network*,*Designer*,*Shader*,*HttpServer*,*Qt6Labs*,*Nfc*,*OpenGL*,*Print*,*Sensors*,*avutil*,*avcodec*,*avformat*,*assimp*}.so* || true
           rm -f dist/FlashGBX/_internal/PySide6/Qt/lib/lib{*WebEngine*,*Multimedia*,*SpatialAudio*,*Bluetooth*,*RemoteObjects*,*Pdf*,*Charts*,*Graphs*,*DataVisualization*,*Location*,*3D*,*Quick*,*Qml*,*Network*,*Designer*,*Shader*,*HttpServer*,*Qt6Labs*,*Nfc*,*OpenGL*,*Print*,*Sensors*,*avutil*,*avcodec*,*avformat*,*assimp*}.so* || true
-          rm -r dist/FlashGBX/_internal/PySide6/Qt/translations || true
           rm -r dist/FlashGBX/_internal/PySide6/Qt/resources || true
           rm -r dist/FlashGBX/_internal/PySide6/Qt/qml || true
           find dist/FlashGBX -path '*/imageformats/*' ! -name '*qico*' -delete

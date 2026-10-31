@@ -81,14 +81,14 @@ class AnalyzeCartridgeDialog(QtWidgets.QDialog):
 			self.btnGeneric.clicked.connect(lambda: self.done(self.TRY_GENERIC))
 			layout.addWidget(self.btnGeneric, 4, 0, 1, 2)
 		if args["retry"]:
-			self.btnRetry = QtWidgets.QPushButton(__("Analyze again without voltage limit"), autoDefault=False)
+			self.btnRetry = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "Analyze again without voltage limit"), autoDefault=False)
 			self.btnRetry.clicked.connect(lambda: self.done(self.RETRY))
 			layout.addWidget(self.btnRetry, 5, 0, 1, 2)
 		self.chkSkip = QtWidgets.QCheckBox(c__("Check Box (& = Keyboard Shortcut)", "&Always skip this message"), visible=args["can_skip"] and args["selected"] > 0)
 		layout.addWidget(self.chkSkip, 6, 0, 1, 2)
 		buttons = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Cancel)
 		buttons.button(QtWidgets.QDialogButtonBox.Cancel).setAutoDefault(False)
-		self.btnOK = buttons.addButton(__("&Continue") if args["waiting"] else __("&Apply"), QtWidgets.QDialogButtonBox.AcceptRole)
+		self.btnOK = buttons.addButton(c__("Button (& = Keyboard Shortcut)", "&Continue") if args["waiting"] else c__("Button (& = Keyboard Shortcut)", "&Apply"), QtWidgets.QDialogButtonBox.AcceptRole)
 		if not args["profiles"]:
 			self.btnOK.setText(c__("Button (& = Keyboard Shortcut)", "&Close"))
 		self.btnOK.setDefault(True)

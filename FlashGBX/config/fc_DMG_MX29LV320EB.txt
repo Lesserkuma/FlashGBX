@@ -1,14 +1,11 @@
 {
 	"type":"DMG",
 	"names":[
-		"GBFlash RTC with MX29LV320EB",
-		"GBFlash RTC with MX29LV320EB",
-		"ModRetro Chromatic Cartridge with S29JL032"
+		"GBFlash RTC with MX29LV320EB"
 	],
+	"flash_id_offsets":[ 0x00, 0x02 ],
 	"flash_ids":[
-		[ 0x01, 0x01, 0x7E, 0x7E ],
-		[ 0xC2, 0xC2, 0xA8, 0xA8 ],
-		[ 0x01, 0x01, 0x53, 0x53 ]
+		[ 0xC2, 0xA8 ]
 	],
 	"voltage":5,
 	"flash_size":0x400000,

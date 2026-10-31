@@ -4,9 +4,13 @@
 		"insideGadgets 4 MiB (S29GL032M)",
 		"ModRetro Chromatic Cartridge with IS29GL032"
 	],
+	"flash_id_offsets":[ 0x00, 0x02, 0x1C ],
 	"flash_ids":[
-		[ 0x01, 0x01, 0x7E, 0x7E ],
-		[ 0x9D, 0x9D, 0x7E, 0x7E ]
+		[ 0x01, 0x7E, 0x1C ],
+		[ 0x01, 0x7E, 0x1D ],
+		[ 0x01, 0x7E, 0x1A ],
+		[ 0x9D, 0x7E, 0x1D ],
+		[ 0x9D, 0x7E, 0x1A ]
 	],
 	"voltage":5,
 	"flash_size":0x400000,
@@ -14,7 +18,7 @@
 	"first_bank":0,
 	"write_pin":"WR",
 	"sector_size_from_cfi":true,
-	"chip_erase_timeout":60,
+	"chip_erase_timeout":150,
 	"command_set":"AMD",
 	"commands":{
 		"reset":[

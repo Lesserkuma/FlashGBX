@@ -615,6 +615,11 @@ class FirmwareUpdater():
 		if port is None:
 			port = next((item.device for item in comports if (item.vid, item.pid) in GbxDevice.USB_IDS), None)
 			if port is None: return 4
+		if platform.system() == "Windows":
+			port = port.upper()
+			if port.startswith("\\\\.\\"): port = port[4:]
+		else:
+			port = os.path.realpath(port)
 		original = next((item for item in comports if item.device == port), None)
 		location = original.location.split(":", 1)[0] if original is not None and original.location else None
 		msc = b"Joey Jr. Firmware" in buffer

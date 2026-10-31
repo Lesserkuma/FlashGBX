@@ -3,9 +3,9 @@
 	"names":[
 		"GBFlash MBCX (32 MiB)"
 	],
-	"flash_id_offsets":[ 0x00, 0x01, 0x02, 0x03, 0x1C, 0x1D, 0x1E, 0x1F ],
+	"flash_id_offsets":[ 0x00, 0x02, 0x1C ],
 	"flash_ids":[
-		[ 0x01, 0x01, 0x7E, 0x7E, 0x22, 0x22, 0x01, 0x01 ]
+		[ 0x01, 0x7E, 0x22 ]
 	],
 	"voltage":3.3,
 	"flash_size":0x2000000,
@@ -13,7 +13,7 @@
 	"first_bank":0,
 	"write_pin":"WR",
 	"sector_size_from_cfi":true,
-	"chip_erase_timeout":120,
+	"chip_erase_timeout":600,
 	"mbc":0x206,
 	"command_set":"AMD",
 	"commands":{

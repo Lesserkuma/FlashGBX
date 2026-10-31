@@ -1221,6 +1221,16 @@ class Flashcart_DMG_MMSA(Flashcart):
 def empty_flashcarts_map():
 	return {"DMG": {}, "AGB": {}}
 
+def get_flash_id_maps(config):
+	flash_ids = []
+	for group in Flashcart.GetFlashIDSets(config):
+		identity = {}
+		for address, values in group:
+			offsets = config.get("flash_id_offsets", range(len(values)))
+			identity.update(((address, offset), value) for offset, value in zip(offsets, values))
+		if identity: flash_ids.append(identity)
+	return flash_ids
+
 def has_3v_compatible_profile(carts, cart_type_index):
 	if not isinstance(carts, list):
 		try:
@@ -1234,7 +1244,7 @@ def has_3v_compatible_profile(carts, cart_type_index):
 		return False
 	if selected.get("voltage", 5) != 5:
 		return False
-	selected_ids = selected.get("flash_ids")
+	selected_ids = get_flash_id_maps(selected)
 	if not selected_ids:
 		return False
 	selected_type = selected.get("type")
@@ -1243,7 +1253,9 @@ def has_3v_compatible_profile(carts, cart_type_index):
 		if not isinstance(profile, dict): continue
 		if profile.get("type") != selected_type: continue
 		if profile.get("voltage", 5) != 3.3 and not profile.get("voltage_variants", False): continue
-		for flash_id in profile.get("flash_ids", []):
-			if flash_id in selected_ids:
-				return True
+		for flash_id in get_flash_id_maps(profile):
+			for selected_id in selected_ids:
+				if {address for address, _ in selected_id} != {address for address, _ in flash_id}: continue
+				if selected_id.items() <= flash_id.items() or flash_id.items() <= selected_id.items():
+					return True
 	return False

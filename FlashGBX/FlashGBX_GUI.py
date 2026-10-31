@@ -15,6 +15,7 @@ from .PocketCameraWindow import PocketCameraWindow, PocketCameraLiveWindow
 from .InteractiveConsoleWindow import InteractiveConsoleWindow
 from .EReaderWindow import EReaderWindow
 from .UserInputDialog import UserInputDialog
+from .AnalyzeCartridgeDialog import AnalyzeCartridgeDialog
 from .Mapper import DMG_Mapper
 from .app import AppInfo, AppContext, generate_filename, HW_DEVICES
 from .CartridgeTypes import RomSizes, AgbSaveTypes, DmgSaveTypes
@@ -1309,7 +1310,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			if isinstance(lang_name, tuple):
 				lang_name = lang_name[0]
 			msg += f"Translated to {lang_name} by {i18n.TRANSLATION_AUTHOR}<br><br>"
-		msg += "Acknowledgments and Contributors:<br><small>2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Daemon125, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, Kelly, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, numma_cway, olDirdey, orangeglo, orzgithub, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr</small>"
+		msg += "Acknowledgments and Contributors:<br><small>2358, 90sFlav, AcoVanConis, AdmirtheSableye, AlexiG, ALXCO-Hardware, AndehX, antPL, aronson, Ausar, bbsan, BennVenn, Boeuffy, CaptainBean, ccs21, chobby, ClassicOldSong, Cliffback, CodyWick13, Corborg, Cristóbal, crizzlycruz, Crystal, Daemon125, Därk, Davidish, delibird_deals, DevDavisNunez, Diddy_Kong, djedditt, Dr-InSide, Duckman, dyf2007, easthighNerd, EchelonPrime, edo999, Eldram, Eli, Ell, EmperorOfTigers, endrift, Erba Verde, ethanstrax, eveningmoose, Falknör, FerrantePescara, frarees, fredemmott, Frost Clock, Gahr, gandalf1980, gboh, gekkio, Godan, Goon, Grender, HDR, Herax, Hiccup, hiks, howie0210, iamevn, Icesythe7, ide, infinest, inYourBackline, iyatemu, Jayro, Jenetrix, JFox, joyrider3774, jrharbort, JS7457, julgr, Kaede, kane159, Kelly, KOOORAY, kscheel, kyokohunter, Leitplanke, litlemoran, LovelyA72, Lu, Luca DS, LucentW, luxkiller65, manuelcm1, marv17, Merkin, metroid-maniac, Mr_V, Mufsta, neparij, numma_cway, olDirdey, orangeglo, orzgithub, paarongiroux, Paradoxical, Pese, Rairch, Raphaël BOICHOT, redalchemy, RetroGorek, RevZ, RibShark, s1cp, Satumox, Sgt.DoudouMiel, SH, Shinichi999, Sillyhatday, simonK, Sithdown, skite2001, Smelly-Ghost, Sonikks, Squiddy, Stitch, Super Maker, t5b6_de, Tauwasser, TheNFCookie, thisjustin816, Timville, twitnic, velipso, Veund, voltagex, Voultar, Warez Waldo, wickawack, Winter1760, Wkr, x7l7j8cc, xactoes, xukkorz, yosoo, Zeii, Zelante, zipplet, Zoo, zvxr</small>"
 		QtWidgets.QMessageBox.information(self, "{:s} {:s}".format(AppInfo.NAME, AppInfo.VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def AboutGameDB(self):
@@ -3930,341 +3931,130 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			QtWidgets.QMessageBox.critical(self, title, __("Could not save diagnostic data: {error}", error=str(e)))
 
 	def FinishDetectCartridge(self, ret):
-		self.lblStatus1aResult.setText("–")
-		self.lblStatus2aResult.setText("–")
-		self.lblStatus3aResult.setText("–")
-
-		limitVoltage = str(self.SETTINGS.value("AutoDetectLimitVoltage", default="disabled")).lower() == "enabled"
+		for label in (self.lblStatus1aResult, self.lblStatus2aResult, self.lblStatus3aResult):
+			label.setText("–")
 		if ret is False or not isinstance(ret, (list, tuple)) or len(ret) < 11:
 			QtWidgets.QMessageBox.critical(self, "{:s} {:s}".format(AppInfo.NAME, AppInfo.VERSION), __("An error occured while trying to analyze the cartridge and you may need to physically reconnect the device.") + "\n\n" + __("This cartridge may not be auto-detectable, please select the flashcart profile manually."), QtWidgets.QMessageBox.Ok)
 			self.LimitBaudRateGBxCartRW()
 			self.DisconnectDevice()
 			return
-		else:
-			(header, save_size, save_type, save_chip, sram_unstable, cart_types, cart_type_id, cfi_s, _, flash_id, detected_size) = ret
 
-			# Save Type
-			if not self.STATUS["can_skip_message"]:
-				try:
-					if save_type is not None and save_type is not False:
-						if self.CONN.GetMode() == "DMG":
-							self.cmbDMGHeaderSaveTypeResult.setCurrentIndex(DmgSaveTypes(mbc=save_type).GetIndex())
-						elif self.CONN.GetMode() == "AGB":
-							self.cmbAGBSaveTypeResult.setCurrentIndex(save_type)
-				except:
-					pass
+		(header, save_size, save_type, save_chip, sram_unstable, cart_types, cart_type_id, cfi_s, _, flash_id, detected_size) = ret
+		mode = self.CONN.GetMode()
+		supp_cart_types = self.CONN.GetSupportedCartridgesDMG() if mode == "DMG" else self.CONN.GetSupportedCartridgesAGB()
+		combo = self.cmbDMGCartridgeTypeResult if mode == "DMG" else self.cmbAGBCartridgeTypeResult
+		can_skip = self.STATUS["can_skip_message"]
+		waiting = self.STATUS.get("detected_cart_type")
+		cart_type = cart_type_id if cart_type_id in cart_types else None
+		limit_voltage = str(self.SETTINGS.value("AutoDetectLimitVoltage", default="disabled")).lower() == "enabled"
+		skip = str(self.SETTINGS.value("SkipAutodetectMessage", default="disabled")).lower() == "enabled"
+		summary = "<b>" + __("ROM Title:") + "</b> " + html.escape(Formatter.title(header["game_title"])) + "<br>"
+		save_index = None
+		if not can_skip and save_type is not False and save_type is not None:
+			save_index = DmgSaveTypes(mbc=save_type).GetIndex() if mode == "DMG" else save_type
+			save_name = DmgSaveTypes(mbc=save_type).GetString() if mode == "DMG" else AgbSaveTypes().GetStringList()[save_type]
+			if save_chip is not None:
+				data = self.CONN.INFO.get("data")
+				if save_type == 5 and "Unlicensed" in save_chip and data is not None and data == bytearray([0xFF] * len(data)):
+					save_name = "{:s} or {:s}".format(AgbSaveTypes().GetStringList()[4], AgbSaveTypes().GetStringList()[5])
+				save_name += " ({:s})".format(save_chip)
+			if save_type == 0:
+				save_name = save_chip if save_chip and "Unknown" not in save_chip else c__("Save Type", "None or unknown (no save data detected)")
+			summary += "<b>" + __("Save Type:") + "</b> " + html.escape(save_name)
+			if sram_unstable and "SRAM" in save_name:
+				summary += ' <span style="color: red;">(' + c__("Save Data Access", "not stable or not battery-backed") + ")</span>"
+			if "Batteryless SRAM" in save_name and header.get("batteryless_sram"):
+				sram = header["batteryless_sram"]
+				summary += " (" + (Formatter.file_size(save_size, as_int=True) if save_size else __("unknown size")) + ")<br>"
+				summary += "<b>" + __("{batteryless_sram} Location:", batteryless_sram="Batteryless SRAM") + "</b> 0x{:X}–0x{:X} ({:s})".format(sram["bl_offset"], sram["bl_offset"] + sram["bl_size"] - 1, Formatter.file_size(sram["bl_size"], as_int=True))
+			summary += "<br>"
 
-			# Cart Type
-			try:
-				cart_type = None
-				msg_cart_type = ""
-				msg_cart_type_used = ""
-				if self.CONN.GetMode() == "DMG":
-					supp_cart_types = self.CONN.GetSupportedCartridgesDMG()
-				elif self.CONN.GetMode() == "AGB":
-					supp_cart_types = self.CONN.GetSupportedCartridgesAGB()
-				else:
-					raise NotImplementedError
-			except Exception as e:
-				msgbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Critical, windowTitle="{:s} {:s}".format(AppInfo.NAME, AppInfo.VERSION), text=__("An unknown error occured. Please try again.") + "\n\n" + str(e), standardButtons=QtWidgets.QMessageBox.Ok)
-				msgbox.exec()
-				self.LimitBaudRateGBxCartRW()
-				for key in ("detected_cart_type", "detect_cartridge_args", "can_skip_message"):
-					self.STATUS.pop(key, None)
-				return
-
-			try:
-				if len(cart_types) > 0:
-					cart_type = cart_type_id
-					if self.CONN.GetMode() == "DMG":
-						self.cmbDMGCartridgeTypeResult.setCurrentIndex(0)
-						self.cmbDMGCartridgeTypeResult.setCurrentIndex(cart_type)
-					elif self.CONN.GetMode() == "AGB":
-						self.cmbAGBCartridgeTypeResult.setCurrentIndex(0)
-						self.cmbAGBCartridgeTypeResult.setCurrentIndex(cart_type)
-					self.STATUS["cart_type"] = supp_cart_types[1][cart_type]
-					for i in range(0, len(cart_types)):
-						if cart_types[i] == cart_type_id:
-							msg_cart_type += "- {:s} ← {:s}<br>".format(supp_cart_types[0][cart_types[i]], c__("Flashcart Profile List “- PROFILE NAME ← selected”", "selected"))
-							msg_cart_type_used = supp_cart_types[0][cart_types[i]]
-						else:
-							msg_cart_type += "- {:s}<br>".format(supp_cart_types[0][cart_types[i]])
-					msg_cart_type = msg_cart_type[:-4]
-
-			except:
-				pass
-
-			# Messages
-			# Header
-			msg_header_s = "<b>" + __("ROM Title:") + "</b> {:s}<br>".format(Formatter.title(header["game_title"]))
-
-			# Save Type
-			msg_save_type_s = ""
-			temp = ""
-			if not self.STATUS["can_skip_message"] and save_type is not False and save_type is not None:
-				if save_chip is not None:
-					if save_type == 5 and save_chip is not None and "Unlicensed" in save_chip and "data" in self.CONN.INFO and self.CONN.INFO["data"] == bytearray([0xFF] * len(self.CONN.INFO["data"])):
-						temp = "{:s} or {:s} ({:s})".format(AgbSaveTypes().GetStringList()[4], AgbSaveTypes().GetStringList()[5], save_chip)
-					else:
-						temp = "{:s} ({:s})".format(AgbSaveTypes().GetStringList()[save_type], save_chip)
-				else:
-					if self.CONN.GetMode() == "DMG":
-						try:
-							temp = "{:s}".format(DmgSaveTypes(mbc=save_type).GetString())
-						except:
-							temp = "Unknown"
-					elif self.CONN.GetMode() == "AGB":
-						temp = "{:s}".format(AgbSaveTypes().GetStringList()[save_type])
-						try:
-							if "Batteryless SRAM" in AgbSaveTypes().GetStringList()[save_type]:
-								if save_size == 0:
-									temp += " (" + __("unknown size") + ")<br><b>" + __("{batteryless_sram} Location:", batteryless_sram="Batteryless SRAM") + "</b> 0x{:X}–0x{:X} ({:s})".format(header["batteryless_sram"]["bl_offset"], header["batteryless_sram"]["bl_offset"]+header["batteryless_sram"]["bl_size"]-1, Formatter.file_size(header["batteryless_sram"]["bl_size"], as_int=True))
-								elif save_size == header["batteryless_sram"]["bl_size"]:
-									temp += " ({:s})<br><b>" + __("{batteryless_sram} Location:", batteryless_sram="Batteryless SRAM") + "</b> 0x{:X}–0x{:X} ({:s})".format(Formatter.file_size(save_size, as_int=True), header["batteryless_sram"]["bl_offset"], header["batteryless_sram"]["bl_offset"]+header["batteryless_sram"]["bl_size"]-1, Formatter.file_size(header["batteryless_sram"]["bl_size"], as_int=True))
-								else:
-									temp += " ({:s})<br><b>" + __("{batteryless_sram} Location:", batteryless_sram="Batteryless SRAM") + "</b> 0x{:X}–0x{:X} ({:s})".format(Formatter.file_size(save_size, as_int=True), header["batteryless_sram"]["bl_offset"], header["batteryless_sram"]["bl_offset"]+header["batteryless_sram"]["bl_size"]-1, Formatter.file_size(header["batteryless_sram"]["bl_size"], as_int=True))
-						except:
-							pass
-
-				if save_type == 0:
-					if save_chip and "Unknown" not in save_chip:
-						msg_save_type_s = "<b>" + __("Save Type:") + "</b> {:s}<br>".format(save_chip)
-					else:
-						msg_save_type_s = "<b>" + __("Save Type:") + "</b> " + c__("Save Type", "None or unknown (no save data detected)") + "<br>"
-				else:
-					if sram_unstable and "SRAM" in temp:
-						msg_save_type_s = "<b>" + __("Save Type:") + "</b> {:s} <span style=\"color: red;\">(" + c__("Save Data Access", "not stable or not battery-backed") + ")</span><br>".format(temp)
-					else:
-						msg_save_type_s = "<b>" + __("Save Type:") + "</b> {:s}<br>".format(temp)
-
-			# Cart Type
-			msg_cart_type_s = ""
-			msg_cart_type_s_detail = ""
-			msg_flash_size_s = ""
-			msg_flash_id_s = ""
-			msg_cfi_s = ""
-			msg_flash_mapper_s = ""
-			try_this = None
-			found_supported = False
-			is_generic = False
-			if cart_type is not None:
-				if len(cart_types) > 1:
-					msg_cart_type_s = "<b>" + __("Flashcart Profile:") + "</b> {:s} (".format(msg_cart_type_used) + c__("Flashcart Profile: PROFILE NAME (or compatble)", "or compatible") + ")<br>"
-				else:
-					msg_cart_type_s = "<b>" + __("Flashcart Profile:") + "</b> {:s}<br>".format(msg_cart_type_used)
-				msg_cart_type_s_detail = "<b>" + __("Compatible Flashcart Profiles:") + "</b><br>{:s}<br>".format(msg_cart_type)
-				found_supported = True
-
-				if detected_size > 0:
-					size = detected_size
-					msg_flash_size_s = "<b>" + __("ROM Size:") + "</b> {:s}<br>".format(Formatter.file_size(size, as_int=True))
-				elif "flash_size" in supp_cart_types[1][cart_type_id]:
-					size = supp_cart_types[1][cart_type_id]["flash_size"]
-					msg_flash_size_s = "<b>" + __("ROM Size:") + "</b> {:s}<br>".format(Formatter.file_size(size, as_int=True))
-
-				if self.CONN.GetMode() == "DMG":
-					if "mbc" in supp_cart_types[1][cart_type_id]:
-						if supp_cart_types[1][cart_type_id]["mbc"] == "manual":
-							msg_flash_mapper_s = "<b>" + __("Mapper Type:") + "</b> <i>" + __("Manual selection") + "</i><br>"
-						elif supp_cart_types[1][cart_type_id]["mbc"] in DMG_Mapper().GetAllMapperIds():
-							msg_flash_mapper_s = "<b>" + __("Mapper Type:") + "</b> {:s}<br>".format(DMG_Mapper().GetMapperType(supp_cart_types[1][cart_type_id]["mbc"]))
-					else:
-						msg_flash_mapper_s = "<b>" + __("Mapper Type:") + "</b> " + c__("Mapper Type", "Default") + " (MBC5)" + "<br>"
-
+		generic = None
+		is_generic = not cart_types and not (len(flash_id.split("\n")) > 2 and (mode == "DMG" or header.get("dacs_8m") is False))
+		if not cart_types:
+			summary += "<b>" + __("Flashcart Profile:") + "</b> "
+			if is_generic:
+				summary += "Generic ROM Cartridge (" + __("not rewritable or not auto-detectable") + ")<br>"
 			else:
-				if (len(flash_id.split("\n")) > 2) and ((self.CONN.GetMode() == "DMG") or ("dacs_8m" in header and header["dacs_8m"] is not True)):
-					msg_cart_type_s = "<b>" + __("Flashcart Profile:") + "</b> " + __("Unknown flash cartridge")
-					if ("[     0/90]" in flash_id):
-						try_this = "Generic Flash Cartridge (0/90)"
-					elif ("[   AAA/AA]" in flash_id):
-						try_this = "Generic Flash Cartridge (AAA/AA)"
-					elif ("[   AAA/A9]" in flash_id):
-						try_this = "Generic Flash Cartridge (AAA/A9)"
-					elif ("[WR   / AAA/AA]" in flash_id):
-						try_this = "Generic Flash Cartridge (WR/AAA/AA)"
-					elif ("[WR   / AAA/A9]" in flash_id):
-						try_this = "Generic Flash Cartridge (WR/AAA/A9)"
-					elif ("[WR   / 555/AA]" in flash_id):
-						try_this = "Generic Flash Cartridge (WR/555/AA)"
-					elif ("[WR   / 555/A9]" in flash_id):
-						try_this = "Generic Flash Cartridge (WR/555/A9)"
-					elif ("[AUDIO/ AAA/AA]" in flash_id):
-						try_this = "Generic Flash Cartridge (AUDIO/AAA/AA)"
-					elif ("[AUDIO/ 555/AA]" in flash_id):
-						try_this = "Generic Flash Cartridge (AUDIO/555/AA)"
-					if try_this is not None:
-						msg_cart_type_s += " " + __("For ROM writing, you can give the option called “{option}” a try at your own risk.", option=try_this)
-					msg_cart_type_s += "<br>"
-				else:
-					msg_cart_type_s = "<b>" + __("Flashcart Profile:") + "</b> " + "Generic ROM Cartridge" + " (" + __("not rewritable or not auto-detectable") + ")" + "<br>"
-					is_generic = True
+				summary += __("Unknown flash cartridge") + "<br>"
+				for command in ("[     0/90]", "[   AAA/AA]", "[   AAA/A9]", "[WR   / AAA/AA]", "[WR   / AAA/A9]", "[WR   / 555/AA]", "[WR   / 555/A9]", "[AUDIO/ AAA/AA]", "[AUDIO/ 555/AA]", "[AUDIO/ 555/A9]"):
+					name = "Generic Flash Cartridge ({:s})".format(command[1:-1].replace(" ", ""))
+					if command in flash_id and name in supp_cart_types[0]:
+						generic = (supp_cart_types[0].index(name), name)
+						summary += __("For ROM writing, you can give the option called “{option}” a try at your own risk.", option=name) + "<br>"
+						break
 
-			if (len(flash_id.split("\n")) > 2):
-				if limitVoltage:
-					msg_flash_id_title = __("Flash ID Check (limited voltage):")
-				else:
-					msg_flash_id_title = __("Flash ID Check:")
-				msg_flash_id_s = "<br><b>" + msg_flash_id_title + "</b><pre style=\"font-size: 8pt; margin: 0;\">{:s}</pre>".format(flash_id[:-1])
-			if not is_generic:
-				if cfi_s != "":
-					msg_cfi_s = "<br><b>" + __("{common_flash_interface} Data:", common_flash_interface="Common Flash Interface") + "</b><br>{:s}<br><br>".format(cfi_s.replace("\n", "<br>"))
-				else:
-					msg_cfi_s = "<br><b>" + __("{common_flash_interface} Data:", common_flash_interface="Common Flash Interface") + "</b> " + c__("Common Flash Interface Data", "Not available") + "<br><br>"
+		details = ""
+		if len(flash_id.split("\n")) > 2:
+			title = __("Flash ID Check (limited voltage):") if limit_voltage else __("Flash ID Check:")
+			details += "<b>" + title + "</b><pre>" + html.escape(flash_id.rstrip()) + "</pre>"
+		if not is_generic:
+			details += "<b>" + __("{common_flash_interface} Data:", common_flash_interface="Common Flash Interface") + "</b><br>"
+			details += (html.escape(cfi_s).replace("\n", "<br>") if cfi_s else c__("Common Flash Interface Data", "Not available")) + "<br>"
+		gbmem = header.get("gbmem_parsed")
+		if gbmem:
+			details += "<br><b>" + __("{gb_memory_cartridge} Data:", gb_memory_cartridge="GB-Memory Cartridge") + "</b><br>"
+			metadata = gbmem[0] if isinstance(gbmem, list) else gbmem
+			for key, title in (("timestamp", __("Write Timestamp:")), ("kiosk_id", __("Write Kiosk ID:")), ("write_count", __("Write Counter:")), ("cart_id", __("Cartridge ID:"))):
+				details += "- " + title + " " + html.escape(str(metadata[key]).replace("\0", "")) + "<br>"
+			if isinstance(gbmem, list):
+				details += "- " + __("Number of Games:") + " {:d}<br>".format(metadata["num_games"])
+				for i, game in enumerate(gbmem[1:], 1):
+					if game["menu_index"] == 0xFF: continue
+					title = __("Menu ROM:") if i == 1 else __("Game {number}:", number=i - 1)
+					details += "- " + title + " " + html.escape(game["title"].replace("\0", "")) + "<br>"
+			else:
+				details += "- " + __("Game Title:") + " " + html.escape(gbmem["title"].replace("\0", "")) + "<br>"
+		details += "<br><i>" + html.escape("{:s} {:s} | {:s}".format(AppInfo.NAME, AppInfo.VERSION, self.CONN.GetFullNameExtended())) + "</i>"
+		self.SetProgressBars(min=0, max=100, value=100)
+		answer = QtWidgets.QDialog.Accepted
+		if not (skip and can_skip and cart_type is not None):
+			dialog = AnalyzeCartridgeDialog(self, {
+				"summary":summary, "details":details,
+				"profiles":[(index, supp_cart_types[0][index], supp_cart_types[1][index]) for index in cart_types],
+				"selected":cart_type_id, "mode":mode, "detected_size":detected_size,
+				"waiting":waiting, "can_skip":can_skip, "generic":generic,
+				"retry":mode == "DMG" and limit_voltage and not cart_types,
+			})
+			answer = dialog.exec()
+			if answer == AnalyzeCartridgeDialog.RETRY:
+				self.SETTINGS.setValue("AutoDetectLimitVoltage", "disabled")
+				self.actAutoDetectLimitVoltage.setChecked(False)
+				self.DetectCartridge()
+				return
+			cart_type = None
+			if answer == QtWidgets.QDialog.Accepted:
+				cart_type = dialog.cmbProfiles.currentData()
+			elif answer == AnalyzeCartridgeDialog.TRY_GENERIC:
+				cart_type = generic[0]
+			if cart_type is not None and dialog.chkSkip.isChecked():
+				self.SETTINGS.setValue("SkipAutodetectMessage", "enabled")
 
-			if msg_cart_type_s_detail == "": msg_cart_type_s_detail = msg_cart_type_s
-			self.SetProgressBars(min=0, max=100, value=100)
-			show_details = False
-
-			msg_gbmem = ""
-			if "gbmem_parsed" in header and header["gbmem_parsed"] is not None:
-				msg_gbmem = "<br><b>" + __("{gb_memory_cartridge} Data:", gb_memory_cartridge="GB-Memory Cartridge") + "</b><br>"
-				if isinstance(header["gbmem_parsed"], list):
-					msg_gbmem += "" \
-						"- " + __("Write Timestamp:") + " {timestamp:s}<br>".format(timestamp=header["gbmem_parsed"][0]["timestamp"].replace("\0", "")) + \
-						"- " + __("Write Kiosk ID:") + " {kiosk_id:s}<br>".format(kiosk_id=header["gbmem_parsed"][0]["kiosk_id"].replace("\0", "")) + \
-						"- " + __("Number of Games:") + " {num_games:d}<br>".format(num_games=header["gbmem_parsed"][0]["num_games"]) + \
-						"- " + __("Write Counter:") + " {write_count:d}<br>".format(write_count=header["gbmem_parsed"][0]["write_count"]) + \
-						"- " + __("Cartridge ID:") + " {cart_id:s}<br>".format(cart_id=header["gbmem_parsed"][0]["cart_id"].replace("\0", ""))
-					for i in range(1, len(header["gbmem_parsed"])):
-						if header["gbmem_parsed"][i]["menu_index"] == 0xFF: continue
-						if i == 1:
-							msg_gbmem += "- " + __("Menu ROM:") + " {:s}<br>".format(header["gbmem_parsed"][i]["title"].replace("\0", ""))
-						else:
-							msg_gbmem += "- " + __("Game {number}:", number=i - 1) + " {:s}<br>".format(header["gbmem_parsed"][i]["title"].replace("\0", ""))
-				else:
-					msg_gbmem += "" \
-						"- " + __("Write Timestamp:") + " {timestamp:s}<br>".format(timestamp=header["gbmem_parsed"]["timestamp"].replace("\0", "")) + \
-						"- " + __("Write Kiosk ID:") + " {kiosk_id:s}<br>".format(kiosk_id=header["gbmem_parsed"]["kiosk_id"].replace("\0", "")) + \
-						"- " + __("Write Counter:") + " {write_count:d}<br>".format(write_count=header["gbmem_parsed"]["write_count"]) + \
-						"- " + __("Cartridge ID:") + " {cart_id:s}<br>".format(cart_id=header["gbmem_parsed"]["cart_id"].replace("\0", "")) + \
-						"- " + __("Game Title:") + " {game_title:s}<br>".format(game_title=header["gbmem_parsed"]["title"].replace("\0", ""))
-
-			msg = __("The following cartridge configuration was detected:") + "<br><br>"
-			if found_supported:
-				dontShowAgain = str(self.SETTINGS.value("SkipAutodetectMessage", default="disabled")).lower() == "enabled"
-				if not dontShowAgain or not self.STATUS["can_skip_message"]:
-					temp = "{:s}{:s}{:s}{:s}{:s}{:s}".format(msg, msg_flash_size_s, msg_save_type_s, msg_flash_mapper_s, msg_cart_type_s, msg_gbmem)
-					temp = temp[:-4]
-					msgbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Information, windowTitle="{:s} {:s} | {:s}".format(AppInfo.NAME, AppInfo.VERSION, self.CONN.GetFullNameLabel()), text=temp)
-					msgbox.setTextFormat(QtCore.Qt.RichText)
-					button_ok = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&OK"), QtWidgets.QMessageBox.ActionRole)
-					button_details = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&Details"), QtWidgets.QMessageBox.ActionRole)
-					button_cancel = None
-					msgbox.setDefaultButton(button_ok)
-					cb = QtWidgets.QCheckBox(c__("Check Box (& = Keyboard Shortcut)", "&Always skip this message"), checked=False)
-					if self.STATUS["can_skip_message"]:
-						button_cancel = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&Cancel"), QtWidgets.QMessageBox.RejectRole)
-						msgbox.setEscapeButton(button_cancel)
-						msgbox.setCheckBox(cb)
-					else:
-						msgbox.setEscapeButton(button_ok)
-
-					msgbox.exec()
-					dontShowAgain = cb.isChecked()
-					if dontShowAgain and self.STATUS["can_skip_message"]: self.SETTINGS.setValue("SkipAutodetectMessage", "enabled")
-
-					if msgbox.clickedButton() == button_details:
-						show_details = True
-						msg = ""
-					elif msgbox.clickedButton() == button_cancel:
-						self.btnHeaderRefresh.setEnabled(True)
-						self.btnDetectCartridge.setEnabled(True)
-						self.btnBackupROM.setEnabled(True)
-						self.btnFlashROM.setEnabled(True)
-						self.btnBackupRAM.setEnabled(True)
-						self.btnRestoreRAM.setEnabled(True)
-						self.btnHeaderRefresh.setFocus()
-						self.SetProgressBars(min=0, max=100, value=0)
-						self.SetStatus4aText(__("Ready."))
-						for key in ("detected_cart_type", "detect_cartridge_args", "can_skip_message"):
-							self.STATUS.pop(key, None)
-						return
-
-			if not found_supported or show_details is True:
-				msgbox = QtWidgets.QMessageBox(parent=self, icon=QtWidgets.QMessageBox.Information, windowTitle="{:s} {:s} | {:s}".format(AppInfo.NAME, AppInfo.VERSION, self.CONN.GetFullNameLabel()))
-				diagnostics = self.CONN.INFO.get("flash_diagnostics")
-				button_save = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&Save Diagnostic Data…"), QtWidgets.QMessageBox.ActionRole) if diagnostics else None
-				button_ok = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&OK"), QtWidgets.QMessageBox.ActionRole)
-				msgbox.setDefaultButton(button_ok)
-				msgbox.setEscapeButton(button_ok)
-				if try_this is not None:
-					button_try = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&Try “{generic_type}”", generic_type="Generic Type"), QtWidgets.QMessageBox.ActionRole)
-					button_try.setToolTip("{:s}".format(try_this))
-				else:
-					button_try = None
-
-				if not is_generic:
-					msg_fw = "<br><span style=\"font-size: 8pt;\"><i>{:s} {:s} | {:s}</i></span><br>".format(AppInfo.NAME, AppInfo.VERSION, self.CONN.GetFullNameExtended())
-					button_clipboard = msgbox.addButton(c__("Button (& = Keyboard Shortcut)", "&Copy to Clipboard"), QtWidgets.QMessageBox.ActionRole)
-				else:
-					msg_fw = ""
-					button_clipboard = None
-
-				if self.CONN.GetMode() == "DMG" and limitVoltage and (is_generic or not found_supported):
-					text = __("No known flashcart profile could be detected. The option “{limit_voltage}” has been enabled which can cause auto-detection to fail. As it is usually not recommended to enable this option, do you now want to disable it and try again?", limit_voltage=__("&Limit voltage when analyzing Game Boy carts").replace("&", ""))
-					answer = QtWidgets.QMessageBox.warning(self, "{:s} {:s}".format(AppInfo.NAME, AppInfo.VERSION), text, QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
-					if answer == QtWidgets.QMessageBox.Yes:
-						self.SETTINGS.setValue("AutoDetectLimitVoltage", "disabled")
-						self.actAutoDetectLimitVoltage.setChecked(False)
-						self.STATUS["can_skip_message"] = False
-						self.DetectCartridge()
-						return
-
-				temp = "{:s}{:s}{:s}{:s}{:s}{:s}{:s}{:s}{:s}{:s}".format(msg, msg_header_s, msg_flash_size_s, msg_save_type_s, msg_flash_mapper_s, msg_flash_id_s, msg_cfi_s, msg_cart_type_s_detail, msg_gbmem, msg_fw)
-				temp = temp[:-4]
-				msgbox.setText(temp)
-				msgbox.setTextFormat(QtCore.Qt.RichText)
-				msgbox.exec()
-				if button_save is not None and msgbox.clickedButton() == button_save:
-					self.SaveFlashDiagnostics(diagnostics)
-				elif msgbox.clickedButton() == button_clipboard:
-					clipboard = QtWidgets.QApplication.clipboard()
-					doc = QtGui.QTextDocument()
-					doc.setHtml(temp)
-					temp = doc.toPlainText()
-					clipboard.setText(temp)
-				elif msgbox.clickedButton() == button_try:
-					if try_this in supp_cart_types[0]:
-						cart_type = supp_cart_types[0].index(try_this)
-					if self.CONN.GetMode() == "DMG":
-						self.cmbDMGCartridgeTypeResult.setCurrentIndex(cart_type)
-					elif self.CONN.GetMode() == "AGB":
-						self.cmbAGBCartridgeTypeResult.setCurrentIndex(cart_type)
-
-		self.btnHeaderRefresh.setEnabled(True)
-		self.btnDetectCartridge.setEnabled(True)
-		self.btnBackupROM.setEnabled(True)
-		self.btnFlashROM.setEnabled(True)
-		self.btnBackupRAM.setEnabled(True)
-		self.btnRestoreRAM.setEnabled(True)
+		for button in (self.btnHeaderRefresh, self.btnDetectCartridge, self.btnBackupROM, self.btnFlashROM, self.btnBackupRAM, self.btnRestoreRAM):
+			button.setEnabled(True)
 		self.btnHeaderRefresh.setFocus()
 		self.SetProgressBars(min=0, max=100, value=0)
 		self.SetStatus4aText(__("Ready."))
-
-		waiting = None
-		if "detected_cart_type" in self.STATUS and self.STATUS["detected_cart_type"] in ("WAITING_FLASH", "WAITING_SAVE_READ", "WAITING_SAVE_WRITE"):
-			waiting = self.STATUS["detected_cart_type"]
-			self.STATUS["detected_cart_type"] = cart_type
+		args = self.STATUS.pop("detect_cartridge_args", {})
+		self.STATUS.pop("detected_cart_type", None)
 		self.STATUS["can_skip_message"] = False
-
-		if waiting == "WAITING_FLASH":
-			if "detect_cartridge_args" in self.STATUS:
-				self.FlashROM(dpath=self.STATUS["detect_cartridge_args"]["dpath"])
-				self.STATUS.pop("detect_cartridge_args", None)
+		if save_index is not None and answer != QtWidgets.QDialog.Rejected:
+			save_combo = self.cmbDMGHeaderSaveTypeResult if mode == "DMG" else self.cmbAGBSaveTypeResult
+			save_combo.setCurrentIndex(save_index)
+		if cart_type is None:
+			return
+		combo.setCurrentIndex(0)
+		combo.setCurrentIndex(cart_type)
+		self.STATUS["cart_type"] = supp_cart_types[1][cart_type]
+		if waiting in ("WAITING_FLASH", "WAITING_SAVE_READ", "WAITING_SAVE_WRITE"):
+			self.STATUS["detected_cart_type"] = cart_type
+			if waiting == "WAITING_FLASH":
+				self.FlashROM(**args)
+			elif waiting == "WAITING_SAVE_READ":
+				self.BackupRAM(**args)
 			else:
-				self.FlashROM()
-		elif waiting == "WAITING_SAVE_READ":
-			if "detect_cartridge_args" in self.STATUS:
-				self.BackupRAM(dpath=self.STATUS["detect_cartridge_args"]["dpath"])
-				self.STATUS.pop("detect_cartridge_args", None)
-			else:
-				self.BackupRAM()
-		elif waiting == "WAITING_SAVE_WRITE":
-			if "detect_cartridge_args" in self.STATUS:
-				self.WriteRAM(dpath=self.STATUS["detect_cartridge_args"]["dpath"], erase=self.STATUS["detect_cartridge_args"]["erase"], skip_warning=True)
-				self.STATUS.pop("detect_cartridge_args", None)
-			else:
-				self.WriteRAM()
+				if args: args["skip_warning"] = True
+				self.WriteRAM(**args)
 
 	def WaitProgress(self, args):
 		if args["user_action"] == "REINSERT_CART":

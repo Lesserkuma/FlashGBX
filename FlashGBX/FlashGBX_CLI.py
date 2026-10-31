@@ -1217,6 +1217,8 @@ class FlashGBX_CLI():
 
 		if cart_type is not None:
 			msg_cart_type_s = __("Flashcart Profile:") + " " + __("Supported flash cartridge – compatible with:") + "\n" + msg_cart_type + "\n\n"
+			if cart_type_id == 0:
+				msg_cart_type_s = __("Flashcart Profile:") + " " + __("The flash ID matches cartridges with different mappers. Please use the “{switch}” command line switch to select the flashcart profile manually.", switch="--flashcart-type") + "\n" + msg_cart_type + "\n\n"
 
 			if detected_size > 0:
 				size = detected_size

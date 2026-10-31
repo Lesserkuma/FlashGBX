@@ -1,5 +1,5 @@
 # Release notes
-### v5.2 (released 2026-10-30)
+### v5.2 (released 2026-10-31)
 - Updated the FlashGBX LK Firmware to version L16, adding e-Reader scanning, device serial number queries, unlock sequence replay and faster cartridge clock generation
 - Added a Game Boy Camera live viewer with automatic exposure, brightness and contrast controls, plus continuous image-file updates via `--gbcamera-live-image` (requires firmware L16 and a connected CLK pin)
 - Added an e-Reader Dot Code Dumper for scanning short and long Dot Code strips to `.raw` files (requires firmware L16 and a connected CLK pin)
@@ -13,6 +13,10 @@
 - Joey Jr firmware updates on macOS while on the Drag'n'Drop firmware now work from within FlashGBX, so the extra firmware updater tool is no longer necessary
 - Added Linux GUI assistance for temporary device access and permanent udev rule installation through system authentication
 - Added a simple plugin system, allowing for third-party and experimental feature extensions *(thanks fredemmott for additional suggestions)*
+- Added support for AGB-E05-01 with MX29GL256EHT2I-90Q *(thanks neparij)*
+- Added support for ChisFlash-MBC5 MAX (32 MiB) with 28EW256A *(thanks thisjustin816)*
+- Added support for ChisFlash-MBC5 MAX (32 MiB) with S29GL256N *(thanks thisjustin816)*
+- Added support for ModRetro Chromatic Cartridge with S29JL032J (top boot) *(thanks thisjustin816)*
 - Confirmed support for Development AGB Cartridge 128M Flash Case Iri, E201736 *(thanks Kelly)*
 - Updated the lookup databases for save types, ROM sizes and checksums
 - Minor bug fixes and improvements

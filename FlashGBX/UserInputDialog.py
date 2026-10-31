@@ -19,7 +19,6 @@ class UserInputDialog(QtWidgets.QDialog):
 		self.APP = app
 
 		self.lblIntro = QtWidgets.QLabel(args["intro"])
-		self.lblIntro.setMaximumWidth(350)
 		self.lblIntro.setWordWrap(True)
 		self.btnOK = QtWidgets.QPushButton(__("&OK"))
 		self.btnCancel = QtWidgets.QPushButton(__("&Cancel"))
@@ -74,6 +73,8 @@ class UserInputDialog(QtWidgets.QDialog):
 
 		grid_layout.addLayout(grpButtonsLayout, grid_rows, 0, 1, 2)
 		self.setLayout(grid_layout)
+		width = max(self.minimumSizeHint().width(), self.sizeHint().width() * 2 // 3)
+		self.resize(width, grid_layout.totalHeightForWidth(width))
 
 		self.btnOK.clicked.connect(self.accept)
 		self.btnCancel.clicked.connect(self.reject)

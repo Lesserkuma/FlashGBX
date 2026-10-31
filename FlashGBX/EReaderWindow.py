@@ -183,7 +183,7 @@ class EReaderWindow(QtWidgets.QDialog):
 		for rowIndex, (key, title) in enumerate((("sensor_brightness", __("Sensor Brightness:")), ("vertical_offset", __("Vertical Offset:")), ("pwm", __("PWM Value:")), ("threshold_factor", __("Threshold Factor:")))):
 			titleLabel = QtWidgets.QLabel(title)
 			valueLabel = QtWidgets.QLabel(str(values[key]))
-			valueLabel.setFixedWidth(42)
+			valueLabel.setMinimumWidth(max(42, valueLabel.fontMetrics().horizontalAdvance(str(ScanControl.RANGES[key][1]))))
 			valueLabel.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
 			slider = QtWidgets.QSlider(QtCore.Qt.Horizontal)
 			slider.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)

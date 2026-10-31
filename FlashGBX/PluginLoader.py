@@ -17,8 +17,8 @@ def _GetSettings(config_path, main_section="Plugins"):
 	return settings
 
 def _GetPluginDirectory(config_path):
-	path = _GetSettings(config_path, main_section="General").value("PluginDirectory", default="").strip()
-	return os.path.abspath(os.path.join(config_path, os.path.expanduser(path) if path else "plugins"))
+	path = _GetSettings(config_path, main_section="General").value("PluginDirectory", default="plugins").strip() or "plugins"
+	return os.path.abspath(os.path.join(config_path, os.path.expanduser(path)))
 
 def _SavePluginSettings(config_path, filename, enabled):
 	_GetSettings(config_path).setValue(filename, json.dumps({"enabled": enabled}))

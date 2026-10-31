@@ -374,6 +374,8 @@ FlashGBX can also be run in a local Python environment like so:
 
 * If some features don’t work as expected, first try to clean the game cartridge contacts (best with IPA 99.9%+ on a cotton swab) and reconnect the device. An unstable cartridge connection is the most common reason for read or write errors. Also try different USB ports and cables.
 
+* For Qt platform plugin startup errors on Windows, move the entire FlashGBX folder to a shorter path (e.g. `C:\FlashGBX`).
+
 * If your *Game Boy Camera* cartridge is not reading, make sure it’s connected the correct way around; screws go up.
 
 * Database checks will only work for genuine, unmodified game cartridges.

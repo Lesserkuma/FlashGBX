@@ -1153,33 +1153,30 @@ class LK_Device(ABC):
 		data = {}
 		self.SIGNAL = None
 		for key in ("sintax", "sintax_name"): self.INFO.pop(key, None)
-		if CanReadSintax(self):
+		if self.CanPowerCycleCart():
+			self.ResetLEDs()
+			self.CartPowerOn()
+
+		if self.FW["fw_ver"] >= 8: self._write(self.DEVICE_CMD["DISABLE_PULLUPS"], wait=True)
+		if self.MODE == "DMG":
+			self._write(self.DEVICE_CMD["SET_VOLTAGE_5V"], wait=self.FW["fw_ver"] >= 12)
+			self._write(self.DEVICE_CMD["DMG_MBC_RESET"], wait=True)
+			self._set_fw_variable("DMG_READ_CS_PULSE", 0)
+			self._set_fw_variable("DMG_WRITE_CS_PULSE", 0)
+		elif self.MODE == "AGB":
+			self._write(self.DEVICE_CMD["SET_VOLTAGE_3_3V"], wait=self.FW["fw_ver"] >= 12)
+			if not self.CanPowerCycleCart():
+				dprint("Executing AGB Bootup Sequence")
+				self._write(self.DEVICE_CMD["AGB_BOOTUP_SEQUENCE"], wait=self.FW["fw_ver"] >= 12)
+		else:
+			print(ANSI.RED + __("Error: No mode was set.") + ANSI.RESET)
+			return False
+
+		header = self.ReadROMHeader()
+		if CanReadSintax(self) and b"YJencrypted" in header[0xA0:0xAC]:
 			header = bytearray(Sintax(self).ReadData(0, 0x180)[0])
-			data = RomFileAGB.GetParser(header).GetHeader()
 
-		if not data.get("sintax"):
-			if self.CanPowerCycleCart():
-				self.ResetLEDs()
-				self.CartPowerOn()
-
-			if self.FW["fw_ver"] >= 8: self._write(self.DEVICE_CMD["DISABLE_PULLUPS"], wait=True)
-			if self.MODE == "DMG":
-				self._write(self.DEVICE_CMD["SET_VOLTAGE_5V"], wait=self.FW["fw_ver"] >= 12)
-				self._write(self.DEVICE_CMD["DMG_MBC_RESET"], wait=True)
-				self._set_fw_variable("DMG_READ_CS_PULSE", 0)
-				self._set_fw_variable("DMG_WRITE_CS_PULSE", 0)
-			elif self.MODE == "AGB":
-				self._write(self.DEVICE_CMD["SET_VOLTAGE_3_3V"], wait=self.FW["fw_ver"] >= 12)
-				if not self.CanPowerCycleCart():
-					dprint("Executing AGB Bootup Sequence")
-					self._write(self.DEVICE_CMD["AGB_BOOTUP_SEQUENCE"], wait=self.FW["fw_ver"] >= 12)
-			else:
-				print(ANSI.RED + __("Error: No mode was set.") + ANSI.RESET)
-				return False
-
-			header = self.ReadROMHeader()
-
-		if self.MODE == "AGB" and not data.get("sintax"):
+		if self.MODE == "AGB":
 			data = RomFileAGB.GetParser(header).GetHeader()
 		if AppContext.CONFIG_PATH and (".dev" in AppInfo.VERSION_PEP440 or AppContext.DEBUG):
 			with open(AppContext.CONFIG_PATH + os.sep + "debug_header.bin", "wb") as f: f.write(header)

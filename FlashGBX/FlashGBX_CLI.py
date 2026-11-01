@@ -1240,23 +1240,24 @@ class FlashGBX_CLI():
 			if (len(flash_id.split("\n")) > 2) and ((self.CONN.GetMode() == "DMG") or ("dacs_8m" in header and header["dacs_8m"] is not True)):
 				msg_cart_type_s = __("Flashcart Profile:") + " " + __("Unknown flash cartridge")
 				try_this = ""
-				if ("[     0/90]" in flash_id):
+				flash_id_commands = flash_id.replace(" ", "")
+				if ("[0/90]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (0/90)"
-				elif ("[   AAA/AA]" in flash_id):
+				elif ("[AAA/AA]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (AAA/AA)"
-				elif ("[   AAA/A9]" in flash_id):
+				elif ("[AAA/A9]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (AAA/A9)"
-				elif ("[WR   / AAA/AA]" in flash_id):
+				elif ("[WR/AAA/AA]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (WR/AAA/AA)"
-				elif ("[WR   / AAA/A9]" in flash_id):
+				elif ("[WR/AAA/A9]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (WR/AAA/A9)"
-				elif ("[WR   / 555/AA]" in flash_id):
+				elif ("[WR/555/AA]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (WR/555/AA)"
-				elif ("[WR   / 555/A9]" in flash_id):
+				elif ("[WR/555/A9]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (WR/555/A9)"
-				elif ("[AUDIO/ AAA/AA]" in flash_id):
+				elif ("[AUDIO/AAA/AA]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (AUDIO/AAA/AA)"
-				elif ("[AUDIO/ 555/AA]" in flash_id):
+				elif ("[AUDIO/555/AA]" in flash_id_commands):
 					try_this = "Generic Flash Cartridge (AUDIO/555/AA)"
 				if try_this != "":
 					msg_cart_type_s += " " + __("For ROM writing, you can give the option called “{try_this}” a try at your own risk.", try_this=try_this)

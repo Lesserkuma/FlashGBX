@@ -1,6 +1,6 @@
 [project]
 name = "FlashGBX"
-version = "5.2"
+version = "5.2.1"
 description = "Reads and writes Game Boy and Game Boy Advance cartridge data"
 readme = "README.md"
 requires-python = ">=3.8"

@@ -1316,7 +1316,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 	def AboutGameDB(self):
 		msg = __("FlashGBX uses a game database that is based on the ongoing efforts of the No-Intro project. Visit {url} for more information.", url="<a href=\"https://no-intro.org/\">https://no-intro.org/</a>") + "<br><br>"
 		msg += __("No-Intro databases referenced for this version of FlashGBX:") + "<br>"
-		msg += "• Nintendo - Game Boy (20261031-010415)<br>• Nintendo - Game Boy Advance (20261030-072724)<br>• Nintendo - Game Boy Advance (e-Reader) (20260920-151102)<br>• Nintendo - Game Boy Advance (Video) (20261006-104433)<br>• Nintendo - Game Boy Color (20261027-225941)" # No-Intro DBs
+		msg += "• Nintendo - Game Boy (20261031-010415)<br>• Nintendo - Game Boy Advance (20261031-144226)<br>• Nintendo - Game Boy Advance (e-Reader) (20260920-151102)<br>• Nintendo - Game Boy Advance (Video) (20261006-104433)<br>• Nintendo - Game Boy Color (20261027-225941)" # No-Intro DBs
 		QtWidgets.QMessageBox.information(self, "FlashGBX {:s}".format(AppInfo.VERSION), msg, QtWidgets.QMessageBox.Ok)
 
 	def _GetDeviceSupportData(self):
@@ -3970,18 +3970,20 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 			summary += "<br>"
 
 		generic = None
+		hint = ""
 		is_generic = not cart_types and not (len(flash_id.split("\n")) > 2 and (mode == "DMG" or header.get("dacs_8m") is False))
 		if not cart_types:
-			summary += "<b>" + __("Flashcart Profile:") + "</b> "
+			if mode == "AGB": detected_size = detected_size or header["rom_size"]
 			if is_generic:
-				summary += "Generic ROM Cartridge (" + __("not rewritable or not auto-detectable") + ")<br>"
+				hint = "Generic ROM Cartridge (" + __("not rewritable or not auto-detectable") + ")"
 			else:
-				summary += __("Unknown flash cartridge") + "<br>"
-				for command in ("[     0/90]", "[   AAA/AA]", "[   AAA/A9]", "[WR   / AAA/AA]", "[WR   / AAA/A9]", "[WR   / 555/AA]", "[WR   / 555/A9]", "[AUDIO/ AAA/AA]", "[AUDIO/ 555/AA]", "[AUDIO/ 555/A9]"):
-					name = "Generic Flash Cartridge ({:s})".format(command[1:-1].replace(" ", ""))
-					if command in flash_id and name in supp_cart_types[0]:
+				hint = __("Unknown flash cartridge")
+				flash_id_commands = flash_id.replace(" ", "")
+				for command in ("0/90", "AAA/AA", "AAA/A9", "WR/AAA/AA", "WR/AAA/A9", "WR/555/AA", "WR/555/A9", "AUDIO/AAA/AA", "AUDIO/555/AA", "AUDIO/555/A9"):
+					name = "Generic Flash Cartridge ({:s})".format(command)
+					if "[{:s}]".format(command) in flash_id_commands and name in supp_cart_types[0]:
 						generic = (supp_cart_types[0].index(name), name)
-						summary += __("For ROM writing, you can give the option called “{option}” a try at your own risk.", option=name) + "<br>"
+						hint = __("No flash cart profile was found for ROM writing, however you can give the option called “{option}” a try at your own risk.", option=name)
 						break
 
 		details = ""
@@ -4007,13 +4009,13 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				details += "- " + __("Game Title:") + " " + html.escape(gbmem["title"].replace("\0", "")) + "<br>"
 		details += "<br><i>" + html.escape("{:s} {:s} | {:s}".format(AppInfo.NAME, AppInfo.VERSION, self.CONN.GetFullNameExtended())) + "</i>"
 		self.SetProgressBars(min=0, max=100, value=100)
-		answer = QtWidgets.QDialog.Accepted
+		answer = QtWidgets.QMessageBox.Ok
 		if not (skip and can_skip and cart_type is not None):
 			dialog = AnalyzeCartridgeDialog(self, {
-				"summary":summary, "details":details,
+				"summary":summary, "details":details, "hint":hint,
 				"profiles":[(index, supp_cart_types[0][index], supp_cart_types[1][index]) for index in cart_types],
 				"selected":cart_type_id, "mode":mode, "detected_size":detected_size,
-				"waiting":waiting, "can_skip":can_skip, "generic":generic,
+				"waiting":waiting, "can_skip":can_skip, "generic":generic, "is_generic":is_generic,
 				"retry":mode == "DMG" and limit_voltage and not cart_types,
 			})
 			answer = dialog.exec()
@@ -4023,7 +4025,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 				self.DetectCartridge()
 				return
 			cart_type = None
-			if answer == QtWidgets.QDialog.Accepted:
+			if answer == QtWidgets.QMessageBox.Ok:
 				cart_type = dialog.cmbProfiles.currentData()
 			elif answer == AnalyzeCartridgeDialog.TRY_GENERIC:
 				cart_type = generic[0]
@@ -4038,7 +4040,7 @@ class FlashGBX_GUI(QtWidgets.QMainWindow):
 		args = self.STATUS.pop("detect_cartridge_args", {})
 		self.STATUS.pop("detected_cart_type", None)
 		self.STATUS["can_skip_message"] = False
-		if save_index is not None and answer != QtWidgets.QDialog.Rejected:
+		if save_index is not None and answer != QtWidgets.QMessageBox.Cancel:
 			save_combo = self.cmbDMGHeaderSaveTypeResult if mode == "DMG" else self.cmbAGBSaveTypeResult
 			save_combo.setCurrentIndex(save_index)
 		if cart_type is None:

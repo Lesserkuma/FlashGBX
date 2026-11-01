@@ -1,5 +1,5 @@
 # Release notes
-### v5.2 (released 2026-10-31)
+### v5.2.1 (released 2026-11-01)
 - Updated the FlashGBX LK Firmware to version L16, adding e-Reader scanning, device serial number queries, unlock sequence replay and faster cartridge clock generation
 - Added a Game Boy Camera live viewer with automatic exposure, brightness and contrast controls, plus continuous image-file updates via `--gbcamera-live-image` (requires firmware L16 and a connected CLK pin)
 - Added an e-Reader Dot Code Dumper for scanning short and long Dot Code strips to `.raw` files (requires firmware L16 and a connected CLK pin)

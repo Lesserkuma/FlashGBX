@@ -9,7 +9,7 @@ from .app import AppInfo
 from .Formatter import Formatter
 from .Mapper import DMG_Mapper
 
-class AnalyzeCartridgeDialog(QtWidgets.QDialog):
+class AnalyzeCartridgeDialog(QtWidgets.QMessageBox):
 	TRY_GENERIC = 2
 	RETRY = 3
 
@@ -18,15 +18,17 @@ class AnalyzeCartridgeDialog(QtWidgets.QDialog):
 		self.ARGS = args
 		self.PROFILES = {index:config for index, name, config in args["profiles"]}
 		self.setWindowTitle(AppInfo.NAME + " – " + __("Analyze Flash Cartridge"))
-		self.setWindowFlags((self.windowFlags() | QtCore.Qt.MSWindowsFixedSizeDialogHint) & ~QtCore.Qt.WindowContextHelpButtonHint)
-		layout = QtWidgets.QGridLayout(self)
-		layout.setContentsMargins(-1, 8, -1, 8)
-		layout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
-		layout.setColumnStretch(1, 1)
-		summary = QtWidgets.QLabel(args["summary"][:-4] if args["summary"].endswith("<br>") else args["summary"], wordWrap=True)
-		layout.addWidget(summary, 0, 0, 1, 2)
-		layout.addWidget(QtWidgets.QLabel("<b>" + ___("{n} matching profile:", "{n} matching profiles:", n=len(args["profiles"])) + "</b>"), 2, 0, 1, 2)
-		self.cmbProfiles = QtWidgets.QComboBox(enabled=bool(args["profiles"]))
+		self.setIcon(QtWidgets.QMessageBox.Information)
+		summary = (args["summary"][:-4] if args["summary"].endswith("<br>") else args["summary"]).split("<br>", 1)
+		self.setText(summary[0])
+		layout = QtWidgets.QVBoxLayout()
+		layout.setContentsMargins(0, 0, 0, 6)
+		if len(summary) > 1:
+			layout.addWidget(QtWidgets.QLabel(summary[1], wordWrap=True))
+		self.lblProfile = QtWidgets.QLabel(wordWrap=True)
+		layout.addWidget(self.lblProfile)
+		layout.addWidget(QtWidgets.QLabel("<b>" + ___("{n} matching flash cart profile:", "{n} matching flash cart profiles:", n=len(args["profiles"])) + "</b>", self, visible=bool(args["profiles"])))
+		self.cmbProfiles = QtWidgets.QComboBox(self, visible=bool(args["profiles"]))
 		self.cmbProfiles.setSizeAdjustPolicy(QtWidgets.QComboBox.AdjustToMinimumContentsLengthWithIcon)
 		for index, name, config in args["profiles"]:
 			self.cmbProfiles.addItem(name, index)
@@ -36,16 +38,14 @@ class AnalyzeCartridgeDialog(QtWidgets.QDialog):
 		placeholder = QtWidgets.QHBoxLayout(self.cmbProfiles)
 		placeholder.setContentsMargins(4, 0, 20, 0)
 		placeholder.addWidget(self.lblSelectProfile)
-		layout.addWidget(self.cmbProfiles, 3, 0, 1, 2)
-		self.lblProfile = QtWidgets.QLabel(wordWrap=True)
-		layout.addWidget(self.lblProfile, 1, 0, 1, 2)
-		self.btnDetails = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "&Details"), checkable=True, autoDefault=False)
+		layout.addWidget(self.cmbProfiles)
+		layout.addWidget(QtWidgets.QLabel(args["hint"], self, wordWrap=True, visible=not args["profiles"]))
+		self.btnDetails = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "&Details"), self, checkable=True, autoDefault=False, visible=not args["is_generic"])
 		self.txtDetails = QtWidgets.QTextBrowser(self, html=args["details"], visible=False)
 		details_document = self.txtDetails.document().clone()
 		details_document.adjustSize()
-		self.cmbProfiles.setMinimumWidth(max(350, math.ceil(details_document.idealWidth()) + 2 * self.txtDetails.frameWidth() + self.txtDetails.verticalScrollBar().sizeHint().width()))
+		layout.addStrut(max(350, math.ceil(details_document.idealWidth()) + 2 * self.txtDetails.frameWidth() + self.txtDetails.verticalScrollBar().sizeHint().width()))
 		self.txtDetails.setFixedHeight(max(180, self.txtDetails.fontMetrics().lineSpacing() * 12))
-		layout.addWidget(self.txtDetails, 7, 0, 1, 2)
 		self.btnDetails.toggled.connect(self.txtDetails.setVisible)
 		copy_icon = QtGui.QPixmap(32, 32)
 		copy_icon.setDevicePixelRatio(2)
@@ -61,44 +61,59 @@ class AnalyzeCartridgeDialog(QtWidgets.QDialog):
 		update_margins = lambda minimum, maximum: tools.setContentsMargins(4, 2, (scrollbar.sizeHint().width() if maximum > minimum else 0) + 4, 0)
 		scrollbar.rangeChanged.connect(update_margins)
 		update_margins(scrollbar.minimum(), scrollbar.maximum())
-		tools.setAlignment(QtCore.Qt.AlignTop)
-		tools.addStretch()
-		self.btnCopy, self.btnSave = QtWidgets.QToolButton(autoRaise=True), QtWidgets.QToolButton(autoRaise=True)
-		for button, icon, title in (
-			(self.btnCopy, QtGui.QIcon.fromTheme("edit-copy", QtGui.QIcon(copy_icon)), c__("Button (& = Keyboard Shortcut)", "&Copy to Clipboard")),
-			(self.btnSave, self.style().standardIcon(QtWidgets.QStyle.SP_DialogSaveButton), c__("Button (& = Keyboard Shortcut)", "&Save Diagnostic Data…")),
-		):
-			button.setIcon(icon)
-			button.setToolTip(title.replace("&", ""))
-			button.setAccessibleName(button.toolTip())
-			tools.addWidget(button)
-		self.btnCopy.clicked.connect(self.CopyReport)
+		tools.setAlignment(QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
 		diagnostics = app.CONN.INFO.get("flash_diagnostics")
-		self.btnSave.setEnabled(bool(diagnostics))
-		self.btnSave.clicked.connect(lambda: app.SaveFlashDiagnostics(diagnostics))
+		for icon, title, callback, enabled in (
+			(QtGui.QIcon.fromTheme("edit-copy", QtGui.QIcon(copy_icon)), c__("Button (& = Keyboard Shortcut)", "&Copy to Clipboard"), self.CopyReport, True),
+			(self.style().standardIcon(QtWidgets.QStyle.SP_DialogSaveButton), c__("Button (& = Keyboard Shortcut)", "&Save Diagnostic Data…"), lambda: app.SaveFlashDiagnostics(diagnostics), bool(diagnostics)),
+		):
+			title = title.replace("&", "")
+			button = QtWidgets.QToolButton(autoRaise=True, icon=icon, toolTip=title, accessibleName=title, enabled=enabled)
+			button.clicked.connect(callback)
+			tools.addWidget(button)
 		if args["generic"] is not None:
 			self.btnGeneric = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "&Try “{generic_type}”", generic_type=args["generic"][1]), autoDefault=False)
 			self.btnGeneric.clicked.connect(lambda: self.done(self.TRY_GENERIC))
-			layout.addWidget(self.btnGeneric, 4, 0, 1, 2)
+			layout.addWidget(self.btnGeneric)
 		if args["retry"]:
 			self.btnRetry = QtWidgets.QPushButton(c__("Button (& = Keyboard Shortcut)", "Analyze again without voltage limit"), autoDefault=False)
 			self.btnRetry.clicked.connect(lambda: self.done(self.RETRY))
-			layout.addWidget(self.btnRetry, 5, 0, 1, 2)
-		self.chkSkip = QtWidgets.QCheckBox(c__("Check Box (& = Keyboard Shortcut)", "&Always skip this message"), visible=args["can_skip"] and args["selected"] > 0)
-		layout.addWidget(self.chkSkip, 6, 0, 1, 2)
-		buttons = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Cancel)
-		buttons.button(QtWidgets.QDialogButtonBox.Cancel).setAutoDefault(False)
-		self.btnOK = buttons.addButton(c__("Button (& = Keyboard Shortcut)", "&Continue") if args["waiting"] else c__("Button (& = Keyboard Shortcut)", "&Apply"), QtWidgets.QDialogButtonBox.AcceptRole)
+			layout.addWidget(self.btnRetry)
+		self.chkSkip = QtWidgets.QCheckBox(c__("Check Box (& = Keyboard Shortcut)", "&Always skip this message"), self, visible=args["can_skip"] and args["selected"] > 0)
+		layout.addWidget(self.chkSkip)
+		layout.addWidget(self.txtDetails)
+		self.setStandardButtons(QtWidgets.QMessageBox.Cancel)
+		self.button(QtWidgets.QMessageBox.Cancel).setAutoDefault(False)
+		self.button(QtWidgets.QMessageBox.Cancel).setVisible(bool(args["profiles"]))
+		self.setEscapeButton(QtWidgets.QMessageBox.Cancel)
+		self.btnOK = self.addButton(QtWidgets.QMessageBox.Ok)
+		self.btnOK.setText(c__("Button (& = Keyboard Shortcut)", "&Continue") if args["waiting"] else c__("Button (& = Keyboard Shortcut)", "&Apply"))
 		if not args["profiles"]:
 			self.btnOK.setText(c__("Button (& = Keyboard Shortcut)", "&Close"))
-		self.btnOK.setDefault(True)
-		buttons.accepted.connect(self.accept)
-		buttons.rejected.connect(self.reject)
-		layout.addWidget(self.btnDetails, 8, 0, QtCore.Qt.AlignLeft)
-		layout.addWidget(buttons, 8, 1)
+		self.setDefaultButton(self.btnOK)
+		button_layout = QtWidgets.QHBoxLayout()
+		button_layout.addWidget(self.btnDetails, 0, QtCore.Qt.AlignBottom)
+		button_layout.addWidget(self.findChild(QtWidgets.QDialogButtonBox), 1)
+		self.layout().addLayout(layout, 1, 2)
+		self.layout().addLayout(button_layout, 2, 0, 1, 3)
 		self.cmbProfiles.currentIndexChanged.connect(self.UpdateProfile)
 		self.UpdateProfile()
 		self.btnOK.setFocus()
+		for widget in [self] + self.findChildren(QtWidgets.QWidget):
+			if isinstance(widget, QtWidgets.QLabel) and widget.text():
+				widget.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse | QtCore.Qt.TextSelectableByKeyboard)
+			widget.installEventFilter(self)
+
+	def eventFilter(self, obj, event):
+		if event.type() == QtCore.QEvent.KeyPress and event.matches(QtGui.QKeySequence.Copy):
+			if isinstance(obj, QtWidgets.QLabel) and obj.hasSelectedText():
+				QtWidgets.QApplication.clipboard().setText(obj.selectedText())
+			elif obj in (self.txtDetails, self.txtDetails.viewport()) and self.txtDetails.textCursor().hasSelection():
+				self.txtDetails.copy()
+			else:
+				self.CopyReport()
+			return True
+		return super(AnalyzeCartridgeDialog, self).eventFilter(obj, event)
 
 	def UpdateProfile(self):
 		config = self.PROFILES.get(self.cmbProfiles.currentData(), {})
@@ -115,7 +130,7 @@ class AnalyzeCartridgeDialog(QtWidgets.QDialog):
 		self.lblProfile.setText(text)
 
 	def CopyReport(self):
-		profiles = [___("{n} matching profile:", "{n} matching profiles:", n=len(self.PROFILES))]
+		profiles = [___("{n} matching flash cart profile:", "{n} matching flash cart profiles:", n=len(self.PROFILES))] if self.PROFILES else [html.escape(self.ARGS["hint"])]
 		for index, name, config in self.ARGS["profiles"]:
 			if index == self.cmbProfiles.currentData():
 				name += " ← " + c__("Flashcart Profile List “- PROFILE NAME ← selected”", "selected")

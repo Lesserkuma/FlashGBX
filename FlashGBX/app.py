@@ -6,9 +6,9 @@ import platform, importlib, re, sys
 
 class AppInfo:
 	NAME = "FlashGBX"
-	VERSION_PEP440 = "5.2"
+	VERSION_PEP440 = "5.2.1"
 	VERSION = "v{:s}".format(VERSION_PEP440)
-	VERSION_TIMESTAMP = 1793479589
+	VERSION_TIMESTAMP = 1793492436
 
 	@classmethod
 	def os_string(cls) -> str:

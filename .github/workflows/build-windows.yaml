@@ -33,14 +33,6 @@ jobs:
           ref: ${{ github.event.release.tag_name || github.ref }}
           persist-credentials: false
 
-      - name: Check out mGBA 0.10.5
-        uses: actions/checkout@v4
-        with:
-          repository: mgba-emu/mgba
-          ref: 0.10.5
-          path: vendor/mgba
-          persist-credentials: false
-
       - name: Prepare directories
         run: |
           $env:BUILD_ROOT = Join-Path $env:RUNNER_TEMP 'flashgbx-build'
@@ -57,60 +49,6 @@ jobs:
           & "C:\Program Files\7-Zip\7z.exe" e "$env:BUILD_ROOT\tdm-gcc\*.tar.xz" "-o$env:BUILD_ROOT\tdm-gcc" -y
           & "C:\Program Files\7-Zip\7z.exe" x "$env:BUILD_ROOT\tdm-gcc\*.tar.lzma" "-o$env:BUILD_ROOT\tdm-gcc" -y
           & "C:\Program Files\7-Zip\7z.exe" x "$env:BUILD_ROOT\tdm-gcc\*.tar" "-o$env:BUILD_ROOT\tdm-gcc" -y
-
-      - name: Set up libmgba build tools
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: true
-          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
-
-      - name: Build libmgba
-        shell: msys2 {0}
-        run: |
-          cat > vendor/CMakeLists.txt <<'CMAKE'
-          cmake_minimum_required(VERSION 3.20)
-          project(FlashGBX LANGUAGES C CXX)
-          set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
-          set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-          set(LIBMGBA_ONLY ON)
-          set(SKIP_GIT ON)
-          set(MINIMAL_CORE 2)
-          set(M_CORE_GB OFF)
-          set(ENABLE_EXTRA OFF)
-          set(DISABLE_THREADING ON)
-          set(BUILD_LTO OFF)
-          add_subdirectory("${MGBA_SOURCE_DIR}" mgba EXCLUDE_FROM_ALL)
-          get_target_property(SOURCES mgba SOURCES)
-          add_library(mgba_shared SHARED ${SOURCES})
-          foreach(PROPERTY INCLUDE_DIRECTORIES COMPILE_OPTIONS LINK_LIBRARIES)
-              get_target_property(VALUE mgba ${PROPERTY})
-              if(VALUE)
-                  set_property(TARGET mgba_shared PROPERTY ${PROPERTY} "${VALUE}")
-              endif()
-          endforeach()
-          get_target_property(DEFINITIONS mgba COMPILE_DEFINITIONS)
-          get_directory_property(DIRECTORY_DEFINITIONS DIRECTORY "${MGBA_SOURCE_DIR}" COMPILE_DEFINITIONS)
-          list(REMOVE_ITEM DEFINITIONS BUILD_STATIC)
-          target_compile_definitions(mgba_shared PRIVATE ${DEFINITIONS} ${DIRECTORY_DEFINITIONS} MGBA_DLL MINIMAL_CORE=2 DISABLE_THREADING)
-          get_directory_property(CMAKE_C_FLAGS DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS)
-          get_directory_property(CMAKE_C_FLAGS_RELEASE DIRECTORY "${MGBA_SOURCE_DIR}" DEFINITION CMAKE_C_FLAGS_RELEASE)
-          add_dependencies(mgba_shared mgba-version-info)
-          set_target_properties(mgba_shared PROPERTIES
-              C_STANDARD 11 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF
-              OUTPUT_NAME mgba PREFIX lib WINDOWS_EXPORT_ALL_SYMBOLS ON
-              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native"
-              LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/native")
-          if(MINGW)
-              target_link_options(mgba_shared PRIVATE -static -static-libgcc -static-libstdc++ -Wl,--export-all-symbols)
-          endif()
-          CMAKE
-          cmake -S vendor -B "$RUNNER_TEMP/libmgba" -G Ninja -DCMAKE_BUILD_TYPE=Release -DMGBA_SOURCE_DIR="$PWD/vendor/mgba"
-          cmake --build "$RUNNER_TEMP/libmgba" --target mgba_shared --parallel
-          cp "$RUNNER_TEMP/libmgba/native/libmgba.dll" FlashGBX/res/libmgba-windows-x86_64.dll
-          printf '\n\n## MinGW-w64 runtime (libmgba)\n\n' >> "Third Party Notices.md"
-          cat /mingw64/share/licenses/crt/{COPYING,COPYING.MinGW-w64-runtime.txt} /mingw64/share/licenses/winpthreads/COPYING >> "Third Party Notices.md"
-          cp "Third Party Notices.md" FlashGBX/res/
 
       - name: Download and verify CH341 driver for Setup package
         run: |

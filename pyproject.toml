@@ -50,5 +50,9 @@ include = ["FlashGBX*"]
 FlashGBX = ["res/**/*", "locale/**/*"]
 
 [build-system]
-requires = ["setuptools>=77"]
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+#cmake.build-type = "Debug"
+cmake.build-type = "RelWithDebInfo"

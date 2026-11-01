@@ -4,7 +4,8 @@
 # Thanks to taizou (https://hhug.me/) for the initial research
 # Thanks to RibShark (github.com/RibShark) for additional research and code contributions
 
-import ctypes, hashlib, os, platform, struct, sysconfig, time, zlib
+import ctypes, hashlib, os, platform, struct, sys, sysconfig, time, zlib
+
 from .i18n import __
 from .app import AppContext
 from .Logging import dprint
@@ -24,7 +25,14 @@ def LoadLibrary():
 	machine = {"amd64":"x86_64", "aarch64":"arm64"}.get(machine, machine)
 	name, extension = {"Windows":("windows", "dll"), "Darwin":("macos", "dylib"), "Linux":("linux", "so")}[system]
 	filename = "libmgba-{}-{}.{}".format(name, machine, extension)
-	path = os.path.join(AppContext.APP_PATH, "res", filename)
+	if getattr(sys, 'frozen', False):
+		# Support running from pyinstaller on macOS
+		base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+		c1 = os.path.join(base_path, "_internal", "FlashGBX", name)
+		c2 = os.path.join(base_path, "FlashGBX", name)
+		path = c1 if os.path.exists(c1) else c2
+	else:
+		path = os.path.join(sysconfig.get_path("platlib"), "FlashGBX", filename)
 	if not os.path.isfile(path):
 		plugin_dir = _GetPluginDirectory(AppContext.CONFIG_PATH)
 		path = os.path.join(plugin_dir, filename)

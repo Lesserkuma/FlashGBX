@@ -3,6 +3,9 @@
 	"names":[
 		"insideGadgets 4 MiB (2× 2 MiB), 32 KiB FRAM, MBC5"
 	],
+	"flash_ids":[
+		[ 0x01, 0x01, 0xD2, 0xD2 ]
+	],
 	"voltage":5,
 	"flash_size":0x400000,
 	"start_addr":0x4000,

@@ -14,6 +14,17 @@
 	"chip_erase_timeout":120,
 	"mbc":0x1B,
 	"command_set":"AMD",
+	"sector_size": [
+	   [ 0x10000, 31 ],
+	   [ 0x8000, 1 ],
+	   [ 0x2000, 2 ],
+	   [ 0x4000, 1 ],
+
+	   [ 0x10000, 31 ],
+	   [ 0x8000, 1 ],
+	   [ 0x2000, 2 ],
+	   [ 0x4000, 1 ]
+	],
 	"commands":{
 		"reset":[
 			[ 0x4000, 0xF0 ]
@@ -56,6 +67,22 @@
 			[ null, null, null ],
 			[ 0x4000, 0xFF, 0xFF ],
 			[ 0x4000, 0xFF, 0xFF ]
+		],
+		"sector_erase":[
+			[ 0x4AAA, 0xAA ],
+			[ 0x4555, 0x55 ],
+			[ 0x4AAA, 0x80 ],
+			[ 0x4AAA, 0xAA ],
+			[ 0x4555, 0x55 ],
+			[ "SA", 0x30 ]
+		],
+		"sector_erase_wait_for":[
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ null, null, null ],
+			[ "SA", 0xFFFF, 0xFFFF ]
 		],
 		"single_write":[
 			[ 0x4AAA, 0xAA ],
